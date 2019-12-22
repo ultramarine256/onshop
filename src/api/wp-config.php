@@ -20,9 +20,9 @@
 
 //Using environment variables for DB connection information
 $connectstr_dbhost = '176.37.8.120';
-$connectstr_dbname = 'onshop_blue_prod';
+$connectstr_dbname = 'onshop_api_prod';
 $connectstr_dbusername = 'root';
-$connectstr_dbpassword = 'QWert12345';
+$connectstr_dbpassword = 'QWErt12345';
 
 foreach ($_SERVER as $key => $value) {
 	if (strpos($key, "MYSQLCONNSTR_") !== 0) {
