@@ -28,12 +28,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/animate.css/animate.min.css",
+              "./src/assets/scss/index.scss"
             ],
             "scripts": []
           },
           "configurations": {
-            "production": {
+
+            "build-prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -61,6 +64,28 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+
+            "serve-prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": true,
+              "optimization": false
+            },
+
+            "serve-local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "sourceMap": true,
+              "optimization": false
             }
           }
         },
@@ -70,8 +95,11 @@
             "browserTarget": "onshop-landing:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "onshop-landing:build:production"
+            "prod": {
+              "browserTarget": "onshop-landing:build:serve-prod"
+            },
+            "local": {
+              "browserTarget": "onshop-landing:build:serve-local"
             }
           }
         },

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "onshop": {
+    "onshop-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/onshop",
+            "outputPath": "dist/onshop-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -28,12 +28,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/animate.css/animate.min.css",
+              "./src/assets/scss/index.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+            ]
           },
           "configurations": {
-            "production": {
+
+            "build-prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -61,24 +67,49 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+
+            "serve-prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": true,
+              "optimization": false
+            },
+
+            "serve-local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "sourceMap": true,
+              "optimization": false
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "onshop:build"
+            "browserTarget": "onshop-app:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "onshop:build:production"
+            "prod": {
+              "browserTarget": "onshop-app:build:serve-prod"
+            },
+            "local": {
+              "browserTarget": "onshop-app:build:serve-local"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "onshop:build"
+            "browserTarget": "onshop-app:build"
           }
         },
         "test": {
@@ -115,15 +146,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "onshop:serve"
+            "devServerTarget": "onshop-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "onshop:serve:production"
+              "devServerTarget": "onshop-app:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "onshop"
+  "defaultProject": "onshop-app"
 }

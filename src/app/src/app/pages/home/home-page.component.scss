@@ -1,0 +1,33 @@
+.hero {
+  height: 438px;
+  background-image: url(/assets/img/home/background.jpg);
+  background-size: cover;
+  background-position: center center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+
+/**
+* ------------------------------------------------------------------------
+* Categories
+* ------------------------------------------------------------------------
+*/
+
+.categories {
+  height: 300px;
+  background-color: aliceblue;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Features
+* ------------------------------------------------------------------------
+*/
+
+.features {
+  height: 300px;
+  background-color: bisque;
+}
