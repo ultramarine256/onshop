@@ -1,0 +1,13 @@
+#map {
+  height: 500px;
+}
+
+.operation-hours {
+  padding: 0;
+  list-style: none;
+  max-width: 170px;
+
+  .hours {
+    float: right;
+  }
+}
