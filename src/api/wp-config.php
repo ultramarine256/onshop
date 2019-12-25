@@ -22,7 +22,8 @@
 $connectstr_dbhost = '176.37.8.120';
 $connectstr_dbname = 'onshop_api_prod';
 $connectstr_dbusername = 'root';
-$connectstr_dbpassword = 'QWErt12345';
+$connectstr_dbpassword = 'QWERt12345';
+$wp_debug = true;
 
 foreach ($_SERVER as $key => $value) {
 	if (strpos($key, "MYSQLCONNSTR_") !== 0) {
@@ -34,6 +35,7 @@ foreach ($_SERVER as $key => $value) {
 	$connectstr_dbname = preg_replace("/^.*Database=(.+?);.*$/", "\\1", $value);
 	$connectstr_dbusername = preg_replace("/^.*User Id=(.+?);.*$/", "\\1", $value);
 	$connectstr_dbpassword = preg_replace("/^.*Password=(.+?);$/", "\\1", $value);
+	$wp_debug = false;
 }
 
 // ** MySQL settings - You can get this info from your web host ** //
@@ -94,7 +96,7 @@ $table_prefix = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define( 'WP_DEBUG', true );
+define( 'WP_DEBUG', $wp_debug );
 
 /* That's all, stop editing! Happy publishing. */
 
@@ -108,6 +110,8 @@ define( 'DOMAIN_CURRENT_SITE', filter_input( INPUT_SERVER, 'HTTP_HOST', FILTER_S
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
 }
+
+// MICROSOFT_AZURE_ACCOUNT_KEY
 
 /** Sets up WordPress vars and included files. */
 require_once( ABSPATH . 'wp-settings.php' );
