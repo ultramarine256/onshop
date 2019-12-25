@@ -55,42 +55,27 @@ function the_dramatist_custom_login_css() {
 add_action('login_head', 'the_dramatist_custom_login_css');
 
 
-// Add Support
-add_theme_support('menus');
-add_theme_support('post-thumbnails');
-
 function mytheme_add_woocommerce_support() {
 	add_theme_support( 'woocommerce' );
 }
 add_action( 'after_setup_theme', 'mytheme_add_woocommerce_support' );
 
-// Register some menus
-register_nav_menus(
-	array(
-		'top-menu' => 'Top menu'
-	)
-);
-
 // Add image sizes
 add_image_size('post_image', 1100, 750, true);
 
-// Add a widget
-register_sidebar(
-	array(
-		'name' => 'Page Sidebar',
-		'id' => 'page-sidebar',
-		'class' => '',
-		'before_title' => '<h4>',
-		'after_title' => '</h4>'
-	)
-);
 
-register_sidebar(
-	array(
-		'name' => 'Blog Sidebar',
-		'id' => 'page-sidebar',
-		'class' => '',
-		'before_title' => '<h4>',
-		'after_title' => '</h4>'
-	)
-);
+// Remove Administrator role from roles list
+add_action( 'editable_roles' , 'hide_adminstrator_editable_roles' );
+function hide_adminstrator_editable_roles( $roles ){
+	if ( !isset( $roles['administrator'] ) ){
+		unset( $roles['administrator'] );
+	}
+
+	// unset( $roles['administrator'] );
+	unset( $roles['editor'] );
+	unset( $roles['author'] );
+	unset( $roles['contributor'] );
+	unset( $roles['subscriber'] );
+
+	return $roles;
+}
