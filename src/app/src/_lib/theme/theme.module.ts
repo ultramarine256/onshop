@@ -31,6 +31,3 @@ import {BreadcrumbsModule} from './breadcrumbs';
 })
 export class ThemeModule {
 }
-
-
-
