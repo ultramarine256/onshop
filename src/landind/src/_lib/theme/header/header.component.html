@@ -1,0 +1,132 @@
+<div class="pos-f-t mobile-header d-block d-md-none ">
+  <div class="collapse" id="navbarToggleExternalContent">
+    <div class="p-3 d-flex justify-content-evenly">
+      <a routerLink="/" class="font-weight-500 text-decoration-none">Home</a>
+      <a routerLink="/shop" class="font-weight-500 text-decoration-none">Shop</a>
+      <a routerLink="/categories" class="font-weight-500 text-decoration-none">Categories</a>
+      <a routerLink="/contact-us" class="font-weight-500 text-decoration-none">Contact Us</a>
+    </div>
+  </div>
+  <nav class="navbar navbar-light border-bottom">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="d-flex flex-grow-1 justify-content-between align-items-center">
+      <div class="logo ml-3">
+        <a routerLink="/" class="d-flex">
+          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo">
+        </a>
+      </div>
+      <div class="d-flex">
+        <a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">search</i></a>
+        <a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">shopping_cart</i></a>
+        <a routerLink="/profile" class="d-flex text-decoration-none"><i class="material-icons-outlined">account_circle</i></a>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="d-none d-md-flex py-1 border-bottom">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <ul class="menu-top-bar float-left">
+          <li>
+            <a href="javascript:void(0)">Welcome to Worldwide OnShop Store</a>
+          </li>
+        </ul>
+        <ul class="menu-top-bar menu-top-bar-right float-right">
+          <li>
+            <a routerLink="/track-order" class="text-decoration-none">
+              <!--<i class="material-icons">account_circle</i>-->
+              Track Your Order
+            </a>
+          </li>
+          <li>
+            <a routerLink="/profile">
+              <!--<i class="material-icons">account_circle</i>-->
+              My Account
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-none d-md-flex">
+  <div class="container">
+    <div class="masthead d-flex align-items-center my-3">
+      <a routerLink="/" class="logo">
+        <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo">
+      </a>
+      <div class="menu flex-grow-1">
+        <ul class="menu-main-menu">
+          <li class="menu-item">
+            <a routerLink="/">Home</a>
+          </li>
+          <li class="menu-item">
+            <a routerLink="/categories">Categories</a>
+          </li>
+          <li class="menu-item">
+            <a routerLink="/shop">Shop</a>
+          </li>
+          <li class="menu-item">
+            <a routerLink="/contact-us">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+      <div class="support">
+        <div class="support__container d-flex align-items-center">
+          <img class="support__image mr-3" [src]="'/assets/img/header/support.svg'">
+          <div class="support__text">
+            <b>Support</b> (+800) 856 800 604<br>
+            Email: info@onshop.com
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-none d-md-flex searchbar">
+  <div class="container">
+
+    <div class="searchbar__inner">
+      <div class="searchbar__space"></div>
+      <div class="searchbar__input-group my-1">
+        <div class="input-search-field">
+          <input type="text" id="search" class="form-control search-field product-search-field" dir="ltr" value=""
+                 name="s" placeholder="Search for Products" autocomplete="off">
+        </div>
+        <div class="search-categories">
+          <select name="product_cat" class="custom-select" style="width: 143px;">
+            <option value="0" selected="selected">All Categories</option>
+            <option class="level-0" value="accessories">Category 1</option>
+            <option class="level-0" value="accessories">Category 2</option>
+            <option class="level-0" value="accessories">Category 3</option>
+            <option class="level-0" value="accessories">Category 4</option>
+            <option class="level-0" value="accessories">Category 5</option>
+          </select>
+        </div>
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-secondary">
+            <i class="material-icons-outlined align-middle">search</i>
+          </button>
+        </div>
+      </div>
+      <div class="searchbar__icons">
+        <div class="ml-4 icon-item">
+          <i class="icon material-icons-outlined">
+            shopping_cart
+          </i>
+          <span class="font-weight-500 ml-1">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

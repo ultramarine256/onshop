@@ -6,7 +6,6 @@ import {HeaderComponent} from './header';
 import {FooterComponent} from './footer';
 import {BreadcrumbsModule} from './breadcrumbs';
 
-
 @NgModule({
   declarations: [
     HeaderComponent,
