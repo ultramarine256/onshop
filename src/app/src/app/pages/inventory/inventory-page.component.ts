@@ -77,9 +77,14 @@ export class InventoryPageComponent {
 
   /// constructor
   constructor(private productsApiService: ProductsApiService) {
-    // this.productsApiService.getProducts().subscribe(data => {
-    //   console.log(data);
-    // });
+    this.productsApiService.getProducts().subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  /// methods
+  public productClick(slug: string) {
+
   }
 }
 
