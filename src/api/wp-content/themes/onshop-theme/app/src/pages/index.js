@@ -1,3 +1,2 @@
-import './home';
-import './inventory';
-import './product-details';
+import './wp-admin';
+import './wp-login';

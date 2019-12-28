@@ -98,10 +98,10 @@
             "browserTarget": "onshop-app:build"
           },
           "configurations": {
-            "prod": {
+            "serve-prod": {
               "browserTarget": "onshop-app:build:serve-prod"
             },
-            "local": {
+            "serve-local": {
               "browserTarget": "onshop-app:build:serve-local"
             }
           }

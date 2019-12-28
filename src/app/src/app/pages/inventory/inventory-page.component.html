@@ -6,19 +6,62 @@
     </ol>
   </nav>
 </div>
-<div class="container">
+<div class="container mb-3">
   <div class="row">
     <div class="col-12 col-md-3 d-none d-md-block">
-      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 80%">
+      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
         <h3>Filters</h3>
       </div>
     </div>
     <div class="col-12 col-md-9">
-      <header class="page-header">
-        <h5 class="page-title">Smart Phones &amp; Tablets</h5>
-        <p class="woocommerce-result-count">
-          Showing all 20 results</p>
-      </header>
+      <div class="row">
+        <div class="col-12 mb-2">
+          <span class="category-title">Category Title</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mb-2">
+          <div class="shop-control-bar rounded"></div>
+        </div>
+      </div>
+      <div class="row m-0">
+        <div class="col-6 col-md-3 p-0" *ngFor="let item of items">
+
+          <div class="product-item p-3">
+            <div class="category">Category</div>
+            <div class="title">
+              {{item.title}}
+            </div>
+            <div class="image">
+              <img class="image__src" [src]="'/assets/img/placeholders/hammer.png'">
+            </div>
+            <div class="price-options bg-light text-secondary w-100 py-1">
+              <div class="price-item d-flex border-right">
+                <span class="price-title font-weight-500 text-center">Buy</span>
+                <span class="price-details text-center">
+                  $269.00
+                </span>
+              </div>
+              <div class="price-item d-flex">
+                <span class="price-title font-weight-500 text-center">Rent</span>
+                <span class="price-details pl-2">
+                  $8.00/day
+                  $32.00/wk
+                  $64.00/mo
+                </span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <!--<header class="page-header">-->
+        <!--<h5 class="page-title">Smart Phones &amp; Tablets</h5>-->
+        <!--<p class="woocommerce-result-count">-->
+          <!--Showing all 20 results</p>-->
+      <!--</header>-->
       <!--<div class="d-flex bg-light justify-content-center align-items-center mb-3" style="height: 900px">-->
         <!--<h3>Product Items</h3>-->
       <!--</div>-->

@@ -95,10 +95,10 @@
             "browserTarget": "onshop-landing:build"
           },
           "configurations": {
-            "prod": {
+            "serve-prod": {
               "browserTarget": "onshop-landing:build:serve-prod"
             },
-            "local": {
+            "serve-local": {
               "browserTarget": "onshop-landing:build:serve-local"
             }
           }

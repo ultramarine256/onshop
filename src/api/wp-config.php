@@ -20,10 +20,10 @@
 
 //Using environment variables for DB connection information
 $connectstr_dbhost = '176.37.8.120';
-$connectstr_dbname = 'onshop_api_prod';
+$connectstr_dbname = 'onshop_blue_prod';
 $connectstr_dbusername = 'root';
 $connectstr_dbpassword = 'QWERt12345';
-$wp_debug = true;
+$wp_debug = false;
 
 foreach ($_SERVER as $key => $value) {
 	if (strpos($key, "MYSQLCONNSTR_") !== 0) {

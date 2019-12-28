@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start:local": "ng serve -c=local --port 4502",
-    "start:prod": "ng serve -c=prod --port 4502",
-    "build:prod": "ng build -c=prod",
+    "start:local": "ng serve -c=serve-local --port 4502",
+    "start:prod": "ng serve -c=serve-prod --port 4502",
+    "build:prod": "ng build -c=build-prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,6 +26,7 @@
     "jquery": "^3.4.1",
     "owl.carousel": "^2.3.4",
     "rxjs": "~6.4.0",
+    "stream": "0.0.2",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
   },

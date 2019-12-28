@@ -3,3 +3,21 @@
 body {
   // background-color: red !important;
 }
+
+
+#wpfooter {
+  display: none;
+}
+
+
+#wp-admin-bar-comments,
+#wp-admin-bar-new-content,
+
+#wp-admin-bar-wp-logo,
+
+#dashboard_right_now,
+#dashboard_activity,
+#side-sortables
+{
+  display: none;
+}
