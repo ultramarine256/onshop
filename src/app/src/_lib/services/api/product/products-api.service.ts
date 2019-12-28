@@ -5,11 +5,9 @@ import {from} from 'rxjs';
 
 @Injectable()
 export class ProductsApiService extends BaseWooApiService {
-  public ODataUrl: string;
 
   constructor(httpClient: HttpClient) {
     super();
-    this.ODataUrl = `${this.apiBaseUrl}/odata/audit`;
   }
 
   public getProducts() {

@@ -8,12 +8,82 @@ import {ProductsApiService} from '../../../_lib';
 })
 export class InventoryPageComponent {
   /// fields
-
+  public items: Array<ProductItem> = [
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    },
+    {
+      id: 1,
+      title: 'Product 1'
+    }
+  ];
 
   /// constructor
   constructor(private productsApiService: ProductsApiService) {
-    this.productsApiService.getProducts().subscribe(data => {
-      console.log(data);
-    });
+    // this.productsApiService.getProducts().subscribe(data => {
+    //   console.log(data);
+    // });
   }
+}
+
+export class ProductItem {
+  id: number;
+  title: string;
 }

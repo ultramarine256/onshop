@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start:local": "ng serve -c=local --port 4501",
-    "start:prod": "ng serve -c=prod --port 4501",
-    "build:prod": "ng build -c=prod",
+    "start:local": "ng serve -c=serve-local --port 4501",
+    "start:prod": "ng serve -c=serve-prod --port 4501",
+    "build:prod": "ng build -c=build-prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
