@@ -3,10 +3,10 @@
 #=======================================================================#
 
 $msdeploy = "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"
-$siteName = "onshop-blue-shop-prod"
-$password = "TeWfNnsRs4rp3uD07JqbfxoPFaLxvzekSLGrEzl1jKtuDNrMhtQ5xr4njAzv"
+$siteName = "onshop-blue-prod"
+$password = "dyTa43lmvqnFD87Qttocw4GCmJSGLn908AL9hjgsix0mfkJehrPElb5s9Dwq"
 
-$publishFolder = (resolve-path ..\..\src\shop\blue-shop)
+$publishFolder = (resolve-path ..\..\src\api)
 
 #=======================================================================#
 # Build Counter                                                         
@@ -20,11 +20,20 @@ $publishFolder = (resolve-path ..\..\src\shop\blue-shop)
 # Deploy								
 #=======================================================================#
 
- $userName = "$" + "$siteName"
- $wmsvc = "$siteName.scm.azurewebsites.net:443/msdeploy.axd?site=$siteName"
- $msdeployArguments = '-verb:sync',
- 		"-source:contentPath=$publishFolder",
- 		"-dest:contentPath=$siteName,wmsvc=$wmsvc,userName=$userName,password=$password",
- 		'-AllowUntrusted'
+$userName = "$" + "$siteName"
+$wmsvc = "$siteName.scm.azurewebsites.net:443/msdeploy.axd?site=$siteName"
+$msdeployArguments = '-verb:sync',
+		"-source:contentPath=$publishFolder",
+		'-skip:Directory="node_modules"',
+		"-dest:contentPath=$siteName,wmsvc=$wmsvc,userName=$userName,password=$password",
+		'-AllowUntrusted'
+
+ & $msdeploy $msdeployArguments;
  
-  & $msdeploy $msdeployArguments;
+ # -skip:Directory="%node_modules%"
+ #-skip:objectName=dirPath,absolutePath="sub03" 
+ #   -skip:objectName=dirPath,absolutePath="sub02"
+ 
+ #-skip:Directory="App_Data"
+ 
+ #-skip:Directory="%node_modules%"

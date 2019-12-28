@@ -2,12 +2,12 @@
 # Params                                                                
 #=======================================================================#
 
-$msdeploy = "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" #"%env.msdeploy%"
-$siteName = "elrondsoft-landing-prod" #"%env.siteName%"
-$password = "x3os9qdHXCvJiDLNuzej9MWkhk1Wq3jAEyu47YPYBZQGmRCQd2j3305vZwiR" #"%env.password%"
+$msdeploy = "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe"
+$siteName = "onshop-app-prod"
+$password = "3FjqGdTA2BhaubmMoqnXnWdi2vb5d7HtWkn7fy0Fvjjkd5SGpevBZdFeYLsi"
 
-$appFolder = "C:\Data\Sources\elrondsoft\src\landing-angular" #"%teamcity.build.workingDir%\src_dealer
-$publishFolder = "$appFolder\dist\elrondsoft-landing"
+$appFolder = (resolve-path ..\..\src\app)
+$publishFolder = "$appFolder\dist\onshop-app"
 
 #=======================================================================#
 # Build                                                                 
@@ -21,9 +21,8 @@ npm run build:prod
 # Build Counter                                                         
 #=======================================================================#
 
-$indexHtml = "$appFolder\dist\elrondsoft-landing\index.html" #"%teamcity.build.workingDir%\dist\index.html";
-$random = Get-Random #"%build.counter%"
-(Get-Content $indexHtml).replace("-build.counter-", $random) | Set-Content $indexHtml
+#$indexHtml = "$appFolder\dist\vipdrive-app\index.html"
+#(Get-Content $indexHtml).replace("-build.counter-", "go-hard") | Set-Content $indexHtml
 
 #=======================================================================#
 # Deploy								
@@ -33,8 +32,9 @@ $userName = "$" + "$siteName"
 $wmsvc = "$siteName.scm.azurewebsites.net:443/msdeploy.axd?site=$siteName"
 $msdeployArguments = '-verb:sync',
 		"-source:contentPath=$publishFolder",
+		"-skip:objectName=filePath,absolutePath=.*web\.config",
 		"-dest:contentPath=$siteName,wmsvc=$wmsvc,userName=$userName,password=$password",
 		'-AllowUntrusted'
 
  & $msdeploy $msdeployArguments;
-
+ 
