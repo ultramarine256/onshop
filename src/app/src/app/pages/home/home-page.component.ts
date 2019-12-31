@@ -1,5 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {ProductsApiService} from '../../../_lib';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-home-page',

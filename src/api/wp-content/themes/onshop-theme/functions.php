@@ -83,3 +83,28 @@ function custom_menu_page_removing() {
 }
 
 add_action( 'admin_menu', 'custom_menu_page_removing' );
+
+
+require_once get_template_directory() . '/redux-template/onshop-config.php';
+
+
+function my_awesome_func() {
+//	$posts = get_posts( array(
+//		'author' => $data['id'],
+//	) );
+//
+//	if ( empty( $posts ) ) {
+//		return null;
+//	}
+
+	global $redux_demo;
+
+	return $redux_demo;
+}
+
+add_action( 'rest_api_init', function () {
+	register_rest_route( 'shop/v1', 'info', array(
+		'methods' => 'GET',
+		'callback' => 'my_awesome_func',
+	) );
+} );

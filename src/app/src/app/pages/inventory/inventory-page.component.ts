@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {ProductsApiService} from '../../../_lib';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ProductEntity, ShopApiService} from '../../../_core';
 
 @Component({
   selector: 'app-inventory-page',
@@ -8,7 +9,7 @@ import {ProductsApiService} from '../../../_lib';
 })
 export class InventoryPageComponent {
   /// fields
-  public items: Array<ProductItem> = [
+  public items2: Array<ProductItem> = [
     {
       id: 1,
       title: 'Product 1'
@@ -74,12 +75,23 @@ export class InventoryPageComponent {
       title: 'Product 1'
     }
   ];
+  public items: Array<ProductEntity> = [];
+
+  /// predicates
+  public didLoaded = false;
 
   /// constructor
-  constructor(private productsApiService: ProductsApiService) {
-    // this.productsApiService.getProducts().subscribe(data => {
-    //   console.log(data);
-    // });
+  constructor(private shopApiService: ShopApiService,
+              private route: ActivatedRoute,
+              private router: Router) {
+    this.shopApiService.getProducts().subscribe(data => {
+      this.items = data.items;
+    });
+  }
+
+  /// methods
+  public productClick(id: number) {
+    this.router.navigate([`product/${id}`]).then();
   }
 }
 

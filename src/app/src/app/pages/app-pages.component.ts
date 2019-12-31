@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {CartService} from '../../_core';
 
 @Component({
   selector: 'app-pages-component',
@@ -6,6 +7,11 @@ import {Component} from '@angular/core';
   templateUrl: './app-pages.component.html',
 })
 export class AppPagesComponent {
-  constructor() {
+  constructor(public cartService: CartService) {
+
+
+
+    // this.cartService.itemsCount;
+
   }
 }
