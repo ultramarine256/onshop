@@ -26,11 +26,10 @@
       </div>
       <div class="row m-0">
         <div class="col-6 col-md-3 p-0" *ngFor="let item of items">
-
-          <div class="product-item p-3">
+          <div class="product-item p-3" (click)="productClick(item.id)">
             <div class="category">Category</div>
             <div class="title">
-              {{item.title}}
+              {{item.name}}
             </div>
             <div class="image">
               <img class="image__src" [src]="'/assets/img/placeholders/hammer.png'">
@@ -52,8 +51,6 @@
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
 

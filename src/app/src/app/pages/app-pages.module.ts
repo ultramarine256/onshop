@@ -9,17 +9,19 @@ import {ContactUsPageComponent} from './contact-us';
 import {ProductDetailsPageComponent} from './product-details';
 import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
-import {ApiModule} from '../../_lib';
-import {ThemeModule} from '../../_lib';
+import {ApiModule, ThemeModule, CartModule} from '../../_core';
+import {CartPageComponent} from './cart';
 
 @NgModule({
   declarations: [
     AppPagesComponent,
-    HomePageComponent,
+
+    CartPageComponent,
     CategoriesPageComponent,
+    ContactUsPageComponent,
+    HomePageComponent,
     InventoryPageComponent,
     ProductDetailsPageComponent,
-    ContactUsPageComponent,
     ProfilePageComponent,
     TrackOrderPageComponent
   ],
@@ -31,9 +33,9 @@ import {ThemeModule} from '../../_lib';
     ThemeModule,
     ApiModule,
 
-
     /// routing
-    AppPagesRouting
+    AppPagesRouting,
+    CartModule
   ],
   exports: [],
   providers: []

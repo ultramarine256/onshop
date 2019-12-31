@@ -1,1 +1,43 @@
-product details
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb my-2 px-0 bg-white">
+      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
+      <li class="breadcrumb-item"><a routerLink="/categories" class="text-decoration-none">Category</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{product.slug}}</li>
+    </ol>
+  </nav>
+</div>
+<div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!didLoaded">
+  <div class="spinner-grow text-primary" role="status"></div>
+</div>
+
+<div class="container" *ngIf="didLoaded">
+  <div class="row">
+    <div class="col-12 col-md-4">
+
+      <div class="product-image w-100">
+
+      </div>
+
+    </div>
+    <div class="col-12 col-md-8">
+      <h3>Product Title</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+      </p>
+      <p>
+        <b>SKU:</b> FW511948218
+      </p>
+
+      <p>
+        Purchase
+      </p>
+      <p>
+        <b>430$</b>
+      </p>
+
+
+      <button class="btn btn-primary btn-sm" (click)="addToCart()">Add to Cart</button>
+    </div>
+  </div>
+</div>

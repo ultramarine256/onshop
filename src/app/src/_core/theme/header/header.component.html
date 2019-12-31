@@ -20,9 +20,11 @@
         </a>
       </div>
       <div class="d-flex">
-        <a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">search</i></a>
+        <a href="javascript:void(0)" class="d-flex text-decoration-none"><i
+          class="material-icons-outlined mr-2">search</i></a>
         <a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">shopping_cart</i></a>
-        <a routerLink="/profile" class="d-flex text-decoration-none"><i class="material-icons-outlined">account_circle</i></a>
+        <a routerLink="/profile" class="d-flex text-decoration-none"><i
+          class="material-icons-outlined">account_circle</i></a>
       </div>
     </div>
   </nav>
@@ -39,10 +41,10 @@
         </ul>
         <ul class="menu-top-bar menu-top-bar-right float-right">
           <!--<li>-->
-            <!--<a routerLink="/track-order" class="text-decoration-none">-->
-              <!--&lt;!&ndash;<i class="material-icons">account_circle</i>&ndash;&gt;-->
-              <!--Track Your Order-->
-            <!--</a>-->
+          <!--<a routerLink="/track-order" class="text-decoration-none">-->
+          <!--&lt;!&ndash;<i class="material-icons">account_circle</i>&ndash;&gt;-->
+          <!--Track Your Order-->
+          <!--</a>-->
           <!--</li>-->
           <li>
             <a routerLink="/profile">
@@ -117,13 +119,12 @@
           </button>
         </div>
       </div>
-      <div class="searchbar__icons">
-        <div class="ml-4 icon-item">
-          <i class="icon material-icons-outlined">
-            shopping_cart
-          </i>
-          <span class="font-weight-500 ml-1">$0.00</span>
-        </div>
+      <div class="searchbar__icons pl-4">
+        <a class="icon-item text-decoration-none text-dark position-relative" routerLink="/cart">
+          <i class="icon material-icons-outlined">shopping_cart</i>
+          <span class="cart-items-count" *ngIf="productsCount">{{productsCount}}</span>
+          <span class="font-weight-500 ml-1">{{productsPrice > 0 ? productsPrice : 0 | currency}}</span>
+        </a>
       </div>
     </div>
 

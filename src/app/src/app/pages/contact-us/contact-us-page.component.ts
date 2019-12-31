@@ -1,5 +1,5 @@
 import {AfterContentInit, Component} from '@angular/core';
-import {GOOGLE_MAP_CONSTANTS} from '../../../_lib/constants';
+import {GOOGLE_MAP_CONSTANTS} from '../../../_core/constants';
 
 @Component({
   selector: 'app-contact-us',

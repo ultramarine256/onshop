@@ -4,7 +4,7 @@ import {environment} from '../../../environments/environment';
 
 export abstract class BaseWooApiService extends BaseApiService {
   /// fields
-  public wooRestApi = null;
+  public wooRestApi: WooCommerceRestApi = null;
 
   /// constructor
   protected constructor() {

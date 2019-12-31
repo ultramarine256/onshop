@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-header-component',
@@ -6,4 +6,11 @@ import {Component} from '@angular/core';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
+
+  /// binding
+  @Input() productsCount: number;
+  @Input() productsPrice: number;
+
+  constructor() {
+  }
 }
