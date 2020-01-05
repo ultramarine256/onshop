@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ShopApiService} from '../../../_core';
+import {ShopApiService} from '../../../_data';
 
 @Component({
   selector: 'app-categories-page',

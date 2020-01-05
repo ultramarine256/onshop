@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CartService, ShopApiService} from '../../../_core';
+import {CartService} from '../../../_core';
 
 @Component({
   selector: 'app-cart-page',
@@ -13,6 +13,5 @@ export class CartPageComponent {
 
   /// constructor
   constructor(public cartService: CartService) {
-
   }
 }

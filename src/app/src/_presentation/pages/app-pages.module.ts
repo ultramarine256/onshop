@@ -9,8 +9,10 @@ import {ContactUsPageComponent} from './contact-us';
 import {ProductDetailsPageComponent} from './product-details';
 import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
-import {ApiModule, ThemeModule, CartModule} from '../../_core';
+import {CartModule} from '../../_core';
 import {CartPageComponent} from './cart';
+import {ApiModule} from '../../_data';
+import {ThemeModule} from '../../_domain';
 
 @NgModule({
   declarations: [

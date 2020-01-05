@@ -61,3 +61,12 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+const windowRef = (window as any);
+
+windowRef.global = windowRef.global || window;
+windowRef.Buffer = windowRef.Buffer || [];
+windowRef.process = windowRef.process || {
+  env: { DEBUG: undefined },
+  version: []
+};

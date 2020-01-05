@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {BreadcrumbsService, INavigationItem} from './breadcrumbs.service';
-import {StringExtensions} from '../../extensions';
+import {StringExtensions} from '../../../_core';
 
 @Component({
   selector: 'app-breadcrumbs',

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProductEntity, ShopApiService} from '../../../_core';
+import {ProductEntity} from '../../../_core';
+import {ShopApiService} from '../../../_data';
 
 @Component({
   selector: 'app-inventory-page',
