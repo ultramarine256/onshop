@@ -116,23 +116,34 @@
     .icon-dark {
       background-color: rgba(52,58,64,.1);
       color: #343a40!important;
+
+
+
+      &:hover {
+        background-color: #343a40;
+        color: #fff!important;
+      }
     }
 
-    .icon-sm {
-      font-size: .875rem;
-      width: 2rem;
-      height: 2rem;
-    }
+
     .icon {
-      border-radius: 50%;
-      display: inline-block;
-      font-size: 1.5rem;
-      position: relative;
-      text-align: center;
-      transition: background-color .2s ease-in-out;
-      width: 3rem;
-      height: 3rem;
+      //border-radius: 50%;
+      //display: inline-block;
+      //font-size: 1.5rem;
+      //position: relative;
+      //text-align: center;
+      //transition: background-color .2s ease-in-out;
+      //width: 3rem;
+      //height: 3rem;
     }
 
   }
 }
+
+
+.icon-sm {
+  font-size: .875rem;
+  width: 36px;
+  height: 36px;
+}
+
