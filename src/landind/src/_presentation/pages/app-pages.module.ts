@@ -1,8 +1,10 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {HomePageComponent} from './home';
 import {AppPagesRouting} from './app-pages.routing';
 import {AppPagesComponent} from './app-pages.component';
+import {ThemeModule} from '../../_core/theme';
 
 @NgModule({
   declarations: [
@@ -10,10 +12,12 @@ import {AppPagesComponent} from './app-pages.component';
     HomePageComponent,
   ],
   imports: [
-    /// angular modules
+    /// angular
     CommonModule,
+    RouterModule,
 
-    /// app modules
+    /// domain
+    ThemeModule,
 
     /// routing
     AppPagesRouting
