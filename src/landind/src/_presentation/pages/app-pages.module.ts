@@ -4,7 +4,7 @@ import {RouterModule} from '@angular/router';
 import {HomePageComponent} from './home';
 import {AppPagesRouting} from './app-pages.routing';
 import {AppPagesComponent} from './app-pages.component';
-import {ThemeModule} from '../../_core/theme';
+import {ThemeModule} from '../../_domain';
 
 @NgModule({
   declarations: [

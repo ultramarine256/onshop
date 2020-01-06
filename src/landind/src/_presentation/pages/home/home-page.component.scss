@@ -12,7 +12,7 @@
   height: 540px;
   position: relative;
 
-  .iphone-x .screen {
+  .screen {
     background: #212529;
     background-size: cover;
     border-radius: 25px;
@@ -31,7 +31,7 @@
       width: 130px;
       height: 16px;
       position: absolute;
-      top: 15px;
+      top: 0px;
       left: 50%;
       transform: translateX(-50%);
     }
@@ -44,28 +44,6 @@
 * ------------------------------------------------------------------------
 */
 
-.icon {
-  border-radius: 50%;
-  display: inline-block;
-  font-size: 1.5rem;
-  position: relative;
-  text-align: center;
-  transition: background-color .2s ease-in-out;
-  width: 3rem;
-  height: 3rem;
-}
-
-.icon-primary {
-  background-color: rgba(0,106,255,.1);
-  color: #006aff!important;
-}
-
-.icon-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-}
 
 .sep {
   border-top-width: 2px;
@@ -113,37 +91,17 @@
     flex: 1 1 auto;
     padding: 1.25rem;
 
-    .icon-dark {
-      background-color: rgba(52,58,64,.1);
-      color: #343a40!important;
-
-
-
-      &:hover {
-        background-color: #343a40;
-        color: #fff!important;
-      }
-    }
-
-
-    .icon {
-      //border-radius: 50%;
-      //display: inline-block;
-      //font-size: 1.5rem;
-      //position: relative;
-      //text-align: center;
-      //transition: background-color .2s ease-in-out;
-      //width: 3rem;
-      //height: 3rem;
-    }
 
   }
 }
 
+.image-crop {
+  height: 240px;
+  overflow: hidden;
 
-.icon-sm {
-  font-size: .875rem;
-  width: 36px;
-  height: 36px;
+  img {
+    width: 100%;
+    object-fit: fill;
+  }
 }
 

@@ -1,1 +1,1 @@
-export * from './app.extensions';
+export * from './smooth-scroll';

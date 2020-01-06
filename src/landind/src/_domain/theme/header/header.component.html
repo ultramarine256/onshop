@@ -1,28 +1,30 @@
 <header class="site-header">
-  <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light py-3" aria-label="Main navigation">
-      <a class="navbar-brand text-dark" routerLink="/">
-        <img [src]="'/assets/img/logo/header-logo.svg'" alt="Boost Theme">
+      <a class="navbar-brand text-dark p-0" routerLink="/">
+        <img class="" [src]="'/assets/img/logo/header-logo.svg'" alt="Boost Theme">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars fa-lg"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav align-items-lg-center text-uppercase pt-3 pt-lg-0 ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="pages.html">Pages</a>
+            <a class="nav-link" href="javascript:void(0)" (click)="scrollTo(scrollAnchors.technology)">Technology</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="components.html">Components</a>
+            <a class="nav-link" href="javascript:void(0)" (click)="scrollTo(scrollAnchors.examples)">Examples</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="docs.html">Docs</a>
+            <a class="nav-link" href="javascript:void(0)" (click)="scrollTo(scrollAnchors.aboutUs)">About Us</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="style.html">Style</a>
-          </li>
+          <!--<li class="nav-item">-->
+            <!--<a class="nav-link" href="javascript:void(0)">Team</a>-->
+          <!--</li>-->
         </ul>
       </div>
     </nav>

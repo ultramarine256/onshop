@@ -25,5 +25,48 @@
   justify-content: space-evenly;
 }
 
+/**
+* ------------------------------------------------------------------------
+* Social Icons
+* ------------------------------------------------------------------------
+*/
 
-@import "../../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+.icon {
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 1.5rem;
+  position: relative;
+  text-align: center;
+  transition: background-color .2s ease-in-out;
+  width: 3rem;
+  height: 3rem;
+}
+
+.icon-primary {
+  background-color: rgba(0,106,255,.1);
+  color: #006aff!important;
+}
+
+.icon-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.icon-dark {
+  background-color: rgba(52, 58, 64, .1);
+  color: #343a40 !important;
+
+  &:hover {
+    background-color: #343a40;
+    color: #fff !important;
+  }
+}
+
+.icon-sm {
+  font-size: .875rem !important;
+  width: 36px !important;
+  height: 36px !important;
+}
