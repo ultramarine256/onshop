@@ -1,6 +1,6 @@
 import {environment} from '../../environments/environment';
 
-export abstract class BaseApiService {
+export abstract class BaseRepository {
   protected apiBaseUrl: string;
   protected analyticsApiBaseUrl: string;
 

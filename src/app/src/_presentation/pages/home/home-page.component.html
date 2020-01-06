@@ -2,9 +2,8 @@
   <h2 class="hero__title">
     Your customers will love you <br> one minute from now.
   </h2>
-  <a type="button" class="btn rounded-pill btn-primary mt-2" routerLink="/shop">Visit Shop</a>
+  <!--<a type="button" class="btn rounded-pill btn-primary mt-2" routerLink="/shop">Visit Shop</a>-->
 </div>
-
 
 <div class="container mt-3">
   <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
@@ -19,8 +18,12 @@
 </div>
 
 <div class="container my-3">
-  <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
-    <h3>Categories</h3>
+  <div class="owl-carousel owl-theme">
+    <div class="item" *ngFor="let item of categories" >
+      <a class="w-100 text-decoration-none text-center" [routerLink]="'/shop/' + item.slug">
+        <img [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+        <h6 class="mt-1">{{item.name}}</h6>
+      </a>
+    </div>
   </div>
 </div>
-

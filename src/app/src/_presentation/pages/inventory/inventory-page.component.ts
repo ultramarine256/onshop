@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductEntity} from '../../../_core';
-import {ShopApiService} from '../../../_data';
+import {ShopRepository} from '../../../_data';
 
 @Component({
   selector: 'app-inventory-page',
@@ -82,7 +82,7 @@ export class InventoryPageComponent {
   public didLoaded = false;
 
   /// constructor
-  constructor(private shopApiService: ShopApiService,
+  constructor(private shopApiService: ShopRepository,
               private route: ActivatedRoute,
               private router: Router) {
     this.shopApiService.getProducts().subscribe(data => {

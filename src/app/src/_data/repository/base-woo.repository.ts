@@ -1,8 +1,8 @@
-import {BaseApiService} from './base-api.service';
+import {BaseRepository} from './base.repository';
 import WooCommerceRestApi from '@woocommerce/woocommerce-rest-api';
 import {environment} from '../../environments/environment';
 
-export abstract class BaseWooApiService extends BaseApiService {
+export abstract class BaseWooRepository extends BaseRepository {
   /// fields
   public wooRestApi: WooCommerceRestApi = null;
 

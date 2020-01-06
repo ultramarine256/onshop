@@ -11,7 +11,7 @@ import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
 import {CartModule} from '../../_core';
 import {CartPageComponent} from './cart';
-import {ApiModule} from '../../_data';
+import {RepositoryModule} from '../../_data';
 import {ThemeModule} from '../../_domain';
 
 @NgModule({
@@ -33,7 +33,7 @@ import {ThemeModule} from '../../_domain';
 
     /// app modules
     ThemeModule,
-    ApiModule,
+    RepositoryModule,
 
     /// routing
     AppPagesRouting,

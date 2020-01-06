@@ -103,7 +103,7 @@ function my_awesome_func() {
 }
 
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'shop/v1', 'info', array(
+	register_rest_route( 'app/', 'info', array(
 		'methods' => 'GET',
 		'callback' => 'my_awesome_func',
 	) );

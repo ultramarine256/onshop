@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BaseWooApiService} from '../base-woo-api.service';
+import {BaseWooRepository} from '../base-woo.repository';
 import {from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ApiResponse} from './response';
 import {CategoryEntity, OrderEntity, ProductEntity} from '../../../_core';
 
 @Injectable()
-export class ShopApiService extends BaseWooApiService {
+export class ShopRepository extends BaseWooRepository {
 
   constructor(httpClient: HttpClient) {
     super();

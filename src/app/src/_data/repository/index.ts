@@ -1,3 +1,4 @@
+export * from './app';
 export * from './shop';
 
-export * from './api.module';
+export * from './repository.module';

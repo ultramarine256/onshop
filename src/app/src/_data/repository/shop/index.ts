@@ -1,3 +1,3 @@
 export * from './response';
 
-export * from './shop-api.service';
+export * from './shop.repository';
