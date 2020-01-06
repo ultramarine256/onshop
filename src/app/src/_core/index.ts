@@ -1,5 +1,4 @@
 export * from './constants';
-export * from './entities';
+export * from './domain';
 export * from './extensions';
 export * from './services';
-export * from './theme';

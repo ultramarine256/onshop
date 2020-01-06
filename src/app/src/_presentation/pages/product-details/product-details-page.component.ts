@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ShopApiService, ProductEntity, CartService} from '../../../_core';
-import {AppMapper} from '../../domain';
+import {ProductEntity, CartService} from '../../../_core';
+import {ShopApiService} from '../../../_data';
+import {AppMapper} from '../../../_domain';
 
 @Component({
   selector: 'app-product-details-page',

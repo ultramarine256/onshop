@@ -4,10 +4,6 @@
 * ------------------------------------------------------------------------
 */
 
-body {
-
-}
-
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5rem;
   font-family: inherit;
@@ -25,17 +21,17 @@ body {
   justify-content: space-evenly;
 }
 
-.entry-title {
-  font-size: 2.857em;
-  letter-spacing: -.025em;
-  margin-bottom: 0;
-}
-
 /**
 * ------------------------------------------------------------------------
 * Title
 * ------------------------------------------------------------------------
 */
+
+.entry-title {
+  font-size: 2.857em;
+  letter-spacing: -.025em;
+  margin-bottom: 0;
+}
 
 .content-title {
   font-size: 1.786em;
@@ -55,3 +51,4 @@ body {
     border-color: #2C98F0;
   }
 }
+

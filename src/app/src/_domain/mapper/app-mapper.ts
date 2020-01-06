@@ -1,7 +1,6 @@
-import {CartItemEntity, ProductEntity} from '../../../_core';
+import {CartItemEntity, ProductEntity} from '../../_core';
 
 export class AppMapper {
-
   public static toCartItem(entity: ProductEntity): CartItemEntity {
     const result = new CartItemEntity();
     result.id = entity.id;

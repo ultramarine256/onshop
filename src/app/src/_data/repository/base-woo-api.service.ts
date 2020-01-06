@@ -1,6 +1,6 @@
 import {BaseApiService} from './base-api.service';
 import WooCommerceRestApi from '@woocommerce/woocommerce-rest-api';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../environments/environment';
 
 export abstract class BaseWooApiService extends BaseApiService {
   /// fields
