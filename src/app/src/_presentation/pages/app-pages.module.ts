@@ -11,8 +11,9 @@ import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
 import {CartModule} from '../../_core';
 import {CartPageComponent} from './cart';
-import {ApiModule} from '../../_data';
+import {RepositoryModule} from '../../_data';
 import {ThemeModule} from '../../_domain';
+import {SearchResultPageComponent} from './search-result';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {ThemeModule} from '../../_domain';
     InventoryPageComponent,
     ProductDetailsPageComponent,
     ProfilePageComponent,
+    SearchResultPageComponent,
     TrackOrderPageComponent
   ],
   imports: [
@@ -33,7 +35,7 @@ import {ThemeModule} from '../../_domain';
 
     /// app modules
     ThemeModule,
-    ApiModule,
+    RepositoryModule,
 
     /// routing
     AppPagesRouting,

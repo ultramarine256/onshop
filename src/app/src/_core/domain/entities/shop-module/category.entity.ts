@@ -1,3 +1,6 @@
+import {environment} from '../../../../environments/environment';
+
+
 export class CategoryEntity {
   id: number;
   name: string;
@@ -31,7 +34,7 @@ export class CategoryImage {
   mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;
-    this.src = dto.src;
+    this.src = `${environment.apiBaseUrl}/${dto.src}`;
   }
 }
 

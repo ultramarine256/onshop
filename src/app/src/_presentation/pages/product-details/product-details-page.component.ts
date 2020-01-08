@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ProductEntity, CartService} from '../../../_core';
-import {ShopApiService} from '../../../_data';
+import {ShopRepository} from '../../../_data';
 import {AppMapper} from '../../../_domain';
 
 @Component({
@@ -17,7 +17,7 @@ export class ProductDetailsPageComponent implements OnInit {
   public didLoaded = false;
 
   /// lifecycle
-  constructor(private shopApiService: ShopApiService,
+  constructor(private shopApiService: ShopRepository,
               private route: ActivatedRoute,
               private cartService: CartService) {
     this.product = new ProductEntity();

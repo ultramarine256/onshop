@@ -17,3 +17,10 @@ mix.js('./src/app.js', './dist')
         processCssUrls: false
     })
     .disableNotifications();
+
+mix.js('./src/client/test.js', './dist')
+    .sourceMaps(true, 'source-map')
+    .options({
+        processCssUrls: false
+    })
+    .disableNotifications();

@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ShopRepository} from '../../../_data';
-import {CategoryEntity} from '../../../_core';
+import {CategoryEntity} from '../../../_core/domain/entities/shop-module';
+import {ShopRepository} from '../../../_data/repository/shop';
 
 @Component({
-  selector: 'app-categories-page',
-  styleUrls: ['./categories-page.component.scss'],
-  templateUrl: './categories-page.component.html'
+  selector: 'app-search-result-page',
+  styleUrls: ['./search-result-page.component.scss'],
+  templateUrl: './search-result-page.component.html'
 })
-export class CategoriesPageComponent implements OnInit {
+export class SearchResultPageComponent implements OnInit {
   /// fields
   public categories: Array<CategoryEntity> = [];
 

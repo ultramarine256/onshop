@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
-import {ShopApiService} from './shop';
+import {ShopRepository} from './shop';
+import {AppRepository} from './app';
 
 @NgModule({
   declarations: [],
@@ -13,8 +14,9 @@ import {ShopApiService} from './shop';
     /// app modules
   ],
   providers: [
-    ShopApiService
+    AppRepository,
+    ShopRepository
   ]
 })
-export class ApiModule {
+export class RepositoryModule {
 }

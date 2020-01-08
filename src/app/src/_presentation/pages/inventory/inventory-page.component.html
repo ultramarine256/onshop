@@ -8,15 +8,19 @@
 </div>
 <div class="container mb-3">
   <div class="row">
+
+    <!-- filters -->
     <div class="col-12 col-md-3 d-none d-md-block">
-      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
+      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 500px">
         <h3>Filters</h3>
       </div>
     </div>
+
+    <!-- inventory -->
     <div class="col-12 col-md-9">
       <div class="row">
         <div class="col-12 mb-2">
-          <span class="category-title">Category Title</span>
+          <span class="category-title">{{category.name}}</span>
         </div>
       </div>
       <div class="row">
@@ -24,6 +28,17 @@
           <div class="shop-control-bar rounded"></div>
         </div>
       </div>
+
+      <!-- load-indicator -->
+      <div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="isLoading">
+        <div class="spinner-grow text-primary" role="status"></div>
+      </div>
+
+      <!-- empty-category -->
+      <!--<div class="d-flex justify-content-center align-items-center text-center" style="height: 300px;" *ngIf="categoryIsEmpty && !isLoading">-->
+        <!--<h4>0 products</h4>-->
+      <!--</div>-->
+
       <div class="row m-0">
         <div class="col-6 col-md-3 p-0" *ngFor="let item of items">
           <div class="product-item p-3" (click)="productClick(item.id)">
@@ -54,14 +69,7 @@
         </div>
       </div>
 
-      <!--<header class="page-header">-->
-        <!--<h5 class="page-title">Smart Phones &amp; Tablets</h5>-->
-        <!--<p class="woocommerce-result-count">-->
-          <!--Showing all 20 results</p>-->
-      <!--</header>-->
-      <!--<div class="d-flex bg-light justify-content-center align-items-center mb-3" style="height: 900px">-->
-        <!--<h3>Product Items</h3>-->
-      <!--</div>-->
+
     </div>
   </div>
 </div>

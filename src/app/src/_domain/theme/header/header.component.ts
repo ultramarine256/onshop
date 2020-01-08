@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {CategoryEntity} from '../../../_core';
 
 @Component({
   selector: 'app-header-component',
@@ -10,7 +11,9 @@ export class HeaderComponent {
   /// binding
   @Input() productsCount: number;
   @Input() productsPrice: number;
+  @Input() categories: Array<CategoryEntity> = [];
 
+  /// constructor
   constructor() {
   }
 }

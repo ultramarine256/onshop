@@ -1,25 +1,15 @@
-// global styles goes here
-
-body {
-  // background-color: red !important;
-}
-
-
-#wpfooter {
-  // display: none;
-}
+/**
+* ------------------------------------------------------------------------
+* Global Styles
+* ------------------------------------------------------------------------
+*/
 
 
-#wp-admin-bar-comments,
-#wp-admin-bar-new-content,
 
-#wp-admin-bar-wp-logo,
+/**
+* ------------------------------------------------------------------------
+* Wordpress Functionality visibility
+* ------------------------------------------------------------------------
+*/
 
-#dashboard_right_now,
-#dashboard_activity,
 
-#screen-meta-links
-
-{
-   display: none;
-}
