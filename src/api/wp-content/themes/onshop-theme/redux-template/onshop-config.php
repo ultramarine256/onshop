@@ -11,7 +11,9 @@ $args = array(
 	'page_title'           => __( 'Shop Options', 'shop-options' ),
 	'page_icon'            => 'icon-themes',
 	'page_slug'            => '_options',
-	'dev_mode'             => false
+	'dev_mode'             => false,
+	'show_import_export'   => false,
+	'show_options_object'   => false
 );
 
 Redux::setArgs( $opt_name, $args );
@@ -50,7 +52,7 @@ Redux::setSection( $opt_name, array(
 ));
 
 Redux::setSection( $opt_name, array(
-	'title'  => __( 'Settings', 'redux-framework-demo' ),
+	'title'  => __( 'Theme', 'redux-framework-demo' ),
 	'id'     => 'settings',
 	'desc'   => __( 'Basic field with no subsections.', 'redux-framework-demo' ),
 	'icon'   => 'el el-home',
