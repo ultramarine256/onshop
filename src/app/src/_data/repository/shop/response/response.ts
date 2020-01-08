@@ -6,3 +6,8 @@ export class ApiResponse {
     this.items = [];
   }
 }
+
+export class WooResponse<T> {
+  data: Array<T>;
+  status: number;
+}

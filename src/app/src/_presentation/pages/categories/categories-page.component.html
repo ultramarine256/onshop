@@ -20,7 +20,7 @@
     <div class="col-md-4 col-sm-6 mb-3" *ngFor="let item of categories">
       <div class="card border-0">
         <a class="d-block overflow-hidden rounded-lg" [routerLink]="'/shop/' + item.slug">
-          <img class="d-block w-100" [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/300/DEDEDE/000000-DEDEDE/' + item.name" alt="Clothing">
+          <img class="d-block w-100" [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + item.name" alt="Clothing">
         </a>
         <div class="card-body">
           <h2 class="h5">{{item.name}}</h2>

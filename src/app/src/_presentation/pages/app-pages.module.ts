@@ -13,6 +13,7 @@ import {CartModule} from '../../_core';
 import {CartPageComponent} from './cart';
 import {RepositoryModule} from '../../_data';
 import {ThemeModule} from '../../_domain';
+import {SearchResultPageComponent} from './search-result';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {ThemeModule} from '../../_domain';
     InventoryPageComponent,
     ProductDetailsPageComponent,
     ProfilePageComponent,
+    SearchResultPageComponent,
     TrackOrderPageComponent
   ],
   imports: [

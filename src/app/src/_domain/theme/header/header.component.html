@@ -100,17 +100,13 @@
       <div class="searchbar__space"></div>
       <div class="searchbar__input-group my-1">
         <div class="input-search-field">
-          <input type="text" id="search" class="form-control search-field product-search-field" dir="ltr" value=""
+          <input type="text" class="form-control search-field product-search-field"
                  name="s" placeholder="Search for Products" autocomplete="off">
         </div>
         <div class="search-categories">
           <select name="product_cat" class="custom-select" style="width: 143px;">
             <option value="0" selected="selected">All Categories</option>
-            <option class="level-0" value="accessories">Category 1</option>
-            <option class="level-0" value="accessories">Category 2</option>
-            <option class="level-0" value="accessories">Category 3</option>
-            <option class="level-0" value="accessories">Category 4</option>
-            <option class="level-0" value="accessories">Category 5</option>
+            <option class="level-0" [value]="item.slug" *ngFor="let item of categories">{{item.name}}</option>
           </select>
         </div>
         <div class="input-group-btn">

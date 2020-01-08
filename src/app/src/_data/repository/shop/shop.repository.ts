@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BaseWooRepository} from '../base-woo.repository';
 import {from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ApiResponse} from './response';
+import {ApiResponse, WooResponse} from './response';
 import {CategoryEntity, OrderEntity, ProductEntity} from '../../../_core';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class ShopRepository extends BaseWooRepository {
 
     if (!params) {
       params = {};
-      params.per_page = 21;
+      params.per_page = 20;
     }
 
     const promise = this.wooRestApi.get('products', params);
@@ -54,6 +54,19 @@ export class ShopRepository extends BaseWooRepository {
           result.push(entity);
         }
         return result;
+      }));
+  }
+
+  public getCategory(slug: string): Observable<CategoryEntity> {
+    const promise = this.wooRestApi.get(`products/categories?slug=${slug}`, {});
+    return from(promise)
+      .pipe(map((x: WooResponse<CategoryEntity>) => {
+        if (x.data.length > 0) {
+          const result = new CategoryEntity();
+          result.mapFromDto(x.data[0]);
+          return result;
+        }
+        return null;
       }));
   }
 

@@ -9,6 +9,7 @@ import {CategoriesPageComponent} from './categories';
 import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
 import {CartPageComponent} from './cart';
+import {SearchResultPageComponent} from './search-result';
 
 export const routes: Routes = [
   {
@@ -23,12 +24,16 @@ export const routes: Routes = [
         component: CategoriesPageComponent
       },
       {
-        path: 'shop/:category-slug',
+        path: 'shop/:categorySlug',
         component: InventoryPageComponent,
       },
       {
         path: 'product/:id',
         component: ProductDetailsPageComponent
+      },
+      {
+        path: 'search-result',
+        component: SearchResultPageComponent
       },
       {
         path: 'contact-us',

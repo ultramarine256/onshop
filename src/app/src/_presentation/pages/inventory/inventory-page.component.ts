@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProductEntity} from '../../../_core';
+import {CategoryEntity, ProductEntity} from '../../../_core';
 import {ShopRepository} from '../../../_data';
 
 @Component({
@@ -8,91 +8,45 @@ import {ShopRepository} from '../../../_data';
   styleUrls: ['./inventory-page.component.scss'],
   templateUrl: './inventory-page.component.html'
 })
-export class InventoryPageComponent {
+export class InventoryPageComponent implements OnInit {
   /// fields
-  public items2: Array<ProductItem> = [
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    },
-    {
-      id: 1,
-      title: 'Product 1'
-    }
-  ];
   public items: Array<ProductEntity> = [];
+  public category: CategoryEntity = new CategoryEntity();
 
   /// predicates
-  public didLoaded = false;
+  public isLoading = true;
+  public categoryIsEmpty = true;
 
   /// constructor
-  constructor(private shopApiService: ShopRepository,
+  constructor(private shopRepository: ShopRepository,
               private route: ActivatedRoute,
               private router: Router) {
-    this.shopApiService.getProducts().subscribe(data => {
-      this.items = data.items;
-    });
   }
 
   /// methods
   public productClick(id: number) {
     this.router.navigate([`product/${id}`]).then();
+  }
+
+  ngOnInit(): void {
+    this.shopRepository.getProducts().subscribe(data => {
+      this.items = data.items;
+      if (data.items.length === 0) {
+        this.categoryIsEmpty = true;
+      }
+      this.isLoading = false;
+    });
+
+    this.route.params.subscribe(params => {
+      this.shopRepository.getCategory(params.categorySlug).subscribe(data => {
+        this.category = data;
+      });
+
+      // this.shopRepository.getProductById(params.id).subscribe(data => {
+      //   this.product = data;
+      //   this.didLoaded = true;
+      // });
+    });
   }
 }
 
