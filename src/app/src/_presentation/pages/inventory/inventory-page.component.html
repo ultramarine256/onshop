@@ -47,13 +47,13 @@
               {{item.name}}
             </div>
             <div class="image">
-              <img class="image__src" [src]="'/assets/img/placeholders/hammer.png'">
+              <img class="image__src" [src]="item.firstImage">
             </div>
             <div class="price-options bg-light text-secondary w-100 py-1">
               <div class="price-item d-flex border-right">
                 <span class="price-title font-weight-500 text-center">Buy</span>
                 <span class="price-details text-center">
-                  $269.00
+                  {{item.price | currency}}
                 </span>
               </div>
               <div class="price-item d-flex">

@@ -17,30 +17,33 @@
   <div class="row pt-5">
 
     <!-- Catogory-->
-    <div class="col-md-4 col-sm-6 mb-3" *ngFor="let item of categories">
+    <div class="col-md-3 col-sm-4 col-6 mb-3" *ngFor="let item of categories">
       <div class="card border-0">
-        <a class="d-block overflow-hidden rounded-lg" [routerLink]="'/shop/' + item.slug">
-          <img class="d-block w-100" [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + item.name" alt="Clothing">
+        <a class="category-image__wrap rounded-lg" [routerLink]="'/shop/' + item.slug">
+
+
+          <img class="category-image" [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + item.name" alt="Clothing">
         </a>
         <div class="card-body">
           <h2 class="h5">{{item.name}}</h2>
           <ul class="list-unstyled font-size-sm mb-0">
-            <li class="d-flex align-items-center justify-content-between">
-              <a class="nav-link-style" href="#">
-                <i class="czi-arrow-right-circle mr-2"></i>
-                Blazers &amp; Suits
-              </a>
-              <span class="font-size-ms text-muted">235</span>
-            </li>
 
-            <li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Blouse</a><span class="font-size-ms text-muted">410</span></li>
-            <li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Cardigans &amp; Jumpers</a><span class="font-size-ms text-muted">107</span></li>
-            <li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Dresses</a><span class="font-size-ms text-muted">93</span></li>
-            <li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Hoodie &amp; Sweatshirts</a><span class="font-size-ms text-muted">93</span></li>
-            <li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Sportswear</a><span class="font-size-ms text-muted">65</span></li>
-            <li>
-              <hr>
-            </li>
+            <!--<li class="d-flex align-items-center justify-content-between">-->
+              <!--<a class="nav-link-style" href="#">-->
+                <!--<i class="czi-arrow-right-circle mr-2"></i>-->
+                <!--Blazers &amp; Suits-->
+              <!--</a>-->
+              <!--<span class="font-size-ms text-muted">235</span>-->
+            <!--</li>-->
+
+            <!--<li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Blouse</a><span class="font-size-ms text-muted">410</span></li>-->
+            <!--<li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Cardigans &amp; Jumpers</a><span class="font-size-ms text-muted">107</span></li>-->
+            <!--<li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Dresses</a><span class="font-size-ms text-muted">93</span></li>-->
+            <!--<li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Hoodie &amp; Sweatshirts</a><span class="font-size-ms text-muted">93</span></li>-->
+            <!--<li class="d-flex align-items-center justify-content-between"><a class="nav-link-style" href="#"><i class="czi-arrow-right-circle mr-2"></i>Sportswear</a><span class="font-size-ms text-muted">65</span></li>-->
+            <!--<li>-->
+              <!--<hr>-->
+            <!--</li>-->
             <li class="d-flex align-items-center justify-content-between">
               <a class="nav-link-style" [routerLink]="'/shop/' + item.slug">
                 <i class="czi-arrow-right-circle mr-2"></i>View all

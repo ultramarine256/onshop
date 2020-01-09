@@ -7,11 +7,13 @@ import {CategoryEntity} from '../../../_core';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-
   /// binding
   @Input() productsCount: number;
   @Input() productsPrice: number;
   @Input() categories: Array<CategoryEntity> = [];
+
+  @Input() email: string;
+  @Input() phone: string;
 
   /// constructor
   constructor() {

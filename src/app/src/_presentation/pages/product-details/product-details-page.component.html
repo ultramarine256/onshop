@@ -14,30 +14,20 @@
 <div class="container" *ngIf="didLoaded">
   <div class="row">
     <div class="col-12 col-md-4">
-
-      <div class="product-image w-100">
-
-      </div>
-
+      <img class="w-100 rounded" [src]="product.firstImage">
     </div>
     <div class="col-12 col-md-8">
-      <h3>Product Title</h3>
+      <h3>{{product.name}}</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
       </p>
       <p>
         <b>SKU:</b> FW511948218
       </p>
-
       <p>
-        Purchase
+        <b>Price:</b> {{product.price | currency}}
       </p>
-      <p>
-        <b>430$</b>
-      </p>
-
-
-      <button class="btn btn-primary btn-sm" (click)="addToCart()">Add to Cart</button>
+      <button class="btn btn-primary btn-sm" (click)="addToCart(product)">Add to Cart</button>
     </div>
   </div>
 </div>

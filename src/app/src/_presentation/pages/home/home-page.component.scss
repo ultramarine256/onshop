@@ -9,7 +9,6 @@
   flex-direction: column;
 }
 
-
 /**
 * ------------------------------------------------------------------------
 * Categories
@@ -17,8 +16,26 @@
 */
 
 .categories {
-  height: 300px;
   background-color: aliceblue;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .img-wrap {
+    height: 150px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+
+  img {
+    height: 120px;
+    width: auto !important;
+  }
 }
 
 /**

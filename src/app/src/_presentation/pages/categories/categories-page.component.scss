@@ -1,0 +1,12 @@
+
+.category-image__wrap {
+  display: flex;
+  overflow: hidden;
+  max-height: 150px;
+  justify-content: center;
+  align-items: center;
+
+  .category-image {
+    display: flex;
+  }
+}

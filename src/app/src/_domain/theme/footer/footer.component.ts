@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-footer-component',
@@ -6,4 +6,10 @@ import {Component} from '@angular/core';
   templateUrl: './footer.component.html'
 })
 export class FooterComponent {
+  /// binding
+  @Input() phone: string;
+
+  /// constructor
+  constructor() {
+  }
 }

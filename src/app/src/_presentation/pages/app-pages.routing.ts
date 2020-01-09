@@ -10,6 +10,7 @@ import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
 import {CartPageComponent} from './cart';
 import {SearchResultPageComponent} from './search-result';
+import {CheckoutPageComponent} from './checkout';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,14 @@ export const routes: Routes = [
       {
         path: '',
         component: HomePageComponent
+      },
+      {
+        path: 'cart',
+        component: CartPageComponent
+      },
+      {
+        path: 'checkout',
+        component: CheckoutPageComponent
       },
       {
         path: 'categories',
@@ -46,10 +55,6 @@ export const routes: Routes = [
       {
         path: 'track-order',
         component: TrackOrderPageComponent
-      },
-      {
-        path: 'cart',
-        component: CartPageComponent
       }
     ]
   }

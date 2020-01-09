@@ -39,16 +39,14 @@
                     class="form-control shadow-sm"
                     id="input5"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
+        <button type="submit" class="btn btn-primary" [disabled]="true">Send Message</button>
       </form>
     </div>
 
     <div class="col-12 col-md-4 mt-5 mt-md-0">
       <h2 class="content-title">Our Store</h2>
       <p>
-        17 Princess Road <br>
-        London, Greater London <br>
-        NW1 8JR, UK
+        {{infoService.appInfo.address}}
       </p>
 
       <p class="font-weight-bold">Hours of Operation</p>

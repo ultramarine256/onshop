@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {CartService} from '../../_core';
+import {AppInfo, CartService, InfoService} from '../../_core';
+import {AppRepository} from '../../_data';
 
 @Component({
   selector: 'app-pages-component',
@@ -7,11 +8,13 @@ import {CartService} from '../../_core';
   templateUrl: './app-pages.component.html',
 })
 export class AppPagesComponent {
-  constructor(public cartService: CartService) {
 
-
-
-    // this.cartService.itemsCount;
-
+  /// constructor
+  constructor(public cartService: CartService,
+              public infoService: InfoService,
+              private appRepository: AppRepository) {
+    this.appRepository.getShopInfo().subscribe(data => {
+      this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone}));
+    });
   }
 }

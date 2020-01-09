@@ -1,15 +1,16 @@
 export class ShopInfoEntity {
-  contactEmail: string;
+  email: string;
   address: string;
-  phone1: string
+  phone: string;
 
+  /// constructor
   constructor() {
   }
 
   /// mappers
   mapFromDto(dto: any) {
-    this.contactEmail = dto['opt-email'];
+    this.email = dto['opt-email'];
     this.address = dto['opt-address'];
-    this.phone1 = dto['opt-phone-1'];
+    this.phone = dto['opt-phone-1'];
   }
 }
