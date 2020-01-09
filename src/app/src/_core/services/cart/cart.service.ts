@@ -7,42 +7,72 @@ import {CartItemEntity} from './entities';
 export class CartService {
   /// fields
   private _itemsPrice = 0;
-  private items: Array<CartItemEntity> = [];
+  private _items: Array<CartItemEntity> = [];
 
   /// properties
-  get itemsCount() {
-    return this.items.length;
+  get totalPrice() {
+    return this._itemsPrice;
   }
 
-  get itemsPrice() {
-    return this._itemsPrice;
+  get itemsCount() {
+    let count = 0;
+    for (const item of this._items) {
+      count += item.count;
+    }
+    return count;
+  }
+
+  get getItems(): Array<CartItemEntity> {
+    return this._items;
   }
 
   /// constructor
   constructor() {
+    const items = JSON.parse(localStorage.getItem(Constants.CART_KEY));
+    this._items = items ? items : [];
+    this._itemsPrice = this.calculatePrice(this._items);
   }
 
   /// methods
-  public getItems() {
-    return this.items;
-  }
-
-  public addItem(item: CartItemEntity) {
-    this.items.push(item);
-  }
-
-  public addItems(items: Array<CartItemEntity>) {
-    for (const item of items) {
-      this.items.push(item);
+  public addItem(item: CartItemEntity, amount: number = 1) {
+    item.count = amount;
+    const index = this._items.findIndex(r => r.id === item.id);
+    if (index > -1) {
+      this._items[index].count++;
+      this._items[index].price *= 2;
+    } else {
+      this._items.push(item);
     }
+
+    this._itemsPrice = this.calculatePrice(this._items);
+    localStorage.setItem(Constants.CART_KEY, JSON.stringify(this._items));
   }
 
   public removeItem(id: number) {
-    // let item = this.itemsPrice.inde
-    // this.items.push(item);
+    const index = this._items.findIndex(r => r.id === id);
+    if (index > -1) {
+      this._items.splice(index, 1);
+      this._itemsPrice = this.calculatePrice(this._items);
+      localStorage.setItem(Constants.CART_KEY, JSON.stringify(this._items));
+    }
   }
 
   public clearCart() {
-    this.items = [];
+    this._items = [];
+    this._itemsPrice = 0;
+    localStorage.setItem(Constants.CART_KEY, JSON.stringify([]));
+  }
+
+  /// helpers
+  private calculatePrice(items: Array<CartItemEntity>): number {
+    let price = 0;
+    for (const item of items) {
+      price += Number(item.price);
+    }
+    return price;
   }
 }
+
+const Constants = {
+  CART_KEY: 'onshop-cart-key',
+};

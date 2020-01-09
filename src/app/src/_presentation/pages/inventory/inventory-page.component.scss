@@ -51,8 +51,11 @@
   }
 
   .image {
-    //height: 60px;
-    //background-color: #f8f9fa !important;
+    height: 200px;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
 
     .image__src {
       width: 100%;

@@ -28,10 +28,10 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/animate.css/animate.min.css",
               "./node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
-              "./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
               "./src/assets/scss/index.scss"
             ],
             "scripts": [
@@ -41,7 +41,6 @@
             ]
           },
           "configurations": {
-
             "build-prod": {
               "fileReplacements": [
                 {
@@ -71,7 +70,6 @@
                 }
               ]
             },
-
             "serve-prod": {
               "fileReplacements": [
                 {
@@ -82,7 +80,6 @@
               "sourceMap": true,
               "optimization": false
             },
-
             "serve-local": {
               "fileReplacements": [
                 {
@@ -127,6 +124,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -158,6 +156,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "onshop-app"
 }

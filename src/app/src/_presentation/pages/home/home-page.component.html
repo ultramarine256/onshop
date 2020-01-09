@@ -20,8 +20,10 @@
 <div class="container my-3">
   <div class="owl-carousel owl-theme">
     <div class="item" *ngFor="let item of categories" >
-      <a class="w-100 text-decoration-none text-center" [routerLink]="'/shop/' + item.slug">
-        <img [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+      <a class="text-decoration-none category-item" [routerLink]="'/shop/' + item.slug">
+        <div class="img-wrap">
+          <img [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+        </div>
         <h6 class="mt-1">{{item.name}}</h6>
       </a>
     </div>

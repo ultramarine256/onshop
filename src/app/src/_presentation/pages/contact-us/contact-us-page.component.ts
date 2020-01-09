@@ -1,5 +1,6 @@
 import {AfterContentInit, Component} from '@angular/core';
 import {GOOGLE_MAP_CONSTANTS} from '../../../_core/constants';
+import {InfoService} from '../../../_core/services/info';
 
 @Component({
   selector: 'app-contact-us',
@@ -7,15 +8,14 @@ import {GOOGLE_MAP_CONSTANTS} from '../../../_core/constants';
   templateUrl: './contact-us-page.component.html'
 })
 export class ContactUsPageComponent implements AfterContentInit {
-
   /// fields
-  public googleMap: any;
-  public address = 'Neighborhood in Los Angeles, California';
+  private _googleMap: any;
 
   /// predicates
   public googleMapDidLoaded = false;
 
-  constructor() {
+  /// constructor
+  constructor(public infoService: InfoService) {
   }
 
   ngAfterContentInit(): void {
@@ -32,21 +32,19 @@ export class ContactUsPageComponent implements AfterContentInit {
         clickableIcons: true,
         streetViewControl: false
       };
-      this.googleMap = new (window as any).google.maps.Map(window.document.getElementById('map'), mapOptions);
-
+      this._googleMap = new (window as any).google.maps.Map(window.document.getElementById('map'), mapOptions);
 
       // set default position
-      this.getLocation(this.address, (lat, lng) => {
+      this.getLocation(this.infoService.appInfo.address, (lat, lng) => {
         const coordinates = new (window as any).google.maps.LatLng(lat, lng);
         const dealerLocationMarker = new (window as any).google.maps.Marker({
-          map: this.googleMap,
+          map: this._googleMap,
           anchorPoint: new (window as any).google.maps.Point(0, -29)
         });
         dealerLocationMarker.setPosition(coordinates);
         dealerLocationMarker.setVisible(true);
 
-        this.googleMap.setCenter(coordinates);
-
+        this._googleMap.setCenter(coordinates);
       });
     });
   }

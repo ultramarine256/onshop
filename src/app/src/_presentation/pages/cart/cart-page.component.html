@@ -6,32 +6,40 @@
     </ol>
   </nav>
 </div>
-<div class="container mb-3">
 
-  <div class="d-flex flex-row flex-grow-1" *ngFor="let item of imtes">
-    <div class="d-flex">
-      Close
+<div class="container mb-3" *ngIf="cartService.itemsCount > 0">
+  <div class="d-flex flex-row w-100 py-3 border-bottom" *ngFor="let item of cartService.getItems">
+    <div class="d-flex align-items-center pr-3">
+      <i class="icon material-icons-outlined cursor-pointer text-secondary" (click)="cartService.removeItem(item.id)">close</i>
     </div>
-    <div class="d-flex image">
-      Image
+    <div class="d-flex align-items-center pr-4">
+      <img [src]="item.imageUrl" style="height: 60px;">
     </div>
-    <div class="d-flex image">
-      Title
+    <div class="d-flex align-items-center flex-grow-1">
+      <a [routerLink]="'/product/' + item.id" class="text-decoration-none">{{item.title}}</a>
     </div>
-    <div class="d-flex image">
-      Quantity
+    <div class="d-flex align-items-center pr-3">
+      x{{!item.count  ? 1 : item.count}}
     </div>
-    <div class="d-flex image">
-      Total
+    <div class="d-flex align-items-center pr-3">
+      {{item.price == 0 ? 0: item.price}}$
+    </div>
+  </div>
+  <div class="d-flex">
+    <div class="p-3 w-100 text-right font-weight-500">
+      Total: {{cartService.totalPrice}}$
     </div>
 
   </div>
-
-
-  <div class="row">
+  <div class="row mt-3">
     <div class="col-12">
-      <button class="btn btn-primary float-right">Proceed to checkout</button>
-
+      <a class="btn btn-primary float-right" routerLink="/checkout">Proceed to checkout</a>
     </div>
+  </div>
+</div>
+
+<div class="container mb-3" *ngIf="cartService.itemsCount == 0">
+  <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
+    <h3>Cart is empty</h3>
   </div>
 </div>

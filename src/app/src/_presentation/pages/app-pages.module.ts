@@ -9,11 +9,13 @@ import {ContactUsPageComponent} from './contact-us';
 import {ProductDetailsPageComponent} from './product-details';
 import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
-import {CartModule} from '../../_core';
+import {CartModule, InfoModule} from '../../_core';
 import {CartPageComponent} from './cart';
 import {RepositoryModule} from '../../_data';
 import {ThemeModule} from '../../_domain';
 import {SearchResultPageComponent} from './search-result';
+import {CheckoutPageComponent} from './checkout';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import {SearchResultPageComponent} from './search-result';
 
     CartPageComponent,
     CategoriesPageComponent,
+    CheckoutPageComponent,
     ContactUsPageComponent,
     HomePageComponent,
     InventoryPageComponent,
@@ -30,16 +33,23 @@ import {SearchResultPageComponent} from './search-result';
     TrackOrderPageComponent
   ],
   imports: [
-    /// angular modules
+    /// angular
     CommonModule,
 
-    /// app modules
-    ThemeModule,
+    /// core
+    CartModule,
+    InfoModule,
+
+    /// data
     RepositoryModule,
 
+    /// theme
+    ThemeModule,
+    FormsModule,
+    ReactiveFormsModule,
+
     /// routing
-    AppPagesRouting,
-    CartModule
+    AppPagesRouting
   ],
   exports: [],
   providers: []
