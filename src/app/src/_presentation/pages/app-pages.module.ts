@@ -16,6 +16,7 @@ import {ThemeModule} from '../../_domain';
 import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DxSchedulerModule} from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
   imports: [
     /// angular
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
     /// core
     CartModule,
@@ -45,8 +48,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
     /// theme
     ThemeModule,
-    FormsModule,
-    ReactiveFormsModule,
+    DxSchedulerModule,
 
     /// routing
     AppPagesRouting

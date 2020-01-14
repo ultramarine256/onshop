@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/animate.css/animate.min.css",
               "./node_modules/@fortawesome/fontawesome-free/css/all.css",
@@ -39,7 +40,6 @@
             ]
           },
           "configurations": {
-
             "build-prod": {
               "fileReplacements": [
                 {
@@ -69,7 +69,6 @@
                 }
               ]
             },
-
             "serve-prod": {
               "fileReplacements": [
                 {
@@ -80,7 +79,6 @@
               "sourceMap": true,
               "optimization": false
             },
-
             "serve-local": {
               "fileReplacements": [
                 {
@@ -125,9 +123,9 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -156,6 +154,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "onshop-landing"
 }

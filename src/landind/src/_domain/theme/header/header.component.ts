@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {SmoothScroll} from '../../../_core';
+import {SCROLL_ANCHORS, SmoothScroll} from '../../../_core';
 
 @Component({
   selector: 'app-header-component',
@@ -7,13 +7,8 @@ import {SmoothScroll} from '../../../_core';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-
   /// constants
-  public scrollAnchors = {
-    technology: 'anchor__technology',
-    examples: 'anchor__examples',
-    aboutUs: 'anchor__about-us'
-  };
+  public SCROLL_ANCHORS = SCROLL_ANCHORS;
 
   /// constructor
   constructor() {

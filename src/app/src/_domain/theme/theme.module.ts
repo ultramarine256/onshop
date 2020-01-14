@@ -7,7 +7,6 @@ import {FooterComponent} from './footer';
 import {BreadcrumbsModule} from './breadcrumbs';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatStepperModule} from '@angular/material';
 
-
 @NgModule({
   declarations: [
     HeaderComponent,
