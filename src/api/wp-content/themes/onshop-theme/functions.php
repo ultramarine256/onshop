@@ -62,7 +62,7 @@ function hide_adminstrator_editable_roles( $roles ) {
 
 // Hide WordPress menu items for non admin users
 function custom_menu_page_removing() {
-	if (wp_get_current_user()->roles[0] != 'administrator') {
+	if (wp_get_current_user()->roles && wp_get_current_user()->roles[0] != 'administrator') {
 		remove_menu_page( 'edit.php' ); // posts
 		remove_menu_page( 'themes.php' ); // appereance
 		remove_menu_page( 'tools.php' ); // tools
@@ -86,16 +86,16 @@ function wooninja_remove_items() {
 add_action( 'admin_menu', 'wooninja_remove_items', 99, 0 );
 
 // Change WooCommerce logo for non admin users
-add_filter( 'gettext', 'change_post_to_article' );
-add_filter( 'ngettext', 'change_post_to_article' );
-function change_post_to_article( $translated )
-{
-	if (wp_get_current_user()->roles[0] != 'administrator') {
-		$translated = str_replace( 'WooCommerce', 'Shop', $translated );
-		$translated = str_replace( 'woocommerce', 'shop', $translated );
-	}
-	return $translated;
-}
+//add_filter( 'gettext', 'change_post_to_article' );
+//add_filter( 'ngettext', 'change_post_to_article' );
+//function change_post_to_article( $translated )
+//{
+//	if (wp_get_current_user()->roles[0] != 'administrator') {
+//		$translated = str_replace( 'WooCommerce', 'Shop', $translated );
+//		$translated = str_replace( 'woocommerce', 'shop', $translated );
+//	}
+//	return $translated;
+//}
 
 /**
  * ------------------------------------------------------------------------
@@ -108,16 +108,65 @@ function app_info() {
 	global $redux_demo;
 	return $redux_demo;
 }
-add_action( 'rest_api_init', function () {
+add_action('rest_api_init', function () {
 	register_rest_route( 'app/', 'info', array(
 		'methods' => 'GET',
 		'callback' => 'app_info',
-	) );
+	));
 });
 
+//require_once(__DIR__.'/woo-rest/HttpClient/BasicAuth.php');
+//require_once(__DIR__.'/woo-rest/HttpClient/HttpClient.php');
+//require_once(__DIR__.'/woo-rest/HttpClient/HttpClientException.php');
+//require_once(__DIR__.'/woo-rest/HttpClient/OAuth.php');
+//require_once(__DIR__.'/woo-rest/HttpClient/Options.php');
+//require_once(__DIR__.'/woo-rest/HttpClient/Request.php');
+//require_once(__DIR__.'/woo-rest/HttpClient/Response.php');
+//require_once(__DIR__.'/woo-rest/Client.php');
+//use Automattic\WooCommerce\Client;
 
-function give_seo_yoastToast() {
-	$role = get_role( 'shop_manager' );
-	$role->add_cap( 'manage_options' ); // capability
+function test_request() {
+
+
+    return "123";
 }
-add_action( 'admin_init', 'give_seo_yoastToast');
+add_action('rest_api_init', function () {
+    register_rest_route( 'app/', 'test-request', array(
+        'methods' => 'GET',
+        'callback' => 'test_request',
+    ));
+    header("Access-Control-Allow-Origin: *");
+});
+
+function add_cors_http_header(){
+
+}
+add_action('init','add_cors_http_header');
+
+/**
+ * ------------------------------------------------------------------------
+ * Category Api
+ * ------------------------------------------------------------------------
+ */
+
+function categories() {
+
+    $woocommerce = new Client(
+        '/',
+        'ck_d6a91449c9eeb38d7a531bbb97f5c8a9d099f9d3',
+        'cs_e4eb8193b272bedaba8309f938ce0a6b358adffb',
+        [
+            'version' => 'wc/v3',
+        ]
+    );
+
+    $results = $woocommerce->get('products/categories');
+
+    return $results;
+}
+add_action('rest_api_init', function () {
+    register_rest_route( '/app', 'categories', array(
+        'methods' => 'GET',
+        'callback' => 'categories',
+    ));
+});

@@ -25,6 +25,7 @@ $wmsvc = "$siteName.scm.azurewebsites.net:443/msdeploy.axd?site=$siteName"
 $msdeployArguments = '-verb:sync',
 		"-source:contentPath=$publishFolder",
 		'-skip:Directory="node_modules"',
+		'-skip:Directory="uploads"',
 		"-dest:contentPath=$siteName,wmsvc=$wmsvc,userName=$userName,password=$password",
 		'-AllowUntrusted'
 

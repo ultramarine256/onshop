@@ -1,12 +1,14 @@
-<div class="container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb my-2 px-0 bg-white">
-      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
-      <li class="breadcrumb-item"><a routerLink="/cart" class="text-decoration-none">Cart</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-    </ol>
-  </nav>
-</div>
+<!--<div class="container">-->
+<!--  <nav aria-label="breadcrumb">-->
+<!--    <ol class="breadcrumb my-2 px-0 bg-white">-->
+<!--      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>-->
+<!--      <li class="breadcrumb-item"><a routerLink="/cart" class="text-decoration-none">Cart</a></li>-->
+<!--      <li class="breadcrumb-item active" aria-current="page">Checkout</li>-->
+<!--    </ol>-->
+<!--  </nav>-->
+<!--</div>-->
+
+<!--<button (click)="testReq()">Test</button>-->
 
 <div class="container" *ngIf="orderCompleted">
   <div class="d-flex justify-content-center align-items-center flex-column" style="">
@@ -96,11 +98,18 @@
     </mat-step>
 
     <!-- Calendar -->
-    <mat-step>
+    <mat-step class="p-0">
       <ng-template matStepLabel>Delivery</ng-template>
-      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
-        <h3>Calendar Goes Here</h3>
-      </div>
+
+      <dx-scheduler
+        [dataSource]="events"
+        [editing]="false"
+        [currentView]="'month'"
+        [views]='["week", "month"]'
+        [currentDate]="currentDate"
+        [startDayHour]="9"
+        [height]="580">
+      </dx-scheduler>
 
       <div class="d-flex w-100">
         <span class="d-flex">Delivery is scheduled for </span>

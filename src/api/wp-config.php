@@ -19,11 +19,17 @@
  */
 
 //Using environment variables for DB connection information
-$connectstr_dbhost = '176.37.8.120';
+$connectstr_dbhost = 'localhost:3308'; // 176.37.8.120
 $connectstr_dbname = 'onshop_blue_prod';
 $connectstr_dbusername = 'root';
-$connectstr_dbpassword = 'QWERt12345';
-$wp_debug = false;
+$connectstr_dbpassword = 'Qwert12345';
+
+//$connectstr_dbhost = 'mysql-frankfurt.elrondsoft.com:25060';
+//$connectstr_dbname = 'onshop_blue_prod';
+//$connectstr_dbusername = 'onshop';
+//$connectstr_dbpassword = 'Qwert12345';
+
+$wp_debug = true;
 
 foreach ($_SERVER as $key => $value) {
 	if (strpos($key, "MYSQLCONNSTR_") !== 0) {

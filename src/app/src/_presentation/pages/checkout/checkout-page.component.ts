@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CartService, ValidationHelper} from '../../../_core';
 import {Router} from '@angular/router';
+import {CartService, OrderEntity, ValidationHelper} from '../../../_core';
+import {ShopRepository} from '../../../_data';
+import {CalendarEventDevExtremeEntity} from './entity';
+import {AppMocks} from '../../../_domain/mocks';
 
 @Component({
   selector: 'app-checkout-page',
@@ -14,6 +17,9 @@ export class CheckoutPageComponent implements OnInit {
   public projectFormGroup: FormGroup;
   public billingFormGroup: FormGroup;
 
+  public currentDate: Date = new Date();
+  public events = [];
+
   /// predicates
   public orderCompleted = false;
   public orderNumber = 'ON-34412';
@@ -24,10 +30,13 @@ export class CheckoutPageComponent implements OnInit {
   /// helper
   public validationHelper = ValidationHelper;
 
+
   /// constructor
   constructor(private _formBuilder: FormBuilder,
-              public cartService: CartService,
+              private shopRepository: ShopRepository,
+              private cartService: CartService,
               private router: Router) {
+    this.events = this.demoData();
   }
 
   ngOnInit() {
@@ -59,14 +68,38 @@ export class CheckoutPageComponent implements OnInit {
 
   /// methods
   public makeOrder() {
-    this.orderCompleted = true;
-    this.cartService.clearCart();
-
     this.isLoading = true;
-
-    setTimeout(() => {
+    const order = AppMocks.Order__Mock();
+    const json = order.asWooObject();
+    this.shopRepository.placeOrder(order).subscribe((data: any) => {
+      console.log(data);
       this.isLoading = false;
-    }, 2000);
+      // this.orderCompleted = true;
+      // this.cartService.clearCart();
+    });
+  }
+
+  public testReq() {
+    this.shopRepository.test();
+  }
+
+  /// helpers
+  public demoData(): Array<CalendarEventDevExtremeEntity> {
+    const result: Array<CalendarEventDevExtremeEntity> = [
+      new CalendarEventDevExtremeEntity({
+        text: 'Test Drive Booking',
+        startDate: new Date(2019, 10, 29, 9, 0),
+        endDate: new Date(2019, 10, 29, 10, 30),
+        description: 'asdasdasd'
+
+      }),
+      new CalendarEventDevExtremeEntity({
+        text: 'Test Drive Booking',
+        startDate: new Date(2019, 10, 29, 9, 0),
+        endDate: new Date(2019, 10, 29, 10, 30)
+      })
+    ];
+    return result;
   }
 }
 

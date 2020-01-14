@@ -1,5 +1,6 @@
-export class OrderEntity {
+import {ObjectExtensions} from '../../../extensions';
 
+export class OrderEntity {
   paymentMethod: string;
   paymentMethodTitle: string;
   setPaid: boolean;
@@ -9,29 +10,35 @@ export class OrderEntity {
   lineItems: Array<LineItem>;
 
   /// constructor
-  constructor() {
+  constructor(init?: Partial<OrderEntity>) {
     this.billing = new Billing();
     this.shipping = new Shipping();
     this.lineItems = [];
+    Object.assign(this as any, init);
   }
 
   /// mappers
   public asWooObject(): {} {
-    const json = {
-      payment_method: this.paymentMethod,
-      payment_method_title: this.paymentMethodTitle,
-      set_paid: this.setPaid,
-      billing: this.billing,
-      shipping: this.shipping,
-      line_items: this.lineItems
-    };
+    const json: {[k: string]: any} = {};
 
-    // for (const item of this.lineItems) {
-    //   json.line_items.push({
-    //     productId: 1,
-    //     quantity: 1
-    //   });
-    // }
+    json.payment_method = this.paymentMethod;
+    json.payment_method_title = this.paymentMethodTitle;
+    json.set_paid = this.setPaid;
+
+    if (this.billing && this.billing.fistName) {
+      json.billing = this.billing.asWooObject();
+    }
+
+    if (this.shipping && this.shipping.fistName) {
+      json.billing = this.shipping.asWooObject();
+    }
+
+    json.line_items = [];
+    for (const item of this.lineItems) {
+      json.line_items.push(item.asWooObject());
+    }
+
+    ObjectExtensions.clean(json);
 
     return json;
   }
@@ -49,8 +56,25 @@ export class Billing {
   email: string;
   phone: string;
 
+  /// constructor
+  constructor(init?: Partial<Billing>) {
+    Object.assign(this as any, init);
+  }
+
+  /// mappers
   public asWooObject(): {} {
-    return {};
+    return {
+      first_name: this.fistName,
+      last_name: this.lastName,
+      address_1: this.address1,
+      address_2: this.address2,
+      city: this.city,
+      state: this.state,
+      postcode: this.postcode,
+      country: this.country,
+      email: this.email,
+      phone: this.phone
+    };
   }
 }
 
@@ -58,18 +82,48 @@ export class Shipping {
   fistName: string;
   lastName: string;
   address1: string;
-  address2: string;
   city: string;
   state: string;
   postcode: string;
   country: string;
 
+  /// constructor
+  constructor(init?: Partial<Billing>) {
+    Object.assign(this as any, init);
+  }
+
+  /// mappers
   public asWooObject(): {} {
-    return {};
+    return {
+      first_name: this.fistName,
+      last_name: this.lastName,
+      address_1: this.address1,
+      city: this.city,
+      state: this.state,
+      postcode: this.postcode,
+      country: this.country
+    };
   }
 }
 
 export class LineItem {
   productId: number;
   quantity: number;
+
+  /// constructor
+  constructor(init?: Partial<LineItem>) {
+    Object.assign(this as any, init);
+  }
+
+  /// mappers
+  public asWooObject(): {} {
+    return {
+      product_id: this.productId,
+      quantity: this.quantity
+    };
+  }
 }
+
+export const PAYMENT_METHOD = {
+  BACS: 'bacs'
+};
