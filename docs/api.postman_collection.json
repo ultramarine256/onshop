@@ -7,8 +7,27 @@
 	"item": [
 		{
 			"name": "ShopInfo",
-			"item": [],
-			"protocolProfileBehavior": {}
+			"item": [
+				{
+					"name": "info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/app/info",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"app",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Category",
@@ -54,7 +73,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/wc/v3/products/categories",
+							"raw": "{{ApiBaseUrl}}/wp-json/wc/v3/products/categories?slug=category-4",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -64,6 +83,39 @@
 								"v3",
 								"products",
 								"categories"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "category-4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/wc/v3/products/categories?slug=category-4",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"wc",
+								"v3",
+								"products",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "category-4"
+								}
 							]
 						}
 					},
@@ -91,8 +143,7 @@
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Products",
@@ -213,12 +264,80 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Order",
 			"item": [
+				{
+					"name": "Get All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth1",
+							"oauth1": [
+								{
+									"key": "consumerKey",
+									"value": "ck_d6a91449c9eeb38d7a531bbb97f5c8a9d099f9d3",
+									"type": "string"
+								},
+								{
+									"key": "consumerSecret",
+									"value": "cs_e4eb8193b272bedaba8309f938ce0a6b358adffb",
+									"type": "string"
+								},
+								{
+									"key": "signatureMethod",
+									"value": "HMAC-SHA1",
+									"type": "string"
+								},
+								{
+									"key": "version",
+									"value": "1.0",
+									"type": "string"
+								},
+								{
+									"key": "addParamsToHeader",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "addEmptyParamsToSign",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": true,\r\n  \"billing\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"(555) 555-5555\"\r\n  },\r\n  \"shipping\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"variation_id\": 23,\r\n      \"quantity\": 1\r\n    }\r\n  ],\r\n  \"shipping_lines\": [\r\n    {\r\n      \"method_id\": \"flat_rate\",\r\n      \"method_title\": \"Flat Rate\",\r\n      \"total\": 10\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/wc/v3/orders",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"wc",
+								"v3",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Create Order",
 					"request": {
@@ -268,12 +387,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": true,\r\n  \"billing\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"(555) 555-5555\"\r\n  },\r\n  \"shipping\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"variation_id\": 23,\r\n      \"quantity\": 1\r\n    }\r\n  ],\r\n  \"shipping_lines\": [\r\n    {\r\n      \"method_id\": \"flat_rate\",\r\n      \"method_title\": \"Flat Rate\",\r\n      \"total\": 10\r\n    }\r\n  ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": true,\r\n  \"parent_id\": 50,\r\n  \"billing\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"(555) 555-5555\"\r\n  },\r\n  \"shipping\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}"
 						},
 						"url": {
 							"raw": "{{ApiBaseUrl}}/wp-json/wc/v3/orders",
@@ -290,8 +404,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "status",
@@ -304,6 +417,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
