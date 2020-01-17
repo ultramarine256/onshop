@@ -14,14 +14,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/app/info",
+							"raw": "{{ApiBaseUrl}}/wp-json/app/categories",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
 							"path": [
 								"wp-json",
 								"app",
-								"info"
+								"categories"
 							]
 						}
 					},
@@ -97,6 +97,41 @@
 				{
 					"name": "Get",
 					"request": {
+						"auth": {
+							"type": "oauth1",
+							"oauth1": [
+								{
+									"key": "consumerSecret",
+									"value": "{{ConsumerSecret}}",
+									"type": "string"
+								},
+								{
+									"key": "consumerKey",
+									"value": "{{ConsumerKey}}",
+									"type": "string"
+								},
+								{
+									"key": "signatureMethod",
+									"value": "HMAC-SHA1",
+									"type": "string"
+								},
+								{
+									"key": "version",
+									"value": "1.0",
+									"type": "string"
+								},
+								{
+									"key": "addParamsToHeader",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "addEmptyParamsToSign",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -155,13 +190,13 @@
 							"type": "oauth1",
 							"oauth1": [
 								{
-									"key": "consumerKey",
-									"value": "ck_d6a91449c9eeb38d7a531bbb97f5c8a9d099f9d3",
+									"key": "consumerSecret",
+									"value": "{{ConsumerSecret}}",
 									"type": "string"
 								},
 								{
-									"key": "consumerSecret",
-									"value": "cs_e4eb8193b272bedaba8309f938ce0a6b358adffb",
+									"key": "consumerKey",
+									"value": "{{ConsumerKey}}",
 									"type": "string"
 								},
 								{
@@ -279,13 +314,13 @@
 							"type": "oauth1",
 							"oauth1": [
 								{
-									"key": "consumerKey",
-									"value": "ck_d6a91449c9eeb38d7a531bbb97f5c8a9d099f9d3",
+									"key": "consumerSecret",
+									"value": "{{ConsumerSecret}}",
 									"type": "string"
 								},
 								{
-									"key": "consumerSecret",
-									"value": "cs_e4eb8193b272bedaba8309f938ce0a6b358adffb",
+									"key": "consumerKey",
+									"value": "{{ConsumerKey}}",
 									"type": "string"
 								},
 								{
@@ -345,13 +380,13 @@
 							"type": "oauth1",
 							"oauth1": [
 								{
-									"key": "consumerKey",
-									"value": "ck_d6a91449c9eeb38d7a531bbb97f5c8a9d099f9d3",
+									"key": "consumerSecret",
+									"value": "{{ConsumerSecret}}",
 									"type": "string"
 								},
 								{
-									"key": "consumerSecret",
-									"value": "cs_e4eb8193b272bedaba8309f938ce0a6b358adffb",
+									"key": "consumerKey",
+									"value": "{{ConsumerKey}}",
 									"type": "string"
 								},
 								{
@@ -405,17 +440,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "status",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
 		}
 	]
 }
