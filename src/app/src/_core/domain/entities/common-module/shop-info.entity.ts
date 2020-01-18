@@ -4,7 +4,8 @@ export class ShopInfoEntity {
   phone: string;
 
   /// constructor
-  constructor() {
+  constructor(init?: Partial<ShopInfoEntity>) {
+    Object.assign(this as any, init);
   }
 
   /// mappers

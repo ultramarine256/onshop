@@ -1,6 +1,5 @@
 import {environment} from '../../../../environments/environment';
 
-
 export class CategoryEntity {
   id: number;
   name: string;
@@ -9,8 +8,10 @@ export class CategoryEntity {
   image: CategoryImage;
   count: number;
 
-  constructor() {
+  /// constructor
+  constructor(init?: Partial<CategoryEntity>) {
     this.image = new CategoryImage();
+    Object.assign(this as any, init);
   }
 
   /// mappers

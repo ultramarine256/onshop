@@ -17,7 +17,7 @@ export class ProductDetailsPageComponent implements OnInit {
   public didLoaded = false;
 
   /// lifecycle
-  constructor(private shopApiService: ShopRepository,
+  constructor(private shopRepository: ShopRepository,
               private route: ActivatedRoute,
               private cartService: CartService) {
     this.product = new ProductEntity();
@@ -25,7 +25,7 @@ export class ProductDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.shopApiService.getProductById(params.id).subscribe(data => {
+      this.shopRepository.getProductById(params.id).subscribe(data => {
         this.product = data;
         this.didLoaded = true;
       });

@@ -1,3 +1,2 @@
-export * from './response';
-
 export * from './shop.repository';
+export * from './shop.repository-fake';

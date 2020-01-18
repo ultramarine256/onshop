@@ -29,16 +29,16 @@ export class InventoryPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.shopRepository.getProducts().subscribe(data => {
-      this.items = data.items;
-      if (data.items.length === 0) {
+    this.shopRepository.getProducts().subscribe(items => {
+      this.items = items;
+      if (items.length === 0) {
         this.categoryIsEmpty = true;
       }
       this.isLoading = false;
     });
 
     this.route.params.subscribe(params => {
-      this.shopRepository.getCategory(params.categorySlug).subscribe(data => {
+      this.shopRepository.getCategoryBySlug(params.categorySlug).subscribe(data => {
         this.category = data;
       });
 

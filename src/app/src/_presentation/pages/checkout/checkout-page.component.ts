@@ -79,10 +79,6 @@ export class CheckoutPageComponent implements OnInit {
     });
   }
 
-  public testReq() {
-    this.shopRepository.test();
-  }
-
   /// helpers
   public demoData(): Array<CalendarEventDevExtremeEntity> {
     const result: Array<CalendarEventDevExtremeEntity> = [

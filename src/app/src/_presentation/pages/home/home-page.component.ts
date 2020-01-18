@@ -1,30 +1,24 @@
-import {AfterViewInit, Component} from '@angular/core';
-import {ShopRepository} from '../../../_data/repository/shop';
-import {CategoryEntity} from '../../../_core/domain/entities/shop-module';
+import {AfterContentInit, Component} from '@angular/core';
+import {ShopRepository} from '../../../_data';
+import {CategoryEntity} from '../../../_core';
 
 @Component({
   selector: 'app-home-page',
   styleUrls: ['./home-page.component.scss'],
   templateUrl: './home-page.component.html'
 })
-export class HomePageComponent implements AfterViewInit {
+export class HomePageComponent implements AfterContentInit {
   /// fields
   public categories: Array<CategoryEntity> = [];
 
-  /// predicates
-  public categoryIsLoaded = false;
-
   /// constructor
-  constructor(private shopApiService: ShopRepository) {
+  constructor(private shopRepository: ShopRepository) {
   }
 
-  ngAfterViewInit(): void {
-    this.shopApiService.getCategories().subscribe(data => {
+  /// lifecycle
+  ngAfterContentInit(): void {
+    this.shopRepository.getCategories().subscribe(data => {
       this.categories = data;
-
-      setTimeout(() => {
-        this.initOwl();
-      }, 0);
     });
   }
 

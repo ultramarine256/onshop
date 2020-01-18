@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {CategoryEntity, OrderEntity, ProductEntity, ShopInfoEntity} from '../../../_core';
 import {BaseRepository} from '../base.repository';
+import {HttpClient} from '@angular/common/http';
+import {from, Observable, of} from 'rxjs';
+import {ShopInfoEntity, CategoryEntity, OrderEntity, ProductEntity} from '../../../_core';
 import {CategoryFilter, ProductFilter} from '../_filter';
 
 @Injectable()
-export class ShopRepositoryA extends BaseRepository {
+export class ShopRepository extends BaseRepository {
 
   /// constructor
   constructor(private httpClient: HttpClient) {
@@ -21,13 +20,8 @@ export class ShopRepositoryA extends BaseRepository {
    */
 
   public getShopInfo(): Observable<ShopInfoEntity> {
-    return this.httpClient
-      .get<ShopInfoEntity>(`${this.apiBaseUrl}/wp-json/app/info`)
-      .pipe(map((x: any) => {
-        const result = new ShopInfoEntity();
-        result.mapFromDto(x);
-        return result;
-      }));
+    const shopInfoEntity = new ShopInfoEntity({email: 'asd@mail.com', address: '123'});
+    return of(shopInfoEntity);
   }
 
   /**
@@ -37,8 +31,11 @@ export class ShopRepositoryA extends BaseRepository {
    */
 
   public getProducts(filter: ProductFilter = null): Observable<Array<ProductEntity>> {
-    return this.httpClient
-      .get<Array<ProductEntity>>(`${this.apiBaseUrl}/product`);
+    const products = [];
+
+
+    return  null;
+
   }
 
   public getProductById(id: number): Observable<ProductEntity> {
@@ -53,18 +50,13 @@ export class ShopRepositoryA extends BaseRepository {
    */
 
   public getCategories(filter: CategoryFilter = null): Observable<Array<CategoryEntity>> {
-    const query = ``;
-    return this.httpClient
-      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/category`)
-      .pipe(map(responce => {
-        const result = [];
-        for (const dto of responce) {
-          const item = new CategoryEntity();
-          item.mapFromDto(dto);
-          result.push(item);
-        }
-        return result;
-      }));
+    const categories = [
+      new CategoryEntity({id: 1, name: 'category 1', slug: 'slug-1', description: 'desc desc desc'}),
+      new CategoryEntity({id: 2, name: 'category 2', slug: 'slug-2', description: 'desc desc desc'}),
+      new CategoryEntity({id: 3, name: 'category 3', slug: 'slug-3', description: 'desc desc desc'})
+    ];
+    const a = of(categories);
+    return a;
   }
 
   public getCategoryBySlug(slug: string): Observable<CategoryEntity> {
