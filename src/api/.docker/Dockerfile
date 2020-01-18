@@ -7,5 +7,7 @@ RUN docker-php-ext-install bcmath
 RUN apt-get install libxslt-dev -y && docker-php-ext-install xsl
 RUN docker-php-ext-install soap
 RUN apt-get install libpng-dev -y && docker-php-ext-install gd
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN a2enmod rewrite
 
 EXPOSE 80
