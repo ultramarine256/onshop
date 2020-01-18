@@ -115,29 +115,6 @@ add_action('rest_api_init', function () {
 	));
 });
 
-//require_once(__DIR__.'/woo-rest/HttpClient/BasicAuth.php');
-//require_once(__DIR__.'/woo-rest/HttpClient/HttpClient.php');
-//require_once(__DIR__.'/woo-rest/HttpClient/HttpClientException.php');
-//require_once(__DIR__.'/woo-rest/HttpClient/OAuth.php');
-//require_once(__DIR__.'/woo-rest/HttpClient/Options.php');
-//require_once(__DIR__.'/woo-rest/HttpClient/Request.php');
-//require_once(__DIR__.'/woo-rest/HttpClient/Response.php');
-//require_once(__DIR__.'/woo-rest/Client.php');
-//use Automattic\WooCommerce\Client;
-
-function test_request() {
-
-
-    return "123";
-}
-add_action('rest_api_init', function () {
-    register_rest_route( 'app/', 'test-request', array(
-        'methods' => 'GET',
-        'callback' => 'test_request',
-    ));
-    header("Access-Control-Allow-Origin: *");
-});
-
 function add_cors_http_header(){
 
 }
@@ -145,28 +122,18 @@ add_action('init','add_cors_http_header');
 
 /**
  * ------------------------------------------------------------------------
- * Category Api
+ * OnShop order Api
  * ------------------------------------------------------------------------
+ * @param WP_REST_Request $request
+ * @return WP_Error|WP_REST_Response
  */
-
-function categories() {
-
-    $woocommerce = new Client(
-        '/',
-        'ck_d6a91449c9eeb38d7a531bbb97f5c8a9d099f9d3',
-        'cs_e4eb8193b272bedaba8309f938ce0a6b358adffb',
-        [
-            'version' => 'wc/v3',
-        ]
-    );
-
-    $results = $woocommerce->get('products/categories');
-
-    return $results;
+function create_order(WP_REST_Request $request) {
+    $wc_REST_Orders_V1_Controller = new WC_REST_Orders_V1_Controller();
+    return $wc_REST_Orders_V1_Controller->create_item($request);
 }
 add_action('rest_api_init', function () {
-    register_rest_route( '/app', 'categories', array(
-        'methods' => 'GET',
-        'callback' => 'categories',
+    register_rest_route( '/onshop/v1', 'order', array(
+        'methods' => 'POST',
+        'callback' => 'create_order',
     ));
 });
