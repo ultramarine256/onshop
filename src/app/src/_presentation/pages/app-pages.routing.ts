@@ -37,7 +37,7 @@ export const routes: Routes = [
         component: InventoryPageComponent,
       },
       {
-        path: 'product/:id',
+        path: 'product/:slug',
         component: ProductDetailsPageComponent
       },
       {

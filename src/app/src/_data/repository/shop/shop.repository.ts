@@ -7,7 +7,7 @@ import {BaseRepository} from '../base.repository';
 import {CategoryFilter, ProductFilter} from '../_filter';
 
 @Injectable()
-export class ShopRepositoryA extends BaseRepository {
+export class ShopRepositoryReal extends BaseRepository {
 
   /// constructor
   constructor(private httpClient: HttpClient) {
@@ -23,7 +23,7 @@ export class ShopRepositoryA extends BaseRepository {
   public getShopInfo(): Observable<ShopInfoEntity> {
     return this.httpClient
       .get<ShopInfoEntity>(`${this.apiBaseUrl}/wp-json/app/info`)
-      .pipe(map((x: any) => {
+      .pipe(map(x => {
         const result = new ShopInfoEntity();
         result.mapFromDto(x);
         return result;

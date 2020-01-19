@@ -48,12 +48,15 @@
 
 <div class="container mt-5">
   <h2 class="content-title mb-2">New Arrivals</h2>
-  <div class="products-carousel owl-carousel owl-theme">
-    <div class="item" *ngFor="let item of categories">
+  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!didLoaded">
+    <div class="spinner-grow text-primary" role="status"></div>
+  </div>
+  <div class="products-carousel owl-carousel owl-theme" *ngIf="didLoaded">
+    <div class="item" *ngFor="let item of products">
       <a class="text-decoration-none category-item" [routerLink]="'/inventory/' + item.slug">
         <div class="img-wrap">
           <img
-            [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+            [src]="item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
         </div>
         <h6 class="mt-1">{{item.name}}</h6>
       </a>
@@ -63,7 +66,10 @@
 
 <div class="container mb-5 mt-5">
   <h2 class="content-title mb-2">Categories</h2>
-  <div class="categories-carousel owl-carousel owl-theme">
+  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!didLoaded">
+    <div class="spinner-grow text-primary" role="status"></div>
+  </div>
+  <div class="categories-carousel owl-carousel owl-theme" *ngIf="didLoaded">
     <div class="item" *ngFor="let item of categories">
       <a class="text-decoration-none category-item" [routerLink]="'/inventory/' + item.slug">
         <div class="img-wrap">

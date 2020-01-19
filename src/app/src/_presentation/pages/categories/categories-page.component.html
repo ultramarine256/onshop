@@ -14,20 +14,17 @@
 <div class="container pb-4 pb-sm-5" *ngIf="isLoaded">
 
   <!-- Categories grid-->
-  <div class="row pt-5">
+  <div class="row">
 
     <!-- Catogory-->
     <div class="col-md-3 col-sm-4 col-6 mb-3" *ngFor="let item of categories">
       <div class="card border-0">
         <a class="category-image__wrap rounded-lg" [routerLink]="'/inventory/' + item.slug">
-
-
           <img class="category-image" [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + item.name" alt="Clothing">
         </a>
         <div class="card-body">
           <h2 class="h5">{{item.name}}</h2>
           <ul class="list-unstyled font-size-sm mb-0">
-
             <!--<li class="d-flex align-items-center justify-content-between">-->
               <!--<a class="nav-link-style" href="#">-->
                 <!--<i class="czi-arrow-right-circle mr-2"></i>-->

@@ -1,6 +1,7 @@
 import {AfterContentInit, Component} from '@angular/core';
 import {ShopRepository} from '../../../_data';
-import {CategoryEntity} from '../../../_core';
+import {CategoryEntity, ProductEntity} from '../../../_core';
+import {forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -9,7 +10,11 @@ import {CategoryEntity} from '../../../_core';
 })
 export class HomePageComponent implements AfterContentInit {
   /// fields
+  public products: Array<ProductEntity> = [];
   public categories: Array<CategoryEntity> = [];
+
+  /// predicate
+  public didLoaded = false;
 
   /// constructor
   constructor(private shopRepository: ShopRepository) {
@@ -17,15 +22,17 @@ export class HomePageComponent implements AfterContentInit {
 
   /// lifecycle
   ngAfterContentInit(): void {
-    this.shopRepository.getCategories().subscribe(data => {
-      this.categories = data;
-      this.initOwl();
-      console.log('123');
-    });
+    forkJoin(this.shopRepository.getCategories(), this.shopRepository.newArrivals())
+      .subscribe((val: [Array<CategoryEntity>, Array<ProductEntity>]) => {
+        this.categories = val[0];
+        this.products = val[1];
+        this._initOwl();
+        this.didLoaded = true;
+      });
   }
 
-  /// methods
-  public initOwl() {
+  /// helpers
+  private _initOwl() {
     setTimeout(() => {
       (window as any).$('.products-carousel').owlCarousel({
         loop: true,

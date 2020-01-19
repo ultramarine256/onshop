@@ -23,11 +23,6 @@ export class InventoryPageComponent implements OnInit {
               private router: Router) {
   }
 
-  /// methods
-  public productClick(id: number) {
-    this.router.navigate([`product/${id}`]).then();
-  }
-
   ngOnInit(): void {
     this.shopRepository.getProducts().subscribe(items => {
       this.items = items;
@@ -38,19 +33,15 @@ export class InventoryPageComponent implements OnInit {
     });
 
     this.route.params.subscribe(params => {
-      this.shopRepository.getCategoryBySlug(params.categorySlug).subscribe(data => {
-        this.category = data;
+      this.shopRepository.getCategoryBySlug(params.categorySlug).subscribe(item => {
+        this.category = item;
       });
-
-      // this.shopRepository.getProductById(params.id).subscribe(data => {
-      //   this.product = data;
-      //   this.didLoaded = true;
-      // });
     });
+  }
+
+  /// methods
+  public productClick(slug: string) {
+    this.router.navigate([`product/${slug}`]).then();
   }
 }
 
-export class ProductItem {
-  id: number;
-  title: string;
-}

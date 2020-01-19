@@ -1,4 +1,7 @@
 export class ShopInfoEntity {
+  appTitle: string;
+  themeColor: string;
+  logoImageUrl: string;
   email: string;
   address: string;
   phone: string;
