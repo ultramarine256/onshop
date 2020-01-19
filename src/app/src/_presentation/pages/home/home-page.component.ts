@@ -19,31 +19,58 @@ export class HomePageComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     this.shopRepository.getCategories().subscribe(data => {
       this.categories = data;
+      this.initOwl();
+      console.log('123');
     });
   }
 
   /// methods
   public initOwl() {
-    (window as any).$('.owl-carousel').owlCarousel({
-      loop: true,
-      margin: 10,
-      nav: false,
+    setTimeout(() => {
+      (window as any).$('.products-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: false,
 
-      autoplay: false,
-      autoplayTimeout: 4000,
-      autoplayHoverPause: true,
+        autoplay: false,
+        autoplayTimeout: 4000,
+        autoplayHoverPause: true,
 
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 3
-        },
-        1000: {
-          items: 5
+        responsive: {
+          0: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 5
+          }
         }
-      }
-    });
+      });
+
+      (window as any).$('.categories-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: false,
+
+        autoplay: false,
+        autoplayTimeout: 4000,
+        autoplayHoverPause: true,
+
+        responsive: {
+          0: {
+            items: 2
+          },
+          600: {
+            items: 3
+          },
+          1000: {
+            items: 5
+          }
+        }
+      });
+
+    }, 200);
   }
 }

@@ -1,14 +1,13 @@
 import {LineItem, OrderEntity, PAYMENT_METHOD, Shipping} from '../../../../_core';
 
 export class ShopRepositoryMocks {
-  public static Order__Mock(): OrderEntity {
+  public static Order(): OrderEntity {
     const result = new OrderEntity({
       paymentMethod: PAYMENT_METHOD.BACS,
       paymentMethodTitle: 'Direct Bank Transfer',
       setPaid: false,
-
       shipping: new Shipping({
-        fistName: 'John',
+        fistName: 'John 2',
         lastName: 'Doe',
         address1: '969 Market',
         city: 'San Francisco',
@@ -16,7 +15,6 @@ export class ShopRepositoryMocks {
         postcode: '94103',
         country: 'US'
       }),
-
       lineItems: [
         new LineItem({
           productId: 93,

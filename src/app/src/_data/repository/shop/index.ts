@@ -1,2 +1,2 @@
 export * from './shop.repository';
-export * from './shop.repository-fake';
+export * from './shop.repository-mock';

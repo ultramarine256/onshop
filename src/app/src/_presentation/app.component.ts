@@ -10,6 +10,6 @@ export class AppComponent {
 
   /// constructor
   constructor() {
-    RepositoryConfigurator.Instance.apiBaseUrl = `${environment.apiBaseUrl}/wp-json/`;
+    RepositoryConfigurator.Instance.apiBaseUrl = `${environment.apiBaseUrl}`;
   }
 }

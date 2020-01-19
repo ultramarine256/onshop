@@ -33,7 +33,7 @@ export const routes: Routes = [
         component: CategoriesPageComponent
       },
       {
-        path: 'shop/:categorySlug',
+        path: 'inventory/:categorySlug',
         component: InventoryPageComponent,
       },
       {

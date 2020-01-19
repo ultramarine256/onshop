@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {CartService, OrderEntity, ValidationHelper} from '../../../_core';
+import {CartService, ValidationHelper} from '../../../_core';
 import {ShopRepository} from '../../../_data';
 import {CalendarEventDevExtremeEntity} from './entity';
-import {AppMocks} from '../../../_domain/mocks';
 
 @Component({
   selector: 'app-checkout-page',
@@ -68,15 +67,15 @@ export class CheckoutPageComponent implements OnInit {
 
   /// methods
   public makeOrder() {
-    this.isLoading = true;
-    const order = AppMocks.Order__Mock();
-    const json = order.asWooObject();
-    this.shopRepository.placeOrder(order).subscribe((data: any) => {
-      console.log(data);
-      this.isLoading = false;
-      // this.orderCompleted = true;
-      // this.cartService.clearCart();
-    });
+    // this.isLoading = true;
+    // const order = AppMocks.Order__Mock();
+    // const json = order.asWooObject();
+    // this.shopRepository.placeOrder(order).subscribe((data: any) => {
+    //   console.log(data);
+    //   this.isLoading = false;
+    //   // this.orderCompleted = true;
+    //   // this.cartService.clearCart();
+    // });
   }
 
   /// helpers

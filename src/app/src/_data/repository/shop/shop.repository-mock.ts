@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../base.repository';
 import {HttpClient} from '@angular/common/http';
-import {from, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ShopInfoEntity, CategoryEntity, OrderEntity, ProductEntity} from '../../../_core';
 import {CategoryFilter, ProductFilter} from '../_filter';
+import {ShopRepositoryMocks} from './mock';
 
 @Injectable()
 export class ShopRepository extends BaseRepository {
@@ -55,8 +56,8 @@ export class ShopRepository extends BaseRepository {
       new CategoryEntity({id: 2, name: 'category 2', slug: 'slug-2', description: 'desc desc desc'}),
       new CategoryEntity({id: 3, name: 'category 3', slug: 'slug-3', description: 'desc desc desc'})
     ];
-    const a = of(categories);
-    return a;
+
+    return of(categories);
   }
 
   public getCategoryBySlug(slug: string): Observable<CategoryEntity> {
@@ -70,7 +71,8 @@ export class ShopRepository extends BaseRepository {
    * --------------------------------------------------------------------------
    */
 
-  public placeOrder(entity: OrderEntity): Observable<boolean> {
-    return null;
+  public placeOrder(entity: OrderEntity): Observable<any> {
+    return this.httpClient
+      .post<CategoryEntity>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, entity.asWooObject());
   }
 }
