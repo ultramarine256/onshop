@@ -30,11 +30,11 @@
             "styles": [
               "./node_modules/devextreme/dist/css/dx.common.css",
               "./node_modules/devextreme/dist/css/dx.material.blue.light.css",
-
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/animate.css/animate.min.css",
               "./node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.css",
               "./src/assets/scss/index.scss"
             ],
             "scripts": [

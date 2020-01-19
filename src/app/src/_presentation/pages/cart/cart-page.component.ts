@@ -7,9 +7,7 @@ import {CartService} from '../../../_core';
   templateUrl: './cart-page.component.html'
 })
 export class CartPageComponent {
-
   /// fields
-  public imtes = [1, 2, 3, 4, 5];
 
   /// constructor
   constructor(public cartService: CartService) {

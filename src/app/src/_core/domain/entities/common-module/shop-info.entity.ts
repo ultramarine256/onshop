@@ -1,10 +1,14 @@
 export class ShopInfoEntity {
+  appTitle: string;
+  themeColor: string;
+  logoImageUrl: string;
   email: string;
   address: string;
   phone: string;
 
   /// constructor
-  constructor() {
+  constructor(init?: Partial<ShopInfoEntity>) {
+    Object.assign(this as any, init);
   }
 
   /// mappers

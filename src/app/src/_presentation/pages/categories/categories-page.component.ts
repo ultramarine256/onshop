@@ -15,11 +15,11 @@ export class CategoriesPageComponent implements OnInit {
   public isLoaded = false;
 
   /// constructor
-  constructor(private shopApiService: ShopRepository) {
+  constructor(private shopRepository: ShopRepository) {
   }
 
   ngOnInit(): void {
-    this.shopApiService.getCategories().subscribe(data => {
+    this.shopRepository.getCategories().subscribe(data => {
       this.categories = data;
       this.isLoaded = true;
     });

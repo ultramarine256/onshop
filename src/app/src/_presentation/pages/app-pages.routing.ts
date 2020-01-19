@@ -33,11 +33,11 @@ export const routes: Routes = [
         component: CategoriesPageComponent
       },
       {
-        path: 'shop/:categorySlug',
+        path: 'inventory/:categorySlug',
         component: InventoryPageComponent,
       },
       {
-        path: 'product/:id',
+        path: 'product/:slug',
         component: ProductDetailsPageComponent
       },
       {

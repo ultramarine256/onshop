@@ -1,12 +1,12 @@
 import {environment} from '../../../../environments/environment';
 
 export class ProductEntity {
+  /// fields
   id: number;
   name: string;
   slug: string;
   status: string;
   price: number;
-
   categories: Array<ProductCategory>;
   images: Array<ProductImage>;
   attributes: Array<ProductAttribute>;
@@ -17,10 +17,11 @@ export class ProductEntity {
   }
 
   /// constructor
-  constructor() {
+  constructor(init?: Partial<ProductEntity>) {
     this.categories = [];
     this.images = [];
     this.attributes = [];
+    Object.assign(this as any, init);
   }
 
   /// mappers
@@ -49,22 +50,18 @@ export class ProductEntity {
       this.attributes.push(productAttribute);
     }
   }
-
-  static mapFromMany(dtos: Array<any>): Array<ProductEntity> {
-    const result = [];
-    for (const dto of dtos) {
-      const entity = new ProductEntity();
-      entity.mapFromDto(dto);
-      result.push(entity);
-    }
-    return result;
-  }
 }
 
 export class ProductCategory {
+  /// fields
   id: number;
   name: string;
   slug: string;
+
+  /// constructor
+  constructor(init?: Partial<ProductCategory>) {
+    Object.assign(this as any, init);
+  }
 
   /// mappers
   mapFromDto(dto: any) {
@@ -75,9 +72,15 @@ export class ProductCategory {
 }
 
 export class ProductImage {
+  /// fields
   id: number;
   name: string;
   src: string;
+
+  /// constructor
+  constructor(init?: Partial<ProductImage>) {
+    Object.assign(this as any, init);
+  }
 
   /// mappers
   mapFromDto(dto: any) {
@@ -86,7 +89,7 @@ export class ProductImage {
     }
     this.id = dto.id;
     this.name = dto.name;
-    if (dto.src.indexOf('windows') >= 0) {
+    if (dto.src.indexOf('http') >= 0 || dto.src.indexOf('https') >= 0) {
       this.src = dto.src;
     } else {
       this.src = `${environment.apiBaseUrl}/${dto.src}`;
@@ -95,13 +98,15 @@ export class ProductImage {
 }
 
 export class ProductAttribute {
+  /// fields
   id: number;
   name: string;
   options: Array<string>;
 
   /// constructor
-  constructor() {
+  constructor(init?: Partial<ProductAttribute>) {
     this.options = [];
+    Object.assign(this as any, init);
   }
 
   /// mappers

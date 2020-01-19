@@ -10,10 +10,15 @@ const WEBSITES = [
 		password: 'dyTa43lmvqnFD87Qttocw4GCmJSGLn908AL9hjgsix0mfkJehrPElb5s9Dwq'
 	},
 	{
-		siteName: 'onshop-blue-api-prod',
-		password: 'KZBqin54RYx342QpiPMH3hZryXztnK6vtezqjp56wAdFk5s4bijc6HDjdRno'
+		siteName: 'onshop-green-prod',
+		password: 'KfuiraTLpA2zgaAklwENcmE4FHPopdZWKBPJxxBZiJL6fiP1F5SkecrBuqfg'
 	}
 ];
+
+
+
+
+
 
 //=======================================================================
 // Build Counter                                                         

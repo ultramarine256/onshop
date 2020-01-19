@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoryEntity} from '../../../_core/domain/entities/shop-module';
-import {ShopRepository} from '../../../_data/repository/shop';
+import {CategoryEntity} from '../../../_core';
+import {ShopRepository} from '../../../_data';
 
 @Component({
   selector: 'app-search-result-page',
@@ -15,11 +15,11 @@ export class SearchResultPageComponent implements OnInit {
   public isLoaded = false;
 
   /// constructor
-  constructor(private shopApiService: ShopRepository) {
+  constructor(private shopRepository: ShopRepository) {
   }
 
   ngOnInit(): void {
-    this.shopApiService.getCategories().subscribe(data => {
+    this.shopRepository.getCategories().subscribe(data => {
       this.categories = data;
       this.isLoaded = true;
     });

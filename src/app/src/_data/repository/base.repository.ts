@@ -1,11 +1,12 @@
-import {environment} from '../../environments/environment';
+import {RepositoryConfigurator} from './repository.configurator';
 
 export abstract class BaseRepository {
+  /// fields
   protected apiBaseUrl: string;
-  protected analyticsApiBaseUrl: string;
 
+  /// constructor
   protected constructor() {
-    this.apiBaseUrl = `${environment.apiBaseUrl}`;
-    // this.analyticsApiBaseUrl = `${environment.analyticsApiUrl}`;
+    const config = RepositoryConfigurator.Instance;
+    this.apiBaseUrl = config.apiBaseUrl;
   }
 }
