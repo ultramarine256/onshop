@@ -122,18 +122,12 @@ add_action('init','add_cors_http_header');
 
 /**
  * ------------------------------------------------------------------------
- * OnShop order Api
+ * Initialize OnShop Api
  * ------------------------------------------------------------------------
- * @param WP_REST_Request $request
- * @return WP_Error|WP_REST_Response
  */
-function create_order(WP_REST_Request $request) {
-    $wc_REST_Orders_V1_Controller = new WC_REST_Orders_V1_Controller();
-    return $wc_REST_Orders_V1_Controller->create_item($request);
-}
+require_once 'autoload.php';
+
 add_action('rest_api_init', function () {
-    register_rest_route( '/onshop/v1', 'order', array(
-        'methods' => 'POST',
-        'callback' => 'create_order',
-    ));
+    $orders_Controller = new ONSHOP_REST_Orders_Controller();
+    $orders_Controller->register_routes();
 });
