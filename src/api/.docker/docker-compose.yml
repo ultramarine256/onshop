@@ -4,8 +4,10 @@ services:
     build:
       context: ../
       dockerfile: ./.docker/Dockerfile
-    container_name: blue-shop-container
+    container_name: blue-shop
     volumes:
       - ../:/var/www/html/
     ports:
       - 8202:80
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal

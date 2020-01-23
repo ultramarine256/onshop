@@ -114,12 +114,6 @@ add_action('rest_api_init', function () {
 		'callback' => 'app_info',
 	));
 });
-
-function add_cors_http_header(){
-
-}
-add_action('init','add_cors_http_header');
-
 /**
  * ------------------------------------------------------------------------
  * Initialize OnShop Api
