@@ -124,4 +124,6 @@ require_once 'autoload.php';
 add_action('rest_api_init', function () {
     $orders_Controller = new ONSHOP_REST_Orders_Controller();
     $orders_Controller->register_routes();
+    $users_Controller = new ONSHOP_REST_Users_Controller();
+    $users_Controller->register_routes();
 });
