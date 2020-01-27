@@ -85,25 +85,11 @@ function wooninja_remove_items() {
 }
 add_action( 'admin_menu', 'wooninja_remove_items', 99, 0 );
 
-// Change WooCommerce logo for non admin users
-//add_filter( 'gettext', 'change_post_to_article' );
-//add_filter( 'ngettext', 'change_post_to_article' );
-//function change_post_to_article( $translated )
-//{
-//	if (wp_get_current_user()->roles[0] != 'administrator') {
-//		$translated = str_replace( 'WooCommerce', 'Shop', $translated );
-//		$translated = str_replace( 'woocommerce', 'shop', $translated );
-//	}
-//	return $translated;
-//}
-
 /**
  * ------------------------------------------------------------------------
  * Rest Api
  * ------------------------------------------------------------------------
  */
-
-require_once get_template_directory() . '/redux-template/onshop-config.php';
 function app_info() {
 	global $redux_demo;
 	return $redux_demo;
@@ -114,12 +100,6 @@ add_action('rest_api_init', function () {
 		'callback' => 'app_info',
 	));
 });
-
-function add_cors_http_header(){
-
-}
-add_action('init','add_cors_http_header');
-
 /**
  * ------------------------------------------------------------------------
  * Initialize OnShop Api
@@ -128,6 +108,10 @@ add_action('init','add_cors_http_header');
 require_once 'autoload.php';
 
 add_action('rest_api_init', function () {
-    $orders_Controller = new ONSHOP_REST_Orders_Controller();
+    $orders_Controller =     new ONSHOP_REST_Orders_Controller();
     $orders_Controller->register_routes();
+    $users_Controller =      new ONSHOP_REST_Users_Controller();
+    $users_Controller->register_routes();
+    $categories_Controller = new ONSHOP_REST_Categories_Controller();
+    $categories_Controller->register_routes();
 });

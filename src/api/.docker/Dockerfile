@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM phpstorm/php-72-apache-xdebug-27
 
 RUN apt-get update
 
