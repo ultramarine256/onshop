@@ -53,7 +53,7 @@
   </div>
   <div class="products-carousel owl-carousel owl-theme" *ngIf="didLoaded">
     <div class="item" *ngFor="let item of products">
-      <a class="text-decoration-none category-item" [routerLink]="'/inventory/' + item.slug">
+      <a class="text-decoration-none category-item" [routerLink]="'/product/' + item.slug">
         <div class="img-wrap">
           <img
             [src]="item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">

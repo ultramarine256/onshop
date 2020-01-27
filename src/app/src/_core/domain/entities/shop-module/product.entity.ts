@@ -7,6 +7,12 @@ export class ProductEntity {
   slug: string;
   status: string;
   price: number;
+
+  allowRent: boolean;
+  rentPerDayPrice: number;
+  rentPerWeekPrice: number;
+  rentPerMonthPrice: number;
+
   categories: Array<ProductCategory>;
   images: Array<ProductImage>;
   attributes: Array<ProductAttribute>;
