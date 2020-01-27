@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 /**
  * REST API Categories controller class.
  *
- * @extends
+ * @extends WC_REST_Product_Categories_Controller
  */
 class ONSHOP_REST_Categories_Controller extends WC_REST_Product_Categories_Controller
 {
