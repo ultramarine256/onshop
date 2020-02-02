@@ -7,7 +7,7 @@ export class AppMapper {
     result.slug = entity.slug;
     result.imageUrl = entity.firstImage;
     result.title = entity.name;
-    result.price = entity.price;
+    result.price = Number(entity.price);
     return result;
   }
 

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {CartService, OrderEntity, ValidationHelper} from '../../../_core';
-import {ShopRepository, ShopRepositoryMocks} from '../../../_data';
+import {CartItemEntity, CartService, LineItem, OrderEntity, ValidationHelper} from '../../../_core';
+import {ShopRepository, RepositoryMocks} from '../../../_data';
 
 @Component({
   selector: 'app-checkout-page',
@@ -32,7 +32,7 @@ export class CheckoutPageComponent implements OnInit {
               private shopRepository: ShopRepository,
               private cartService: CartService,
               private router: Router) {
-    this.order = ShopRepositoryMocks.Order();
+    this.order = RepositoryMocks.Order();
   }
 
   ngOnInit() {
@@ -63,10 +63,17 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   /// methods
-  public placeOrder() {
+  public placeOrder(order: OrderEntity) {
     this.isLoading = true;
-    this.shopRepository.placeOrder(this.order).subscribe((data: any) => {
-      console.log(data);
+
+    for (const item of this.cartService.getItems) {
+      order.lineItems.push(new LineItem({
+        productId: item.id,
+        quantity: item.count
+      }));
+    }
+
+    this.shopRepository.placeOrder(order).subscribe((data: any) => {
       this.isLoading = false;
       this.orderCompleted = true;
       this.cartService.clearCart();

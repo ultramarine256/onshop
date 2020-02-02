@@ -1,4 +1,5 @@
 import {ObjectExtensions} from '../../../extensions';
+import {ProductEntity} from './product.entity';
 
 export class OrderEntity {
   paymentMethod: string;
@@ -16,6 +17,9 @@ export class OrderEntity {
     this.lineItems = [];
     Object.assign(this as any, init);
   }
+
+  /// mehods
+
 
   /// mappers
   public asWooObject(): {} {
