@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {ProductEntity, CartService} from '../../../_core';
 import {ShopRepository} from '../../../_data';
 import {AppMapper} from '../../_mapper';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-product-details-page',
@@ -24,12 +25,10 @@ export class ProductDetailsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.shopRepository.getProductBySlug(params.slug).subscribe(data => {
-        this.product = data;
-        this.didLoaded = true;
-      });
-    });
+    this.route.params.subscribe(params =>
+      this.shopRepository.getProductBySlug(params.slug)
+        .pipe(finalize(() => this.didLoaded = true))
+        .subscribe(item => this.product = item));
   }
 
   /// methods

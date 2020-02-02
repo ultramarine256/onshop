@@ -32,7 +32,7 @@ function the_dramatist_custom_login_css() {
 }
 add_action( 'login_head', 'the_dramatist_custom_login_css' );
 
-/// admin CSS&JS
+/// admin CSS & JS
 function my_enqueue() {
 	wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/app/dist/app.js');
 }

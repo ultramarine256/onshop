@@ -7,6 +7,12 @@ export class ProductEntity {
   slug: string;
   status: string;
   price: number;
+
+  allowRent: boolean;
+  rentPerDayPrice: number;
+  rentPerWeekPrice: number;
+  rentPerMonthPrice: number;
+
   categories: Array<ProductCategory>;
   images: Array<ProductImage>;
   attributes: Array<ProductAttribute>;
@@ -48,6 +54,24 @@ export class ProductEntity {
       const productAttribute = new ProductAttribute();
       productAttribute.mapFromDto(attributeDto);
       this.attributes.push(productAttribute);
+    }
+    
+    /// typed attributes
+    for (const attribute of this.attributes) {
+      if (attribute.options.length > 0) {
+        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.ALLOW_RENT) {
+          this.allowRent = (attribute.options && attribute.options.length > 0);
+        }
+        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_DAY) {
+          this.rentPerDayPrice = Number(attribute.options[0]);
+        }
+        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_WEEK) {
+          this.rentPerWeekPrice = Number(attribute.options[0]);
+        }
+        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_MONTH) {
+          this.rentPerMonthPrice = Number(attribute.options[0]);
+        }
+      }
     }
   }
 }
@@ -116,3 +140,10 @@ export class ProductAttribute {
     this.options = dto.options;
   }
 }
+
+export const PRODUCT_ATTRIBUTE_NAMES = {
+  ALLOW_RENT: 'AllowRent',
+  RENT_PRICE_DAY: 'RentPriceDay',
+  RENT_PRICE_WEEK: 'RentPriceWeek',
+  RENT_PRICE_MONTH: 'RentPriceMonth'
+};

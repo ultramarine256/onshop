@@ -2,6 +2,7 @@ import {FilterEntity} from '../filter.entity';
 
 export class ProductFilter extends FilterEntity {
   /// fields
+  category: number;
   perPage: number;
 
   /// constructor

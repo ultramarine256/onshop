@@ -39,7 +39,7 @@ export class CartService {
     const index = this._items.findIndex(r => r.id === item.id);
     if (index > -1) {
       this._items[index].count++;
-      this._items[index].price *= 2;
+      this._items[index].price += Number(item.price);
     } else {
       this._items.push(item);
     }
