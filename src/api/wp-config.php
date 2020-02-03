@@ -18,25 +18,23 @@
  * @package WordPress
  */
 
-//Using environment variables for DB connection information
-$connectstr_dbhost = 'localhost'; // 176.37.8.120, localhost:3308
-$connectstr_dbname = 'onshop_blue_prod';
-$connectstr_dbusername = 'root';
-$connectstr_dbpassword = 'WgAaXsdb6dgTtwDg';
+// default configuration
+$connectstr_dbhost = 'DEFAULT-DB-HOST';
+$connectstr_dbname = 'DEFAULT-DB-NAME';
+$connectstr_dbusername = 'DEFAULT-DB-USERNAME';
+$connectstr_dbpassword = 'DEFAULT-DB-PASSWORD';
+$wp_debug = true;
 
-$wp_debug = false;
+// server configuration
+if (file_exists("_config.json")) {
+	$json = json_decode(file_get_contents("_config.json"));
 
-foreach ($_SERVER as $key => $value) {
-	if (strpos($key, "MYSQLCONNSTR_") !== 0) {
-		continue;
-	}
+	$connectstr_dbhost = $json->{'dbhost'};
+	$connectstr_dbname = $json->{'dbname'};
+	$connectstr_dbusername = $json->{'dbusername'};
+	$connectstr_dbpassword = $json->{'dbpassword'};
 
-	// Data Source=HOST; Database=DB-NAME; User Id=USER; Password=PASSWORD;
-	$connectstr_dbhost = preg_replace("/^.*Data Source=(.+?);.*$/", "\\1", $value);
-	$connectstr_dbname = preg_replace("/^.*Database=(.+?);.*$/", "\\1", $value);
-	$connectstr_dbusername = preg_replace("/^.*User Id=(.+?);.*$/", "\\1", $value);
-	$connectstr_dbpassword = preg_replace("/^.*Password=(.+?);$/", "\\1", $value);
-	$wp_debug = false;
+	$wp_debug = $json->{'use-debug'};
 }
 
 // ** MySQL settings - You can get this info from your web host ** //
