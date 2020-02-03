@@ -26,8 +26,9 @@ $connectstr_dbpassword = 'DEFAULT-DB-PASSWORD';
 $wp_debug = true;
 
 // server configuration
-if (file_exists("_config.json")) {
-	$json = json_decode(file_get_contents("_config.json"));
+$config = __DIR__  . "/_config.json";
+if (file_exists($config)) {
+	$json = json_decode(file_get_contents($config));
 
 	$connectstr_dbhost = $json->{'dbhost'};
 	$connectstr_dbname = $json->{'dbname'};
