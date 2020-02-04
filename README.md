@@ -21,7 +21,7 @@ Install and setup docker desktop. To have project running on local with docker w
   "dbname": "<DB_NAME>",
   "dbusername": "<DB_USER_NAME>", // for dev use root
   "dbpassword": "<DB_PASSWORD>",
-  "use-debug": false
+  "use-debug": true
 }
 ```
 - use the same creds in docker container env for db-onshop container in docker-compose.yml
