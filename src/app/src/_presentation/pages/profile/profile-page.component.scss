@@ -1,0 +1,16 @@
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0rem;
+  text-decoration: none;
+  border-bottom: 1px solid #eceeef;
+
+  i {
+    width: 20px;
+    text-align: center;
+  }
+
+  &.active {
+    color: #333e48;
+  }
+}

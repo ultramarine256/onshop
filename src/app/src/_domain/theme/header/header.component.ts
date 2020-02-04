@@ -15,6 +15,10 @@ export class HeaderComponent {
   @Input() email: string;
   @Input() phone: string;
 
+  @Input() isAuthorized: string;
+  @Input() profilePageUrl: string;
+  @Input() loginPageUrl: string;
+
   /// constructor
   constructor() {
   }

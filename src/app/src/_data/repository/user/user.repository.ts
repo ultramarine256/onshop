@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../base.repository';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {CategoryEntity} from '../../../_core';
 
 @Injectable()
 export class UserRepository extends BaseRepository {
@@ -11,10 +11,9 @@ export class UserRepository extends BaseRepository {
     super();
   }
 
-
   /// methods
-  public login(): Observable<any> {
-    // Implement Later
-    return null;
+  public getOrders() {
+    return this.httpClient
+      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/orders`,{withCredentials: true});
   }
 }

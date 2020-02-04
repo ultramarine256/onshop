@@ -6,11 +6,12 @@ import {InventoryPageComponent} from './inventory';
 import {ContactUsPageComponent} from './contact-us';
 import {ProductDetailsPageComponent} from './product-details';
 import {CategoriesPageComponent} from './categories';
-import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
 import {CartPageComponent} from './cart';
 import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
+import {LoginPageComponent} from './login';
+import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent} from './profile';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,7 @@ export const routes: Routes = [
       },
       {
         path: 'cart',
-        component: CartPageComponent
+        component: CartPageComponent,
       },
       {
         path: 'checkout',
@@ -49,8 +50,22 @@ export const routes: Routes = [
         component: ContactUsPageComponent
       },
       {
+        path: 'login',
+        component: LoginPageComponent
+      },
+      {
         path: 'profile',
-        component: ProfilePageComponent
+        component: ProfilePageComponent,
+        children: [
+          {
+            path: '',
+            component: AccountPageComponent
+          },
+          {
+            path: 'orders',
+            component: OrdersPageComponent
+          }
+        ]
       },
       {
         path: 'track-order',

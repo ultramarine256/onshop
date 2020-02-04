@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AppInfo, CartService, InfoService} from '../../_core';
+import {AppInfo, AuthService, CartService, InfoService} from '../../_core';
 import {ShopRepository} from '../../_data';
 
 @Component({
@@ -12,9 +12,9 @@ export class AppPagesComponent {
   /// constructor
   constructor(public cartService: CartService,
               public infoService: InfoService,
-              private shopRepository: ShopRepository) {
-    this.shopRepository.getShopInfo().subscribe(data => {
-      this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone}));
-    });
+              private shopRepository: ShopRepository,
+              public authService: AuthService) {
+    this.shopRepository.getShopInfo().subscribe(data =>
+      this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
   }
 }
