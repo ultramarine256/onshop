@@ -96,7 +96,12 @@ $table_prefix = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define( 'WP_DEBUG', $wp_debug );
+@ini_set( 'log_errors', 'Off' );
+@ini_set( 'display_errors', 'On' );
+define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
+define( 'WP_DEBUG', true );
+define( 'WP_DEBUG_LOG', true );
+define( 'WP_DEBUG_DISPLAY', true );
 
 /* That's all, stop editing! Happy publishing. */
 
