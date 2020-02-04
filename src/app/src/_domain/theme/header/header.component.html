@@ -22,8 +22,12 @@
       <div class="d-flex">
         <!--<a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">search</i></a>-->
         <a routerLink="/cart" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">shopping_cart</i></a>
-        <a routerLink="/profile" class="d-flex text-decoration-none"><i
-          class="material-icons-outlined">account_circle</i></a>
+        <a [routerLink]="profilePageUrl" class="d-flex text-decoration-none" *ngIf="isAuthorized">
+          <i class="material-icons-outlined">account_circle</i>
+        </a>
+        <a [routerLink]="loginPageUrl" class="d-flex text-decoration-none" *ngIf="!isAuthorized">
+          <i class="material-icons-outlined">account_circle</i>
+        </a>
       </div>
     </div>
   </nav>
@@ -46,9 +50,13 @@
           <!--</a>-->
           <!--</li>-->
           <li>
-            <a routerLink="/profile">
+            <a [routerLink]="profilePageUrl" *ngIf="isAuthorized">
               <!--<i class="material-icons">account_circle</i>-->
               My Account
+            </a>
+            <a [routerLink]="loginPageUrl" *ngIf="!isAuthorized">
+              <!--<i class="material-icons">account_circle</i>-->
+              Login
             </a>
           </li>
         </ul>

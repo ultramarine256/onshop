@@ -3,7 +3,10 @@
     [productsCount]="cartService.itemsCount"
     [productsPrice]="cartService.totalPrice"
     [email]="infoService.appInfo.email"
-    [phone]="infoService.appInfo.phone">
+    [phone]="infoService.appInfo.phone"
+    [isAuthorized]="authService.isAuthorized"
+    [loginPageUrl]="'/login'"
+    [profilePageUrl]="'/profile'">
   </app-header-component>
   <div class="app-content">
     <router-outlet></router-outlet>

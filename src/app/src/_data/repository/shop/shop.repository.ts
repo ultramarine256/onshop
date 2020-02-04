@@ -128,4 +128,9 @@ export class ShopRepository extends BaseRepository {
     return this.httpClient
       .post<CategoryEntity>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, entity.asWooObject());
   }
+
+  // public placeOrder(entity: OrderEntity): Observable<any> {
+  //   return this.httpClient
+  //     .post<CategoryEntity>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, entity.asWooObject());
+  // }
 }

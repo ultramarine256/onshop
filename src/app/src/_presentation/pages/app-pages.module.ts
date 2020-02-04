@@ -7,9 +7,8 @@ import {CategoriesPageComponent} from './categories';
 import {InventoryPageComponent} from './inventory';
 import {ContactUsPageComponent} from './contact-us';
 import {ProductDetailsPageComponent} from './product-details';
-import {ProfilePageComponent} from './profile';
 import {TrackOrderPageComponent} from './track-order';
-import {CartModule, InfoModule} from '../../_core';
+import {AuthModule, CartModule, InfoModule} from '../../_core';
 import {CartPageComponent} from './cart';
 import {RepositoryModule} from '../../_data';
 import {ThemeModule} from '../../_domain';
@@ -17,6 +16,8 @@ import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DxSchedulerModule} from 'devextreme-angular';
+import {LoginPageComponent} from './login';
+import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent} from './profile';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,12 @@ import {DxSchedulerModule} from 'devextreme-angular';
     HomePageComponent,
     InventoryPageComponent,
     ProductDetailsPageComponent,
+    LoginPageComponent,
     ProfilePageComponent,
     SearchResultPageComponent,
-    TrackOrderPageComponent
+    TrackOrderPageComponent,
+    AccountPageComponent,
+    OrdersPageComponent
   ],
   imports: [
     /// angular
@@ -42,6 +46,7 @@ import {DxSchedulerModule} from 'devextreme-angular';
     /// core
     CartModule,
     InfoModule,
+    AuthModule,
 
     /// data
     RepositoryModule,
