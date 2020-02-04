@@ -23,7 +23,7 @@ $connectstr_dbhost = 'DEFAULT-DB-HOST';
 $connectstr_dbname = 'DEFAULT-DB-NAME';
 $connectstr_dbusername = 'DEFAULT-DB-USERNAME';
 $connectstr_dbpassword = 'DEFAULT-DB-PASSWORD';
-$wp_debug = true;
+$wp_debug = false;
 
 // server configuration
 $config = __DIR__  . "/_config.json";
@@ -96,7 +96,16 @@ $table_prefix = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define( 'WP_DEBUG', $wp_debug );
+if ($wp_debug) {
+    @ini_set( 'log_errors', 'Off' );
+    @ini_set( 'display_errors', 'On' );
+    define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
+    define( 'WP_DEBUG', true );
+    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_DEBUG_DISPLAY', true );
+} else {
+    define( 'WP_DEBUG', false );
+}
 
 /* That's all, stop editing! Happy publishing. */
 
