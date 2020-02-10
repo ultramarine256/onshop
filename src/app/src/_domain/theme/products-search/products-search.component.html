@@ -4,7 +4,7 @@
          name="s" placeholder="Search for Products" autocomplete="off">
   <div *ngIf="searchResults.length>0 && autoComplete.value" class="search-list">
     <ul class="list-unstyled search-list-result">
-      <li *ngFor="let item of searchResults" class="search-results " (click)="productChosen(item.slug);autoComplete.value=null">
+      <li *ngFor="let item of searchResults" class="search-results " (click)="productChosen.emit(item.slug);autoComplete.value=null">
         <span>{{item .name}}</span><span>{{item.price}}$</span>
       </li>
     </ul>

@@ -110,6 +110,7 @@
         <div class="input-search-field">
           <app-products-search
             (inputChanged)="inputChanged.emit($event)"
+            (productChosen)="productChosen.emit($event)"
             [searchResults]="searchResults"
           ></app-products-search>
         </div>

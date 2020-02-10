@@ -8,6 +8,7 @@
     [loginPageUrl]="'/login'"
     [profilePageUrl]="'/profile'"
     (inputChanged)="inputChanged($event)"
+    (productChosen)="productRedirect($event)"
     [searchResults]="productItems">
   </app-header-component>
   <div class="app-content">

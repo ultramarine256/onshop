@@ -3,6 +3,7 @@ import {AppInfo, AuthService, CartService, InfoService, ProductEntity} from '../
 import {ProductFilter, ShopRepository} from '../../_data';
 import {Product} from '../../_domain';
 import {AppMapper} from '../_mapper';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-pages-component',
@@ -18,7 +19,8 @@ export class AppPagesComponent {
   constructor(public cartService: CartService,
               public infoService: InfoService,
               private shopRepository: ShopRepository,
-              public authService: AuthService) {
+              public authService: AuthService,
+              private router: Router) {
     this.shopRepository.getShopInfo().subscribe(data =>
       this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
   }
@@ -28,5 +30,9 @@ export class AppPagesComponent {
     this.shopRepository.getProducts(new ProductFilter({search: input})).subscribe((items: ProductEntity[]) => {
       this.productItems = AppMapper.ToProducts(items);
     });
+  }
+
+  public productRedirect(slug: string) {
+    this.router.navigate([`product/${slug}`]).then();
   }
 }

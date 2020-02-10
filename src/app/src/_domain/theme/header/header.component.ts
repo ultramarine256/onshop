@@ -23,6 +23,7 @@ export class HeaderComponent {
 
   @Input() searchResults: Array<AppMapper> = [];
   @Output() inputChanged = new EventEmitter<string>();
+  @Output() productChosen = new EventEmitter<string>();
 
   /// constructor
   constructor() {
