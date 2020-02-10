@@ -4,7 +4,3 @@ export class Product {
   price: number;
 }
 
-export class Photo {
-  id: number;
-  src: string;
-}

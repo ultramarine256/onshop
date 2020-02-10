@@ -1,5 +1,7 @@
 import {CartItemEntity, ProductEntity} from '../../_core';
-import {Product} from '../../_domain/theme/products-search/models';
+import {Product} from '../../_domain';
+
+
 
 export class AppMapper {
   public static toCartItem(entity: ProductEntity): CartItemEntity {

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AppInfo, AuthService, CartService, InfoService, ProductEntity} from '../../_core';
 import {ProductFilter, ShopRepository} from '../../_data';
-import {Product} from '../../_domain/theme/products-search/models';
+import {Product} from '../../_domain';
 import {AppMapper} from '../_mapper';
 
 @Component({
@@ -26,7 +26,6 @@ export class AppPagesComponent {
   /// methods
   public inputChanged(input: string) {
     this.shopRepository.getProducts(new ProductFilter({search: input})).subscribe((items: ProductEntity[]) => {
-      /// TODO: map productEntity to productModel
       this.productItems = AppMapper.ToProducts(items);
     });
   }

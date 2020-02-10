@@ -5,9 +5,7 @@ import {CommonModule} from '@angular/common';
   declarations: [],
   imports: [
     /// angular modules
-    CommonModule,
-
-    /// app modules
+    CommonModule
   ],
   providers: []
 })
