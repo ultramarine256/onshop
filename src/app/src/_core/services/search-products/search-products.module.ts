@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {InfoService} from './info.service';
 
 @NgModule({
   declarations: [],
@@ -10,11 +9,7 @@ import {InfoService} from './info.service';
 
     /// app modules
   ],
-  providers: [
-    InfoService
-  ]
+  providers: []
 })
-export class InfoModule {
+export class SearchProductsModule {
 }
-
-

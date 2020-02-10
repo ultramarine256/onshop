@@ -6,7 +6,11 @@
     [phone]="infoService.appInfo.phone"
     [isAuthorized]="authService.isAuthorized"
     [loginPageUrl]="'/login'"
-    [profilePageUrl]="'/profile'">
+    [profilePageUrl]="'/profile'"
+    (inputChanged)="inputChanged($event)"
+    [searchResults]="productItems"
+
+  >
   </app-header-component>
   <div class="app-content">
     <router-outlet></router-outlet>

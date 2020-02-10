@@ -2,23 +2,22 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
-import {HeaderComponent} from './header';
-import {FooterComponent} from './footer';
+import {FooterModule} from './footer';
 import {BreadcrumbsModule} from './breadcrumbs';
 import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatStepperModule} from '@angular/material';
+import {ProductSearchModule} from './products-search';
+import {HttpClientModule} from '@angular/common/http';
+import {HeaderModule} from './header';
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    FooterComponent
-  ],
+  declarations: [],
   imports: [
     /// angular modules
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
     RouterModule,
-
+    HttpClientModule,
     MatStepperModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -26,20 +25,24 @@ import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, Ma
     MatRippleModule,
 
     /// app modules
-    BreadcrumbsModule
+    BreadcrumbsModule,
+    FooterModule,
+    HeaderModule,
+    ProductSearchModule
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent,
-
     MatStepperModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
+    FooterModule,
+    HeaderModule,
+    ProductSearchModule
   ],
-  providers: [],
+  providers: [HttpClientModule],
   entryComponents: []
 })
 export class ThemeModule {
 }
+

@@ -103,6 +103,10 @@ export class ShopRepository extends BaseRepository {
         return result;
       }));
   }
+  // API_KEY = 'http://api.blue-shop.xolutionz.com/wp-json/onshop/v1/product?search=';
+  // public getFilteredProducts(search) {
+  //   return this.httpClient.get(`${this.API_KEY}${search}`);
+  // }
 
   public newArrivals(): Observable<Array<ProductEntity>> {
     return this.httpClient

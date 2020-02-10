@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
-import {AppInfo, AuthService, CartService, InfoService} from '../../_core';
-import {ShopRepository} from '../../_data';
+import {AppInfo, AuthService, CartService, InfoService, ProductEntity} from '../../_core';
+import {ProductFilter, ShopRepository} from '../../_data';
+import {Product} from '../../_domain/theme/products-search/models';
+import {AppMapper} from '../_mapper';
 
 @Component({
   selector: 'app-pages-component',
@@ -9,6 +11,9 @@ import {ShopRepository} from '../../_data';
 })
 export class AppPagesComponent {
 
+  /// fields
+  public productItems: Array<Product> = [];
+
   /// constructor
   constructor(public cartService: CartService,
               public infoService: InfoService,
@@ -16,5 +21,13 @@ export class AppPagesComponent {
               public authService: AuthService) {
     this.shopRepository.getShopInfo().subscribe(data =>
       this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
+  }
+
+  /// methods
+  public inputChanged(input: string) {
+    this.shopRepository.getProducts(new ProductFilter({search: input})).subscribe((items: ProductEntity[]) => {
+      /// TODO: map productEntity to productModel
+      this.productItems = AppMapper.ToProducts(items);
+    });
   }
 }

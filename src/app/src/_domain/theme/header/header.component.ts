@@ -1,5 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CategoryEntity} from '../../../_core';
+import {Product} from '../products-search/models';
+import {AppMapper} from '../../../_presentation/_mapper';
 
 @Component({
   selector: 'app-header-component',
@@ -19,7 +21,13 @@ export class HeaderComponent {
   @Input() profilePageUrl: string;
   @Input() loginPageUrl: string;
 
+
+  @Input() searchResults: Array<AppMapper> = [];
+  @Output() inputChanged = new EventEmitter<string>();
+
   /// constructor
   constructor() {
   }
 }
+
+

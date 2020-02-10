@@ -1,4 +1,5 @@
 import {CartItemEntity, ProductEntity} from '../../_core';
+import {Product} from '../../_domain/theme/products-search/models';
 
 export class AppMapper {
   public static toCartItem(entity: ProductEntity): CartItemEntity {
@@ -8,6 +9,17 @@ export class AppMapper {
     result.imageUrl = entity.firstImage;
     result.title = entity.name;
     result.price = Number(entity.price);
+    return result;
+  }
+
+  public static ToProducts(entities: Array<ProductEntity>): Array<Product> {
+    const result = new Array<Product>();
+    for (let i = 0; i < entities.length; i++) {
+      result[i] = new Product();
+      result[i].id = entities[i].id;
+      result[i].name = entities[i].name;
+      result[i].price = Number(entities[i].price);
+    }
     return result;
   }
 
