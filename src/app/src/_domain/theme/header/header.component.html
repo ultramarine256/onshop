@@ -21,7 +21,8 @@
       </div>
       <div class="d-flex">
         <!--<a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">search</i></a>-->
-        <a routerLink="/cart" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">shopping_cart</i></a>
+        <a routerLink="/cart" class="d-flex text-decoration-none"><i
+          class="material-icons-outlined mr-2">shopping_cart</i></a>
         <a [routerLink]="profilePageUrl" class="d-flex text-decoration-none" *ngIf="isAuthorized">
           <i class="material-icons-outlined">account_circle</i>
         </a>
@@ -80,7 +81,7 @@
             <a routerLink="/categories">Categories</a>
           </li>
           <!--<li class="menu-item">-->
-            <!--<a routerLink="/shop">Shop</a>-->
+          <!--<a routerLink="/shop">Shop</a>-->
           <!--</li>-->
           <li class="menu-item">
             <a routerLink="/contact-us">Contact Us</a>
@@ -107,9 +108,11 @@
       <div class="searchbar__space"></div>
       <div class="searchbar__input-group my-1">
         <div class="input-search-field">
-          <input type="text" class="form-control search-field product-search-field"
-                 [disabled]="true"
-                 name="s" placeholder="Search for Products" autocomplete="off">
+          <app-products-search
+            (inputChanged)="inputChanged.emit($event)"
+            (productChosen)="productChosen.emit($event)"
+            [searchResults]="searchResults"
+          ></app-products-search>
         </div>
         <div class="search-categories">
           <select name="product_cat" class="custom-select" style="width: 143px;">

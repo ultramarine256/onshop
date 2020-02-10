@@ -1,0 +1,13 @@
+<div class="d-flex flex-column search-input-container">
+  <input #autoComplete (keyup)="inputChanged.emit(autoComplete.value)" type="text" class="form-control search-results-input
+  search-field product-search-field"
+         name="s" placeholder="Search for Products" autocomplete="off">
+  <div *ngIf="searchResults.length>0 && autoComplete.value" class="search-list">
+    <ul class="list-unstyled search-list-result">
+      <li *ngFor="let item of searchResults" class="search-results " (click)="productChosen.emit(item.slug);autoComplete.value=null">
+        <span>{{item .name}}</span><span>{{item.price}}$</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
