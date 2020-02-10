@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CategoryEntity} from '../../../_core';
-import {Product} from '../products-search/models';
 import {AppMapper} from '../../../_presentation/_mapper';
 
 @Component({

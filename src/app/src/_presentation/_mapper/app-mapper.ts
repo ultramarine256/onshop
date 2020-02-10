@@ -1,8 +1,6 @@
 import {CartItemEntity, ProductEntity} from '../../_core';
 import {Product} from '../../_domain';
 
-
-
 export class AppMapper {
   public static toCartItem(entity: ProductEntity): CartItemEntity {
     const result = new CartItemEntity();
@@ -19,6 +17,7 @@ export class AppMapper {
     for (let i = 0; i < entities.length; i++) {
       result[i] = new Product();
       result[i].id = entities[i].id;
+      result[i].slug = entities[i].slug;
       result[i].name = entities[i].name;
       result[i].price = Number(entities[i].price);
     }

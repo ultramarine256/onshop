@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Product} from './models';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-products-search',
@@ -12,8 +13,11 @@ export class ProductSearchComponent {
 
   public products: Product[];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
+  productChosen(slug: string) {
+    this.router.navigate([`product/${slug}`]).then();
+  }
 }
 
