@@ -30,7 +30,7 @@ export class InventoryPageComponent implements OnInit {
 
   ngOnInit(): void {
     // category: 'category-1'
-    this.shopRepository.getProducts(new ProductFilter({})).subscribe(items => {
+    this.shopRepository.getProducts(new ProductFilter({perPage: 100})).subscribe(items => {
       this.items = items;
       if (items.length === 0) {
         this.categoryIsEmpty = true;

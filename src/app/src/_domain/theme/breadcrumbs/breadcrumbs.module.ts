@@ -9,11 +9,8 @@ import {BreadcrumbsService} from './breadcrumbs.service';
     BreadcrumbsComponent
   ],
   imports: [
-    /// angular modules
     CommonModule,
-    RouterModule,
-
-    /// app modules
+    RouterModule
   ],
   exports: [
     BreadcrumbsComponent

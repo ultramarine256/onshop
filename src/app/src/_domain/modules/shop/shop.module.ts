@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {ProductSearchComponent} from './products-search.component';
+import {CheckoutComponent} from './checkout';
 
 @NgModule({
   declarations: [
-    ProductSearchComponent
+    CheckoutComponent
   ],
   imports: [
     FormsModule,
@@ -13,11 +13,8 @@ import {ProductSearchComponent} from './products-search.component';
     CommonModule
   ],
   exports: [
-    ProductSearchComponent
+    CheckoutComponent
   ]
 })
-export class ProductSearchModule {
+export class ShopModule {
 }
-
-
-
