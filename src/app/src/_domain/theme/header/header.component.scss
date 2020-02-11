@@ -110,26 +110,27 @@
   .searchbar__inner {
     display: flex;
     align-items: center;
-
+    width: 100%;
     .searchbar__space {
-      width: 250px;
+      width: 10%;
       height: 20px;
     }
-
 
     .searchbar__input-group {
       display: flex;
       height: 41px;
-
+      width: 100%;
       .input-search-field {
-        width: 380px;
+        width: 100%;
         input {
+
           height: 100%;
           border: none;
           border-radius: 20px 0px 0px 20px;
           padding: .3em 2.134em;
         }
       }
+
       .search-categories {
         select {
           border: none;
@@ -141,9 +142,8 @@
       .input-group-btn {
         button {
           height: 100%;
-          border-radius: 0px 20px 20px 0px;
+          border-radius: 0px 5px 5px 0px;
         }
-
       }
     }
 
@@ -157,7 +157,7 @@
       }
 
       .cart-items-count {
-        background-color: #333e48 ;
+        background-color: #333e48;
         color: #fff !important;
         /* bottom: -3px; */
         left: 14px;
@@ -173,6 +173,8 @@
     }
   }
 }
+
+
 
 
 
