@@ -44,6 +44,7 @@ export class CheckoutPageComponent implements OnInit {
 
       projectName: ['', Validators.required],
       projectNumber: ['', Validators.required],
+      deliveryDate:  [''],
 
       address: ['', Validators.required],
       city: ['', Validators.required],
@@ -55,6 +56,7 @@ export class CheckoutPageComponent implements OnInit {
   /// actions
   public cellClick($event) {
     const date = new Date($event.cellData.startDate);
+    this.checkoutForm.value.deliveryDate = date;
   }
 
   /// methods

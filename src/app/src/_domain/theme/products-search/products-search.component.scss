@@ -3,7 +3,7 @@
 }
 
 .input-search-field {
-  width: 380px;
+  width: 90%;
 
   input {
     height: 100%;
@@ -22,7 +22,6 @@
 
 .search-list {
   position: absolute;
-  width: 525px;
   z-index: 2;
   height: auto;
   max-height: 200px;
@@ -37,7 +36,7 @@
   color: black;
 
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 3px;
   }
 
   &::-webkit-scrollbar-track {
