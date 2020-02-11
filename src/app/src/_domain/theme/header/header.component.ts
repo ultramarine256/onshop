@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CategoryEntity} from '../../../_core';
-import {AppMapper} from '../../../_presentation/_mapper';
+import {AppMapper} from '../../../_view/_mapper';
 
 @Component({
   selector: 'app-header-component',

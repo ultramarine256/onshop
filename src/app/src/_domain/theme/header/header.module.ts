@@ -10,21 +10,17 @@ import {RouterModule} from '@angular/router';
     HeaderComponent
   ],
   imports: [
-    /// angular modules
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    RouterModule,
 
-    /// app modules
-    ProductSearchModule,
-    RouterModule
-
+    /// theme
+    ProductSearchModule
   ],
   exports: [
     HeaderComponent
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class HeaderModule {
 }

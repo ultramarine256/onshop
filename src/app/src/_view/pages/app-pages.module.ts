@@ -1,3 +1,4 @@
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {HomePageComponent} from './home';
@@ -8,16 +9,24 @@ import {InventoryPageComponent} from './inventory';
 import {ContactUsPageComponent} from './contact-us';
 import {ProductDetailsPageComponent} from './product-details';
 import {TrackOrderPageComponent} from './track-order';
-import {AuthModule, CartModule, InfoModule} from '../../_core';
 import {CartPageComponent} from './cart';
-import {RepositoryModule} from '../../_data';
-import {ThemeModule} from '../../_domain';
 import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {DxSchedulerModule} from 'devextreme-angular';
 import {LoginPageComponent} from './login';
 import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent} from './profile';
+import {
+  AuthModule,
+  CartModule,
+  InfoModule
+} from '../../_core';
+import {
+  RepositoryModule
+} from '../../_data';
+import {
+  ProfileModule,
+  ShopModule,
+  ThemeModule
+} from '../../_domain';
 
 @NgModule({
   declarations: [
@@ -51,9 +60,10 @@ import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent} from '.
     /// data
     RepositoryModule,
 
-    /// theme
+    /// domain
+    ShopModule,
+    ProfileModule,
     ThemeModule,
-    DxSchedulerModule,
 
     /// routing
     AppPagesRouting

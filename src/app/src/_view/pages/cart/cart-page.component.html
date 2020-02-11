@@ -19,10 +19,10 @@
       <a [routerLink]="'/product/' + item.slug" class="text-decoration-none">{{item.title}}</a>
     </div>
     <div class="d-flex align-items-center pr-3">
-      x{{!item.count  ? 1 : item.count}}
+      {{item.price == 0 ? 0: item.price}}$
     </div>
     <div class="d-flex align-items-center pr-3">
-      {{item.price == 0 ? 0: item.price}}$
+      x{{!item.count ? 1 : item.count}}
     </div>
   </div>
   <div class="d-flex">

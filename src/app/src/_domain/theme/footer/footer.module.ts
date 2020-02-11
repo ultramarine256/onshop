@@ -8,17 +8,13 @@ import {FooterComponent} from './footer.component';
     FooterComponent
   ],
   imports: [
-    /// angular modules
     FormsModule,
     ReactiveFormsModule,
-    CommonModule,
-
+    CommonModule
   ],
   exports: [
     FooterComponent
-  ],
-  providers: [],
-  entryComponents: []
+  ]
 })
 export class FooterModule {
 }
