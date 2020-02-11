@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseRepository} from '../base.repository';
 import {HttpClient} from '@angular/common/http';
-import {CategoryEntity} from '../../../_core';
+import {CategoryEntity} from '../_model';
 
 @Injectable()
 export class UserRepository extends BaseRepository {

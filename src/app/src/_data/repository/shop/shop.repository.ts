@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CategoryEntity, OrderEntity, ProductEntity, ShopInfoEntity} from '../../../_core';
 import {BaseRepository} from '../base.repository';
 import {CategoryFilter, ProductFilter} from '../_filter';
+import {CategoryEntity, CreateOrderModel, ProductEntity, ResponseOrderModel, ShopInfoEntity} from '../_model';
 
 @Injectable()
 export class ShopRepository extends BaseRepository {
@@ -124,13 +124,13 @@ export class ShopRepository extends BaseRepository {
    * --------------------------------------------------------------------------
    */
 
-  public placeOrder(entity: OrderEntity): Observable<any> {
+  public placeOrder(woocommerceOrder: {}): Observable<ResponseOrderModel> {
     return this.httpClient
-      .post<CategoryEntity>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, entity.asWooObject());
+      .post<CategoryEntity>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, woocommerceOrder)
+      .pipe(map(dto => {
+        const model = new ResponseOrderModel();
+        model.mapFromWooDto(dto);
+        return model;
+      }));
   }
-
-  // public placeOrder(entity: OrderEntity): Observable<any> {
-  //   return this.httpClient
-  //     .post<CategoryEntity>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, entity.asWooObject());
-  // }
 }

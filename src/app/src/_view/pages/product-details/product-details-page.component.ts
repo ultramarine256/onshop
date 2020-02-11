@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ProductEntity, CartService} from '../../../_core';
-import {ShopRepository} from '../../../_data';
+import {CartService} from '../../../_core';
+import {ProductEntity, ShopRepository} from '../../../_data';
 import {AppMapper} from '../../_mapper';
 import {finalize} from 'rxjs/operators';
 

@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CategoryEntity} from '../../../_core';
-import {AppMapper} from '../../../_view/_mapper';
+import {CategoryEntity} from '../../../_data';
 
 @Component({
   selector: 'app-header-component',
@@ -21,7 +20,7 @@ export class HeaderComponent {
   @Input() loginPageUrl: string;
 
 
-  @Input() searchResults: Array<AppMapper> = [];
+  @Input() searchResults: Array<any> = [];
   @Output() inputChanged = new EventEmitter<string>();
   @Output() productChosen = new EventEmitter<string>();
 

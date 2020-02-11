@@ -1,45 +1,68 @@
-import {ObjectExtensions} from '../../../extensions';
-import {ProductEntity} from './product.entity';
+import {DateExtensions, ObjectExtensions} from '../../../../_core';
 
-export class OrderEntity {
-  paymentMethod: string;
-  paymentMethodTitle: string;
-  setPaid: boolean;
+export class CreateOrderModel {
+  /// fields
+  public paymentMethod: string;
+  public paymentMethodTitle: string;
+  public setPaid: boolean;
+  public billing: Billing;
+  public shipping: Shipping;
+  public products: Array<LineItem>;
 
-  billing: Billing;
-  shipping: Shipping;
-  lineItems: Array<LineItem>;
+  public deliveryDate: Date;
+  public projectName: string;
+  public projectNumber: string;
 
   /// constructor
-  constructor(init?: Partial<OrderEntity>) {
+  constructor(init?: Partial<CreateOrderModel>) {
+    this.deliveryDate = new Date();
     this.billing = new Billing();
     this.shipping = new Shipping();
-    this.lineItems = [];
+    this.products = [];
     Object.assign(this as any, init);
   }
 
-  /// mehods
-
-
   /// mappers
-  public asWooObject(): {} {
-    const json: {[k: string]: any} = {};
+  public mapToWooCommerceOrder(): {} {
+    const json: { [k: string]: any } = {};
 
     json.payment_method = this.paymentMethod;
     json.payment_method_title = this.paymentMethodTitle;
     json.set_paid = this.setPaid;
 
-    if (this.billing && this.billing.fistName) {
+    if (this.billing && this.billing.phone) {
       json.billing = this.billing.asWooObject();
     }
 
     if (this.shipping && this.shipping.fistName) {
-      json.billing = this.shipping.asWooObject();
+      json.shipping = this.shipping.asWooObject();
     }
 
     json.line_items = [];
-    for (const item of this.lineItems) {
+    for (const item of this.products) {
       json.line_items.push(item.asWooObject());
+    }
+
+    json.meta_data = [];
+    if (this.deliveryDate) {
+      json.meta_data.push({
+        key: CUSTOM_FIELDS.DELIVERY_DATE_KEY,
+        value: DateExtensions.monthDayYear(this.deliveryDate)
+      });
+    }
+
+    if (this.projectName) {
+      json.meta_data.push({
+        key: CUSTOM_FIELDS.PROJECT_NAME_KEY,
+        value: this.projectName
+      });
+    }
+
+    if (this.projectNumber) {
+      json.meta_data.push({
+        key: CUSTOM_FIELDS.PROJECT_NUMBER_KEY,
+        value: this.projectNumber
+      });
     }
 
     ObjectExtensions.clean(json);
@@ -49,6 +72,7 @@ export class OrderEntity {
 }
 
 export class Billing {
+  /// fields
   fistName: string;
   lastName: string;
   address1: string;
@@ -83,6 +107,7 @@ export class Billing {
 }
 
 export class Shipping {
+  /// fields
   fistName: string;
   lastName: string;
   address1: string;
@@ -111,6 +136,7 @@ export class Shipping {
 }
 
 export class LineItem {
+  /// fields
   productId: number;
   quantity: number;
 
@@ -128,6 +154,24 @@ export class LineItem {
   }
 }
 
-export const PAYMENT_METHOD = {
-  BACS: 'bacs'
+export const PAYMENT = {
+  payment_method__bacs: 'bacs',
+  payment_title__direct: 'Direct Bank Transfer'
+};
+
+export const SHIPPING = {
+  country: 'US'
+};
+
+export const CUSTOM_FIELDS = {
+  DELIVERY_DATE_KEY: 'delivery-date',
+  PROJECT_NAME_KEY: 'project-name',
+  PROJECT_NUMBER_KEY: 'project-number',
+
+  TALE_ON_RENT_KEY: 'take-on-rent',
+  RENT_DURATION_KEY: 'rent-duration'
+};
+
+export const RENTAL_OPTIONS = {
+  USE_RENT: 'yes'
 };
