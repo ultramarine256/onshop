@@ -1,0 +1,71 @@
+/**
+* ------------------------------------------------------------------------
+* Global Styles
+* ------------------------------------------------------------------------
+*/
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  margin-bottom: .5rem;
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 1.1;
+  // color: inherit;
+  color: #333e48;
+}
+
+.h-300 {
+  height: 300px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.font-weight-500 {
+  font-weight: 500;
+}
+
+.justify-content-evenly {
+  justify-content: space-evenly;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Third Party Override
+* ------------------------------------------------------------------------
+*/
+
+.mat-horizontal-content-container {
+  padding: 0px !important;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Title
+* ------------------------------------------------------------------------
+*/
+
+.entry-title {
+  font-size: 2.857em;
+  letter-spacing: -.025em;
+  margin-bottom: 0;
+}
+
+.content-title {
+  font-size: 1.786em;
+  color: #333e48;
+  padding-bottom: .6em;
+  position: relative;
+  border-bottom: 1px solid #dadada;
+  margin-bottom: 1.2em;
+
+  &:after {
+    content: ' ';
+    width: 4.56em;
+    border-bottom: 2px solid transparent;
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    border-color: #2C98F0;
+  }
+}

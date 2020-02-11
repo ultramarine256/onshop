@@ -1,0 +1,50 @@
+.navbar {
+  position: relative;
+  padding: 0;
+  font-size: .875rem;
+
+  .navbar-toggler {
+    padding: .25rem .5rem;
+    font-size: 1.25rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: .375rem;
+    color: #343a40;
+  }
+
+  .navbar-brand img {
+    height: 30px;
+    width: auto;
+  }
+
+  .navbar-nav {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    .nav-item {
+      @media (max-width: 990px) {
+        border-bottom: 1px solid #eee;
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    .nav-link {
+      color: #343a40;
+      font-weight: 400;
+      font-size: 1.1rem;
+      padding-top: .75rem;
+      padding-bottom: .75rem;
+    }
+  }
+}
+
+
+
+
+
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+  color: #006aff;
+}

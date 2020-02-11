@@ -1,0 +1,77 @@
+/**
+* ------------------------------------------------------------------------
+* Hero section
+* ------------------------------------------------------------------------
+*/
+
+.hero {
+  height: 438px;
+  // background-image: url(/assets/img/home/background.jpg);
+  background-size: cover;
+  background-position: center center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Categories
+* ------------------------------------------------------------------------
+*/
+
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .img-wrap {
+    height: 150px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #f8f9fa;
+  }
+
+  img {
+    height: 120px;
+    width: auto !important;
+  }
+}
+
+/**
+* ------------------------------------------------------------------------
+* Features
+* ------------------------------------------------------------------------
+*/
+
+
+.icon-primary {
+  background-color: rgba(0,106,255,.1);
+  color: #006aff!important;
+}
+
+.icon-lg {
+  font-size: 1.75rem;
+  width: 4rem;
+  height: 4rem;
+}
+
+.icon {
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 1.5rem;
+  position: relative;
+  text-align: center;
+  transition: background-color .2s ease-in-out;
+}
+
+.icon-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}

@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-12">
+    <nav aria-label="breadcrumb" class="breadcrumb-container px-3">
+      <ol class="breadcrumb m-0 px-0 bg-white ">
+        <ng-container *ngFor="let item of breadcrumbArray">
+          <li class="breadcrumb-item" *ngIf="!item.isActive">
+            <a [routerLink]="item.routeUrl">{{item.routeName}}</a>
+          </li>
+        </ng-container>
+        <ng-container *ngFor="let item of breadcrumbArray">
+          <li class="breadcrumb-item active" aria-current="page" *ngIf="item.isActive">{{item.routeName}}</li>
+        </ng-container>
+      </ol>
+    </nav>
+  </div>
+</div>

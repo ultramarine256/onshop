@@ -1,0 +1,475 @@
+{
+	"info": {
+		"_postman_id": "a3d7d474-109f-4069-a126-84b75c495d14",
+		"name": "/wp-json/onshop/v1/",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "user/register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "customer1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Qwerty1234",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "customer1@wp.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/register?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user",
+								"register"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "customer",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Qwert12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/logout",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/logout?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": true,\r\n  \"parent_id\": 51,\r\n  \"billing\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"(555) 555-5555\"\r\n  },\r\n  \"shipping\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/order?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"order"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/orders",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/orders/:id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/95?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user",
+								"orders",
+								"95"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "categories",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories?slug=category-4&XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "category-4"
+								},
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories/:id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories/24?XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"categories",
+								"24"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "products",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories?slug=category-4&XDEBUG_SESSION_START=PHPSTORM",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "slug",
+									"value": "category-4"
+								},
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ApiBaseUrl}}/wp-json/app/info",
+					"host": [
+						"{{ApiBaseUrl}}"
+					],
+					"path": [
+						"wp-json",
+						"app",
+						"info"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

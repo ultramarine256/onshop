@@ -1,0 +1,45 @@
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb my-2 px-0 bg-white">
+      <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Cart</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="container mb-3" *ngIf="cartService.itemsCount > 0">
+  <div class="d-flex flex-row w-100 py-3 border-bottom" *ngFor="let item of cartService.getItems">
+    <div class="d-flex align-items-center pr-3">
+      <i class="icon material-icons-outlined cursor-pointer text-secondary" (click)="cartService.removeItem(item.id)">close</i>
+    </div>
+    <div class="d-flex align-items-center pr-4">
+      <img [src]="item.imageUrl" style="height: 60px;">
+    </div>
+    <div class="d-flex align-items-center flex-grow-1">
+      <a [routerLink]="'/product/' + item.slug" class="text-decoration-none">{{item.title}}</a>
+    </div>
+    <div class="d-flex align-items-center pr-3">
+      {{item.price == 0 ? 0: item.price}}$
+    </div>
+    <div class="d-flex align-items-center pr-3">
+      x{{!item.count ? 1 : item.count}}
+    </div>
+  </div>
+  <div class="d-flex">
+    <div class="p-3 w-100 text-right font-weight-500">
+      Total: {{cartService.totalPrice}}$
+    </div>
+
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <a class="btn btn-primary float-right" routerLink="/checkout">Proceed to checkout</a>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-3" *ngIf="cartService.itemsCount == 0">
+  <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px">
+    <h3>Cart is empty</h3>
+  </div>
+</div>

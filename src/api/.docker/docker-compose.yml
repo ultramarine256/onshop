@@ -1,0 +1,32 @@
+version: '3.3'
+services:
+  web:
+    build:
+      context: ../
+      dockerfile: ./.docker/Dockerfile
+    container_name: blue-shop
+    volumes:
+      - ../:/var/www/html/
+    ports:
+      - 8202:80
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    depends_on:
+      - db-onshop
+    networks:
+      - overlay
+  db-onshop:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "<YOUR_ROOT_PASSWORD>"
+      MYSQL_DATABASE: "<YOUR_DB_NAME>"
+    volumes:
+      - /var/lib/mysql
+      - ../db-seeds:/docker-entrypoint-initdb.d/
+    networks:
+      - overlay
+
+networks:
+  overlay:
