@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {CartItemEntity, CartService, LineItem, OrderEntity, ValidationHelper} from '../../../_core';
-import {ShopRepository, RepositoryMocks} from '../../../_data';
+import {finalize} from 'rxjs/operators';
+import {CartService, ValidationHelper} from '../../../_core';
+import {ShopRepository, CreateOrderModel, LineItem, PAYMENT, Billing, Shipping, ResponseOrderModel} from '../../../_data';
 
 @Component({
   selector: 'app-checkout-page',
@@ -11,11 +12,7 @@ import {ShopRepository, RepositoryMocks} from '../../../_data';
 })
 export class CheckoutPageComponent implements OnInit {
   /// fields
-  public projectFormGroup: FormGroup;
-  public billingFormGroup: FormGroup;
-  public currentDate: Date = new Date();
-
-  public order: OrderEntity = new OrderEntity();
+  public checkoutForm: FormGroup;
 
   /// predicates
   public orderCompleted = false;
@@ -32,7 +29,6 @@ export class CheckoutPageComponent implements OnInit {
               private shopRepository: ShopRepository,
               private cartService: CartService,
               private router: Router) {
-    this.order = RepositoryMocks.Order();
   }
 
   ngOnInit() {
@@ -40,14 +36,12 @@ export class CheckoutPageComponent implements OnInit {
       this.router.navigate([`/cart`]);
     }
 
-    // this.projectFormGroup = new FormGroup({
-    //   requestedBy: new FormControl('', [
-    //     Validators.required,
-    //   ])
-    // });
+    this.checkoutForm = this._formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
 
-    this.projectFormGroup = this._formBuilder.group({
-      requestedBy: ['', Validators.required],
       projectName: ['', Validators.required],
       projectNumber: ['', Validators.required],
 
@@ -56,44 +50,53 @@ export class CheckoutPageComponent implements OnInit {
       state: ['', Validators.required],
       zip: ['', Validators.required]
     });
+  }
 
-    this.billingFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+  /// actions
+  public cellClick($event) {
+    const date = new Date($event.cellData.startDate);
   }
 
   /// methods
-  public placeOrder(order: OrderEntity) {
-    this.isLoading = true;
+  public placeOrder(form: FormGroup) {
+
+    const model = new CreateOrderModel({
+      paymentMethod: PAYMENT.payment_method__bacs,
+      paymentMethodTitle: PAYMENT.payment_title__direct,
+      setPaid: false,
+      billing: new Billing({
+        fistName: form.value.firstName,
+        lastName: form.value.lastName,
+        email: form.value.email,
+        phone: form.value.phone,
+      }),
+      shipping: new Shipping({
+        address1: form.value.address,
+        city: form.value.city,
+        state: form.value.state,
+        postcode: form.value.zip,
+      }),
+      deliveryDate: new Date(),
+      projectName: form.value.projectName,
+      projectNumber: form.value.projectNumber,
+    });
 
     for (const item of this.cartService.getItems) {
-      order.lineItems.push(new LineItem({
+      model.products.push(new LineItem({
         productId: item.id,
         quantity: item.count
       }));
     }
 
-    this.shopRepository.placeOrder(order).subscribe((data: any) => {
-      this.isLoading = false;
-      this.orderCompleted = true;
-      this.cartService.clearCart();
-    });
+    this.isLoading = true;
+    this.shopRepository.placeOrder(model.mapToWooCommerceOrder())
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.orderCompleted = true;
+      }))
+      .subscribe((item: ResponseOrderModel) => {
+        this.orderNumber = item.orderKey;
+        this.cartService.clearCart();
+      });
   }
-}
-
-export class ProjectInfo {
-  requestedBy: string;
-  projectName: string;
-  projectNumber: string;
-
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-}
-
-export class ConfirmBilling {
-  fullName: string;
-  projectName: string;
-  projectNumber: string;
 }

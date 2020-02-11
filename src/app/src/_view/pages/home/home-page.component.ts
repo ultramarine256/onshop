@@ -1,6 +1,5 @@
 import {AfterContentInit, Component} from '@angular/core';
-import {ShopRepository} from '../../../_data';
-import {CategoryEntity, ProductEntity} from '../../../_core';
+import {CategoryEntity, ProductEntity, ShopRepository} from '../../../_data';
 import {forkJoin} from 'rxjs';
 
 @Component({

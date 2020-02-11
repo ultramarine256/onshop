@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CartService, CategoryEntity, ProductEntity} from '../../../_core';
-import {ProductFilter, ShopRepository} from '../../../_data';
+import {CartService} from '../../../_core';
+import {CategoryEntity, ProductEntity, ProductFilter, ShopRepository} from '../../../_data';
 import {InventoryFilter, InventoryFilter__Mocks} from './inventory-filter';
 import {AppMapper} from '../../_mapper';
 

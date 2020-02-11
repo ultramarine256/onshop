@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoryEntity} from '../../../_core';
-import {ShopRepository} from '../../../_data';
+import {ShopRepository, CategoryEntity} from '../../../_data';
 
 @Component({
   selector: 'app-search-result-page',

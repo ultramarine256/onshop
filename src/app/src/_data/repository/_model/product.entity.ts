@@ -1,4 +1,5 @@
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../environments/environment';
+
 
 export class ProductEntity {
   /// fields
@@ -55,7 +56,7 @@ export class ProductEntity {
       productAttribute.mapFromDto(attributeDto);
       this.attributes.push(productAttribute);
     }
-    
+
     /// typed attributes
     for (const attribute of this.attributes) {
       if (attribute.options.length > 0) {
