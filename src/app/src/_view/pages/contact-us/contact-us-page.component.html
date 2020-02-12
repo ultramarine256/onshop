@@ -6,9 +6,7 @@
     </ol>
   </nav>
 </div>
-
 <div id="map" class="w-100"></div>
-
 <div class="container my-4">
   <div class="row">
     <div class="col-12 col-md-8">
@@ -17,38 +15,13 @@
         Maecenas dolor elit, semper a sem sed, pulvinar molestie lacus. Aliquam dignissim, elit non mattis ultrices,
         neque odio ultricies tellus, eu porttitor nisl ipsum eu massa.
       </p>
-
-      <form>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">First name*</label>
-            <input type="text" class="form-control" id="inputEmail4" placeholder="">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="inputPassword4">Last name*</label>
-            <input type="text" class="form-control" id="inputPassword4" placeholder="">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="inputAddress">Subject</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="">
-        </div>
-        <div class="form-group">
-          <label for="inputAddress">Your Message</label>
-          <textarea name="comment"
-                    class="form-control shadow-sm"
-                    id="input5"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary" [disabled]="true">Send Message</button>
-      </form>
+      <app-contact-form (formChanged)="getFormProperties($event)"></app-contact-form>
     </div>
-
     <div class="col-12 col-md-4 mt-5 mt-md-0">
       <h2 class="content-title">Our Store</h2>
       <p>
         {{infoService.appInfo.address}}
       </p>
-
       <p class="font-weight-bold">Hours of Operation</p>
       <ul class="operation-hours">
         <li class="clearfix"><span class="day">Monday:</span><span class="pull-right flip hours">12-6 PM</span></li>
@@ -60,6 +33,5 @@
         <li class="clearfix"><span class="day">Sunday</span><span class="pull-right flip hours">Closed</span></li>
       </ul>
     </div>
-
   </div>
 </div>
