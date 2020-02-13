@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AppInfo, AuthService, CartService, InfoService, ProductEntity} from '../../_core';
-import {ProductFilter, ShopRepository} from '../../_data';
+import {AppInfo, AuthService, CartService, InfoService} from '../../_core';
+import {ProductEntity, ProductFilter, ShopRepository} from '../../_data';
 import {Product} from '../../_domain';
 import {AppMapper} from '../_mapper';
 import {Router} from '@angular/router';

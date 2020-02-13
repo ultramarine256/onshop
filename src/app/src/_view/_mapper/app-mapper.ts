@@ -1,5 +1,6 @@
-import {CartItemEntity, ProductEntity} from '../../_core';
+import {CartItemEntity} from '../../_core';
 import {Product} from '../../_domain';
+import {ProductEntity} from '../../_data';
 
 export class AppMapper {
   public static toCartItem(entity: ProductEntity): CartItemEntity {
