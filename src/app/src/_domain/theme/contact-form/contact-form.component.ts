@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-contact-form',
@@ -8,19 +8,22 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class ContactFormComponent {
   @Output() formChanged = new EventEmitter<FormGroup>();
-  profileForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.email),
-    subject: new FormControl('', Validators.required),
-    message: new FormControl('', Validators.required),
-  });
+  profileForm: FormGroup;
+  profileFormCreated = false;
+
+  constructor() {
+    this.profileForm = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.email),
+      subject: new FormControl('', Validators.required),
+      message: new FormControl('', Validators.required),
+    });
+  }
 
   onSubmit() {
     this.formChanged.emit(this.profileForm.value);
     this.profileForm.reset();
-    alert('thank you your feedback was created successfully!');
-
+    this.profileFormCreated = true;
   }
-
 }

@@ -1,12 +1,12 @@
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+<form *ngIf="!profileFormCreated" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="inputEmail4">First name*</label>
-      <input formControlName="firstName" type="text" class="form-control" id="inputEmail4" placeholder="">
+      <label for="inputName">First name*</label>
+      <input formControlName="firstName" type="text" class="form-control" id="inputName" placeholder="">
     </div>
     <div class="form-group col-md-6">
-      <label for="inputPassword4">Last name*</label>
-      <input formControlName="lastName" type="text" class="form-control" id="inputPassword4" placeholder="">
+      <label for="inputLastName">Last name*</label>
+      <input formControlName="lastName" type="text" class="form-control" id="inputLastName" placeholder="">
     </div>
   </div>
   <div class="form-group">
@@ -25,3 +25,13 @@
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Send Message</button>
 </form>
+<div *ngIf="profileFormCreated" class="success-box">
+  <div class="success-box-in bg-primary text-center">
+    <h5 class="text-light">
+      Form was submitted message!
+    </h5>
+    <div class="text-warning cursor-pointer" (click)="profileFormCreated=false">
+      leave another one
+    </div>
+  </div>
+</div>

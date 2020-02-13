@@ -27,8 +27,8 @@
           <ul class="list-unstyled font-size-sm mb-0">
 
             <li class="d-flex align-items-center justify-content-between">
-              <a class="nav-link-style" href="#">
-                <i class="czi-arrow-right-circle mr-2"></i>Subcategory 1
+              <a class="nav-link-style" [routerLink]="'/inventory/' + item.slug"  (click)="showSubCategories(item.id)">
+                <i class="czi-arrow-right-circle mr-2"></i>{{item.slug}}
               </a>
               <span class="font-size-ms text-muted">5</span>
             </li>

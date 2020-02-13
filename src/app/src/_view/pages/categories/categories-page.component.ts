@@ -24,4 +24,8 @@ export class CategoriesPageComponent implements OnInit {
       this.isLoaded = true;
     });
   }
+
+  public showSubCategories(id:number){
+
+  }
 }
