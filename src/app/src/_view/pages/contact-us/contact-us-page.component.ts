@@ -1,6 +1,7 @@
 import {AfterContentInit, Component} from '@angular/core';
 import {GOOGLE_MAP_CONSTANTS} from '../../../_core/constants';
 import {InfoService} from '../../../_core/services/info';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-contact-us',
@@ -73,5 +74,9 @@ export class ContactUsPageComponent implements AfterContentInit {
         callback(lat, lng);
       }
     });
+  }
+
+  public getFormProperties(formValue: FormGroup) {
+    console.log(formValue);
   }
 }

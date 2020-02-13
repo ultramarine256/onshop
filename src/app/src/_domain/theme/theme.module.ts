@@ -4,12 +4,14 @@ import {BreadcrumbsModule} from './breadcrumbs';
 import {ProductSearchModule} from './products-search';
 import {HeaderModule} from './header';
 import {ThirdPartyModule} from './_third-party';
+import {ContactFormModule} from './contact-form';
 
 @NgModule({
   declarations: [],
   imports: [
     ThirdPartyModule,
     BreadcrumbsModule,
+    ContactFormModule,
     FooterModule,
     HeaderModule,
     ProductSearchModule
@@ -17,6 +19,7 @@ import {ThirdPartyModule} from './_third-party';
   exports: [
     ThirdPartyModule,
     BreadcrumbsModule,
+    ContactFormModule,
     FooterModule,
     HeaderModule,
     ProductSearchModule
