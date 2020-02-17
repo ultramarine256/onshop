@@ -1,24 +1,12 @@
-.row-flex {
+.categories-items {
   display: flex;
   display: -webkit-flex;
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 
-  .card {
+  .item {
     height: calc(100% - 15px);
-    border: 2px solid lightblue;
   }
 }
 
-.category-image__wrap {
-  display: flex;
-  overflow: hidden;
-  max-height: 150px;
-  justify-content: center;
-  align-items: center;
-
-  .category-image {
-    display: flex;
-  }
-}

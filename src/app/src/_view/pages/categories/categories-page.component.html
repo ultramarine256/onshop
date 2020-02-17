@@ -14,18 +14,18 @@
 <div class="container pb-4 pb-sm-5" *ngIf="isLoaded">
 
   <!-- categories grid-->
-  <div class="row row-flex">
+  <div class="row categories-items">
 
     <!-- category -->
-    <div class="col-md-3 col-sm-4 col-6 mb-3 card-block" *ngFor="let item of categories">
-
+    <div class="col-md-3 col-sm-4 col-6 mb-3 border" *ngFor="let item of categories">
       <app-category-item
+        class="item "
         [id]="item.id"
         [title]="item.name"
         [url]="'/inventory/' + item.slug"
         [count]="item.count"
         [photo]="item.image.src"
-        [subCategories]="getSubCategories(item.id,categories)" class="card">
+        [subCategories]="getSubCategories(item.id,categories)">
       </app-category-item>
     </div>
 

@@ -26,7 +26,6 @@ export class CategoriesPageComponent implements OnInit {
   }
 
   public getSubCategories(id: number, items: Array<CategoryEntity>): Array<CategoryEntity> {
-    // TODO: implement method latter
     const result = [];
     for (let i = 0; i < items.length; i++) {
       if (items[i].parent === id) {

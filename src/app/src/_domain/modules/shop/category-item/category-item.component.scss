@@ -1,18 +1,29 @@
-
-.card {
-  height: calc(100% - 15px);
+.item-box {
+  height: calc(100%);
 
   .category-image__wrap {
-    height: 200px;
     display: flex;
-    //overflow: hidden;
-    border-bottom: 2px solid lightblue;
+    height: 200px;
+    overflow: hidden;
     justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
 
     .image {
-      width: 100%;
+      width: 90%;
+      max-height: 190px;
     }
+  }
 
+  .subitems-link {
+    color: #0062bd;
+  }
+
+  .li-view-all {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 5px;
   }
 }
 
