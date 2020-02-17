@@ -7,6 +7,7 @@ export class CategoryEntity {
   description: string;
   image: CategoryImage;
   count: number;
+  parent: number;
 
   /// constructor
   constructor(init?: Partial<CategoryEntity>) {
@@ -21,6 +22,7 @@ export class CategoryEntity {
     this.slug = dto.slug;
     this.description = dto.status;
     this.count = dto.count;
+    this.parent = dto.parent;
     if (dto.image) {
       this.image.mapFromDto(dto.image);
     }

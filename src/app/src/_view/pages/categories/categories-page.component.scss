@@ -1,3 +1,15 @@
+.row-flex {
+  display: flex;
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  .card {
+    height: calc(100% - 15px);
+    border: 2px solid lightblue;
+  }
+}
 
 .category-image__wrap {
   display: flex;

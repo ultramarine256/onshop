@@ -1,0 +1,18 @@
+
+.card {
+  height: calc(100% - 15px);
+
+  .category-image__wrap {
+    height: 200px;
+    display: flex;
+    //overflow: hidden;
+    border-bottom: 2px solid lightblue;
+    justify-content: center;
+
+    .image {
+      width: 100%;
+    }
+
+  }
+}
+

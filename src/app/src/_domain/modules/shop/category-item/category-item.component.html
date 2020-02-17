@@ -1,0 +1,34 @@
+<div class="card border-0">
+  <a class="category-image__wrap rounded-lg" [routerLink]="url">
+    <img class="image"
+         [src]="photo ? photo : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + title"
+         alt="Clothing">
+  </a>
+  <div class="card-body pt-3 pl-2 pr-2 ">
+    <h3 class="h5">{{title}}</h3>
+    <ul class="list-unstyled font-size-sm ">
+      <li *ngFor="let subItem of subCategories"
+          class="d-flex  align-items-center justify-content-between">
+        <div *ngIf="subCategories"
+             class="d-flex w-100 align-items-center justify-content-between">
+          <a class="nav-link-style text-primary"
+             [routerLink]="'/inventory/' + subItem.slug">
+            {{subItem.name}}
+          </a>
+          <span class="font-size-ms text-muted"> {{subItem.count}}</span>
+        </div>
+      </li>
+    </ul>
+    <div class="d-flex flex-column li-view-all">
+      <div *ngIf="count" class="d-flex w-100  align-items-center justify-content-between">
+        <a class="nav-link-style text-warning view-all-box" [routerLink]="'/inventory/' + url" >
+          View all
+        </a>
+        <span class="font-size-ms text-muted ">{{count}}</span>
+      </div>
+      <div *ngIf="!count" >
+        <span class="font-size-ms text-muted ">Empty</span>
+      </div>
+    </div>
+  </div>
+</div>
