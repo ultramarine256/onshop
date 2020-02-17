@@ -90,6 +90,7 @@ add_action( 'admin_menu', 'wooninja_remove_items', 99, 0 );
  * Rest Api
  * ------------------------------------------------------------------------
  */
+require_once get_template_directory() . '/redux-template/onshop-config.php';
 function app_info() {
 	global $redux_demo;
 	return $redux_demo;
