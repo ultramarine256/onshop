@@ -1,0 +1,29 @@
+.item-box {
+  height: calc(100%);
+
+  .category-image__wrap {
+    display: flex;
+    height: 200px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    .image {
+      width: 90%;
+      max-height: 190px;
+    }
+  }
+
+  .subitems-link {
+    color: #0062bd;
+  }
+
+  .li-view-all {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 5px;
+  }
+}
+

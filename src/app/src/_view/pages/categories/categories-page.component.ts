@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {CategoryEntity, ShopRepository} from '../../../_data';
+import {Component, Input, OnInit} from '@angular/core';
+import {ShopRepository} from '../../../_data';
+import {CategoryEntity} from '../../../_core';
 
 @Component({
   selector: 'app-categories-page',
@@ -24,7 +25,15 @@ export class CategoriesPageComponent implements OnInit {
     });
   }
 
-  public showSubCategories(id:number){
-
+  public getSubCategories(id: number, items: Array<CategoryEntity>): Array<CategoryEntity> {
+    const result = [];
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].parent === id) {
+        result.push(items[i]);
+      }
+    }
+    return result;
   }
 }
+
+

@@ -1,12 +1,12 @@
-
-.category-image__wrap {
+.categories-items {
   display: flex;
-  overflow: hidden;
-  max-height: 150px;
-  justify-content: center;
-  align-items: center;
+  display: -webkit-flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 
-  .category-image {
-    display: flex;
+  .item {
+    height: calc(100% - 15px);
   }
 }
+
