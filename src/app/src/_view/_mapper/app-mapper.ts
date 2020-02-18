@@ -1,6 +1,6 @@
 import {CartItemEntity} from '../../_core';
-import {Product} from '../../_domain';
-import {ProductEntity} from '../../_data';
+import {CarouselItemModel, Product} from '../../_domain';
+import {CategoryEntity, ProductEntity} from '../../_data';
 
 export class AppMapper {
   public static toCartItem(entity: ProductEntity): CartItemEntity {
@@ -31,6 +31,30 @@ export class AppMapper {
       const entity = new ProductEntity();
       entity.mapFromDto(dto);
       result.push(entity);
+    }
+    return result;
+  }
+
+  public static categoriesToCarouselItem(items: Array<CategoryEntity>): Array<CarouselItemModel> {
+    const result = [];
+    for (const item of items) {
+      result.push(new CarouselItemModel({
+        title: item.name,
+        imageUrl: item.image.src,
+        routerUrl: '/ca'
+      }));
+    }
+    return result;
+  }
+
+  public static productsToCarouselItem(items: Array<ProductEntity>): Array<CarouselItemModel> {
+    const result = [];
+    for (const item of items) {
+      result.push(new CarouselItemModel({
+        title: item.name,
+        imageUrl: item.firstImage,
+        routerUrl: '/ca'
+      }));
     }
     return result;
   }
