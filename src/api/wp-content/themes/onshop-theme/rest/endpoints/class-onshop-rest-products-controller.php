@@ -74,6 +74,11 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller
                             $response->link_header( 'next', $next_link );
                         }
 
+                        $response->set_data([
+                        	'items' => $response->get_data(),
+	                        'filters' => $this->get_filters(),
+                        ]);
+
                         return $response;
                     },
                     'args'                => $this->get_collection_params(),
@@ -90,5 +95,22 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller
             )
         );
     }
+
+    private function get_filters() {
+	    global $wpdb;
+
+	     $prices = $wpdb->get_row("
+	     	select min(meta_value) as min_price, max(meta_value) as max_price
+			from wp_posts, wp_postmeta
+			where wp_posts.ID = wp_postmeta.post_id AND wp_posts.post_type = 'product'
+			AND wp_postmeta.meta_key = '_price';
+	     ");
+
+    	return [
+		    "category_name" => "price",
+		    "min_price" => $prices->min_price,
+		    "max_price" => $prices->max_price,
+	    ];
+	}
 }
 
