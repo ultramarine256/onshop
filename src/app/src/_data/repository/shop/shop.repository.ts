@@ -83,6 +83,9 @@ export class ShopRepository extends BaseRepository {
     return this.httpClient
       .get<InventorySearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?${filter.asQueryString()}`, {observe: 'response'})
       .pipe(map(response => {
+
+
+        debugger;
         const items = [];
         for (const dto of response.body as any) {
           const item = new ProductEntity();
