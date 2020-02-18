@@ -1,37 +1,32 @@
-<div class="item-box d-flex flex-column">
-  <div class="category-image__wrap rounded-lg mb-2" [routerLink]="url">
+<div class="card">
+  <div class="category-image__wrap rounded-lg mb-2 " [routerLink]="url">
     <img class="image"
          [src]="photo ? photo : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + title"
          alt="Clothing">
   </div>
-  <div>
-    <h3 class="h5">{{title}}</h3>
-  </div>
-  <ul class="list-unstyled font-size-sm ">
-    <li *ngFor="let subItem of subCategories"
-        class="d-flex  align-items-center justify-content-between">
-      <div *ngIf="subCategories"
-           class="d-flex w-100 align-items-center justify-content-between">
-        <a class="subitems-link"
-           [routerLink]="'/inventory/' + subItem.slug">
-          {{subItem.name}}
-        </a>
-        <span class="font-size-ms text-muted"> {{subItem.count}}</span>
-      </div>
-    </li>
-    <li>
-      <hr class="mb-0">
-    </li>
-  </ul>
-  <div class="li-view-all">
-    <div *ngIf="count" class="d-flex w-100  align-items-center justify-content-between">
-      <a class="nav-link-style text-warning view-all-box" [routerLink]="'/inventory/' + url">
-        View all
-      </a>
-      <span class="font-size-ms text-muted ">{{count}}</span>
+  <div class="card-body">
+    <div class="title-content border-top">
+      <h5 class="h5 font-weight-bold">{{title}}</h5>
     </div>
-    <div *ngIf="!count">
-      <span class="font-size-ms text-muted ">Empty</span>
+    <ul class="list-unstyled font-size-sm mb-0">
+      <li *ngFor="let subItem of subCategories">
+        <div *ngIf="subCategories"
+             class="d-flex align-items-center justify-content-between">
+          <a class="nav-link-style"
+             [routerLink]="'/inventory/' + subItem.slug">
+            {{subItem.name}}
+          </a>
+          <span class="font-size-ms text-muted"> {{subItem.count}}</span>
+        </div>
+      </li>
+    </ul>
+    <div class="view-all-item align-items-center justify-content-between">
+      <a class="nav-link-style text-success" [routerLink]="'/inventory/' + url">
+        Total Items
+      </a>
+      <span> {{count}}</span>
     </div>
   </div>
 </div>
+
+
