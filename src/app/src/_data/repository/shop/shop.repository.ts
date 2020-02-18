@@ -4,7 +4,8 @@ import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {BaseRepository} from '../base.repository';
 import {CategoryFilter, ProductFilter} from '../_filter';
-import {CategoryEntity, CreateOrderModel, ProductEntity, ResponseOrderModel, ShopInfoEntity} from '../_model';
+import {CategoryEntity, ProductEntity, ResponseOrderModel, ShopInfoEntity} from '../_model';
+import {InventorySearchResult} from '../_model/inventory-search.result';
 
 @Injectable()
 export class ShopRepository extends BaseRepository {
@@ -48,6 +49,16 @@ export class ShopRepository extends BaseRepository {
    * --------------------------------------------------------------------------
    */
 
+  public getCategory(id: number): Observable<CategoryEntity> {
+    return this.httpClient
+      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/categories/${id}`)
+      .pipe(map(response => {
+        const result = new CategoryEntity();
+        result.mapFromDto(response);
+        return result;
+      }));
+  }
+
   public getCategories(filter: CategoryFilter = null): Observable<Array<CategoryEntity>> {
     return this.httpClient
       .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/categories`)
@@ -62,34 +73,29 @@ export class ShopRepository extends BaseRepository {
       }));
   }
 
-  public getCategoryBySlug(slug: string): Observable<CategoryEntity> {
-    return this.httpClient
-      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/categories?slug=${slug}`)
-      .pipe(map(results => results.find(r => r.slug === slug)))
-      .pipe(map(x => {
-        const result = new CategoryEntity();
-        result.mapFromDto(x);
-        return result;
-      }));
-  }
-
   /**
    * --------------------------------------------------------------------------
    * Products
    * --------------------------------------------------------------------------
    */
 
-  public getProducts(filter: ProductFilter = null): Observable<Array<ProductEntity>> {
+  public getProducts(filter: ProductFilter = null): Observable<InventorySearchResult> {
     return this.httpClient
-      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?${filter.asQueryString()}`)
+      .get<InventorySearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?${filter.asQueryString()}`, {observe: 'response'})
       .pipe(map(response => {
-        const result = [];
-        for (const dto of response) {
+        const items = [];
+        for (const dto of response.body as any) {
           const item = new ProductEntity();
           item.mapFromDto(dto);
-          result.push(item);
+          items.push(item);
         }
-        return result;
+
+
+        return new InventorySearchResult({
+          items,
+          totalCount: Number(response.headers.get('X-WP-Total')),
+          totalPages: Number(response.headers.get('X-WP-TotalPages'))
+        });
       }));
   }
 

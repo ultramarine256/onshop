@@ -27,9 +27,9 @@ export class AppPagesComponent {
 
   /// methods
   public inputChanged(input: string) {
-    this.shopRepository.getProducts(new ProductFilter({search: input})).subscribe((items: ProductEntity[]) => {
-      this.productItems = AppMapper.ToProducts(items);
-    });
+    // this.shopRepository.getProducts(new ProductFilter({search: input})).subscribe((items: ProductEntity[]) => {
+    //   this.productItems = AppMapper.ToProducts(items);
+    // });
   }
 
   public productRedirect(slug: string) {

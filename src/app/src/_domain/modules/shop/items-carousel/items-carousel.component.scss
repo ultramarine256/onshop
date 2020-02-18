@@ -1,0 +1,19 @@
+.carousel-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .img-wrap {
+    height: 150px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #f8f9fa;
+  }
+
+  img {
+    height: 120px;
+    width: auto !important;
+  }
+}

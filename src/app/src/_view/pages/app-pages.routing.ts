@@ -34,7 +34,7 @@ export const routes: Routes = [
         component: CategoriesPageComponent
       },
       {
-        path: 'inventory/:categorySlug',
+        path: 'inventory/:categoryId',
         component: InventoryPageComponent,
       },
       {

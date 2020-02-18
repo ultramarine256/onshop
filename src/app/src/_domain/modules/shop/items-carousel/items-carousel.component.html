@@ -1,0 +1,11 @@
+<div class="owl-carousel owl-theme" [class]="cssClass">
+  <div class="item" *ngFor="let item of items">
+    <a class="text-decoration-none category-item" [routerLink]="item.routerUrl">
+      <div class="img-wrap">
+        <img
+          [src]="item.item ? item.item : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+      </div>
+      <a class="mt-1">{{item.title | slice:0:18}}</a>
+    </a>
+  </div>
+</div>
