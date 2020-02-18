@@ -1,6 +1,7 @@
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 export class CategoryEntity {
+  /// fields
   id: number;
   name: string;
   slug: string;
@@ -30,10 +31,12 @@ export class CategoryEntity {
 }
 
 export class CategoryImage {
+  /// fields
   id: number;
   name: string;
   src: string;
 
+  /// mappers
   mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;

@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ShopRepository} from '../../../_data';
-import {CategoryEntity} from '../../../_core';
+import {CategoryEntity, ShopRepository} from '../../../_data';
 
 @Component({
   selector: 'app-categories-page',

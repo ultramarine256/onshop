@@ -39,6 +39,10 @@
   padding: 0px !important;
 }
 
+.dx-scheduler-work-space.dx-scheduler-work-space-month .dx-scheduler-date-table-cell {
+  height: 60px !important;
+}
+
 /**
 * ------------------------------------------------------------------------
 * Title
@@ -68,4 +72,41 @@
     bottom: -1px;
     border-color: #2C98F0;
   }
+}
+
+/**
+* ------------------------------------------------------------------------
+* OWL Carousel
+* ------------------------------------------------------------------------
+*/
+
+.carousel-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .img-wrap {
+    height: 150px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: #f8f9fa;
+  }
+
+  img {
+    height: 120px;
+    width: auto !important;
+  }
+}
+
+/**
+* ------------------------------------------------------------------------
+* Slider
+* ------------------------------------------------------------------------
+*/
+
+.dx-slider-bar {
+  margin-right: 0px;
+  margin-left: 0px;
 }

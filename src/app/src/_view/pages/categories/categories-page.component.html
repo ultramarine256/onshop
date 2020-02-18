@@ -19,14 +19,15 @@
     <!-- category -->
     <div class="col-md-4 col-sm-6 mb-3 " *ngFor="let item of categories">
       <app-category-item
-        class="item "
+        class="item"
         [id]="item.id"
         [title]="item.name"
-        [url]="'/inventory/' + item.slug"
+        [baseUrl]="'/inventory'"
         [count]="item.count"
         [photo]="item.image.src"
         [subCategories]="getSubCategories(item.id,categories)">
       </app-category-item>
+
     </div>
 
   </div>

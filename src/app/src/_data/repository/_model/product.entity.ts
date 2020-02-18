@@ -1,4 +1,4 @@
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../environments/environment';
 
 export class ProductEntity {
   /// fields
@@ -8,22 +8,39 @@ export class ProductEntity {
   status: string;
   price: number;
 
-  allowRent: boolean;
+  backorders: string;
+  stockQuantity: string;
+  stockStatus: string;
+
+  weight: string;
+  dimensions: ProductDimensions;
+
   rentPerDayPrice: number;
   rentPerWeekPrice: number;
   rentPerMonthPrice: number;
 
+  relatedIds: Array<number>;
   categories: Array<ProductCategory>;
   images: Array<ProductImage>;
   attributes: Array<ProductAttribute>;
 
   /// properties
-  get firstImage() {
+  get firstImage(): string {
     return this.images.length > 0 ? this.images[0].src : null;
+  }
+
+  get firstCategory(): ProductCategory {
+    return this.categories.length > 0 ? this.categories[0] : null;
+  }
+
+  get isRentable(): boolean {
+    return !!this.rentPerDayPrice || !!this.rentPerWeekPrice || !!this.rentPerMonthPrice;
   }
 
   /// constructor
   constructor(init?: Partial<ProductEntity>) {
+    this.relatedIds = [];
+    this.dimensions = new ProductDimensions();
     this.categories = [];
     this.images = [];
     this.attributes = [];
@@ -37,6 +54,15 @@ export class ProductEntity {
     this.slug = dto.slug;
     this.status = dto.status;
     this.price = dto.price;
+
+    this.backorders = dto.backorders;
+    this.stockQuantity = dto.stock_quantity;
+    this.stockStatus = dto.stock_status;
+
+    this.weight = dto.weight;
+    this.dimensions.mapFromDto(dto.dimensions);
+
+    this.relatedIds = dto.related_ids;
 
     for (const img of dto.images) {
       const productImage = new ProductImage();
@@ -55,13 +81,9 @@ export class ProductEntity {
       productAttribute.mapFromDto(attributeDto);
       this.attributes.push(productAttribute);
     }
-    
-    /// typed attributes
+
     for (const attribute of this.attributes) {
       if (attribute.options.length > 0) {
-        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.ALLOW_RENT) {
-          this.allowRent = (attribute.options && attribute.options.length > 0);
-        }
         if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_DAY) {
           this.rentPerDayPrice = Number(attribute.options[0]);
         }
@@ -92,6 +114,25 @@ export class ProductCategory {
     this.id = dto.id;
     this.name = dto.name;
     this.slug = dto.slug;
+  }
+}
+
+export class ProductDimensions {
+  /// fields
+  length: string;
+  width: string;
+  height: string;
+
+  /// constructor
+  constructor(init?: Partial<ProductDimensions>) {
+    Object.assign(this as any, init);
+  }
+
+  /// mappers
+  mapFromDto(dto: any) {
+    this.length = dto.length;
+    this.width = dto.width;
+    this.height = dto.height;
   }
 }
 
@@ -142,8 +183,7 @@ export class ProductAttribute {
 }
 
 export const PRODUCT_ATTRIBUTE_NAMES = {
-  ALLOW_RENT: 'AllowRent',
-  RENT_PRICE_DAY: 'RentPriceDay',
-  RENT_PRICE_WEEK: 'RentPriceWeek',
-  RENT_PRICE_MONTH: 'RentPriceMonth'
+  RENT_PRICE_DAY: 'rent__per-day',
+  RENT_PRICE_WEEK: 'rent__per-week',
+  RENT_PRICE_MONTH: 'rent__per-month'
 };

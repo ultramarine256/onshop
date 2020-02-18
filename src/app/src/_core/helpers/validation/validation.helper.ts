@@ -11,7 +11,7 @@ export class ValidationHelper {
     }
   }
 
-  public static isInvalid(propName: string, form: FormGroup): boolean {
+  public static   isInvalid(propName: string, form: FormGroup): boolean {
     try {
       return form.get(propName).invalid && (form.get(propName).dirty || form.get(propName).touched);
     } catch (e) {

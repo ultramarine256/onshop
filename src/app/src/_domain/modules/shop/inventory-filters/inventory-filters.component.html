@@ -1,0 +1,32 @@
+<div class="d-flex filters__content flex-column p-2">
+
+  <div class="filters-scope mb-3" *ngFor="let scope of filter.categories">
+    <h5 class="filters-scope__title">{{scope.title}}</h5>
+    <div class="filter-item" *ngFor="let attr of scope.attributes">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" [id]="attr.name" [disabled]="attr.isDisabled" [checked]="!!attr.isChecked">
+        <label class="custom-control-label" [for]="attr.name">{{attr.name}}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-scope">
+    <h5 class="filters-scope__title">Price</h5>
+    <div class="price__content">
+      from {{priceSlider.start}} to {{priceSlider.end}} $
+    </div>
+    <dx-range-slider
+      #priceSlider
+      [min]="filter.priceRange.min"
+      [max]="filter.priceRange.max"
+      [start]="filter.priceRange.start"
+      [end]="filter.priceRange.end"
+      (startChange)="filter.priceRange.start = priceSlider.start"
+      (endChange)="filter.priceRange.end = priceSlider.end">
+    </dx-range-slider>
+  </div>
+
+  <button type="button" class="btn btn-sm btn-primary w-100 mt-3 px-3"
+          [disabled]="disabled"
+          (click)="changed.emit(filter)">Filter</button>
+</div>
