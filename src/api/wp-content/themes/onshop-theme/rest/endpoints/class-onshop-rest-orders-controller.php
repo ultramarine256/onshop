@@ -27,6 +27,15 @@ class ONSHOP_REST_Orders_Controller extends WC_REST_Orders_Controller
             array(
                 'methods' => WP_REST_Server::CREATABLE,
                 'callback' => array($this, 'create_item'),
+                'permission_callback' => function () {
+	                $user_id = wp_validate_auth_cookie('', 'logged_in');
+
+	                if ($user_id) {
+		                wp_set_current_user($user_id);
+	                }
+
+	                return $user_id;
+                },
             )
         );
         register_rest_route(
