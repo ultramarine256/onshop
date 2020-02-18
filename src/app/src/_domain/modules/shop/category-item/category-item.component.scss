@@ -1,4 +1,4 @@
-.item-box {
+.card {
   height: calc(100%);
 
   .category-image__wrap {
@@ -11,19 +11,29 @@
     cursor: pointer;
 
     .image {
-      width: 90%;
+      //width: 90%;
       max-height: 190px;
     }
+  }
+  .title-content{
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    white-space: nowrap;
+    overflow:hidden;
+
   }
 
   .subitems-link {
     color: #0062bd;
   }
 
-  .li-view-all {
-    display: flex;
-    margin-top: auto;
-    margin-bottom: 5px;
-  }
+
+}
+.view-all-item {
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 5px;
 }
 
