@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="category-image__wrap rounded-lg mb-2 " [routerLink]="url">
+  <div class="category-image__wrap rounded-lg mb-2 " [routerLink]="baseUrl + '/' + id">
     <img class="image"
          [src]="photo ? photo : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + title"
          alt="Clothing">
@@ -13,7 +13,7 @@
         <div *ngIf="subCategories"
              class="d-flex align-items-center justify-content-between">
           <a class="nav-link-style"
-             [routerLink]="'/inventory/' + subItem.slug">
+             [routerLink]="baseUrl+'/' + subItem.id">
             {{subItem.name}}
           </a>
           <span class="font-size-ms text-muted"> {{subItem.count}}</span>
@@ -21,7 +21,7 @@
       </li>
     </ul>
     <div class="view-all-item align-items-center justify-content-between">
-      <a class="nav-link-style text-success" [routerLink]="'/inventory/' + url">
+      <a class="nav-link-style text-success" [routerLink]="baseUrl + '/' + id">
         Total Items
       </a>
       <span> {{count}}</span>
