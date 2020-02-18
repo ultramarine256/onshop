@@ -22,7 +22,7 @@ node_modules/
 
 # ignore log files and databases
 *.log
-*.sql
+db-seeds/*.sql
 *.sqlite
 
 # configs

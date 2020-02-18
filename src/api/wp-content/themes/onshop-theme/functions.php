@@ -117,4 +117,6 @@ add_action('rest_api_init', function () {
     $categories_Controller->register_routes();
     $products_Controller =   new ONSHOP_REST_Products_Controller();
     $products_Controller->register_routes();
+	$products_Controller =   new ONSHOP_REST_Projects_Controller();
+	$products_Controller->register_routes();
 });
