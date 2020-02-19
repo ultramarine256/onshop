@@ -5,6 +5,7 @@ export class ProductFilter extends FilterEntity {
   slug: string;
   search: string;
 
+  include: string; // array of ints
   category: number;
 
   page: number;

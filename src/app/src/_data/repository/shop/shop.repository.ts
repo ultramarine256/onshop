@@ -4,8 +4,8 @@ import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {BaseRepository} from '../base.repository';
 import {CategoryFilter, ProductFilter} from '../_filter';
-import {CategoryEntity, ProductEntity, ResponseOrderModel, ShopInfoEntity} from '../_model';
-import {InventorySearchResult} from '../_model/inventory-search.result';
+import {CategoryEntity, PricingFilter, ProductEntity, ResponseOrderModel, SearchResultFilters, ShopInfoEntity} from '../_model';
+import {InventorySearchResult} from '../_model';
 
 @Injectable()
 export class ShopRepository extends BaseRepository {
@@ -79,49 +79,40 @@ export class ShopRepository extends BaseRepository {
    * --------------------------------------------------------------------------
    */
 
-  public getProducts(filter: ProductFilter = null): Observable<InventorySearchResult> {
+  public getProducts(filter: ProductFilter = new ProductFilter()): Observable<InventorySearchResult> {
     return this.httpClient
       .get<InventorySearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?${filter.asQueryString()}`, {observe: 'response'})
       .pipe(map(response => {
+
         const items = [];
-        for (const dto of response.body as any) {
+        for (const dto of response.body.items as any) {
           const item = new ProductEntity();
           item.mapFromDto(dto);
           items.push(item);
         }
 
-
-        return new InventorySearchResult({
+        const result = new InventorySearchResult({
           items,
+          filters: new SearchResultFilters({
+            price: new PricingFilter({
+              minPrice: (response as any).body.filters.min_price,
+              maxPrice: (response as any).body.filters.max_price
+            })
+          }),
           totalCount: Number(response.headers.get('X-WP-Total')),
           totalPages: Number(response.headers.get('X-WP-TotalPages'))
         });
-      }));
-  }
 
-  public getProductBySlug(slug: string): Observable<ProductEntity> {
-    return this.httpClient
-      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?slug=${slug}`)
-      .pipe(map(results => results.find(r => r.slug === slug)))
-      .pipe(map(x => {
-        const result = new ProductEntity();
-        result.mapFromDto(x);
         return result;
       }));
   }
 
   public newArrivals(): Observable<Array<ProductEntity>> {
-    return this.httpClient
-      .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/product`)
-      .pipe(map(response => {
-        const result = [];
-        for (const dto of response) {
-          const item = new ProductEntity();
-          item.mapFromDto(dto);
-          result.push(item);
-        }
-        return result;
-      }));
+    return this.getProducts().pipe(map(r => r.items));
+  }
+
+  public relatedProducts(): Observable<Array<ProductEntity>> {
+    return this.getProducts().pipe(map(r => r.items));
   }
 
   /**

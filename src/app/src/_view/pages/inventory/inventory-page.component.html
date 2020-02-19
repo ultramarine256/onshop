@@ -50,7 +50,11 @@
       <!-- products -->
       <div class="row">
         <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items">
-          <app-product-item [item]="item"></app-product-item>
+          <app-product-item
+            [item]="item"
+            [baseUrl]="'/product'"
+            (addToCart)="addToCart($event)">
+          </app-product-item>
         </div>
       </div>
 

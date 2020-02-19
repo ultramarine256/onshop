@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 import {AppInfo, AuthService, CartService, InfoService} from '../../_core';
-import {ProductEntity, ProductFilter, ShopRepository} from '../../_data';
+import {ProductFilter, ShopRepository} from '../../_data';
 import {Product} from '../../_domain';
 import {AppMapper} from '../_mapper';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-pages-component',
@@ -11,7 +11,6 @@ import {Router} from '@angular/router';
   templateUrl: './app-pages.component.html',
 })
 export class AppPagesComponent {
-
   /// fields
   public productItems: Array<Product> = [];
 
@@ -27,9 +26,8 @@ export class AppPagesComponent {
 
   /// methods
   public inputChanged(input: string) {
-    // this.shopRepository.getProducts(new ProductFilter({search: input})).subscribe((items: ProductEntity[]) => {
-    //   this.productItems = AppMapper.ToProducts(items);
-    // });
+    this.shopRepository.getProducts(new ProductFilter({search: input}))
+      .subscribe(result => this.productItems = AppMapper.ToProducts(result.items));
   }
 
   public productRedirect(slug: string) {

@@ -1,5 +1,6 @@
 .card {
   height: calc(100%);
+  border: none;
 
   .category-image__wrap {
     display: flex;
@@ -11,29 +12,26 @@
     cursor: pointer;
 
     .image {
-      //width: 90%;
       max-height: 190px;
     }
   }
-  .title-content{
+  .title-content {
     height: 50px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     white-space: nowrap;
-    overflow:hidden;
+    overflow: hidden;
 
   }
 
   .subitems-link {
     color: #0062bd;
   }
-
-
 }
+
 .view-all-item {
   display: flex;
   margin-top: auto;
-  margin-bottom: 5px;
 }
 

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CartItemEntity} from './entities';
+import {NumberExtensions} from '../../extensions';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +68,7 @@ export class CartService {
   private calculatePrice(items: Array<CartItemEntity>): number {
     let price = 0;
     for (const item of items) {
-      price += Number(item.price);
+      price += Math.round(Number(item.price));
     }
     return price;
   }

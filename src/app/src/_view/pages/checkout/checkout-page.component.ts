@@ -13,6 +13,7 @@ import {ShopRepository, CreateOrderModel, LineItem, PAYMENT, Billing, Shipping, 
 export class CheckoutPageComponent implements OnInit {
   /// fields
   public checkoutForm: FormGroup;
+  public projects: Array<Project> = [];
 
   /// predicates
   public orderCompleted = false;
@@ -29,6 +30,11 @@ export class CheckoutPageComponent implements OnInit {
               private shopRepository: ShopRepository,
               private cartService: CartService,
               private router: Router) {
+    this.projects = [
+      new Project({id: 'pr-313-1', name: 'Project 313-1'}),
+      new Project({id: 'pr-313-2', name: 'Project 313-2'}),
+      new Project({id: 'pr-313-3', name: 'Project 313-3'}),
+    ];
   }
 
   ngOnInit() {
@@ -37,20 +43,27 @@ export class CheckoutPageComponent implements OnInit {
     }
 
     this.checkoutForm = this._formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
+      firstName: ['John', Validators.required],
+      lastName: ['Doe', Validators.required],
+      email: ['john@mail.com', Validators.required],
+      phone: ['+1 444 333 22 11', Validators.required],
 
       projectName: ['', Validators.required],
       projectNumber: ['', Validators.required],
-      deliveryDate:  [''],
+      deliveryDate: [''],
 
       address: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
       zip: ['', Validators.required]
     });
+
+    this.checkoutForm.controls.firstName.disable();
+    this.checkoutForm.controls.lastName.disable();
+    this.checkoutForm.controls.email.disable();
+    this.checkoutForm.controls.phone.disable();
+
+    this.checkoutForm.controls.projectName.disable();
   }
 
   /// actions
@@ -61,7 +74,6 @@ export class CheckoutPageComponent implements OnInit {
 
   /// methods
   public placeOrder(form: FormGroup) {
-
     const model = new CreateOrderModel({
       paymentMethod: PAYMENT.payment_method__bacs,
       paymentMethodTitle: PAYMENT.payment_title__direct,
@@ -100,5 +112,16 @@ export class CheckoutPageComponent implements OnInit {
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });
+  }
+}
+
+export class Project {
+  /// fields
+  id: string;
+  name: string;
+
+  /// constructor
+  constructor(init?: Partial<Project>) {
+    Object.assign(this as any, init);
   }
 }
