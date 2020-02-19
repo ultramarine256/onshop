@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../../../../_core';
 import {Router} from '@angular/router';
+import {AuthService} from '../../../../_core';
+import {ShopRepository} from '../../../../_data';
 
 @Component({
   selector: 'app-account-page',
@@ -8,6 +9,8 @@ import {Router} from '@angular/router';
 })
 export class AccountPageComponent {
   constructor(public authService: AuthService,
+              public asd: ShopRepository,
+
               private router: Router) {
   }
 }

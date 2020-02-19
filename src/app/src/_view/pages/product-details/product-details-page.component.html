@@ -7,18 +7,21 @@
     </ol>
   </nav>
 </div>
-<div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!didLoaded">
+<div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!isLoaded">
   <div class="spinner-grow text-primary" role="status"></div>
 </div>
-<div class="container" *ngIf="didLoaded">
+<div class="container" *ngIf="isLoaded">
   <div class="row">
     <div class="col-12 col-md-4">
       <img class="w-100 rounded" [src]="product.firstImage">
     </div>
     <div class="col-12 col-md-8">
       <h3>{{product.name}}</h3>
+      <small class="text-secondary">{{product.firstCategory.name}}</small>
+      <div [innerHTML]="product.description"></div>
+      <div [innerHTML]="product.shortDescription"></div>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+        <b>Stock Quantity:</b> {{product.stockQuantity}}
       </p>
       <p>
         <b>SKU:</b> FW511948218
@@ -26,11 +29,27 @@
       <p>
         <b>Price:</b> {{product.price | currency}}
       </p>
+
+
       <button class="btn btn-primary btn-sm" (click)="addToCart(product)">Add to Cart</button>
     </div>
 
-    <div class="col-12 col-md-8">
+    <div class="col-12">
       <h2 class="content-title mb-2">Related Products</h2>
+      <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!relatedIsLoaded">
+        <div class="spinner-grow text-primary" role="status"></div>
+      </div>
+      <div class="related-carousel owl-carousel owl-theme" *ngIf="relatedIsLoaded">
+        <div class="item" *ngFor="let item of relatedProducts">
+          <a class="text-decoration-none carousel-item" [routerLink]="'/product/' + item.slug">
+            <div class="img-wrap">
+              <img
+                [src]="item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+            </div>
+            <h6 class="mt-1">{{item.name}}</h6>
+          </a>
+        </div>
+      </div>
     </div>
 
   </div>

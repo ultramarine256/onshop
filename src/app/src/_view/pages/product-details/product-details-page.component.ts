@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {finalize, map} from 'rxjs/operators';
 import {CartService} from '../../../_core';
-import {ProductEntity, ShopRepository} from '../../../_data';
+import {ProductEntity, ProductFilter, ShopRepository} from '../../../_data';
 import {AppMapper} from '../../_mapper';
-import {finalize} from 'rxjs/operators';
+import {OWL_CAROUSEL} from '../../../_domain';
 
 @Component({
   selector: 'app-product-details-page',
@@ -13,9 +14,11 @@ import {finalize} from 'rxjs/operators';
 export class ProductDetailsPageComponent implements OnInit {
   /// fields
   public product: ProductEntity;
+  public relatedProducts: Array<ProductEntity> = [];
 
   /// predicates
-  public didLoaded = false;
+  public isLoaded = false;
+  public relatedIsLoaded = false;
 
   /// lifecycle
   constructor(private shopRepository: ShopRepository,
@@ -26,9 +29,17 @@ export class ProductDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params =>
-      this.shopRepository.getProductBySlug(params.slug)
-        .pipe(finalize(() => this.didLoaded = true))
-        .subscribe(item => this.product = item));
+      this.shopRepository.getProducts(new ProductFilter({slug: params.slug}))
+        .pipe(finalize(() => this.isLoaded = true))
+        .pipe(map(x => x.items[0]))
+        .subscribe(item => {
+          this.product = item;
+          console.log(item);
+          this.shopRepository.getProducts(new ProductFilter({include: this.product.relatedIds.join(',')}))
+            .pipe(finalize(() => this.relatedIsLoaded = true))
+            .pipe(finalize(() => setTimeout(() => (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS), 200)))
+            .subscribe(result => this.relatedProducts = result.items);
+        }));
   }
 
   /// methods

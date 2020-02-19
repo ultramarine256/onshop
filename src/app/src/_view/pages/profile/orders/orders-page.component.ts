@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../../../../_core';
 import {Router} from '@angular/router';
+import {AuthService} from '../../../../_core';
 
 @Component({
   selector: 'app-orders-page',

@@ -25,7 +25,7 @@ export class InventoryPageComponent implements OnInit {
   public filtersChanged(filter: InventoryFilter) {
     // TODO: update url according to query params
     this.filter = filter;
-    console.log(this.filter);
+    // console.log(this.filter);
 
     // TODO: dynamic filter mapping
     const a = new ProductFilter({

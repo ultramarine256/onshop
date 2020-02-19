@@ -16,10 +16,9 @@ export class InventorySearchResult {
   }
 }
 
-
 export class SearchResultFilters {
   /// fields
-  categories: Array<CategoryFilter>;
+  categories: Array<CategoryFilterResponse>;
   price: PricingFilter;
 
   /// constructor
@@ -31,25 +30,23 @@ export class SearchResultFilters {
 
   /// mapper
   public mapFromDto(dto: any) {
-    this.categoryName = dto.category_name;
-    this.minPrice = dto.min_price;
-    this.maxPrice = dto.max_price;
   }
 }
 
-export class CategoryFilter {
+export class CategoryFilterResponse {
   categoryName: string;
-  filterItems: string;
+  filterItems: Array<any>;
 
   /// constructor
-  constructor(init?: Partial<CategoryFilter>) {
+  constructor(init?: Partial<CategoryFilterResponse>) {
+    this.filterItems = [];
     Object.assign(this as any, init);
   }
 
   /// mapper
   public mapFromDto(dto: any) {
     this.categoryName = dto.categoryName;
-    this.maxPrice = dto.max_price;
+    this.filterItems = [];
   }
 }
 

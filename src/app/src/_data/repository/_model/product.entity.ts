@@ -8,6 +8,9 @@ export class ProductEntity {
   status: string;
   price: number;
 
+  description: string;
+  shortDescription: string;
+
   backorders: string;
   stockQuantity: string;
   stockStatus: string;
@@ -54,6 +57,9 @@ export class ProductEntity {
     this.slug = dto.slug;
     this.status = dto.status;
     this.price = dto.price;
+
+    this.description = dto.description;
+    this.shortDescription = dto.short_description;
 
     this.backorders = dto.backorders;
     this.stockQuantity = dto.stock_quantity;

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {ProductEntity} from '../../../../_data';
 
 @Component({
@@ -9,6 +9,8 @@ import {ProductEntity} from '../../../../_data';
 export class ProductItemComponent {
   /// binding
   @Input() item: ProductEntity;
+  @Input() baseUrl: string;
+  @Output() addToCart = new EventEmitter<ProductEntity>();
 
   /// constructor
   constructor() {
