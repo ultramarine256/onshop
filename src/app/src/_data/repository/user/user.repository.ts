@@ -16,14 +16,7 @@ export class UserRepository extends BaseRepository {
   public getOrders() {
     return this.httpClient
       .get<Array<CategoryEntity>>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/orders`, {withCredentials: true})
-      .pipe(map(x => {
-
-
-        return x.toString().toLowerCase() === 'ok';
-      }))
-
-      .pipe(map());
-
+      .pipe(map(x => {return x.toString().toLowerCase() === 'ok';}));
   }
 
   public userDetails() {
