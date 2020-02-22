@@ -23,6 +23,13 @@ $connectstr_dbhost = 'DEFAULT-DB-HOST';
 $connectstr_dbname = 'DEFAULT-DB-NAME';
 $connectstr_dbusername = 'DEFAULT-DB-USERNAME';
 $connectstr_dbpassword = 'DEFAULT-DB-PASSWORD';
+
+$auth_secret_key = 'DEFAULT-SECRET-KEY';
+$issuer_claim = 'DEFAULT-ISSUE-CLAIM';
+$audience_claim =  "THE_AUDIENCE";
+$token_validation_delay_sec = 0;
+$token_expiration_interval_sec = 600;
+
 $wp_debug = false;
 
 // server configuration
@@ -35,8 +42,20 @@ if (file_exists($config)) {
 	$connectstr_dbusername = $json->{'dbusername'};
 	$connectstr_dbpassword = $json->{'dbpassword'};
 
+	$auth_secret_key = $json->{'auth'}->{'secret-key'};
+	$issuer_claim = $json->{'auth'}->{'issuer-claim'};
+	$audience_claim = $json->{'auth'}->{'audience-claim'};
+	$token_validation_delay_sec = $json->{'auth'}->{'token-validation-delay-sec'};
+	$token_expiration_interval_sec = $json->{'auth'}->{'token-expiration-interval-sec'};
+
 	$wp_debug = $json->{'use-debug'};
 }
+
+define('AUTH_SECRET_KEY', $auth_secret_key);
+define('ISSUER_CLAIM', $issuer_claim);
+define('AUDIENCE_CLAIM', $audience_claim);
+define('TOKEN_VALIDATION_DELAY_SEC', $token_validation_delay_sec);
+define('TOKEN_EXPIRATION_INTERVAL_SEC', $token_expiration_interval_sec);
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
