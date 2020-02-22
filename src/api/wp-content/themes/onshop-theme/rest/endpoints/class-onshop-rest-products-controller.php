@@ -108,9 +108,9 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller
 
     	return [
     		[
-			    "category_name" => "price",
-			    "min_price" => $prices->min_price,
-			    "max_price" => $prices->max_price,
+			    'category_name' => 'price',
+			    'min_price' => $prices->min_price,
+			    'max_price' => $prices->max_price,
 		    ],
 	    ];
 	}

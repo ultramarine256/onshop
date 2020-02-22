@@ -126,6 +126,11 @@ class ONSHOP_REST_Orders_Controller extends WC_REST_Orders_Controller
                     'callback' => function (WP_REST_Request $request) {
                         $user = wp_get_current_user();
                         $response =  $this->get_item($request);
+
+	                    if ( is_wp_error( $response ) ) {
+		                    return $response;
+	                    }
+
                         $data = $response->get_data();
 
                         if ($data['customer_id'] != $user->ID) {

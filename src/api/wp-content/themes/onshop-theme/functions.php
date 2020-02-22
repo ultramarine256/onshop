@@ -109,14 +109,14 @@ add_action('rest_api_init', function () {
 require_once 'autoload.php';
 
 add_action('rest_api_init', function () {
-    $orders_Controller =     new ONSHOP_REST_Orders_Controller();
+    $orders_Controller = new ONSHOP_REST_Orders_Controller();
     $orders_Controller->register_routes();
-    $users_Controller =      new ONSHOP_REST_Users_Controller();
+    $users_Controller = new ONSHOP_REST_Users_Controller();
     $users_Controller->register_routes();
     $categories_Controller = new ONSHOP_REST_Categories_Controller();
     $categories_Controller->register_routes();
-    $products_Controller =   new ONSHOP_REST_Products_Controller();
+    $products_Controller = new ONSHOP_REST_Products_Controller();
     $products_Controller->register_routes();
-	$products_Controller =   new ONSHOP_REST_Projects_Controller();
+	$products_Controller = new ONSHOP_REST_Projects_Controller();
 	$products_Controller->register_routes();
 });
