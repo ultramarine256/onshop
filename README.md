@@ -32,9 +32,16 @@ Install and setup docker desktop. To have project running on local with docker w
 To make api authorization work properly you need:
 - install composer
 - install jwt-auth with composer `composer require firebase/php-jwt`
-- set secret key in your `_config.json`
+- set auth configs under `_config.json`
 ```
-"auth-secret-key": "YOUR_SECRET_KEY",
+  "auth": {
+    "secret-sign-key": "YOUR_SECRET_SIGN_KEY",
+    "secret-enc-key": "YOUR_SECRET_ENC_KEY",
+    "issuer-claim": "YOUR_ISSUER_CLAIM",
+    "audience-claim": "THE_AUDIENCE",
+    "token-validation-delay-sec": 0,
+    "token-expiration-interval-sec": 1800
+  },
 ```
 - ensure apache propagate auth headers with 
 ```

@@ -24,7 +24,7 @@ class ONSHOP_AUTH {
 			"data" => $data,
 		];
 
-		return JWT::encode( $token, AUTH_SECRET_KEY );
+		return JWT::encode( $token, AUTH_SECRET_SIGN_KEY );
 	}
 
 	public static function verify_auth() {
@@ -36,7 +36,7 @@ class ONSHOP_AUTH {
 
 		if ( $jwt ) {
 			try {
-				$decoded = JWT::decode( $jwt, AUTH_SECRET_KEY, array( 'HS256' ) );
+				$decoded = JWT::decode( $jwt, AUTH_SECRET_SIGN_KEY, array( 'HS256' ) );
 				$user_id = @$decoded->data->user_id;
 
 				if ( $user_id ) {
