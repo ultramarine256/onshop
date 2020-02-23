@@ -33,6 +33,21 @@ class ONSHOP_MODEL_Projects {
 			WHERE id = ' . $project_id );
 	}
 
+	public static function getAll() {
+		global $wpdb;
+
+		return $wpdb->get_results( 'SELECT id, name, description FROM projects' );
+	}
+
+	public static function getByUserId( $user_id ) {
+		global $wpdb;
+
+		return $wpdb->get_results( '
+			SELECT p.id, p.name, p.description
+			FROM projects as p INNER JOIN usersXprojects as up ON p.id = up.project_id
+			WHERE up.user_id=' . $user_id );
+	}
+
 	public static function update( $project_id, $data ) {
 		global $wpdb;
 
