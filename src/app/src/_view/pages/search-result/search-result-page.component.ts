@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ShopRepository, CategoryEntity} from '../../../_data';
+import {CategoryModel, CategoryRepository} from '../../../_data';
 
 @Component({
   selector: 'app-search-result-page',
@@ -8,17 +8,17 @@ import {ShopRepository, CategoryEntity} from '../../../_data';
 })
 export class SearchResultPageComponent implements OnInit {
   /// fields
-  public categories: Array<CategoryEntity> = [];
+  public categories: Array<CategoryModel> = [];
 
   /// predicates
   public isLoaded = false;
 
   /// constructor
-  constructor(private shopRepository: ShopRepository) {
+  constructor(private productRepository: CategoryRepository) {
   }
 
   ngOnInit(): void {
-    this.shopRepository.getCategories().subscribe(data => {
+    this.productRepository.getCategories().subscribe(data => {
       this.categories = data;
       this.isLoaded = true;
     });

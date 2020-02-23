@@ -1,9 +1,9 @@
 import {CartItemEntity} from '../../_core';
 import {CarouselItemModel, Product} from '../../_domain';
-import {CategoryEntity, ProductEntity} from '../../_data';
+import {CategoryModel, ProductModel} from '../../_data';
 
 export class AppMapper {
-  public static toCartItem(entity: ProductEntity): CartItemEntity {
+  public static toCartItem(entity: ProductModel): CartItemEntity {
     const result = new CartItemEntity();
     result.id = entity.id;
     result.slug = entity.slug;
@@ -13,7 +13,7 @@ export class AppMapper {
     return result;
   }
 
-  public static ToProducts(entities: Array<ProductEntity>): Array<Product> {
+  public static ToProducts(entities: Array<ProductModel>): Array<Product> {
     const result = new Array<Product>();
     for (let i = 0; i < entities.length; i++) {
       result[i] = new Product();
@@ -25,17 +25,17 @@ export class AppMapper {
     return result;
   }
 
-  static mapFromMany(dtos: Array<any>): Array<ProductEntity> {
+  static mapFromMany(dtos: Array<any>): Array<ProductModel> {
     const result = [];
     for (const dto of dtos) {
-      const entity = new ProductEntity();
+      const entity = new ProductModel();
       entity.mapFromDto(dto);
       result.push(entity);
     }
     return result;
   }
 
-  public static categoriesToCarouselItem(items: Array<CategoryEntity>): Array<CarouselItemModel> {
+  public static categoriesToCarouselItem(items: Array<CategoryModel>): Array<CarouselItemModel> {
     const result = [];
     for (const item of items) {
       result.push(new CarouselItemModel({
@@ -47,7 +47,7 @@ export class AppMapper {
     return result;
   }
 
-  public static productsToCarouselItem(items: Array<ProductEntity>): Array<CarouselItemModel> {
+  public static productsToCarouselItem(items: Array<ProductModel>): Array<CarouselItemModel> {
     const result = [];
     for (const item of items) {
       result.push(new CarouselItemModel({

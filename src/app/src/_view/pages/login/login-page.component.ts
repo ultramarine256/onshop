@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ShopRepository, UserRepository} from '../../../_data';
+import {ProductRepository, UserRepository} from '../../../_data';
 import {AuthService, ValidationHelper} from '../../../_core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -23,7 +23,7 @@ export class LoginPageComponent {
 
   /// constructor
   constructor(private userRepository: UserRepository,
-              private shopRepository: ShopRepository,
+              private productRepository: ProductRepository,
               public authService: AuthService,
               private router: Router) {
     this.loginForm = this.createLoginForm();
@@ -51,9 +51,9 @@ export class LoginPageComponent {
   }
 
   public getOrders() {
-    this.userRepository.getOrders().subscribe((data) => {
-      console.log(data);
-    });
+    // this.userRepository.getOrders().subscribe((data) => {
+    //   console.log(data);
+    // });
   }
 
   /// validation

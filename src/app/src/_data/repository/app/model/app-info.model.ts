@@ -1,4 +1,4 @@
-export class ShopInfoEntity {
+export class AppInfoModel {
   appTitle: string;
   themeColor: string;
   logoImageUrl: string;
@@ -7,7 +7,7 @@ export class ShopInfoEntity {
   phone: string;
 
   /// constructor
-  constructor(init?: Partial<ShopInfoEntity>) {
+  constructor(init?: Partial<AppInfoModel>) {
     Object.assign(this as any, init);
   }
 

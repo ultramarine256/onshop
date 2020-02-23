@@ -1,6 +1,6 @@
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 
-export class CategoryEntity {
+export class CategoryModel {
   /// fields
   id: number;
   name: string;
@@ -11,7 +11,7 @@ export class CategoryEntity {
   parent: number;
 
   /// constructor
-  constructor(init?: Partial<CategoryEntity>) {
+  constructor(init?: Partial<CategoryModel>) {
     this.image = new CategoryImage();
     Object.assign(this as any, init);
   }

@@ -1,6 +1,6 @@
 import {DateExtensions, ObjectExtensions} from '../../../../_core';
 
-export class CreateOrderModel {
+export class OrderCreateModel {
   /// fields
   public paymentMethod: string;
   public paymentMethodTitle: string;
@@ -14,7 +14,7 @@ export class CreateOrderModel {
   public projectNumber: string;
 
   /// constructor
-  constructor(init?: Partial<CreateOrderModel>) {
+  constructor(init?: Partial<OrderCreateModel>) {
     this.deliveryDate = new Date();
     this.billing = new Billing();
     this.shipping = new Shipping();

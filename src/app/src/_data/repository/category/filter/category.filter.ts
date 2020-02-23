@@ -1,4 +1,4 @@
-import {FilterEntity} from '../filter.entity';
+import {FilterEntity} from '../../_abstraction';
 
 export class CategoryFilter extends FilterEntity {
   /// fields
