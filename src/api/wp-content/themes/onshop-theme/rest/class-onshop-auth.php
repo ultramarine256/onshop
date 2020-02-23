@@ -32,7 +32,7 @@ class ONSHOP_AUTH {
 
 		$arr = explode( " ", $authHeader );
 
-		$jwt = $arr[1];
+		$jwt = @$arr[1];
 
 		if ( $jwt ) {
 			try {
