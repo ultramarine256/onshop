@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6da456a7-9226-434e-bd46-6ef9b36ffb90",
+		"_postman_id": "444a633c-8ea5-4708-a075-f24550181155",
 		"name": "/wp-json/onshop/v1/",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,7 +28,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "customer2",
+									"value": "customer_2",
 									"type": "text"
 								},
 								{
@@ -38,8 +38,14 @@
 								},
 								{
 									"key": "email",
-									"value": "customer2@wp.com",
+									"value": "customer_2@wp.com",
 									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
@@ -86,7 +92,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "customer1",
+									"value": "customer",
 									"type": "text"
 								},
 								{
@@ -97,7 +103,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -107,45 +113,6 @@
 								"v1",
 								"user",
 								"login"
-							],
-							"query": [
-								{
-									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "user/logout",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/x-www-form-urlencoded",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/logout?",
-							"host": [
-								"{{ApiBaseUrl}}"
-							],
-							"path": [
-								"wp-json",
-								"onshop",
-								"v1",
-								"user",
-								"logout"
 							],
 							"query": [
 								{
@@ -170,11 +137,17 @@
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/x-www-form-urlencoded",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDQyMDQ3LCJuYmYiOjE1ODI0NDIwNDcsImV4cCI6MTU4MjQ0MjEwNywiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.YJ-QKWQcLgsGrDXiRljchBVCiuTSUPc8tnhKYJJkJxQ",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -199,7 +172,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "orders",
+			"name": "order",
 			"item": [
 				{
 					"name": "order",
@@ -211,6 +184,11 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUyNTM5LCJuYmYiOjE1ODI0NTI1MzksImV4cCI6MTU4MjQ1NDMzOSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.b8s6IoBrQGlRpkX3SXiq40dcAQWuILvJS0JB-bz16x4",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -297,10 +275,15 @@
 								"type": "text",
 								"value": "application/json",
 								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUxNjkxLCJuYmYiOjE1ODI0NTE2OTEsImV4cCI6MTU4MjQ1MjY5MSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.Mqyd6QiKk2s8f7VkTUZ5i8D4bpEv7ph19QHJwZ4OrJA",
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/95?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/121",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -310,7 +293,7 @@
 								"v1",
 								"user",
 								"orders",
-								"95"
+								"121"
 							],
 							"query": [
 								{
@@ -327,7 +310,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "categories",
+			"name": "category",
 			"item": [
 				{
 					"name": "categories",
@@ -433,7 +416,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "products",
+			"name": "product",
 			"item": [
 				{
 					"name": "products",
@@ -498,6 +481,48 @@
 									"key": "slug",
 									"value": "category-4"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "project",
+			"item": [
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Project_1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project"
 							]
 						}
 					},
