@@ -92,12 +92,12 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "customer",
+									"value": "ebala2",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "Qwert12345",
+									"value": "Qwerty1234",
 									"type": "text"
 								}
 							]
@@ -236,6 +236,11 @@
 								"type": "text",
 								"value": "application/json",
 								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUyNTM5LCJuYmYiOjE1ODI0NTI1MzksImV4cCI6MTU4MjQ1NDMzOSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.b8s6IoBrQGlRpkX3SXiq40dcAQWuILvJS0JB-bz16x4",
+								"type": "text"
 							}
 						],
 						"url": {
@@ -493,7 +498,7 @@
 			"name": "project",
 			"item": [
 				{
-					"name": "project/:id",
+					"name": "project",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -502,11 +507,16 @@
 								"name": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDkwNjc3LCJuYmYiOjE1ODI0OTA2NzcsImV4cCI6MTU4MjQ5MjQ3NywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.2aaSADQM7S_yA78dVPmdP40-_svVlAkXB-YJxiykWkw",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Project_1\"\n}",
+							"raw": "{\n\t\"name\": \"Project_2\",\n\t\"description\": \"asdfasdf\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -523,6 +533,266 @@
 								"onshop",
 								"v1",
 								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg5MTgyLCJuYmYiOjE1ODI0ODkxODIsImV4cCI6MTU4MjQ5MDk4MiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.AftuUlTZkVLWnWtBrL7STwwIgymgVndSWB9LIOrr8To"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Project_2_1\",\n\t\"description\": \"asdfasdf_1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/7",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDkwOTQxLCJuYmYiOjE1ODI0OTA5NDEsImV4cCI6MTU4MjQ5Mjc0MSwiZGF0YSI6eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJlYmFsYTJAd3AuY29tIn19.jAJ00VGNjAniXnZCKxN_Um-tZ9UdzXWMvyJQhNpifzo"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/users",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg3ODQ2LCJuYmYiOjE1ODI0ODc4NDYsImV4cCI6MTU4MjQ4OTY0NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.94Fx6Mf2bwSwJ5294wFK6IuwD1S662AhC2LfwQLKbwg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user_ids\": [10, 11, 12]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/7/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"7",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg5MDczLCJuYmYiOjE1ODI0ODkwNzMsImV4cCI6MTU4MjQ5MDg3MywiZGF0YSI6eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJlYmFsYTJAd3AuY29tIn19.j-RbJAqt4bABNyVE5ZmF8J0f6oOUy68qMGAQWMWOXtg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/7",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg0NDgzLCJuYmYiOjE1ODI0ODQ0ODMsImV4cCI6MTU4MjQ4NjI4MywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.ySPba6avhDQ-ow9_2njsDjP2yX6R-TUhmXc01kZGbc0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/6/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"6",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/users",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg2Nzc2LCJuYmYiOjE1ODI0ODY3NzYsImV4cCI6MTU4MjQ4ODU3NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.yjhp67da75omkOx8oPHVfQE0pM6iQoY7lbSSK-SIBDc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user_ids\": [10, 11, 12]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/6/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"6",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg3ODQ2LCJuYmYiOjE1ODI0ODc4NDYsImV4cCI6MTU4MjQ4OTY0NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.94Fx6Mf2bwSwJ5294wFK6IuwD1S662AhC2LfwQLKbwg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/6",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"6"
 							]
 						}
 					},

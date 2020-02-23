@@ -109,7 +109,7 @@ class ONSHOP_REST_Users_Controller extends WC_REST_Customers_Controller {
 		register_rest_route(
 			$this->namespace,
 			'user',
-			array(
+			[
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => function ( WP_REST_Request $request ) {
 					$user          = wp_get_current_user();
@@ -120,7 +120,7 @@ class ONSHOP_REST_Users_Controller extends WC_REST_Customers_Controller {
 				'permission_callback' => function () {
 					return ONSHOP_AUTH::verify_auth();
 				}
-			)
+			]
 		);
 	}
 }
