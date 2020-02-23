@@ -15,14 +15,14 @@ class ONSHOP_AUTH {
 		$notbefore_claim = $issuedat_claim + TOKEN_VALIDATION_DELAY_SEC;
 		$expire_claim    = $issuedat_claim + TOKEN_EXPIRATION_INTERVAL_SEC;
 
-		$token = array(
+		$token = [
 			"iss"  => ISSUER_CLAIM,
 			"aud"  => AUDIENCE_CLAIM,
 			"iat"  => $issuedat_claim,
 			"nbf"  => $notbefore_claim,
 			"exp"  => $expire_claim,
 			"data" => $data,
-		);
+		];
 
 		return JWT::encode( $token, AUTH_SECRET_KEY );
 	}
@@ -46,11 +46,11 @@ class ONSHOP_AUTH {
 
 					return true;
 				}
-
-				return false;
 			} catch ( Exception $e ) {
-				return false;
+				// ignore validation failure
 			}
 		}
+
+		return false;
 	}
 }
