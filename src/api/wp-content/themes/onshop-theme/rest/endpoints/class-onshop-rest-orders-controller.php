@@ -65,6 +65,11 @@ class ONSHOP_REST_Orders_Controller extends WC_REST_Orders_Controller {
 						$max_pages = $query_results['pages'];
 
 						$response = rest_ensure_response( $objects );
+
+						if ( is_wp_error( $response ) ) {
+							return $response;
+						}
+
 						$response->header( 'X-WP-Total', $query_results['total'] );
 						$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
