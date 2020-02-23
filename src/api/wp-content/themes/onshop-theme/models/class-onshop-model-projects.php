@@ -25,10 +25,45 @@ class ONSHOP_MODEL_Projects {
 		return $project;
 	}
 
+	public static function get( $project_id ) {
+		global $wpdb;
+
+		return $wpdb->get_row( '
+			SELECT id, name, description FROM projects 
+			WHERE id = ' . $project_id );
+	}
+
+	public static function update( $project_id, $data ) {
+		global $wpdb;
+
+		$result = $wpdb->update(
+			'projects',
+			ONSHOP_MODEL_Projects::sanitize_project_for_database( $data ),
+			[ 'id' => $project_id ]
+		);
+
+		return $result;
+	}
+
+	public static function delete( $project_id ) {
+		global $wpdb;
+
+		return $wpdb->get_results( '
+			DELETE FROM projects 
+			WHERE id = ' . $project_id );
+	}
+
 	public static function sanitize_project_for_database( $obj ) {
-		return [
-			'name'        => $obj['name'],
-			'description' => $obj['description'],
-		];
+		$result = [];
+
+		if ( $obj['name'] ) {
+			$result['name'] = $obj['name'];
+		}
+
+		if ( $obj['description'] ) {
+			$result['description'] = $obj['description'];
+		}
+
+		return $result;
 	}
 }

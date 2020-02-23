@@ -19,6 +19,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 	 * Route registration
 	 */
 	public function register_routes() {
+		// project
 		register_rest_route(
 			$this->namespace,
 			'project',
@@ -77,56 +78,38 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 		);
 		register_rest_route(
 			$this->namespace,
-			'project',
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => function ( WP_REST_Request $request ) {
-					$user          = wp_get_current_user();
-					$request['id'] = $user->ID;
-
-					// TODO get all projects
-
-					return 'OK';
-				},
-				'permission_callback' => function () {
-					$user_id = wp_validate_auth_cookie( '', 'logged_in' );
-
-					if ( $user_id ) {
-						wp_set_current_user( $user_id );
-					}
-
-					return $user_id;
-				},
-			)
-		);
-		register_rest_route(
-			$this->namespace,
 			'project/(?P<id>\d+)',
 			array(
 				'args' => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the resource.', 'onshop' ),
+						'description' => __( 'Unique identifier for the project.', 'onshop' ),
 						'type'        => 'integer',
 					),
 				),
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => function ( WP_REST_Request $request ) {
-						$user    = wp_get_current_user();
-						$user_id = $user->ID;
+						$params = $request->get_params();
 
-						// TODO get specific project
+						$user          = wp_get_current_user();
+						$allowed_roles = [ 'administrator' ];
 
-						return 'OK';
-					},
-					'permission_callback' => function () {
-						$user_id = wp_validate_auth_cookie( '', 'logged_in' );
+						if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
+							$user_ids = ONSHOP_MODEL_UsersXProjects::get_project_users( $params['id'] );
 
-						if ( $user_id ) {
-							wp_set_current_user( $user_id );
+							if ( ! array_intersect( $user_ids, [ $user->ID ] ) ) {
+								return new WP_Error(
+									'rest_forbidden',
+									__( 'Sorry, you are not allowed to do that.' ),
+									[ 'status' => 401 ]
+								);
+							}
 						}
 
-						return $user_id;
+						return ONSHOP_MODEL_Projects::get( $params['id'] );
+					},
+					'permission_callback' => function () {
+						return ONSHOP_AUTH::verify_auth();
 					},
 				)
 			)
@@ -134,34 +117,66 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 		register_rest_route(
 			$this->namespace,
 			'project/(?P<id>\d+)',
-			array(
-				'args' => array(
-					'id' => array(
-						'description' => __( 'Unique identifier for the resource.', 'onshop' ),
-						'type'        => 'integer',
-					),
-				),
-				array(
-					'methods'             => WP_REST_Server::EDITABLE,
-					'callback'            => function ( WP_REST_Request $request ) {
-						$user    = wp_get_current_user();
-						$user_id = $user->ID;
+			[
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => function ( WP_REST_Request $request ) {
+					$params = $request->get_params();
 
-						// TODO update specific project
+					$project_id = ONSHOP_MODEL_Projects::update(
+						$params['id'],
+						[
+							'name'        => $params['name'],
+							'description' => $params['description']
+						]
+					);
 
-						return 'OK';
-					},
-					'permission_callback' => function () {
-						$user_id = wp_validate_auth_cookie( '', 'logged_in' );
+					if ( ! $project_id ) {
+						return new WP_Error(
+							'invalid_data',
+							__( 'Failed to create project' ),
+							[ 'status' => 400 ]
+						);
+					}
 
-						if ( $user_id ) {
-							wp_set_current_user( $user_id );
+					return [
+						'project_id' => $params['id'],
+					];
+				},
+				'permission_callback' => function () {
+					$result = ONSHOP_AUTH::verify_auth();
+
+					if ( ! $result ) {
+						return false;
+					}
+
+					$user          = wp_get_current_user();
+					$allowed_roles = [ 'administrator' ];
+
+					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
+						return false;
+					}
+
+					return true;
+				},
+				'args'                => [
+					'name'        => [
+						'required'          => false,
+						'description'       => __( 'Name of the project' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
 						}
-
-						return $user_id;
-					},
-				)
-			)
+					],
+					'description' => [
+						'required'          => false,
+						'description'       => __( 'Project\'s description' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						}
+					],
+				],
+			]
 		);
 		register_rest_route(
 			$this->namespace,
@@ -169,34 +184,42 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 			array(
 				'args' => array(
 					'id' => array(
-						'description' => __( 'Unique identifier for the resource.', 'onshop' ),
+						'description' => __( 'Unique identifier for the project.', 'onshop' ),
 						'type'        => 'integer',
 					),
 				),
 				array(
 					'methods'             => WP_REST_Server::DELETABLE,
 					'callback'            => function ( WP_REST_Request $request ) {
-						$user    = wp_get_current_user();
-						$user_id = $user->ID;
+						$params = $request->get_params();
 
-						// TODO delete specific project
+						ONSHOP_MODEL_Projects::delete( $params['id'] );
 
-						return 'OK';
+						return [
+							'project_id' => $params['id'],
+						];
 					},
 					'permission_callback' => function () {
-						$user_id = wp_validate_auth_cookie( '', 'logged_in' );
+						$result = ONSHOP_AUTH::verify_auth();
 
-						if ( $user_id ) {
-							wp_set_current_user( $user_id );
+						if ( ! $result ) {
+							return false;
 						}
 
-						return $user_id;
+						$user          = wp_get_current_user();
+						$allowed_roles = [ 'administrator' ];
+
+						if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
+							return false;
+						}
+
+						return true;
 					},
 				)
 			)
 		);
 
-
+		// project/:id/users
 		register_rest_route(
 			$this->namespace,
 			'project/(?P<id>\d+)/users',
