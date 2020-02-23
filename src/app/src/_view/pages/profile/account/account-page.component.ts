@@ -12,5 +12,9 @@ export class AccountPageComponent {
               public asd: ProductRepository,
 
               private router: Router) {
+
+    console.log(this.authService.identity);
+
+
   }
 }

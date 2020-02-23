@@ -11,7 +11,7 @@ import {CartPageComponent} from './cart';
 import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
 import {LoginPageComponent} from './login';
-import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent} from './profile';
+import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent, ProjectsPageComponent} from './profile';
 
 export const routes: Routes = [
   {
@@ -64,6 +64,10 @@ export const routes: Routes = [
           {
             path: 'orders',
             component: OrdersPageComponent
+          },
+          {
+            path: 'projects',
+            component: ProjectsPageComponent
           }
         ]
       },

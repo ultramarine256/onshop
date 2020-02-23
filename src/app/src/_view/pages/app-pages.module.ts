@@ -13,7 +13,7 @@ import {CartPageComponent} from './cart';
 import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
 import {LoginPageComponent} from './login';
-import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent} from './profile';
+import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent, ProjectsPageComponent} from './profile';
 import {
   AuthModule,
   CartModule,
@@ -41,6 +41,7 @@ import {
     ProductDetailsPageComponent,
     LoginPageComponent,
     ProfilePageComponent,
+    ProjectsPageComponent,
     SearchResultPageComponent,
     TrackOrderPageComponent,
     AccountPageComponent,

@@ -32,7 +32,7 @@ export class AuthService {
     const identity = localStorage.getItem(Constants.IDENTITY_KEY);
     if (identity) {
       const userModel = new UserModel();
-      userModel.mapFromDto(JSON.parse(identity));
+      userModel.mapFromJson(JSON.parse(identity));
       this._identity = userModel;
     }
   }
@@ -47,8 +47,6 @@ export class AuthService {
   }
 
   public login(username: string, password: string): Observable<LoginResponse> {
-
-
     const emitter: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>(null);
 
     const xhr = new XMLHttpRequest();

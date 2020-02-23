@@ -2,6 +2,8 @@ import {DateExtensions, ObjectExtensions} from '../../../../_core';
 
 export class OrderCreateModel {
   /// fields
+  public customerId: number;
+
   public paymentMethod: string;
   public paymentMethodTitle: string;
   public setPaid: boolean;
@@ -25,6 +27,8 @@ export class OrderCreateModel {
   /// mappers
   public mapToWooCommerceOrder(): {} {
     const json: { [k: string]: any } = {};
+
+    json.customer_id = this.customerId;
 
     json.payment_method = this.paymentMethod;
     json.payment_method_title = this.paymentMethodTitle;

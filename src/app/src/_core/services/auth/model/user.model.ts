@@ -12,11 +12,16 @@ export class UserModel {
 
   /// mappers
   mapFromDto(dto: any) {
-    if (dto) {
-      this.firstName = dto.first_name;
-      this.lastName = dto.last_name;
-      this.role = dto.role;
-      this.username = dto.username;
-    }
+    this.firstName = dto.first_name;
+    this.lastName = dto.last_name;
+    this.role = dto.role;
+    this.username = dto.username;
+  }
+
+  mapFromJson(dto: any) {
+    this.firstName = dto.firstName;
+    this.lastName = dto.lastName;
+    this.role = dto.role;
+    this.username = dto.username;
   }
 }
