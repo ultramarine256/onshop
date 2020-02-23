@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CategoryEntity} from '../../../_data';
+import {CategoryModel} from '../../../_data';
 
 @Component({
   selector: 'app-header-component',
@@ -10,7 +10,7 @@ export class HeaderComponent {
   /// binding
   @Input() productsCount: number;
   @Input() productsPrice: number;
-  @Input() categories: Array<CategoryEntity> = [];
+  @Input() categories: Array<CategoryModel> = [];
 
   @Input() email: string;
   @Input() phone: string;

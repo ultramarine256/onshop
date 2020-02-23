@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {AppInfo, AuthService, CartService, InfoService} from '../../_core';
-import {ProductFilter, ShopRepository} from '../../_data';
+import {AppRepository, ProductFilter, ProductRepository} from '../../_data';
 import {Product} from '../../_domain';
 import {AppMapper} from '../_mapper';
 
@@ -17,16 +17,17 @@ export class AppPagesComponent {
   /// constructor
   constructor(public cartService: CartService,
               public infoService: InfoService,
-              private shopRepository: ShopRepository,
+              private productRepository: ProductRepository,
+              private appRepository: AppRepository,
               public authService: AuthService,
               private router: Router) {
-    this.shopRepository.getShopInfo().subscribe(data =>
+    this.appRepository.appInfo().subscribe(data =>
       this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
   }
 
   /// methods
   public inputChanged(input: string) {
-    this.shopRepository.getProducts(new ProductFilter({search: input}))
+    this.productRepository.getProducts(new ProductFilter({search: input}))
       .subscribe(result => this.productItems = AppMapper.ToProducts(result.items));
   }
 

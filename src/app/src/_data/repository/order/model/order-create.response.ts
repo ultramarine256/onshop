@@ -1,10 +1,10 @@
-export class ResponseOrderModel {
+export class OrderCreateResponse {
   /// fields
   id: number;
   orderKey: string;
 
   /// constructor
-  constructor(init?: Partial<ResponseOrderModel>) {
+  constructor(init?: Partial<OrderCreateResponse>) {
     Object.assign(this as any, init);
   }
 

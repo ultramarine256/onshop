@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CategoryEntity} from '../../../../_data';
+import {CategoryModel} from '../../../../_data';
 
 @Component({
   selector: 'app-category-item',
@@ -13,10 +13,10 @@ export class CategoryItemComponent {
   @Input() baseUrl: string;
   @Input() count: number;
   @Input() photo;
-  @Input() subCategories: Array<CategoryEntity>;
+  @Input() subCategories: Array<CategoryModel>;
 
   /// fields
-  public categories: Array<CategoryEntity> = [];
+  public categories: Array<CategoryModel> = [];
 
   /// constructor
   constructor() {

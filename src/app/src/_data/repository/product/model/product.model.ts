@@ -1,6 +1,6 @@
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 
-export class ProductEntity {
+export class ProductModel {
   /// fields
   id: number;
   name: string;
@@ -41,7 +41,7 @@ export class ProductEntity {
   }
 
   /// constructor
-  constructor(init?: Partial<ProductEntity>) {
+  constructor(init?: Partial<ProductModel>) {
     this.relatedIds = [];
     this.dimensions = new ProductDimensions();
     this.categories = [];

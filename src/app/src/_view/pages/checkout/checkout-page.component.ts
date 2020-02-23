@@ -3,7 +3,15 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {CartService, ValidationHelper} from '../../../_core';
-import {ShopRepository, CreateOrderModel, LineItem, PAYMENT, Billing, Shipping, ResponseOrderModel} from '../../../_data';
+import {
+  LineItem,
+  PAYMENT,
+  Billing,
+  Shipping,
+  OrderCreateModel,
+  OrderRepository,
+  OrderCreateResponse
+} from '../../../_data';
 
 @Component({
   selector: 'app-checkout-page',
@@ -27,7 +35,7 @@ export class CheckoutPageComponent implements OnInit {
 
   /// constructor
   constructor(private _formBuilder: FormBuilder,
-              private shopRepository: ShopRepository,
+              private orderRepository: OrderRepository,
               private cartService: CartService,
               private router: Router) {
     this.projects = [
@@ -74,7 +82,7 @@ export class CheckoutPageComponent implements OnInit {
 
   /// methods
   public placeOrder(form: FormGroup) {
-    const model = new CreateOrderModel({
+    const model = new OrderCreateModel({
       paymentMethod: PAYMENT.payment_method__bacs,
       paymentMethodTitle: PAYMENT.payment_title__direct,
       setPaid: false,
@@ -103,12 +111,12 @@ export class CheckoutPageComponent implements OnInit {
     }
 
     this.isLoading = true;
-    this.shopRepository.placeOrder(model.mapToWooCommerceOrder())
+    this.orderRepository.placeOrder(model.mapToWooCommerceOrder())
       .pipe(finalize(() => {
         this.isLoading = false;
         this.orderCompleted = true;
       }))
-      .subscribe((item: ResponseOrderModel) => {
+      .subscribe((item: OrderCreateResponse) => {
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });

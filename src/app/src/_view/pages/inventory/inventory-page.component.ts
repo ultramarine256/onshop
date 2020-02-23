@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {CartService} from '../../../_core';
-import {CategoryEntity, ProductEntity, ProductFilter, ShopRepository, InventorySearchResult} from '../../../_data';
+import {CategoryModel, ProductModel, ProductFilter, ProductRepository, ProductSearchResult, CategoryRepository} from '../../../_data';
 import {AppMapper} from '../../_mapper';
 import {FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
 
@@ -13,10 +13,10 @@ import {FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../.
 })
 export class InventoryPageComponent implements OnInit {
   /// fields
-  public items: Array<ProductEntity> = [];
-  public category: CategoryEntity = new CategoryEntity();
+  public items: Array<ProductModel> = [];
+  public category: CategoryModel = new CategoryModel();
   public filter: InventoryFilter;
-  public searchResult: InventorySearchResult;
+  public searchResult: ProductSearchResult;
 
   /// predicates
   public isLoading = true;
@@ -36,24 +36,25 @@ export class InventoryPageComponent implements OnInit {
     });
 
     this.isLoading = true;
-    this.shopRepository.getProducts(a)
+    this.productRepository.getProducts(a)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => this.searchResult = result);
   }
 
   /// constructor
-  constructor(private shopRepository: ShopRepository,
+  constructor(private productRepository: ProductRepository,
+              private categoryRepository: CategoryRepository,
               private cartService: CartService,
               private route: ActivatedRoute,
               private router: Router) {
     this.filter = DefaultFilters.Get();
-    this.searchResult = new InventorySearchResult();
+    this.searchResult = new ProductSearchResult();
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.shopRepository.getCategory(params.categoryId).subscribe(item => this.category = item);
-      this.shopRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}))
+      this.categoryRepository.getCategory(params.categoryId).subscribe(item => this.category = item);
+      this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}))
         .pipe(finalize(() => this.isLoading = false))
         .subscribe(result => this.searchResult = result);
     });
@@ -68,7 +69,7 @@ export class InventoryPageComponent implements OnInit {
     this.router.navigate([`product/${slug}`]).then();
   }
 
-  public addToCart(item: ProductEntity) {
+  public addToCart(item: ProductModel) {
     this.cartService.addItem(AppMapper.toCartItem(item));
   }
 }

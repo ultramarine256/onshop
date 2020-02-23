@@ -1,5 +1,5 @@
 import {AfterContentInit, Component} from '@angular/core';
-import {CategoryEntity, ProductEntity, ShopRepository} from '../../../_data';
+import {CategoryModel, CategoryRepository, ProductModel, ProductRepository} from '../../../_data';
 import {OWL_CAROUSEL} from '../../../_domain';
 import {forkJoin} from 'rxjs';
 import {finalize} from 'rxjs/operators';
@@ -11,21 +11,22 @@ import {finalize} from 'rxjs/operators';
 })
 export class HomePageComponent implements AfterContentInit {
   /// fields
-  public products: Array<ProductEntity> = [];
-  public categories: Array<CategoryEntity> = [];
+  public products: Array<ProductModel> = [];
+  public categories: Array<CategoryModel> = [];
 
   /// predicate
   public didLoaded = false;
 
   /// constructor
-  constructor(private shopRepository: ShopRepository) {
+  constructor(private productRepository: ProductRepository,
+              private categoryRepository: CategoryRepository) {
   }
 
   /// lifecycle
   ngAfterContentInit(): void {
-    forkJoin(this.shopRepository.getCategories(), this.shopRepository.newArrivals())
+    forkJoin(this.categoryRepository.getCategories(), this.productRepository.newArrivals())
       .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((val: [Array<CategoryEntity>, Array<ProductEntity>]) => {
+      .subscribe((val: [Array<CategoryModel>, Array<ProductModel>]) => {
         this.categories = val[0];
         this.products = val[1];
         setTimeout(() => {

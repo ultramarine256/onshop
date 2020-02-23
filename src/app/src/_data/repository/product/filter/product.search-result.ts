@@ -1,15 +1,15 @@
-import {ProductEntity} from './product.entity';
+import {ProductModel} from '../model';
 
-export class InventorySearchResult {
+export class ProductSearchResult {
   /// fields
-  items: Array<ProductEntity>;
+  items: Array<ProductModel>;
   filters: SearchResultFilters;
   totalCount: number;
   page: number;
   totalPages: number;
 
   /// constructor
-  constructor(init?: Partial<InventorySearchResult>) {
+  constructor(init?: Partial<ProductSearchResult>) {
     this.items = [];
     this.filters = new SearchResultFilters();
     Object.assign(this as any, init);
