@@ -1,4 +1,4 @@
-import {DateExtensions, ObjectExtensions} from '../../../../_core';
+import {DateExtensions, ObjectExtensions} from '../../../../_domain';
 
 export class OrderCreateModel {
   /// fields

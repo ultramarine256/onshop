@@ -20,8 +20,10 @@ export class ProductRepository extends BaseRepository {
       .get<ProductSearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?${filter.asQueryString()}`, {observe: 'response'})
       .pipe(map(response => {
 
+        const body = (response as any).body;
+
         const items = [];
-        for (const dto of response.body.items as any) {
+        for (const dto of body.items as any) {
           const item = new ProductModel();
           item.mapFromDto(dto);
           items.push(item);
@@ -31,8 +33,8 @@ export class ProductRepository extends BaseRepository {
           items,
           filters: new SearchResultFilters({
             price: new PricingFilter({
-              minPrice: (response as any).body.filters.min_price,
-              maxPrice: (response as any).body.filters.max_price
+              minPrice: body.filters.min_price,
+              maxPrice: body.filters.max_price
             })
           }),
           totalCount: Number(response.headers.get('X-WP-Total')),
