@@ -18,7 +18,7 @@ mix.js('./src/app.js', './dist')
     })
     .disableNotifications();
 
-mix.js('./src/client/test.js', './dist')
+mix.js('./src/assets/_client/client.js', './dist')
     .sourceMaps(true, 'source-map')
     .options({
         processCssUrls: false
