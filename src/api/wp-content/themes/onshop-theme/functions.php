@@ -71,7 +71,7 @@ function custom_menu_page_removing() {
 		remove_menu_page( 'edit-comments.php' ); // comments
 		remove_menu_page( 'options-general.php' ); // options-general
 		remove_menu_page( 'edit.php?post_type=page' ); // comments
-		wp_enqueue_script( 'my_custom_script', get_template_directory_uri() . '/app/dist/test.js' );
+		wp_enqueue_script( 'my_custom_script', get_template_directory_uri() . '/app/dist/client.js' );
 	}
 }
 

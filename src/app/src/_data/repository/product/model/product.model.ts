@@ -160,7 +160,7 @@ export class ProductImage {
     }
     this.id = dto.id;
     this.name = dto.name;
-    if (dto.src.indexOf('http') >= 0 || dto.src.indexOf('https') >= 0) {
+    if (dto.src.indexOf('http') >= 0) {
       this.src = dto.src;
     } else {
       this.src = `${environment.apiBaseUrl}/${dto.src}`;

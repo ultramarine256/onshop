@@ -6,7 +6,6 @@ import {CategoryItemComponent} from './category-item';
 import {RouterModule} from '@angular/router';
 import {ProductItemComponent} from './product-item';
 import {InventoryFiltersComponent} from './inventory-filters';
-import {ItemsCarouselComponent} from './items-carousel';
 import {DxRangeSliderModule} from 'devextreme-angular';
 
 @NgModule({
@@ -14,7 +13,6 @@ import {DxRangeSliderModule} from 'devextreme-angular';
     CategoryItemComponent,
     CheckoutComponent,
     InventoryFiltersComponent,
-    ItemsCarouselComponent,
     ProductItemComponent
   ],
   imports: [
@@ -31,7 +29,6 @@ import {DxRangeSliderModule} from 'devextreme-angular';
     CategoryItemComponent,
     CheckoutComponent,
     InventoryFiltersComponent,
-    ItemsCarouselComponent,
     ProductItemComponent
   ]
 })
