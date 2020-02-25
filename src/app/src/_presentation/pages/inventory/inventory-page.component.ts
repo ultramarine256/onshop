@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {CategoryModel, ProductModel, ProductFilter, ProductRepository, ProductSearchResult, CategoryRepository} from '../../../_data';
 import {AppMapper} from '../../_mapper';
-import {CartService, FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
+import {AuthService, CartService, FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
 
 @Component({
   selector: 'app-inventory-page',
@@ -44,6 +44,7 @@ export class InventoryPageComponent implements OnInit {
   constructor(private productRepository: ProductRepository,
               private categoryRepository: CategoryRepository,
               private cartService: CartService,
+              public authService: AuthService,
               private route: ActivatedRoute,
               private router: Router) {
     this.filter = DefaultFilters.Get();

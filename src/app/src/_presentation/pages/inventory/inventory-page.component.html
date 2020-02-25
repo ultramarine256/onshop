@@ -53,6 +53,7 @@
           <app-product-item
             [item]="item"
             [baseUrl]="'/product'"
+            [allowPurchase]="authService.isAuthorized"
             (addToCart)="addToCart($event)">
           </app-product-item>
         </div>

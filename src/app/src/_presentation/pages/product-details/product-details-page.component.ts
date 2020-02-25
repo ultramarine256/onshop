@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {finalize, map} from 'rxjs/operators';
 import {ProductFilter, ProductRepository, ProductModel} from '../../../_data';
 import {AppMapper} from '../../_mapper';
-import {CartService, OWL_CAROUSEL} from '../../../_domain';
+import {AuthService, CartService, OWL_CAROUSEL} from '../../../_domain';
 
 @Component({
   selector: 'app-product-details-page',
@@ -22,7 +22,8 @@ export class ProductDetailsPageComponent implements OnInit {
   /// lifecycle
   constructor(private productRepository: ProductRepository,
               private route: ActivatedRoute,
-              private cartService: CartService) {
+              private cartService: CartService,
+              public authService: AuthService) {
     this.product = new ProductModel();
   }
 
@@ -30,6 +31,7 @@ export class ProductDetailsPageComponent implements OnInit {
     this.route.params.subscribe(params =>
       this.productRepository.getProducts(new ProductFilter({slug: params.slug}))
         .pipe(finalize(() => this.isLoaded = true))
+        .pipe(finalize(() => setTimeout(() => (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES), 200)))
         .pipe(map(x => x.items[0]))
         .subscribe(item => {
           this.product = item;
@@ -45,4 +47,6 @@ export class ProductDetailsPageComponent implements OnInit {
   public addToCart(item: ProductModel) {
     this.cartService.addItem(AppMapper.toCartItem(item));
   }
+
+  /// helpers
 }

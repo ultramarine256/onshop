@@ -13,13 +13,24 @@
 <div class="container" *ngIf="isLoaded">
   <div class="row">
     <div class="col-12 col-md-4">
-      <img class="w-100 rounded" [src]="product.firstImage">
+
+      <div class="product-images owl-carousel owl-theme">
+        <div class="item" *ngFor="let item of product.images">
+          <a class="text-decoration-none carousel-item-product" [routerLink]="'/product/' + item.slug">
+            <div class="img-wrap">
+              <img [src]="item.src ? item.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+            </div>
+          </a>
+        </div>
+      </div>
+
     </div>
     <div class="col-12 col-md-8">
       <h3>{{product.name}}</h3>
       <small class="text-secondary">{{product.firstCategory.name}}</small>
-      <div [innerHTML]="product.description"></div>
-      <div [innerHTML]="product.shortDescription"></div>
+      <p>
+        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form.
+      </p>
       <p>
         <b>Stock Quantity:</b> {{product.stockQuantity}}
       </p>
@@ -29,9 +40,13 @@
       <p>
         <b>Price:</b> {{product.price | currency}}
       </p>
+      <button class="btn btn-primary btn-sm" (click)="addToCart(product)" *ngIf="authService.isAuthorized">
+        Add to Cart
+      </button>
+    </div>
 
-
-      <button class="btn btn-primary btn-sm" (click)="addToCart(product)">Add to Cart</button>
+    <div class="col-12 my-3">
+      <div [innerHTML]="product.description"></div>
     </div>
 
     <div class="col-12">
@@ -39,17 +54,18 @@
       <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!relatedIsLoaded">
         <div class="spinner-grow text-primary" role="status"></div>
       </div>
+
       <div class="related-carousel owl-carousel owl-theme" *ngIf="relatedIsLoaded">
         <div class="item" *ngFor="let item of relatedProducts">
           <a class="text-decoration-none carousel-item" [routerLink]="'/product/' + item.slug">
             <div class="img-wrap">
-              <img
-                [src]="item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+              <img [src]="item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
             </div>
             <h6 class="mt-1">{{item.name}}</h6>
           </a>
         </div>
       </div>
+
     </div>
 
   </div>

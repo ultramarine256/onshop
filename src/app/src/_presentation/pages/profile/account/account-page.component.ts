@@ -8,10 +8,7 @@ import {AuthService} from '../../../../_domain';
   templateUrl: './account-page.component.html'
 })
 export class AccountPageComponent {
-  constructor(public authService: AuthService,
-              public asd: ProductRepository,
-
-              private router: Router) {
+  constructor(public authService: AuthService) {
 
     console.log(this.authService.identity);
   }
