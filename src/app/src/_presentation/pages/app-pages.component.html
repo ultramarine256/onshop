@@ -7,6 +7,7 @@
     [isAuthorized]="authService.isAuthorized"
     [loginPageUrl]="'/login'"
     [profilePageUrl]="'/profile'"
+    [userName]="authService.identity.firstName + ' ' + authService.identity.lastName"
     (inputChanged)="inputChanged($event)"
     (productChosen)="productRedirect($event)"
     [searchResults]="productItems">

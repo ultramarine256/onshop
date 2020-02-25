@@ -52,7 +52,7 @@
           <li>
             <a [routerLink]="profilePageUrl" *ngIf="isAuthorized">
               <!--<i class="material-icons">account_circle</i>-->
-              My Account
+              {{userName ? userName : 'profile'}}
             </a>
             <a [routerLink]="loginPageUrl" *ngIf="!isAuthorized">
               <!--<i class="material-icons">account_circle</i>-->

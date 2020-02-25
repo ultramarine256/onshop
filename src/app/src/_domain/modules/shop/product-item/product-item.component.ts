@@ -8,6 +8,7 @@ import {ProductModel} from '../../../../_data';
 })
 export class ProductItemComponent {
   /// binding
+  @Input() allowPurchase: boolean;
   @Input() item: ProductModel;
   @Input() baseUrl: string;
   @Output() addToCart = new EventEmitter<ProductModel>();

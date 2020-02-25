@@ -12,6 +12,7 @@ export class ProfilePageComponent {
               private router: Router) {
   }
   public logout() {
-    this.authService.logout().subscribe(x => this.router.navigate(['/login']).then());
+    this.authService.logout();
+    this.router.navigate(['/login']).then();
   }
 }

@@ -20,8 +20,9 @@ export class AppPagesComponent {
               private appRepository: AppRepository,
               public authService: AuthService,
               private router: Router) {
-    this.appRepository.appInfo().subscribe(data =>
-      this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
+    this.appRepository.appInfo()
+      .subscribe(data =>
+        this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
   }
 
   /// methods

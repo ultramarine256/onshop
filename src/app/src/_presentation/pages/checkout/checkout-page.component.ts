@@ -9,9 +9,9 @@ import {
   Shipping,
   OrderCreateModel,
   OrderRepository,
-  OrderCreateResponse
+  OrderResponse
 } from '../../../_data';
-import {CartService, ValidationHelper} from '../../../_domain';
+import {AuthService, CartService, ValidationHelper} from '../../../_domain';
 
 @Component({
   selector: 'app-checkout-page',
@@ -37,6 +37,7 @@ export class CheckoutPageComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder,
               private orderRepository: OrderRepository,
               private cartService: CartService,
+              private authService: AuthService,
               private router: Router) {
     this.projects = [
       new Project({id: 'pr-313-1', name: 'Project 313-1'}),
@@ -83,6 +84,7 @@ export class CheckoutPageComponent implements OnInit {
   /// methods
   public placeOrder(form: FormGroup) {
     const model = new OrderCreateModel({
+      customerId: this.authService.identity.id,
       paymentMethod: PAYMENT.payment_method__bacs,
       paymentMethodTitle: PAYMENT.payment_title__direct,
       setPaid: false,
@@ -116,7 +118,7 @@ export class CheckoutPageComponent implements OnInit {
         this.isLoading = false;
         this.orderCompleted = true;
       }))
-      .subscribe((item: OrderCreateResponse) => {
+      .subscribe((item: OrderResponse) => {
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });

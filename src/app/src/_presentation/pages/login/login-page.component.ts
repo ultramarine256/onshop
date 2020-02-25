@@ -1,8 +1,14 @@
 import {Component} from '@angular/core';
-import {ProductRepository, UserRepository} from '../../../_data';
-import {AuthService, ValidationHelper} from '../../../_domain';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {
+  AuthService,
+  ValidationHelper,
+  UserToken,
+  IdentityResponse,
+  LoginResponse
+} from '../../../_domain';
+import {ProductRepository, UserRepository} from '../../../_data';
 
 @Component({
   selector: 'app-login-page',
@@ -33,27 +39,23 @@ export class LoginPageComponent {
   public login(login: string, password: string) {
     this.errorMessage = '';
     this.loginProcessing = true;
-    this.authService.login(login, password).subscribe(item => {
-      this.loginProcessing = false;
-      if (item.ok) {
+    this.authService.login(login, password).subscribe((item: LoginResponse) => {
+      this.authService.setToken(new UserToken({token: item.jwt}));
+      this.authService.getUserIdentityInfo(item.jwt).subscribe((response: IdentityResponse) => {
+        this.authService.setIdentity(response);
+        this.loginProcessing = false;
         this.router.navigate(['/profile']).then();
-      } else {
-        this.errorMessage = item.message;
-      }
+      }, () => {
+      });
+    }, () => {
+      this.loginProcessing = false;
+      this.errorMessage = 'Login or password was incorrect.';
     });
   }
 
   public logout() {
-    this.authService.logout()
-      .subscribe(data => {
-        console.log(data);
-      });
-  }
-
-  public getOrders() {
-    // this.userRepository.getOrders().subscribe((data) => {
-    //   console.log(data);
-    // });
+    this.authService.logout();
+    this.router.navigate(['/login']).then();
   }
 
   /// validation
