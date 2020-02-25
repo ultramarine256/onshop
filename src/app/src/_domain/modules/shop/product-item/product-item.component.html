@@ -7,25 +7,30 @@
     <img class="image__src" [src]="item.firstImage">
   </a>
 
-  <div class="price-options bg-light text-secondary w-100 mt-2 py-1">
-    <div class="price-item d-flex">
+  <div class="price-options bg-light text-secondary w-100 mt-2">
+    <div class="price-item d-flex justify-content-between">
       <span class="price-title font-weight-500 text-center">Buy</span>
       <span class="price-details text-center">
         {{item.price | currency}}
       </span>
+      <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"
+              style="border: none;"
+              (click)="addToCart.emit(item)">
+        <i class="material-icons-outlined">add_shopping_cart</i>
+      </button>
     </div>
     <div class="price-item d-flex border-left" *ngIf="item.isRentable">
       <span class="price-title font-weight-500 text-center">Rent</span>
       <span class="price-details pl-2">
-        ${{item.rentPerDayPrice}}/day
-        ${{item.rentPerWeekPrice}}/wk
-        ${{item.rentPerMonthPrice}}/mo
+        {{item.rentPerDayPrice ? '$' + item.rentPerDayPrice + '/day' : ''}}
+      </span>
+      <span class="price-details pl-2">
+        {{item.rentPerWeekPrice ? '$' + item.rentPerWeekPrice + '/wk' : ''}}
+      </span>
+      <span class="price-details pl-2">
+        {{item.rentPerMonthPrice ? '$' + item.rentPerMonthPrice + '/mo' : ' '}}
       </span>
     </div>
   </div>
-  <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"
-          style="border: none;"
-          (click)="addToCart.emit(item)">
-    <i class="material-icons-outlined">add_shopping_cart</i>
-  </button>
+
 </div>

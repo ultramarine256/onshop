@@ -14,7 +14,5 @@ export class AccountPageComponent {
               private router: Router) {
 
     console.log(this.authService.identity);
-
-
   }
 }

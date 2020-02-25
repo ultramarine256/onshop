@@ -1,107 +1,83 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {LoginResponse, UserModel} from './model';
-import {filter, finalize, map} from 'rxjs/operators';
+import {IdentityResponse, LoginResponse} from './dtos';
+import {map} from 'rxjs/operators';
+import {UserToken} from './entities';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   /// fields
-  private _isAuthorized = false;
-  private _identity: UserModel = new UserModel();
+  private _token: UserToken = new UserToken();
+  private _identity: IdentityResponse = new IdentityResponse();
 
   /// properties
-  get isAuthorized() {
-    return this._isAuthorized;
+  get isAuthorized(): boolean {
+    return !!this._identity.username;
   }
 
-  get identity(): UserModel {
+  get identity(): IdentityResponse {
     return this._identity;
   }
 
   /// constructor
   constructor(private httpClient: HttpClient) {
-    const isAuthorized = localStorage.getItem(Constants.IS_AUTHORIZED_KEY);
-    if (isAuthorized) {
-      this._isAuthorized = !!JSON.parse(isAuthorized);
+    const tokenJson = localStorage.getItem(AuthConstants.USER_TOKEN);
+    if (tokenJson) {
+      this._token.mapFromJson(JSON.parse(tokenJson));
     }
 
-    const identity = localStorage.getItem(Constants.IDENTITY_KEY);
-    if (identity) {
-      const userModel = new UserModel();
-      userModel.mapFromJson(JSON.parse(identity));
-      this._identity = userModel;
+    const identityJson = localStorage.getItem(AuthConstants.USER_IDENTITY);
+    if (identityJson) {
+      this._identity.mapFromJson(JSON.parse(identityJson));
     }
   }
 
   /// methods
-  public regiser(username: string, password: string, email: string): Observable<any> {
-    const body = new URLSearchParams();
-    body.set('username', username);
-    body.set('password', password);
-    body.set('email', email);
-    return this.httpClient.post(`${environment.apiBaseUrl}/wp-json/onshop/v1/user/register`, body);
-  }
-
   public login(username: string, password: string): Observable<LoginResponse> {
-    const emitter: BehaviorSubject<LoginResponse> = new BehaviorSubject<LoginResponse>(null);
-
-    const xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    const self = this;
-    xhr.addEventListener('readystatechange', function () {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          const userModel = new UserModel();
-          userModel.mapFromDto(JSON.parse(this.responseText));
-
-          self.setAuthFlag(true);
-          self.setIdentity(userModel);
-
-          emitter.next(new LoginResponse({ok: true}));
-        } else {
-          emitter.next(new LoginResponse({ok: false, message: 'Login or password incorrect.'}));
-        }
-      }
-    });
-
-    xhr.open('POST', 'http://localhost:8202/wp-json/onshop/v1/user/login');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-    xhr.send(`username=${username}&password=${password}`);
-
-    return emitter.pipe(filter(x => x != null));
-  }
-
-  public logout(): Observable<any> {
     return this.httpClient
-      .post(`${environment.apiBaseUrl}/wp-json/onshop/v1/user/logout`, null)
-      .pipe(map(x => {
-        return x.toString().toLowerCase() === 'ok';
-      }))
-      .pipe(finalize(() => {
-        this.setAuthFlag(false);
-        this.setIdentity(new UserModel());
-      }));
+      .post<LoginResponse>(`${environment.apiBaseUrl}/wp-json/onshop/v1/user/login`, {username, password})
+      .pipe(map(x => new LoginResponse({jwt: x.jwt})));
   }
 
-  /// helpers
-  private setAuthFlag(isAuthorized: boolean) {
-    this._isAuthorized = isAuthorized;
-    localStorage.setItem(Constants.IS_AUTHORIZED_KEY, JSON.stringify(isAuthorized));
+  public register(username: string, password: string, email: string): Observable<any> {
+    return null;
   }
 
-  private setIdentity(identity: UserModel) {
+  public getUserIdentityInfo(token: string): Observable<IdentityResponse> {
+    return this.httpClient.get<IdentityResponse>(`${environment.apiBaseUrl}/wp-json/onshop/v1/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).pipe(map(x => {
+      const a = new IdentityResponse();
+      a.mapFromResponse(x);
+      return a;
+    }));
+  }
+
+  public logout() {
+    this._token = new UserToken();
+    this._identity = new IdentityResponse();
+    localStorage.removeItem(AuthConstants.USER_TOKEN);
+    localStorage.removeItem(AuthConstants.USER_IDENTITY);
+  }
+
+  public setIdentity(identity: IdentityResponse) {
     this._identity = identity;
-    localStorage.setItem(Constants.IDENTITY_KEY, JSON.stringify(identity));
+    localStorage.setItem(AuthConstants.USER_IDENTITY, JSON.stringify(identity));
+  }
+
+  public setToken(entity: UserToken) {
+    this._token = entity;
+    localStorage.setItem(AuthConstants.USER_TOKEN, JSON.stringify(entity));
   }
 }
 
-const Constants = {
-  IS_AUTHORIZED_KEY: 'onshop-is-authorized',
-  IDENTITY_KEY: 'onshop-is-authorized'
+export const AuthConstants = {
+  USER_TOKEN: 'onshop-token',
+  USER_IDENTITY: 'onshop-identity'
 };

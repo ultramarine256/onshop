@@ -16,6 +16,7 @@ export class HeaderComponent {
   @Input() phone: string;
 
   @Input() isAuthorized: string;
+  @Input() userName: string;
   @Input() profilePageUrl: string;
   @Input() loginPageUrl: string;
 

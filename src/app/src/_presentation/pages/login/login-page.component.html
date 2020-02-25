@@ -28,7 +28,7 @@
                  class="form-control"
                  formControlName="password">
         </div>
-        <button type="submit" class="btn btn-primary d-flex align-items-center" [disabled]="loginForm.invalid" (click)="login(loginInput.value, passInput.value)">
+        <button type="submit" class="btn btn-primary d-flex align-items-center" [disabled]="loginForm.invalid || loginProcessing" (click)="login(loginInput.value, passInput.value)">
           <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true" *ngIf="loginProcessing"></span>
           Submit
         </button>

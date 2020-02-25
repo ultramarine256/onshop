@@ -1,6 +1,5 @@
 export class LoginResponse {
-  public ok: boolean;
-  public message: string;
+  public jwt: string;
 
   /// constructor
   constructor(init?: Partial<LoginResponse>) {

@@ -9,7 +9,7 @@ import {
   Shipping,
   OrderCreateModel,
   OrderRepository,
-  OrderCreateResponse
+  OrderResponse
 } from '../../../_data';
 import {CartService, ValidationHelper} from '../../../_domain';
 
@@ -116,7 +116,7 @@ export class CheckoutPageComponent implements OnInit {
         this.isLoading = false;
         this.orderCompleted = true;
       }))
-      .subscribe((item: OrderCreateResponse) => {
+      .subscribe((item: OrderResponse) => {
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {UserRepository} from '../../../../_data';
+import {OrderRepository, OrderResponse, UserRepository} from '../../../../_data';
 import {AuthService} from '../../../../_domain';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-orders-page',
@@ -8,9 +9,17 @@ import {AuthService} from '../../../../_domain';
   templateUrl: './orders-page.component.html'
 })
 export class OrdersPageComponent {
-  constructor(public authService: AuthService,
-              private userRepository: UserRepository) {
+  /// fields
+  public items: Array<OrderResponse> = [];
 
-    // this.userRepository.getOrders().subscribe();
+  /// predicates
+  public didLoaded = false;
+
+  /// constructor
+  constructor(public authService: AuthService,
+              private orderRepository: OrderRepository) {
+    this.orderRepository.getOrders()
+      .pipe(finalize(() => this.didLoaded = true))
+      .subscribe((items: Array<OrderResponse>) => this.items = items);
   }
 }
