@@ -5,16 +5,16 @@
       <input formControlName="firstName" type="text" class="form-control" id="inputName" placeholder="">
     </div>
 
-  </div>
-  <div class="form-group col-md-8">
-    <label for="inputEmail">Email</label>
-    <input formControlName="email" type="text" class="form-control" id="inputEmail" placeholder="">
-  </div>
-  <div class="form-group col-md-8">
-    <label for="input5">Your Message</label>
-    <textarea formControlName="message" name="comment"
-              class="form-control shadow-sm"
-              id="input5"></textarea>
+    <div class="form-group col-md-8">
+      <label for="inputEmail">Email</label>
+      <input formControlName="email" type="text" class="form-control" id="inputEmail" placeholder="">
+    </div>
+    <div class="form-group col-md-8">
+      <label for="input5">Your Message</label>
+      <textarea formControlName="message" name="comment"
+                class="form-control shadow-sm"
+                id="input5"></textarea>
+    </div>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Send Message</button>
 </form>
