@@ -9,193 +9,148 @@
 <!--</div>-->
 
 <div class="container" *ngIf="orderCompleted">
-  <div class="d-flex justify-content-center align-items-center flex-column" style="height: 300px;">
-    <div class="col col-md-4">
-      <h3>Thank you</h3>
-      <h6 class="font-weight-500">Confirmation Number: {{orderNumber}}</h6>
-      <span class="text-light text-muted">Our team is working on your order.</span>
-      <!--<button class="btn btn-primary text-uppercase mt-5">Let's keep shopping</button>-->
+    <div class="d-flex justify-content-center align-items-center flex-column" style="height: 300px;">
+        <div class="col col-md-4">
+            <h3>Thank you</h3>
+            <h6 class="font-weight-500">Confirmation Number: {{orderNumber}}</h6>
+            <span class="text-light text-muted">Our team is working on your order.</span>
+            <!--<button class="btn btn-primary text-uppercase mt-5">Let's keep shopping</button>-->
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="container mb-3" *ngIf="!orderCompleted">
-  <mat-horizontal-stepper labelPosition="bottom" #stepper>
-    <!-- Project Info -->
-    <mat-step [stepControl]="checkoutForm">
-      <ng-template matStepLabel>Project</ng-template>
-      <form [formGroup]="checkoutForm" class="row">
-        <div class="col-12 col-md-6">
-          <h5 class="mb-3 text-center">Requested By</h5>
-          <div class="form-row">
-            <div class="form-group col-6">
-              <input
-                formControlName="firstName"
-                class="form-control"
-                placeholder="First Name"
-                [ngClass]="{'is-valid': validationHelper.isValid('firstName',checkoutForm), 'is-invalid': validationHelper.isInvalid('firstName',checkoutForm)}">
-            </div>
-            <div class="form-group col-6">
-              <input
-                formControlName="lastName"
-                class="form-control"
-                placeholder="Last Name"
-                [ngClass]="{'is-valid': validationHelper.isValid('lastName',checkoutForm), 'is-invalid': validationHelper.isInvalid('lastName',checkoutForm)}">
-            </div>
-          </div>
+    <mat-horizontal-stepper labelPosition="bottom" #stepper>
+        <!-- Project Info -->
+        <mat-step [stepControl]="checkoutForm">
+            <ng-template matStepLabel>Project</ng-template>
+            <form [formGroup]="checkoutForm" class="row">
+                <div class="col-12 col-md-6">
+                    <h5 class="mb-3 text-center">Requested By</h5>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <input formControlName="firstName" class="form-control" placeholder="First Name" [ngClass]="{'is-valid': validationHelper.isValid('firstName',checkoutForm), 'is-invalid': validationHelper.isInvalid('firstName',checkoutForm)}">
+                        </div>
+                        <div class="form-group col-6">
+                            <input formControlName="lastName" class="form-control" placeholder="Last Name" [ngClass]="{'is-valid': validationHelper.isValid('lastName',checkoutForm), 'is-invalid': validationHelper.isInvalid('lastName',checkoutForm)}">
+                        </div>
+                    </div>
 
-          <div class="form-group">
-            <input
-              formControlName="email"
-              placeholder="Email"
-              class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('email',checkoutForm), 'is-invalid': validationHelper.isInvalid('email',checkoutForm)}">
-          </div>
-          <div class="form-group">
-            <input
-              formControlName="phone"
-              placeholder="Phone"
-              class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('phone',checkoutForm), 'is-invalid': validationHelper.isInvalid('phone',checkoutForm)}">
-          </div>
+                    <div class="form-group">
+                        <input formControlName="email" placeholder="Email" class="form-control" [ngClass]="{'is-valid': validationHelper.isValid('email',checkoutForm), 'is-invalid': validationHelper.isInvalid('email',checkoutForm)}">
+                    </div>
+                    <div class="form-group">
+                        <input formControlName="phone" placeholder="Phone" class="form-control" [ngClass]="{'is-valid': validationHelper.isValid('phone',checkoutForm), 'is-invalid': validationHelper.isInvalid('phone',checkoutForm)}">
+                    </div>
 
-          <h5 class="mb-3 text-center">Project</h5>
-          <div class="form-group">
-            <select
-              formControlName="projectNumber"
-              class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('projectNumber', checkoutForm), 'is-invalid': validationHelper.isInvalid('projectNumber', checkoutForm)}">
+                    <h5 class="mb-3 text-center">Project</h5>
+                    <div class="form-group">
+                        <select formControlName="projectNumber" class="form-control" [ngClass]="{'is-valid': validationHelper.isValid('projectNumber', checkoutForm), 'is-invalid': validationHelper.isInvalid('projectNumber', checkoutForm)}">
               <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
             </select>
-          </div>
+                    </div>
 
-        </div>
-        <div class="col-12 col-md-6">
-          <h5 class="mb-3 text-center">Shipping Address</h5>
-          <div class="form-group">
-            <!--<label>Address</label>-->
-            <input
-              formControlName="address"
-              class="form-control"
-              placeholder="Address"
-              [ngClass]="{'is-valid': validationHelper.isValid('address',checkoutForm), 'is-invalid': validationHelper.isInvalid('address',checkoutForm)}">
-          </div>
-          <div class="form-group">
-            <!--<label>City</label>-->
-            <input
-              formControlName="city"
-              placeholder="City"
-              class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('city',checkoutForm), 'is-invalid': validationHelper.isInvalid('city',checkoutForm)}">
-          </div>
-          <div class="form-group">
-            <!--<label>State</label>-->
-            <input
-              formControlName="state"
-              placeholder="state"
-              class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('state',checkoutForm), 'is-invalid': validationHelper.isInvalid('state',checkoutForm)}">
-          </div>
-          <div class="form-group">
-            <!--<label>Zip Code</label>-->
-            <input
-              formControlName="zip"
-              class="form-control"
-              placeholder="Zip Code"
-              [ngClass]="{'is-valid': validationHelper.isValid('zip',checkoutForm), 'is-invalid': validationHelper.isInvalid('zip',checkoutForm)}">
-          </div>
-        </div>
-      </form>
+                </div>
+                <div class="col-12 col-md-6">
+                    <h5 class="mb-3 text-center">Shipping Address</h5>
+                    <div class="form-group">
+                        <!--<label>Address</label>-->
+                        <input formControlName="address" class="form-control" placeholder="Address" [ngClass]="{'is-valid': validationHelper.isValid('address',checkoutForm), 'is-invalid': validationHelper.isInvalid('address',checkoutForm)}">
+                    </div>
+                    <div class="form-group">
+                        <!--<label>City</label>-->
+                        <input formControlName="city" placeholder="City" class="form-control" [ngClass]="{'is-valid': validationHelper.isValid('city',checkoutForm), 'is-invalid': validationHelper.isInvalid('city',checkoutForm)}">
+                    </div>
+                    <div class="form-group">
+                        <!--<label>State</label>-->
+                        <input formControlName="state" placeholder="state" class="form-control" [ngClass]="{'is-valid': validationHelper.isValid('state',checkoutForm), 'is-invalid': validationHelper.isInvalid('state',checkoutForm)}">
+                    </div>
+                    <div class="form-group">
+                        <!--<label>Zip Code</label>-->
+                        <input formControlName="zip" class="form-control" placeholder="Zip Code" [ngClass]="{'is-valid': validationHelper.isValid('zip',checkoutForm), 'is-invalid': validationHelper.isInvalid('zip',checkoutForm)}">
+                    </div>
+                </div>
+            </form>
 
-      <div class="d-flex w-100 justify-content-center">
-        <button class="btn btn-primary float-right" [disabled]="checkoutForm.invalid" matStepperNext>Continue to
+            <div class="d-flex w-100 justify-content-center">
+                <button class="btn btn-primary float-right" [disabled]="checkoutForm.invalid" matStepperNext>Continue to
           schedule delivery
         </button>
-      </div>
-    </mat-step>
+            </div>
+        </mat-step>
 
-    <!-- Calendar -->
-    <mat-step class="p-0">
-      <ng-template matStepLabel>Delivery</ng-template>
-      <dx-scheduler
-        *ngIf="!choseDate"
-        [adaptivityEnabled]="true"
-        [editing]="false"
-        [currentView]="'month'"
-        [views]='["month"]'
-        [firstDayOfWeek]="1"
-        [startDayHour]="9"
-        (onCellClick)="cellClick($event)"
-        dataCellTemplate="dataCellTemplate">
-        <div *dxTemplate="let appointment of 'dataCellTemplate'" class="h-100"
-             [ngClass]="markWeekEnd(appointment)">
-          <div class="appointment-header d-flex flex-md-column justify-content-md-between">
-            <span>{{delivery | currency}}</span>
-            <p><b>{{appointment.text}}</b></p></div>
-        </div>
-      </dx-scheduler>
-      <div *ngIf="!choseDate && checkoutForm.value.deliveryDate">
-        <span>Delivery is scheduled for :</span>
-        <span><b>({{checkoutForm.value.deliveryDate | date:'MMMM d, y'}})</b></span>
-      </div>
-      <!--<div class="d-flex w-100">-->
-      <!--<span class="d-flex">Delivery is scheduled for </span>-->
-      <!--<span class="d-flex">October 10, 2019</span>-->
+        <!-- Calendar -->
+        <mat-step class="p-0">
+            <ng-template matStepLabel>Delivery</ng-template>
+            <dx-scheduler *ngIf="!choseDate" [adaptivityEnabled]="true" [editing]="false" [currentView]="'month'" [views]='["month"]' [firstDayOfWeek]="1" [startDayHour]="9" (onCellClick)="cellClick($event)" dataCellTemplate="dataCellTemplate">
+                <div *dxTemplate="let appointment of 'dataCellTemplate'" class="h-100" [ngClass]="markWeekEnd(appointment)">
+                    <div class="appointment-header d-flex flex-md-column justify-content-md-between">
+                        <span>{{delivery | currency}}</span>
+                        <p><b>{{appointment.text}}</b></p>
+                    </div>
+                </div>
+            </dx-scheduler>
+            <div *ngIf="!choseDate && checkoutForm.value.deliveryDate">
+                <span>Delivery is scheduled for :</span>
+                <span><b>({{checkoutForm.value.deliveryDate | date:'MMMM d, y'}})</b></span>
+            </div>
+            <!--<div class="d-flex w-100">-->
+            <!--<span class="d-flex">Delivery is scheduled for </span>-->
+            <!--<span class="d-flex">October 10, 2019</span>-->
 
-      <!--<div class="d-flex">-->
-      <!--Am-->
-      <!--Pm-->
-      <!--</div>-->
-      <!--</div>-->
-      <div *ngIf="choseDate" class="delivery-step-date">
-        <div  class="delivery-step-date-box rounded border  ">
-          <div class="d-flex w-100 justify-content-center mt-3 text-dark d-flex flex-column">
-            <h5 class="h5">Thank you</h5>
-            <span>Delivery is scheduled for :</span>
-            <span><b>({{checkoutForm.value.deliveryDate | date:'MMMM d, y'}})</b></span>
-            <p class="btn btn-warning delivery-chose-enother-date text-dark mt-3" (click)="choseDate=false">
-              Choose another date!
-            </p>
-          </div>
-        </div>
-      </div>
+            <!--<div class="d-flex">-->
+            <!--Am-->
+            <!--Pm-->
+            <!--</div>-->
+            <!--</div>-->
+            <div *ngIf="choseDate" class="delivery-step-date">
+                <div class="delivery-step-date-box rounded border  ">
+                    <div class="d-flex w-100 justify-content-center mt-3 text-dark d-flex flex-column">
+                        <h5 class="h5">Thank you</h5>
+                        <span>Delivery is scheduled for :</span>
+                        <span><b>({{checkoutForm.value.deliveryDate | date:'MMMM d, y'}})</b></span>
+                        <p class="btn btn-warning delivery-chose-enother-date text-dark mt-3" (click)="choseDate=false">
+                            Choose another date!
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-    </mat-step>
+        </mat-step>
 
-    <!-- Review -->
-    <mat-step>
-      <ng-template matStepLabel>Review</ng-template>
+        <!-- Review -->
+        <mat-step>
+            <ng-template matStepLabel>Review</ng-template>
 
-      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 150px">
-        <h4>Review & Edit order</h4>
-      </div>
+            <div class="d-flex bg-light justify-content-center align-items-center" style="height: 150px">
+                <h4>Review & Edit order</h4>
+            </div>
 
-      <!--<div class="d-flex flex-column">-->
-      <!--<div class="d-flex bg-light rounded w-100 p-3 mb-3">-->
-      <!--Product Items-->
-      <!--</div>-->
+            <!--<div class="d-flex flex-column">-->
+            <!--<div class="d-flex bg-light rounded w-100 p-3 mb-3">-->
+            <!--Product Items-->
+            <!--</div>-->
 
-      <!--<small class="text-secondary">Est. Delivery Date</small>-->
-      <!--<div class="d-flex bg-light rounded w-100 p-3 mb-3">-->
-      <!--<span>October 10, 2019</span>-->
-      <!--<span>PM Delivery</span>-->
-      <!--</div>-->
-      <!--</div>-->
+            <!--<small class="text-secondary">Est. Delivery Date</small>-->
+            <!--<div class="d-flex bg-light rounded w-100 p-3 mb-3">-->
+            <!--<span>October 10, 2019</span>-->
+            <!--<span>PM Delivery</span>-->
+            <!--</div>-->
+            <!--</div>-->
 
-      <div class="d-flex flex-column w-100 text-center mt-3 mb-3">
-        <h6 class="">Forgot something ?</h6>
-        <a routerLink="/categories" class="">Click here to Continue Shopping</a>
-      </div>
+            <div class="d-flex flex-column w-100 text-center mt-3 mb-3">
+                <h6 class="">Forgot something ?</h6>
+                <a routerLink="/categories" class="">Click here to Continue Shopping</a>
+            </div>
 
-      <div class="d-flex w-100 justify-content-center">
-        <button class="btn btn-lg btn-primary float-right col-12 col-md-4 d-flex justify-content-center"
-                [disabled]="isLoading" (click)="placeOrder(checkoutForm)">
+            <div class="d-flex w-100 justify-content-center">
+                <button class="btn btn-lg btn-primary float-right col-12 col-md-4 d-flex justify-content-center" [disabled]="isLoading" (click)="placeOrder(checkoutForm)">
           <div class="spinner-grow text-light mr-2" role="status" [hidden]="!isLoading"></div>
           Place Order
         </button>
-        <!-- [disabled]="checkoutForm.invalid" -->
-      </div>
-    </mat-step>
+                <!-- [disabled]="checkoutForm.invalid" -->
+            </div>
+        </mat-step>
 
-  </mat-horizontal-stepper>
+    </mat-horizontal-stepper>
 </div>
