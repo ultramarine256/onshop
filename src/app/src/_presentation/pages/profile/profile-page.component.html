@@ -1,0 +1,32 @@
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb my-2 px-0 bg-white">
+      <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Profile</li>
+    </ol>
+  </nav>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <div class="d-flex flex-column">
+        <a [routerLink]="'/profile'" class="list-item">
+          <i class="icon-inner fas fa-mobile-alt mr-2" aria-hidden="true"></i>Account
+        </a>
+        <a [routerLink]="'/profile/orders'" class="list-item">
+          <i class="fas fa-cart-arrow-down mr-2"></i>Orders
+        </a>
+        <a [routerLink]="'/profile/projects'" class="list-item">
+          <i class="fas fa-cart-arrow-down mr-2"></i>Projects
+        </a>
+        <a href="javascript:void(0)"  class="list-item" (click)="logout()">
+          <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </a>
+      </div>
+      <!--<a [routerLink]="'/inventory/' + item.slug">Account details</a>-->
+    </div>
+    <div class="col-9">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

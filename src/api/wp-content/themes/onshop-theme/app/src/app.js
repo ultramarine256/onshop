@@ -1,5 +1,5 @@
 /// pages
-import './pages/index';
+import './_pages/index';
 
 /// assets
 import './assets/index';

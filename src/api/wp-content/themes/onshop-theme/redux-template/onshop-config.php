@@ -68,6 +68,12 @@ Redux::setSection( $opt_name, array(
 			'type'     => 'text',
 			'title'    => __( 'App Logo', 'redux-framework-demo' ),
 			'subtitle' => __( 'Logo image URL.', 'redux-framework-demo' )
+		),
+		array(
+			'id'       => 'opt-store-url',
+			'type'     => 'text',
+			'title'    => __( 'Store URL', 'redux-framework-demo' ),
+			'subtitle' => __( 'URL of our actual Store', 'redux-framework-demo' )
 		)
 	)
 ));

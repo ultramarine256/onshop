@@ -19,43 +19,65 @@
  */
 
 // default configuration
-$connectstr_dbhost = 'DEFAULT-DB-HOST';
-$connectstr_dbname = 'DEFAULT-DB-NAME';
+$connectstr_dbhost     = 'DEFAULT-DB-HOST';
+$connectstr_dbname     = 'DEFAULT-DB-NAME';
 $connectstr_dbusername = 'DEFAULT-DB-USERNAME';
 $connectstr_dbpassword = 'DEFAULT-DB-PASSWORD';
+
+$auth_secret_sign_key          = 'DEFAULT-SECRET-SIGN-KEY';
+$auth_secret_enc_key           = 'DEFAULT-SECRET-ENC-KEY';
+$issuer_claim                  = 'DEFAULT-ISSUE-CLAIM';
+$audience_claim                = "THE_AUDIENCE";
+$token_validation_delay_sec    = 0;
+$token_expiration_interval_sec = 600;
+
 $wp_debug = false;
 
 // server configuration
-$config = __DIR__  . "/_config.json";
-if (file_exists($config)) {
-	$json = json_decode(file_get_contents($config));
+$config = __DIR__ . "/_config.json";
+if ( file_exists( $config ) ) {
+	$json = json_decode( file_get_contents( $config ) );
 
-	$connectstr_dbhost = $json->{'dbhost'};
-	$connectstr_dbname = $json->{'dbname'};
+	$connectstr_dbhost     = $json->{'dbhost'};
+	$connectstr_dbname     = $json->{'dbname'};
 	$connectstr_dbusername = $json->{'dbusername'};
 	$connectstr_dbpassword = $json->{'dbpassword'};
+
+	$auth_secret_sign_key          = $json->{'auth'}->{'secret-sign-key'};
+	$auth_secret_enc_key           = $json->{'auth'}->{'secret-enc-key'};
+	$issuer_claim                  = $json->{'auth'}->{'issuer-claim'};
+	$audience_claim                = $json->{'auth'}->{'audience-claim'};
+	$token_validation_delay_sec    = $json->{'auth'}->{'token-validation-delay-sec'};
+	$token_expiration_interval_sec = $json->{'auth'}->{'token-expiration-interval-sec'};
 
 	$wp_debug = $json->{'use-debug'};
 }
 
+define( 'AUTH_SECRET_SIGN_KEY', $auth_secret_sign_key );
+define( 'AUTH_SECRET_ENC_KEY', $auth_secret_sign_key );
+define( 'ISSUER_CLAIM', $issuer_claim );
+define( 'AUDIENCE_CLAIM', $audience_claim );
+define( 'TOKEN_VALIDATION_DELAY_SEC', $token_validation_delay_sec );
+define( 'TOKEN_EXPIRATION_INTERVAL_SEC', $token_expiration_interval_sec );
+
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', $connectstr_dbname);
+define( 'DB_NAME', $connectstr_dbname );
 
 /** MySQL database username */
-define('DB_USER', $connectstr_dbusername);
+define( 'DB_USER', $connectstr_dbusername );
 
 /** MySQL database password */
-define('DB_PASSWORD', $connectstr_dbpassword);
+define( 'DB_PASSWORD', $connectstr_dbpassword );
 
 /** MySQL hostname */
-define('DB_HOST', $connectstr_dbhost);
+define( 'DB_HOST', $connectstr_dbhost );
 
 /** Database Charset to use in creating database tables. */
-define('DB_CHARSET', 'utf8');
+define( 'DB_CHARSET', 'utf8' );
 
 /** The Database Collate type. Don't change this if in doubt. */
-define('DB_COLLATE', '');
+define( 'DB_COLLATE', '' );
 /**#@+
  * Authentication Unique Keys and Salts.
  *
@@ -96,15 +118,15 @@ $table_prefix = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-if ($wp_debug) {
-    @ini_set( 'log_errors', 'Off' );
-    @ini_set( 'display_errors', 'On' );
-    define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
-    define( 'WP_DEBUG', true );
-    define( 'WP_DEBUG_LOG', true );
-    define( 'WP_DEBUG_DISPLAY', true );
+if ( $wp_debug ) {
+	@ini_set( 'log_errors', 'Off' );
+	@ini_set( 'display_errors', 'On' );
+	define( 'WP_DISABLE_FATAL_ERROR_HANDLER', true );   // 5.2 and later
+	define( 'WP_DEBUG', true );
+	define( 'WP_DEBUG_LOG', true );
+	define( 'WP_DEBUG_DISPLAY', true );
 } else {
-    define( 'WP_DEBUG', false );
+	define( 'WP_DEBUG', false );
 }
 
 /* That's all, stop editing! Happy publishing. */
