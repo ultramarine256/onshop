@@ -14,9 +14,7 @@ export class ContactFormComponent {
   constructor() {
     this.profileForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
       email: new FormControl('', Validators.email),
-      subject: new FormControl('', Validators.required),
       message: new FormControl('', Validators.required),
     });
   }
@@ -27,3 +25,28 @@ export class ContactFormComponent {
     this.profileFormCreated = true;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

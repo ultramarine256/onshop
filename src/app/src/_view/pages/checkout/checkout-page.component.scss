@@ -1,0 +1,21 @@
+::ng-deep .employee-weekend {
+  background-color: rgba(58, 186, 192, 0.06);
+}
+
+.delivery-step-date{
+  margin-top: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 250px;
+  .delivery-step-date-box{
+    width: auto;
+    position: relative;
+    height: auto;
+    display: flex;
+    padding: 15px;
+    align-items: flex-start;
+  }
+}
+

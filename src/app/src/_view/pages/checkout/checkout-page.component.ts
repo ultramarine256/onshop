@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {CartService, ValidationHelper} from '../../../_core';
 import {ShopRepository, CreateOrderModel, LineItem, PAYMENT, Billing, Shipping, ResponseOrderModel} from '../../../_data';
+import data from 'devextreme';
 
 @Component({
   selector: 'app-checkout-page',
@@ -14,13 +15,15 @@ export class CheckoutPageComponent implements OnInit {
   /// fields
   public checkoutForm: FormGroup;
   public projects: Array<Project> = [];
-
+  public selectedDate;
   /// predicates
   public orderCompleted = false;
   public orderNumber = 'ON-34412';
+  public delivery = 60;
 
   /// spinners
   public isLoading = false;
+  public choseDate = false;
 
   /// helper
   public validationHelper = ValidationHelper;
@@ -66,10 +69,31 @@ export class CheckoutPageComponent implements OnInit {
     this.checkoutForm.controls.projectName.disable();
   }
 
+  // @HostListener('click', ['$event.target'])
+  // onClick(btn) {
+  //   if (this.button && !btn.className.includes('dx-scheduler-date-table-cell dx-scheduler-cell-sizes-horizontal dx-scheduler-cell-sizes-vertical dx-state-focused dx-scheduler-focused-cell dx-state-active')) {
+  //     this.button.classList.add('dx-state-focused');
+  //     this.button.classList.add('dx-scheduler-focused-cell');
+  //   }
+  //   if (btn.className.includes
+  //   ('dx-scheduler-date-table-cell dx-scheduler-cell-sizes-horizontal dx-scheduler-cell-sizes-vertical dx-state-focused dx-scheduler-focused-cell dx-state-active')) {
+  //     this.button = btn as HTMLElement;
+  //   }
+  //   /*
+  //       if(this.previousButton){
+  //         this.previousButton.classList.remove('dx-state-focused');
+  //         this.previousButton.classList.remove('dx-scheduler-focused-cell');
+  //       }
+  //   */
+  //
+  //   // console.log(this.elRef.nativeElement.querySelector(btn.innerHTML));
+  //   console.log('button', btn, 'number of clicks:', this.numberOfClicks++);
+  // }
   /// actions
   public cellClick($event) {
     const date = new Date($event.cellData.startDate);
     this.checkoutForm.value.deliveryDate = date;
+    this.choseDate = true;
   }
 
   /// methods
@@ -113,6 +137,23 @@ export class CheckoutPageComponent implements OnInit {
         this.cartService.clearCart();
       });
   }
+
+  isWeekEnd(date) {
+    const day = date.getDay();
+    if (day === 0 || day === 6) {
+      this.delivery = 90;
+    } else {
+      this.delivery = 60;
+    }
+    return day === 0 || day === 6;
+  }
+
+  markWeekEnd(cellData) {
+    const classObject = {};
+    classObject['employee-weekend'] = this.isWeekEnd(cellData.startDate);
+    return classObject;
+  }
+
 }
 
 export class Project {

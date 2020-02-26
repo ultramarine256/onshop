@@ -117,15 +117,27 @@
     <!-- Calendar -->
     <mat-step class="p-0">
       <ng-template matStepLabel>Delivery</ng-template>
-
       <dx-scheduler
+        *ngIf="!choseDate"
+        [adaptivityEnabled]="true"
         [editing]="false"
         [currentView]="'month'"
         [views]='["month"]'
+        [firstDayOfWeek]="1"
         [startDayHour]="9"
-        (onCellClick)="cellClick($event)">
+        (onCellClick)="cellClick($event)"
+        dataCellTemplate="dataCellTemplate">
+        <div *dxTemplate="let appointment of 'dataCellTemplate'" class="h-100"
+             [ngClass]="markWeekEnd(appointment)">
+          <div class="appointment-header d-flex flex-md-column justify-content-md-between">
+            <span>{{delivery | currency}}</span>
+            <p><b>{{appointment.text}}</b></p></div>
+        </div>
       </dx-scheduler>
-
+      <div *ngIf="!choseDate && checkoutForm.value.deliveryDate">
+        <span>Delivery is scheduled for :</span>
+        <span><b>({{checkoutForm.value.deliveryDate | date:'MMMM d, y'}})</b></span>
+      </div>
       <!--<div class="d-flex w-100">-->
       <!--<span class="d-flex">Delivery is scheduled for </span>-->
       <!--<span class="d-flex">October 10, 2019</span>-->
@@ -135,6 +147,19 @@
       <!--Pm-->
       <!--</div>-->
       <!--</div>-->
+      <div *ngIf="choseDate" class="delivery-step-date">
+        <div  class="delivery-step-date-box rounded border  ">
+          <div class="d-flex w-100 justify-content-center mt-3 text-dark d-flex flex-column">
+            <h5 class="h5">Thank you</h5>
+            <span>Delivery is scheduled for :</span>
+            <span><b>({{checkoutForm.value.deliveryDate | date:'MMMM d, y'}})</b></span>
+            <p class="btn btn-warning delivery-chose-enother-date text-dark mt-3" (click)="choseDate=false">
+              Choose another date!
+            </p>
+          </div>
+        </div>
+      </div>
+
     </mat-step>
 
     <!-- Review -->
