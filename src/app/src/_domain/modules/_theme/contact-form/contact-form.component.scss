@@ -1,0 +1,11 @@
+.success-box{
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .success-box-in{
+    padding: 15px;
+    width:50%;
+    border-radius: 5px;
+  }
+}

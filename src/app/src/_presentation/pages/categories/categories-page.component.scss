@@ -1,0 +1,9 @@
+.categories-items {
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    height: calc(100% - 15px);
+  }
+}
+

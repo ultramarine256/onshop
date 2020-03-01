@@ -2,18 +2,34 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {CheckoutComponent} from './checkout';
+import {CategoryItemComponent} from './category-item';
+import {RouterModule} from '@angular/router';
+import {ProductItemComponent} from './product-item';
+import {InventoryFiltersComponent} from './inventory-filters';
+import {DxRangeSliderModule} from 'devextreme-angular';
 
 @NgModule({
   declarations: [
-    CheckoutComponent
+    CategoryItemComponent,
+    CheckoutComponent,
+    InventoryFiltersComponent,
+    ProductItemComponent
   ],
   imports: [
-    FormsModule,
+    /// angular
+    CommonModule,
     ReactiveFormsModule,
-    CommonModule
+    FormsModule,
+    RouterModule,
+
+    /// dev-extreme
+    DxRangeSliderModule
   ],
   exports: [
-    CheckoutComponent
+    CategoryItemComponent,
+    CheckoutComponent,
+    InventoryFiltersComponent,
+    ProductItemComponent
   ]
 })
 export class ShopModule {

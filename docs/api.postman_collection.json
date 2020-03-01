@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a3d7d474-109f-4069-a126-84b75c495d14",
+		"_postman_id": "444a633c-8ea5-4708-a075-f24550181155",
 		"name": "/wp-json/onshop/v1/",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,7 +28,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "customer1",
+									"value": "customer_2",
 									"type": "text"
 								},
 								{
@@ -38,13 +38,19 @@
 								},
 								{
 									"key": "email",
-									"value": "customer1@wp.com",
+									"value": "customer_2@wp.com",
 									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/register?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/register?",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -58,7 +64,8 @@
 							"query": [
 								{
 									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"value": "PHPSTORM",
+									"disabled": true
 								}
 							]
 						}
@@ -85,18 +92,18 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "customer",
+									"value": "ebala2",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "Qwert12345",
+									"value": "Qwerty1234",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -110,45 +117,8 @@
 							"query": [
 								{
 									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "user/logout",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/x-www-form-urlencoded",
-								"disabled": true
-							}
-						],
-						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/logout?XDEBUG_SESSION_START=PHPSTORM",
-							"host": [
-								"{{ApiBaseUrl}}"
-							],
-							"path": [
-								"wp-json",
-								"onshop",
-								"v1",
-								"user",
-								"logout"
-							],
-							"query": [
-								{
-									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"value": "PHPSTORM",
+									"disabled": true
 								}
 							]
 						}
@@ -167,11 +137,17 @@
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/x-www-form-urlencoded",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDQyMDQ3LCJuYmYiOjE1ODI0NDIwNDcsImV4cCI6MTU4MjQ0MjEwNywiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.YJ-QKWQcLgsGrDXiRljchBVCiuTSUPc8tnhKYJJkJxQ",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -184,7 +160,8 @@
 							"query": [
 								{
 									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"value": "PHPSTORM",
+									"disabled": true
 								}
 							]
 						}
@@ -195,7 +172,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "orders",
+			"name": "order",
 			"item": [
 				{
 					"name": "order",
@@ -207,11 +184,16 @@
 								"name": "Content-Type",
 								"type": "text",
 								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUyNTM5LCJuYmYiOjE1ODI0NTI1MzksImV4cCI6MTU4MjQ1NDMzOSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.b8s6IoBrQGlRpkX3SXiq40dcAQWuILvJS0JB-bz16x4",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": true,\r\n  \"parent_id\": 51,\r\n  \"billing\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"(555) 555-5555\"\r\n  },\r\n  \"shipping\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": false,\r\n  \"shipping\": {\r\n    \"first_name\": \"John2\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"meta_data\": [\r\n  \t{\r\n  \t\t\"key\": \"project-name\",\r\n  \t\t\"value\": \"Project 1\"\r\n  \t},\r\n  \t{\r\n  \t\t\"key\": \"project-number\",\r\n  \t\t\"value\": \"Project 2\"\r\n  \t}\r\n  ],\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2,\r\n      \"meta_data\": [\r\n  \t\t\t{\r\n  \t\t\t\t\"key\": \"test-key-1\",\r\n  \t\t\t\t\"value\": \"test-value-1\"\r\n  \t\t\t},\r\n  \t\t\t{\r\n  \t\t\t\t\"key\": \"test-kay-2\",\r\n  \t\t\t\t\"value\": \"test-value-2\"\r\n  \t\t\t}\r\n\t\t]\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -219,7 +201,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/order?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/order?",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -232,7 +214,8 @@
 							"query": [
 								{
 									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"value": "PHPSTORM",
+									"disabled": true
 								}
 							]
 						}
@@ -253,10 +236,15 @@
 								"type": "text",
 								"value": "application/json",
 								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUyNTM5LCJuYmYiOjE1ODI0NTI1MzksImV4cCI6MTU4MjQ1NDMzOSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.b8s6IoBrQGlRpkX3SXiq40dcAQWuILvJS0JB-bz16x4",
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders?",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -270,7 +258,8 @@
 							"query": [
 								{
 									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"value": "PHPSTORM",
+									"disabled": true
 								}
 							]
 						}
@@ -291,10 +280,15 @@
 								"type": "text",
 								"value": "application/json",
 								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUxNjkxLCJuYmYiOjE1ODI0NTE2OTEsImV4cCI6MTU4MjQ1MjY5MSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.Mqyd6QiKk2s8f7VkTUZ5i8D4bpEv7ph19QHJwZ4OrJA",
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/95?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/121",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -304,12 +298,13 @@
 								"v1",
 								"user",
 								"orders",
-								"95"
+								"121"
 							],
 							"query": [
 								{
 									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"value": "PHPSTORM",
+									"disabled": true
 								}
 							]
 						}
@@ -320,7 +315,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "categories",
+			"name": "category",
 			"item": [
 				{
 					"name": "categories",
@@ -339,7 +334,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories?slug=category-4&XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -348,16 +343,6 @@
 								"onshop",
 								"v1",
 								"categories"
-							],
-							"query": [
-								{
-									"key": "slug",
-									"value": "category-4"
-								},
-								{
-									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
-								}
 							]
 						}
 					},
@@ -380,7 +365,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories/24?XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories/24",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -390,11 +375,42 @@
 								"v1",
 								"categories",
 								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories/:slug",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories?slug=snow-plow-attachments",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"categories"
 							],
 							"query": [
 								{
-									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
+									"key": "slug",
+									"value": "snow-plow-attachments"
 								}
 							]
 						}
@@ -405,7 +421,7 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "products",
+			"name": "product",
 			"item": [
 				{
 					"name": "products",
@@ -424,7 +440,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/categories?slug=category-4&XDEBUG_SESSION_START=PHPSTORM",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/product",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -432,17 +448,351 @@
 								"wp-json",
 								"onshop",
 								"v1",
-								"categories"
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products/:slug",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/product?slug=category-4",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"product"
 							],
 							"query": [
 								{
 									"key": "slug",
 									"value": "category-4"
-								},
-								{
-									"key": "XDEBUG_SESSION_START",
-									"value": "PHPSTORM"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "project",
+			"item": [
+				{
+					"name": "project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDkwNjc3LCJuYmYiOjE1ODI0OTA2NzcsImV4cCI6MTU4MjQ5MjQ3NywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.2aaSADQM7S_yA78dVPmdP40-_svVlAkXB-YJxiykWkw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Project_2\",\n\t\"description\": \"asdfasdf\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg5MTgyLCJuYmYiOjE1ODI0ODkxODIsImV4cCI6MTU4MjQ5MDk4MiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.AftuUlTZkVLWnWtBrL7STwwIgymgVndSWB9LIOrr8To"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Project_2_1\",\n\t\"description\": \"asdfasdf_1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/7",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDkwOTQxLCJuYmYiOjE1ODI0OTA5NDEsImV4cCI6MTU4MjQ5Mjc0MSwiZGF0YSI6eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJlYmFsYTJAd3AuY29tIn19.jAJ00VGNjAniXnZCKxN_Um-tZ9UdzXWMvyJQhNpifzo"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/users",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg3ODQ2LCJuYmYiOjE1ODI0ODc4NDYsImV4cCI6MTU4MjQ4OTY0NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.94Fx6Mf2bwSwJ5294wFK6IuwD1S662AhC2LfwQLKbwg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user_ids\": [10, 11, 12]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/7/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"7",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg5MDczLCJuYmYiOjE1ODI0ODkwNzMsImV4cCI6MTU4MjQ5MDg3MywiZGF0YSI6eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJlYmFsYTJAd3AuY29tIn19.j-RbJAqt4bABNyVE5ZmF8J0f6oOUy68qMGAQWMWOXtg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/7",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg0NDgzLCJuYmYiOjE1ODI0ODQ0ODMsImV4cCI6MTU4MjQ4NjI4MywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.ySPba6avhDQ-ow9_2njsDjP2yX6R-TUhmXc01kZGbc0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/6/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"6",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/users",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg2Nzc2LCJuYmYiOjE1ODI0ODY3NzYsImV4cCI6MTU4MjQ4ODU3NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.yjhp67da75omkOx8oPHVfQE0pM6iQoY7lbSSK-SIBDc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user_ids\": [10, 11, 12]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/6/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"6",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg3ODQ2LCJuYmYiOjE1ODI0ODc4NDYsImV4cCI6MTU4MjQ4OTY0NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.94Fx6Mf2bwSwJ5294wFK6IuwD1S662AhC2LfwQLKbwg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/project/6",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"project",
+								"6"
 							]
 						}
 					},

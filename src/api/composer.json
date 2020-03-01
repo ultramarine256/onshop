@@ -1,0 +1,10 @@
+{
+    "version": "0.1.0",
+    "support": {
+        "email": "info@elrondsoft.com",
+        "irc": "https://www.elrondsoft.com"
+    },
+    "require": {
+        "firebase/php-jwt": "^5.0"
+    }
+}
