@@ -1,0 +1,46 @@
+trigger:
+- master
+- develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  phpVersion: 7.2
+
+steps:
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+    sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+    sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+    sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+    sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+    php -version
+  displayName: 'Use PHP version $(phpVersion)'
+  workingDirectory: 'src/api'
+
+- script: composer install --no-interaction --prefer-dist
+  displayName: 'composer install'
+  workingDirectory: 'src/api'
+
+- script: |
+    npm install
+    npm run build:prod
+  displayName: 'npm install and build'
+  workingDirectory: 'src/api/wp-content/themes/onshop-theme/app'
+  
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+    rootFolderOrFile: src/api
+    includeRootFolder: false  
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts: drop'
+  
