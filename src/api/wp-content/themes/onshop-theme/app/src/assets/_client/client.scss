@@ -72,3 +72,12 @@ li:nth-last-child(-n+2) {
   display: none;
 }
 
+/**
+* ------------------------------------------------------------------------
+* Hide Profile link from Order
+* ------------------------------------------------------------------------
+*/
+
+#order_data .form-field.form-field-wide.wc-customer-user a:nth-child(2) {
+  display: none;
+}
