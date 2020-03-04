@@ -81,3 +81,13 @@ li:nth-last-child(-n+2) {
 #order_data .form-field.form-field-wide.wc-customer-user a:nth-child(2) {
   display: none;
 }
+
+/**
+* ------------------------------------------------------------------------
+* Change WooCommerce Logo in Admin side menu
+* ------------------------------------------------------------------------
+*/
+
+#adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image::before {
+  content: '\e01d';
+}

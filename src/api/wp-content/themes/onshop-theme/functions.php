@@ -131,3 +131,10 @@ add_action( 'rest_api_init', function () {
 	$projects_Controller = new ONSHOP_REST_Projects_Controller();
 	$projects_Controller->register_routes();
 } );
+
+//Change WooCommerce title in Admin side menu
+function change_woocommerce_menu_title( $translated ) {
+    $translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
+return $translated;
+}
+add_filter( 'gettext', 'change_woocommerce_menu_title' );
