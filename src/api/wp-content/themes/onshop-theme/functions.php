@@ -135,8 +135,6 @@ add_action( 'rest_api_init', function () {
 //Change WooCommerce title in Admin side menu
 function change_woocommerce_menu_title( $translated ) {
     $translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
-    $translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
 return $translated;
 }
 add_filter( 'gettext', 'change_woocommerce_menu_title' );
-add_filter( 'ngettext', 'change_woocommerce_menu_title' );
