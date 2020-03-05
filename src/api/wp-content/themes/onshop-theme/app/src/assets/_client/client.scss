@@ -91,3 +91,13 @@ li:nth-last-child(-n+2) {
 #adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image::before {
   content: '\e01d';
 }
+
+/**
+* ------------------------------------------------------------------------
+* Remove WooCommerce link in onshop-api admin menu
+* ------------------------------------------------------------------------
+*/
+
+#wp-admin-bar-view-store {
+  display: none;
+}
