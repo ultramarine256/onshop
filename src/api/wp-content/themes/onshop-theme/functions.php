@@ -131,3 +131,24 @@ add_action( 'rest_api_init', function () {
 	$projects_Controller = new ONSHOP_REST_Projects_Controller();
 	$projects_Controller->register_routes();
 } );
+
+//Change WooCommerce title in Admin side menu
+function change_woocommerce_menu_title( $translated ) {
+    $translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
+return $translated;
+}
+add_filter( 'gettext', 'change_woocommerce_menu_title' );
+
+add_action( 'admin_bar_menu', 'add_links_to_admin_bar',999 );
+
+//Adding link in onshop-api admin menu
+function add_links_to_admin_bar($admin_bar) {
+    $args = array(
+        'parent' => 'site-name',
+        'id'     => 'wp-admin-bar-view-store-url',
+        'title'  => 'Visit Store',
+        'href'   => app_info()['opt-store-url'],
+        'meta'   => false
+    );
+    $admin_bar->add_node( $args );
+}
