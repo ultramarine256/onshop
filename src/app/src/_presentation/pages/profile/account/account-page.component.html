@@ -7,17 +7,17 @@
   <div class="col-12" *ngIf="didLoaded">
     <dl class="row m-0">
       <dt class="col-sm-4 col-key">Picture</dt>
-      <dd class="col-sm-8"><img [src]="items.avatar"></dd>
+      <dd class="col-sm-8"><img [src]="item.avatar"></dd>
       <dt class="col-sm-4 col-key">Name</dt>
-      <dd class="col-sm-8">{{items.firstName + ' ' + items.lastName}}</dd>
+      <dd class="col-sm-8">{{item.firstName + ' ' + item.lastName}}</dd>
       <dt class="col-sm-4 col-key">Email</dt>
-      <dd class="col-sm-8">{{items.email}}</dd>
+      <dd class="col-sm-8">{{item.email}}</dd>
       <dt class="col-sm-4 col-key">Role</dt>
-      <dd class="col-sm-8">{{items.role}}</dd>
+      <dd class="col-sm-8">{{item.role}}</dd>
       <dt class="col-sm-4 col-key">Username</dt>
-      <dd class="col-sm-8">{{items.username}}</dd>
+      <dd class="col-sm-8">{{item.username}}</dd>
       <dt class="col-sm-4 col-key">Date created</dt>
-      <dd class="col-sm-8">{{items.dateCreated | date}}</dd>
+      <dd class="col-sm-8">{{item.dateCreated | date}}</dd>
     </dl>
   </div>
 </div>

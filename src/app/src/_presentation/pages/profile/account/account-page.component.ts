@@ -8,7 +8,7 @@ import {finalize} from 'rxjs/operators';
 })
 export class AccountPageComponent {
   /// fields
-  public items: UserModel;
+  public item: UserModel;
 
   // predicates
   public didLoaded = false;
@@ -17,6 +17,6 @@ export class AccountPageComponent {
   constructor(public userRepository: UserRepository) {
     this.userRepository.getUser()
       .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: UserModel) => this.items = items);
+      .subscribe((item: UserModel) => this.item = item);
   }
 }
