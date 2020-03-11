@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "444a633c-8ea5-4708-a075-f24550181155",
+		"_postman_id": "774cf5c2-f36a-4251-beba-4bb6f79ba77a",
 		"name": "/wp-json/onshop/v1/",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -92,18 +92,18 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "ebala2",
+									"value": "angular",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "Qwerty1234",
+									"value": "Qwert12345",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login?",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -142,12 +142,12 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDQyMDQ3LCJuYmYiOjE1ODI0NDIwNDcsImV4cCI6MTU4MjQ0MjEwNywiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.YJ-QKWQcLgsGrDXiRljchBVCiuTSUPc8tnhKYJJkJxQ",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -187,13 +187,13 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUyNTM5LCJuYmYiOjE1ODI0NTI1MzksImV4cCI6MTU4MjQ1NDMzOSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.b8s6IoBrQGlRpkX3SXiq40dcAQWuILvJS0JB-bz16x4",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": false,\r\n  \"shipping\": {\r\n    \"first_name\": \"John2\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"meta_data\": [\r\n  \t{\r\n  \t\t\"key\": \"project-name\",\r\n  \t\t\"value\": \"Project 1\"\r\n  \t},\r\n  \t{\r\n  \t\t\"key\": \"project-number\",\r\n  \t\t\"value\": \"Project 2\"\r\n  \t}\r\n  ],\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2,\r\n      \"meta_data\": [\r\n  \t\t\t{\r\n  \t\t\t\t\"key\": \"test-key-1\",\r\n  \t\t\t\t\"value\": \"test-value-1\"\r\n  \t\t\t},\r\n  \t\t\t{\r\n  \t\t\t\t\"key\": \"test-kay-2\",\r\n  \t\t\t\t\"value\": \"test-value-2\"\r\n  \t\t\t}\r\n\t\t]\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"payment_method\": \"bacs\",\r\n  \"payment_method_title\": \"Direct Bank Transfer\",\r\n  \"set_paid\": false,\r\n  \"billing\": {\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"address_2\": \"\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"(555) 555-5555\"\r\n  },\r\n  \"shipping\": {\r\n    \"first_name\": \"John2\",\r\n    \"last_name\": \"Doe\",\r\n    \"address_1\": \"969 Market\",\r\n    \"city\": \"San Francisco\",\r\n    \"state\": \"CA\",\r\n    \"postcode\": \"94103\",\r\n    \"country\": \"US\"\r\n  },\r\n  \"meta_data\": [\r\n  \t{\r\n  \t\t\"key\": \"project-name\",\r\n  \t\t\"value\": \"Project 1\"\r\n  \t},\r\n  \t{\r\n  \t\t\"key\": \"project-number\",\r\n  \t\t\"value\": \"Project 2\"\r\n  \t}\r\n  ],\r\n  \"line_items\": [\r\n    {\r\n      \"product_id\": 93,\r\n      \"quantity\": 2,\r\n      \"meta_data\": [\r\n  \t\t\t{\r\n  \t\t\t\t\"key\": \"test-key-1\",\r\n  \t\t\t\t\"value\": \"test-value-1\"\r\n  \t\t\t},\r\n  \t\t\t{\r\n  \t\t\t\t\"key\": \"test-kay-2\",\r\n  \t\t\t\t\"value\": \"test-value-2\"\r\n  \t\t\t}\r\n\t\t]\r\n    },\r\n    {\r\n      \"product_id\": 22,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -201,7 +201,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/order?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/order",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -239,7 +239,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUyNTM5LCJuYmYiOjE1ODI0NTI1MzksImV4cCI6MTU4MjQ1NDMzOSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.b8s6IoBrQGlRpkX3SXiq40dcAQWuILvJS0JB-bz16x4",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
@@ -283,12 +283,12 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDUxNjkxLCJuYmYiOjE1ODI0NTE2OTEsImV4cCI6MTU4MjQ1MjY5MSwiZGF0YSI6eyJ1c2VyX2lkIjoxNiwiZW1haWwiOiJjdXN0b21lcl8xQHdwLmNvbSJ9fQ.Mqyd6QiKk2s8f7VkTUZ5i8D4bpEv7ph19QHJwZ4OrJA",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/121",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/121?",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -510,7 +510,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDkwNjc3LCJuYmYiOjE1ODI0OTA2NzcsImV4cCI6MTU4MjQ5MjQ3NywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.2aaSADQM7S_yA78dVPmdP40-_svVlAkXB-YJxiykWkw",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
@@ -552,7 +552,7 @@
 							{
 								"key": "Authorization",
 								"type": "text",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg5MTgyLCJuYmYiOjE1ODI0ODkxODIsImV4cCI6MTU4MjQ5MDk4MiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.AftuUlTZkVLWnWtBrL7STwwIgymgVndSWB9LIOrr8To"
+								"value": "Bearer {{Token}}"
 							}
 						],
 						"body": {
@@ -594,7 +594,7 @@
 							{
 								"key": "Authorization",
 								"type": "text",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDkwOTQxLCJuYmYiOjE1ODI0OTA5NDEsImV4cCI6MTU4MjQ5Mjc0MSwiZGF0YSI6eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJlYmFsYTJAd3AuY29tIn19.jAJ00VGNjAniXnZCKxN_Um-tZ9UdzXWMvyJQhNpifzo"
+								"value": "Bearer {{Token}}"
 							}
 						],
 						"url": {
@@ -625,7 +625,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg3ODQ2LCJuYmYiOjE1ODI0ODc4NDYsImV4cCI6MTU4MjQ4OTY0NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.94Fx6Mf2bwSwJ5294wFK6IuwD1S662AhC2LfwQLKbwg",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
@@ -668,7 +668,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg5MDczLCJuYmYiOjE1ODI0ODkwNzMsImV4cCI6MTU4MjQ5MDg3MywiZGF0YSI6eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJlYmFsYTJAd3AuY29tIn19.j-RbJAqt4bABNyVE5ZmF8J0f6oOUy68qMGAQWMWOXtg",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
@@ -701,7 +701,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg0NDgzLCJuYmYiOjE1ODI0ODQ0ODMsImV4cCI6MTU4MjQ4NjI4MywiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.ySPba6avhDQ-ow9_2njsDjP2yX6R-TUhmXc01kZGbc0",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
@@ -735,7 +735,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg2Nzc2LCJuYmYiOjE1ODI0ODY3NzYsImV4cCI6MTU4MjQ4ODU3NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.yjhp67da75omkOx8oPHVfQE0pM6iQoY7lbSSK-SIBDc",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],
@@ -778,7 +778,7 @@
 							},
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ4b2x1dGlvbnouY29tIiwiYXVkIjoiVEhFX0FVRElFTkNFIiwiaWF0IjoxNTgyNDg3ODQ2LCJuYmYiOjE1ODI0ODc4NDYsImV4cCI6MTU4MjQ4OTY0NiwiZGF0YSI6eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVsdHJhbWFyaW5lMjU2QGdtYWlsLmNvbSJ9fQ.94Fx6Mf2bwSwJ5294wFK6IuwD1S662AhC2LfwQLKbwg",
+								"value": "Bearer {{Token}}",
 								"type": "text"
 							}
 						],

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
 import {
@@ -9,7 +9,7 @@ import {
   Shipping,
   OrderCreateModel,
   OrderRepository,
-  OrderResponse
+  OrderResponse, UserRepository, UserModel
 } from '../../../_data';
 import {AuthService, CartService, ValidationHelper} from '../../../_domain';
 
@@ -22,14 +22,15 @@ export class CheckoutPageComponent implements OnInit {
   /// fields
   public checkoutForm: FormGroup;
   public projects: Array<Project> = [];
+  public orderNumber = 'ON-34412';
+  public userInfo: UserModel;
 
   /// predicates
   public orderCompleted = false;
-  public orderNumber = 'ON-34412';
 
   /// spinners
   public isLoading = false;
-
+  public isUserLoaded = false;
   /// helper
   public validationHelper = ValidationHelper;
 
@@ -38,7 +39,8 @@ export class CheckoutPageComponent implements OnInit {
               private orderRepository: OrderRepository,
               private cartService: CartService,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private userRepository: UserRepository) {
     this.projects = [
       new Project({id: 'pr-313-1', name: 'Project 313-1'}),
       new Project({id: 'pr-313-2', name: 'Project 313-2'}),
@@ -51,28 +53,31 @@ export class CheckoutPageComponent implements OnInit {
       this.router.navigate([`/cart`]);
     }
 
-    this.checkoutForm = this._formBuilder.group({
-      firstName: ['John', Validators.required],
-      lastName: ['Doe', Validators.required],
-      email: ['john@mail.com', Validators.required],
-      phone: ['+1 444 333 22 11', Validators.required],
+    this.userRepository.getUser().subscribe(item => {
+      this.userInfo = item;
+      this.checkoutForm = this._formBuilder.group({
+        firstName: [item.billing.firstName, Validators.required],
+        lastName: [item.billing.lastName, Validators.required],
+        email: ['', Validators.required],
+        phone: ['+1 444 333 22 11', Validators.required],
 
-      projectName: ['', Validators.required],
-      projectNumber: ['', Validators.required],
-      deliveryDate: [''],
+        projectName: ['', Validators.required],
+        projectNumber: ['', Validators.required],
+        deliveryDate: [''],
 
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zip: ['', Validators.required]
+        address: [item.shipping.address, Validators.required],
+        city: [item.shipping.city, Validators.required],
+        state: ['', Validators.required],
+        zip: [item.shipping.postcode, Validators.required]
+      });
+      this.isUserLoaded = true;
     });
-
-    this.checkoutForm.controls.firstName.disable();
-    this.checkoutForm.controls.lastName.disable();
-    this.checkoutForm.controls.email.disable();
-    this.checkoutForm.controls.phone.disable();
-
-    this.checkoutForm.controls.projectName.disable();
+    // this.checkoutForm.controls.firstName.disable();
+    // this.checkoutForm.controls.lastName.disable();
+    // this.checkoutForm.controls.email.disable();
+    // this.checkoutForm.controls.phone.disable();
+    //
+    // this.checkoutForm.controls.projectName.disable();
   }
 
   /// actions
@@ -83,6 +88,7 @@ export class CheckoutPageComponent implements OnInit {
 
   /// methods
   public placeOrder(form: FormGroup) {
+    debugger
     const model = new OrderCreateModel({
       customerId: this.authService.identity.id,
       paymentMethod: PAYMENT.payment_method__bacs,
@@ -95,6 +101,8 @@ export class CheckoutPageComponent implements OnInit {
         phone: form.value.phone,
       }),
       shipping: new Shipping({
+        fistName: form.value.firstName,
+        lastName: form.value.lastName,
         address1: form.value.address,
         city: form.value.city,
         state: form.value.state,

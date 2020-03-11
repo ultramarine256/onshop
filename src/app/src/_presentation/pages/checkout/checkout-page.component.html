@@ -19,12 +19,12 @@
   </div>
 </div>
 
-<div class="container mb-3" *ngIf="!orderCompleted">
+<div class="container mb-3" *ngIf="isUserLoaded" [class.d-none]="orderCompleted">
   <mat-horizontal-stepper labelPosition="bottom" #stepper>
     <!-- Project Info -->
-    <mat-step [stepControl]="checkoutForm">
+    <mat-step >
       <ng-template matStepLabel>Project</ng-template>
-      <form [formGroup]="checkoutForm" class="row">
+      <form  [formGroup]="checkoutForm" class="row">
         <div class="col-12 col-md-6">
           <h5 class="mb-3 text-center">Requested By</h5>
           <div class="form-row">
@@ -40,7 +40,8 @@
                 formControlName="lastName"
                 class="form-control"
                 placeholder="Last Name"
-                [ngClass]="{'is-valid': validationHelper.isValid('lastName',checkoutForm), 'is-invalid': validationHelper.isInvalid('lastName',checkoutForm)}">
+                [ngClass]="{'is-valid': validationHelper.isValid('lastName',checkoutForm),
+                'is-invalid': validationHelper.isInvalid('lastName',checkoutForm)}">
             </div>
           </div>
 
@@ -86,7 +87,8 @@
               formControlName="city"
               placeholder="City"
               class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('city',checkoutForm), 'is-invalid': validationHelper.isInvalid('city',checkoutForm)}">
+              [ngClass]="{'is-valid': validationHelper.isValid('city',checkoutForm), 'is-invalid':
+              validationHelper.isInvalid('city',checkoutForm)}">
           </div>
           <div class="form-group">
             <!--<label>State</label>-->
