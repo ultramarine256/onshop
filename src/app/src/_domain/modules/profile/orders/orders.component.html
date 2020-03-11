@@ -1,18 +1,14 @@
-<div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!didLoaded">
-  <div class="spinner-grow text-primary" role="status"></div>
-</div>
-<div class="container mb-3" *ngIf="didLoaded">
+<div class="container mb-3">
   <h3>Orders</h3>
   <div *ngFor="let item of items" class=" border-bottom p-2">
-    <div class="row ">
-      <div class="col-md-12 d-flex justify-content-between ">
+    <div class="row">
+
+      <!-- preview -->
+      <div #orderDetails class="col-12 d-flex justify-content-between"
+           (click)="orderDetails.isVisible =! orderDetails.isVisible">
         <div class="d-flex align-items-center ">
-          <i *ngIf="itemClicked!=item.id" class="material-icons mx-2 " (click)="showFullDescription(item.id)">
-            keyboard_arrow_down
-          </i>
-          <i *ngIf="itemClicked==item.id" class="material-icons mx-2 " (click)="closeFullDescription()">
-            keyboard_arrow_up
-          </i>
+          <i *ngIf="!orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
+          <i *ngIf="orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
           <div class="d-flex flex-column p-0 ">
             <a [routerLink]="'/'"></a>Order #{{item.id}}
             <div class="d-flex small text-muted">
@@ -20,80 +16,62 @@
             </div>
           </div>
         </div>
-        <div class="d-flex align-items-center  ">
+        <div class="d-flex align-items-center">
           <b>{{item.total}}$</b>
         </div>
       </div>
-      <div style="width: 38px">
-        <i></i>
+
+      <!-- details -->
+      <div class="col-12 flex-md-row flex-column w-100" [class.d-none]="!orderDetails.isVisible" [class.d-flex]="orderDetails.isVisible">
+        <div style="width: 38px"></div>
+        <div class="row small py-2">
+          <div class="col-12">
+            <h6 class="text-muted">Billing</h6>
+          </div>
+          <div class="col-3 d-flex flex-column">
+            <b>Name:</b>
+            <b>Email:</b>
+            <b>Phone:</b>
+          </div>
+          <div class="col-9 d-flex flex-column">
+            <div>
+              {{item.billing.first_name}}  {{item.billing.last_name}}
+            </div>
+            <div>
+              {{item.billing.email}}
+            </div>
+            <div>
+              {{item.billing.phone}}
+            </div>
+          </div>
+        </div>
+        <div class="row small py-2">
+          <div class="col-12">
+            <h6 class="text-muted">Shipping</h6>
+          </div>
+          <div class="col-3 d-flex flex-column">
+            <b>Name:</b>
+            <b>City:</b>
+            <b>Adress:</b>
+            <b>Post code:</b>
+          </div>
+          <div class="col-9 d-flex flex-column">
+            <div>
+              {{item.shipping.first_name}}  {{item.shipping.last_name}}
+            </div>
+            <div>
+              {{item.shipping.city}} ({{item.shipping.state}})
+            </div>
+            <div>
+              {{item.shipping.address_1}}
+            </div>
+            <div>
+              {{item.shipping.postcode}}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div *ngIf="showDescription && itemClicked===item.id" class="col-md row small  pb-2 pt-3">
-        <div class="col-12 ">
-          <h6 class="text-muted ">Billing</h6>
-        </div>
-        <div class="col-3 d-flex flex-column">
-          <b>Name:</b>
-          <b>Email:</b>
-          <b>Phone:</b>
-        </div>
-        <div class="col-9 d-flex flex-column">
-          <div>
-            {{item.billing.first_name}}  {{item.billing.last_name}}
-          </div>
-          <div>
-            {{item.billing.email}}
-          </div>
-          <div>
-            {{item.billing.phone}}
-          </div>
-        </div>
-
-      </div>
-      <div class="support-column">
-        <i></i>
-      </div>
-      <div *ngIf="showDescription && itemClicked===item.id" class="col row small  pb-2 pt-2">
-        <div class="col-12 ">
-          <h6 class="text-muted ">Shipping</h6>
-        </div>
-        <div class="col-3 d-flex flex-column">
-          <b>Name:</b>
-          <b>City:</b>
-          <b>Adress:</b>
-          <b>Post code:</b>
-        </div>
-        <div class="col-9 d-flex flex-column">
-          <div>
-            {{item.shipping.first_name}}  {{item.shipping.last_name}}
-          </div>
-          <div>
-            {{item.shipping.city}} ({{item.shipping.state}})
-          </div>
-          <div>
-            {{item.shipping.address_1}}
-          </div>
-          <div>
-            {{item.shipping.postcode}}
-          </div>
-        </div>
-
-      </div>
-<!--      <div *ngIf="showDescription && itemClicked===item.id" class="col small pb-2">-->
-<!--        <h6 class="text-muted ">Shipping</h6>-->
-<!--        <div class="p-0">-->
-<!--          <b>Name:</b>{{item.shipping.first_name}}  {{item.shipping.last_name}}-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <b>City:</b>{{item.shipping.city}} ({{item.shipping.state}})-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <b>Adress:</b> {{item.shipping.address_1}}-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <b>Postcode:</b> {{item.shipping.postcode}}-->
-<!--        </div>-->
-<!--      </div>-->
     </div>
   </div>
 </div>
