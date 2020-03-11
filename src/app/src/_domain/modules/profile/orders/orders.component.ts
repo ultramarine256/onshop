@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {OrderResponse} from '../../../../_data';
 
 @Component({
   selector: 'app-orders-component',
@@ -6,10 +7,5 @@ import {Component, Input} from '@angular/core';
   templateUrl: './orders.component.html'
 })
 export class OrdersComponent {
-  /// binding
-  @Input() phone: string;
-
-  /// constructor
-  constructor() {
-  }
+  @Input() items: Array<OrderResponse> = [];
 }

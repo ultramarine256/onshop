@@ -122,11 +122,13 @@ export class Shipping {
 
   /// constructor
   constructor(init?: Partial<Billing>) {
+    debugger
     Object.assign(this as any, init);
   }
 
   /// mappers
   public asWooObject(): {} {
+    debugger
     return {
       first_name: this.fistName,
       last_name: this.lastName,
