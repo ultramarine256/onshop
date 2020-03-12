@@ -1,3 +1,4 @@
+
 export class OrderResponse {
   /// fields
   id: number;
@@ -8,10 +9,15 @@ export class OrderResponse {
   total: string;
   billing: any;
   shipping: any;
+  deliveryDate: Date;
+  projectNumber: string;
+  productItems: ProductItems[];
 
   /// constructor
   constructor(init?: Partial<OrderResponse>) {
+    this.deliveryDate = new Date();
     this.dateCreated = new Date();
+    this.productItems = [];
     Object.assign(this as any, init);
   }
 
@@ -25,25 +31,27 @@ export class OrderResponse {
     this.total = dto.total;
     this.billing = dto.billing;
     this.shipping = dto.shipping;
+    this.productItems = dto.line_items;
+
+    for (const item of dto.meta_data) {
+      if (item.key === ORDER_METADATA_NAMES.DELIVERY_DATE) {
+        this.deliveryDate = new Date(item.value);
+      }
+      if (item.key === ORDER_METADATA_NAMES.PROJECT_NUMBER) {
+        this.projectNumber = item.value;
+      }
+    }
   }
 }
 
-// export class Billing {
-//   firstName: string;
-//   lastName: string;
-//   company: string;
-//   country: string;
-//   email: string;
-//   phone: string;
-//   // constructor(init?: Partial<Billing>) {
-//   //   Object.assign(this as any, init);
-//   // }
-//   // public mapFromDto(dto: any) {
-//   //   this.firstName = dto.first_name;
-//   //   this.lastName = dto. last_name;
-//   //   this.company = dto.company;
-//   //   this.country = dto.country;
-//   //   this.email = dto.email;
-//   //   this.phone = dto.phone;
-//   // }
-// }
+export const ORDER_METADATA_NAMES = {
+  DELIVERY_DATE: 'delivery-date',
+  PROJECT_NUMBER: 'project-number',
+};
+
+class ProductItems {
+  id: number;
+  name: string;
+  productId: string;
+  price: number;
+}

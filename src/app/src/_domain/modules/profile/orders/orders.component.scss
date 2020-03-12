@@ -1,5 +1,21 @@
-.material-icons{
-  cursor: pointer;
+.order-details{
+  .material-icons{
+    cursor: pointer;
+  }
+  .product-box{
+    border-radius: 5px;
+    line-height: 1;
+    font-size: 0.85em;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .font-less{
+    font-size: 0.8em;
+  }
+  .hide-element{
+    display: none;
+  }
 }
 
 
