@@ -1,14 +1,14 @@
 <div class="container mb-3">
   <h3>Orders</h3>
-  <div *ngFor="let item of items" class=" border-bottom p-2">
+  <div *ngFor="let item of items" class="border-bottom p-2">
     <div class="row">
       <!-- preview -->
-      <div #orderDetails class="col-12 d-flex justify-content-between"
+      <div #orderDetails class="col-12 d-flex justify-content-between order-details"
            (click)="orderDetails.isVisible =! orderDetails.isVisible">
-        <div class="d-flex align-items-center ">
+        <div class="d-flex align-items-center">
           <i *ngIf="!orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
           <i *ngIf="orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
-          <div class="d-flex flex-column p-0 ">
+          <div class="d-flex flex-column p-0">
             <span class="font-less">{{item.projectNumber}}(Order #{{item.id}})</span>
             <div class="d-flex small text-muted">
               <small> {{item.dateCreated|date}}</small>

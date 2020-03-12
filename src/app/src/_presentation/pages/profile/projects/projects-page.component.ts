@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../../../../_domain';
-import {ProjectRepository} from '../../../../_data/repository/project/project.repository';
-import {ProjectResponse} from '../../../../_data/repository/project/model';
+import {ProjectRepository, ProjectResponse} from '../../../../_data/repository/project';
 import {finalize} from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-projects-page',
@@ -23,5 +21,4 @@ export class ProjectsPageComponent {
         this.projects = items;
       });
   }
-
 }

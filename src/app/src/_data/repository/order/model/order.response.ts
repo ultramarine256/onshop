@@ -1,5 +1,3 @@
-import {PRODUCT_ATTRIBUTE_NAMES} from '../../product/model';
-import {WooMetaData} from '../../_abstraction';
 
 export class OrderResponse {
   /// fields
