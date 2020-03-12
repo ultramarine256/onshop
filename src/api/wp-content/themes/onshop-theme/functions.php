@@ -1,5 +1,12 @@
 <?php
 
+require_once get_template_directory() . '/redux-template/onshop-config.php';
+function app_info() {
+	global $redux_demo;
+
+	return $redux_demo;
+}
+
 /**
  * ------------------------------------------------------------------------
  * Include Assets in to WordPress admin panel
@@ -89,18 +96,53 @@ function wooninja_remove_items() {
 
 add_action( 'admin_menu', 'wooninja_remove_items', 99, 0 );
 
+//Change WooCommerce title in Admin side menu
+function change_woocommerce_menu_title( $translated ) {
+	$translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
+
+	return $translated;
+}
+
+add_filter( 'gettext', 'change_woocommerce_menu_title' );
+
+add_action( 'admin_bar_menu', 'add_links_to_admin_bar', 999 );
+
+//Adding link in onshop-api admin menu
+function add_links_to_admin_bar( $admin_bar ) {
+	$args = array(
+		'parent' => 'site-name',
+		'id'     => 'wp-admin-bar-view-store-url',
+		'title'  => 'Visit Store',
+//		'href'   => app_info()['opt-store-url'],
+		'meta'   => false
+	);
+	$admin_bar->add_node( $args );
+}
+
+// add projects admin panel page
+function add_projects_menu_item() {
+	add_menu_page(
+		__( 'Projects' ),
+		__( 'Projects' ),
+		'edit_posts',
+		'projects',
+		function () {
+			?>
+            <iframe src="http://admin.blue-shop.xolutionz.com/"></iframe>
+			<?php
+		},
+		'dashicons-schedule',
+		60.8
+	);
+}
+
+add_action( 'admin_menu', 'add_projects_menu_item' );
+
 /**
  * ------------------------------------------------------------------------
  * Rest Api
  * ------------------------------------------------------------------------
  */
-require_once get_template_directory() . '/redux-template/onshop-config.php';
-function app_info() {
-	global $redux_demo;
-
-	return $redux_demo;
-}
-
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'app/', 'info', array(
 		'methods'  => 'GET',
@@ -131,24 +173,3 @@ add_action( 'rest_api_init', function () {
 	$projects_Controller = new ONSHOP_REST_Projects_Controller();
 	$projects_Controller->register_routes();
 } );
-
-//Change WooCommerce title in Admin side menu
-function change_woocommerce_menu_title( $translated ) {
-    $translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
-return $translated;
-}
-add_filter( 'gettext', 'change_woocommerce_menu_title' );
-
-add_action( 'admin_bar_menu', 'add_links_to_admin_bar',999 );
-
-//Adding link in onshop-api admin menu
-function add_links_to_admin_bar($admin_bar) {
-    $args = array(
-        'parent' => 'site-name',
-        'id'     => 'wp-admin-bar-view-store-url',
-        'title'  => 'Visit Store',
-        'href'   => app_info()['opt-store-url'],
-        'meta'   => false
-    );
-    $admin_bar->add_node( $args );
-}
