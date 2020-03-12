@@ -2,7 +2,6 @@
   <h3>Orders</h3>
   <div *ngFor="let item of items" class=" border-bottom p-2">
     <div class="row">
-
       <!-- preview -->
       <div #orderDetails class="col-12 d-flex justify-content-between"
            (click)="orderDetails.isVisible =! orderDetails.isVisible">
@@ -10,68 +9,100 @@
           <i *ngIf="!orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
           <i *ngIf="orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
           <div class="d-flex flex-column p-0 ">
-            <a [routerLink]="'/'"></a>Order #{{item.id}}
+            <span class="font-less">{{item.projectNumber}}(Order #{{item.id}})</span>
             <div class="d-flex small text-muted">
               <small> {{item.dateCreated|date}}</small>
             </div>
           </div>
         </div>
-        <div class="d-flex align-items-center">
+        <div class="text-muted font-less">
+          {{item.status}}
+        </div>
+        <div class="d-flex flex-column align-items-end font-less">
           <b>{{item.total}}$</b>
-        </div>
-      </div>
-
-      <!-- details -->
-      <div class="col-12 flex-md-row flex-column w-100" [class.d-none]="!orderDetails.isVisible" [class.d-flex]="orderDetails.isVisible">
-        <div style="width: 38px"></div>
-        <div class="row small py-2">
-          <div class="col-12">
-            <h6 class="text-muted">Billing</h6>
-          </div>
-          <div class="col-3 d-flex flex-column">
-            <b>Name:</b>
-            <b>Email:</b>
-            <b>Phone:</b>
-          </div>
-          <div class="col-9 d-flex flex-column">
-            <div>
-              {{item.billing.first_name}}  {{item.billing.last_name}}
-            </div>
-            <div>
-              {{item.billing.email}}
-            </div>
-            <div>
-              {{item.billing.phone}}
-            </div>
-          </div>
-        </div>
-        <div class="row small py-2">
-          <div class="col-12">
-            <h6 class="text-muted">Shipping</h6>
-          </div>
-          <div class="col-3 d-flex flex-column">
-            <b>Name:</b>
-            <b>City:</b>
-            <b>Adress:</b>
-            <b>Post code:</b>
-          </div>
-          <div class="col-9 d-flex flex-column">
-            <div>
-              {{item.shipping.first_name}}  {{item.shipping.last_name}}
-            </div>
-            <div>
-              {{item.shipping.city}} ({{item.shipping.state}})
-            </div>
-            <div>
-              {{item.shipping.address_1}}
-            </div>
-            <div>
-              {{item.shipping.postcode}}
-            </div>
+          <div class="d-flex small text-muted">
+            <small>Delivery: {{item.deliveryDate|date}}</small>
           </div>
         </div>
       </div>
-
+      <div class="col-12 d-flex flex-column" [class.d-none]="!orderDetails.isVisible"
+           [class.d-flex]="orderDetails.isVisible">
+        <!-- products to show -->
+        <div class="row w-100">
+          <div class="col-12 mt-2 d-flex">
+            <div class="hide-element" style="width: 38px;"></div>
+            <h6 class="text-muted ">Items</h6>
+          </div>
+        </div>
+        <div *ngFor="let product of item.productItems" class="row w-100">
+          <div class="col-md-8 col-12 small d-flex justify-content-between my-2 product-box ">
+            <div class="d-flex">
+              <div class="hide-element" style="width: 38px;"></div>
+              <div>
+                <b>{{product.name}}</b>
+              </div>
+            </div>
+            <div class="font-weight-bold">
+              {{product.price}}$
+            </div>
+          </div>
+        </div>
+        <!-- delivery properties -->
+        <div class="row w-100">
+          <div class="col-md-6 d-flex small py-2">
+            <div class="hide-element" style="width: 38px"></div>
+            <div class="row">
+              <div class="col-12">
+                <h6 class="text-muted">Billing</h6>
+              </div>
+              <div class="col-3 d-flex flex-column">
+                <b>Name:</b>
+                <b>Email:</b>
+                <b>Phone:</b>
+              </div>
+              <div class="col-9 d-flex flex-column">
+                <div>
+                  {{item.billing.first_name}}  {{item.billing.last_name}}
+                </div>
+                <div>
+                  {{item.billing.email}}
+                </div>
+                <div>
+                  {{item.billing.phone}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex  py-2">
+            <div class="hide-element" style="width: 38px"></div>
+            <div class="row small">
+              <div class="col-12">
+                <h6 class="text-muted">Shipping</h6>
+              </div>
+              <div class="col-3 d-flex flex-column">
+                <b>Name:</b>
+                <b>City:</b>
+                <b>Adress:</b>
+                <b>Post code:</b>
+              </div>
+              <div class="col-9 d-flex flex-column">
+                <div>
+                  {{item.shipping.first_name}}  {{item.shipping.last_name}}
+                </div>
+                <div>
+                  {{item.shipping.city}} ({{item.shipping.state}})
+                </div>
+                <div>
+                  {{item.shipping.address_1}}
+                </div>
+                <div>
+                  {{item.shipping.postcode}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
