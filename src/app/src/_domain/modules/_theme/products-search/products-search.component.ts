@@ -12,9 +12,6 @@ export class ProductSearchComponent {
   @Output() productChosen = new EventEmitter<string>();
 
   public products: Product[];
-
-  constructor() {
-  }
 }
 
 

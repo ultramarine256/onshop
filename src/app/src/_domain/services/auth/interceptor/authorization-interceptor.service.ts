@@ -4,16 +4,18 @@ import {catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthConstants} from '../auth.service';
 import {UserToken} from '../entities';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationInterceptorService implements HttpInterceptor {
 
-  /// constructor
-  constructor() {}
+  constructor(private router: Router) {
+  }
 
   /// methods
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req.clone();
 
@@ -41,13 +43,14 @@ export class AuthorizationInterceptorService implements HttpInterceptor {
 
     return next.handle(authReq)
       .pipe(catchError((err: HttpErrorResponse) => {
-        // if (err.status === 401) {
-        //   this.router
-        //     .navigate(['/login'])
-        //     .then(() => {
-        //       this.storageService.clearStorageInfo();
-        //     });
-        // }
+        if (err.status === 401 || err.status === 403) {
+          this.router
+            .navigate(['/login'])
+            .then(() => {
+              localStorage.removeItem(AuthConstants.USER_TOKEN);
+              localStorage.removeItem(AuthConstants.USER_IDENTITY);
+            });
+        }
         //
         // if (err.error instanceof Error) {
         //   // A client-side or network error occurred. Handle it accordingly.

@@ -19,6 +19,7 @@ export class AppMapper {
       result[i].id = entities[i].id;
       result[i].slug = entities[i].slug;
       result[i].name = entities[i].name;
+      result[i].firstImage = entities[i].firstImage;
       result[i].price = Number(entities[i].price);
     }
     return result;

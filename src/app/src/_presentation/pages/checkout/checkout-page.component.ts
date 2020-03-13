@@ -11,7 +11,7 @@ import {
   OrderRepository,
   OrderResponse, UserRepository, UserModel
 } from '../../../_data';
-import {AuthService, CartService, ValidationHelper} from '../../../_domain';
+import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../../_domain';
 
 @Component({
   selector: 'app-checkout-page',
@@ -24,7 +24,7 @@ export class CheckoutPageComponent implements OnInit {
   public projects: Array<Project> = [];
   public orderNumber = 'ON-34412';
   public userInfo: UserModel;
-
+  public products: CartItemEntity[] = [];
   /// predicates
   public orderCompleted = false;
 
@@ -53,13 +53,14 @@ export class CheckoutPageComponent implements OnInit {
       this.router.navigate([`/cart`]);
     }
 
+    this.products = this.cartService.getItems;
     this.userRepository.getUser().subscribe(item => {
       this.userInfo = item;
       this.checkoutForm = this._formBuilder.group({
         firstName: [item.billing.firstName, Validators.required],
         lastName: [item.billing.lastName, Validators.required],
-        email: ['', Validators.required],
-        phone: ['+1 444 333 22 11', Validators.required],
+        email: [item.billing.email, Validators.required],
+        phone: [item.billing.phone, Validators.required],
 
         projectName: ['', Validators.required],
         projectNumber: ['', Validators.required],
@@ -88,7 +89,6 @@ export class CheckoutPageComponent implements OnInit {
 
   /// methods
   public placeOrder(form: FormGroup) {
-    debugger
     const model = new OrderCreateModel({
       customerId: this.authService.identity.id,
       paymentMethod: PAYMENT.payment_method__bacs,
