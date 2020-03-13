@@ -128,7 +128,14 @@ function add_projects_menu_item() {
 		'projects',
 		function () {
 			?>
-            <iframe src="http://admin.blue-shop.xolutionz.com/"></iframe>
+            <style>
+                .admin-iframe {
+                    width: 98.5%;
+                    height: 85vh;
+                    margin-top: 20px;
+                }
+            </style>
+            <iframe class="admin-iframe" src="http://admin.xolutionz.com"></iframe>
 			<?php
 		},
 		'dashicons-schedule',
