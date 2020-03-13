@@ -24,6 +24,7 @@
   position: absolute;
   z-index: 2;
   height: auto;
+  width: 100.5%;
   max-height: 200px;
   font-size: 0.9em;
   top: 45px;
@@ -53,9 +54,10 @@
 
   .search-results {
     display: flex;
-    ;
+    width: 100%;
     font-size: 1em;
     justify-content: space-between;
+    align-items: center;
     margin-top: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -64,6 +66,15 @@
     &:hover {
       cursor: pointer;
       background-color: rgba(44, 152, 240, 0.51);
+    }
+
+    .alt-photo {
+      width: 30px;
+      height: 30px;
+      background-color: rgba(134, 151, 145, 0.61);
+      display: flex;
+      align-items: center;
+      justify-content: center
     }
   }
 }

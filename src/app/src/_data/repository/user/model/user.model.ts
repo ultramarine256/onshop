@@ -38,12 +38,16 @@ class Billing {
   public lastName: string;
   public city: string;
   public postcode: string;
+  public email: string;
+  public phone: string;
 
   mapFromResponse(dto: any) {
     this.firstName = dto.first_name;
     this.lastName = dto.last_name;
     this.city = dto.city;
     this.postcode = dto.postcode;
+    this.email = dto.email;
+    this.phone = dto.phone;
   }
 }
 
