@@ -15,7 +15,10 @@
             </div>
           </div>
         </div>
-        <div class="text-muted font-less">
+        <div class=" font-less"
+             [ngClass]="{'text-warning':item.status==='processing',
+                         'text-warning':item.status==='pending',
+                         'text-success':item.status==='completed '}">
           {{item.status}}
         </div>
         <div class="d-flex flex-column align-items-end font-less">

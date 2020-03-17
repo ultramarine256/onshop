@@ -1,0 +1,22 @@
+<div class="container">
+  <h5>Projects</h5>
+  <div *ngFor="let item of items">
+    <div class="row border-bottom">
+      <div #projectDetails class="col-12 d-flex justify-content-between my-2"
+           (click)="projectDetails.isVisible =! projectDetails.isVisible">
+        <div class="d-flex align-items-center ">
+          <i *ngIf="!projectDetails.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
+          <i *ngIf="projectDetails.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
+          <div>
+            {{item.name}} {{item.id}}
+          </div>
+        </div>
+      </div>
+      <div class="col-12 d-flex py-2" [class.d-none]="!projectDetails.isVisible"
+           [class.d-flex]="projectDetails.isVisible">
+        <div class="hide-element" style="width: 38px;"></div>
+        {{item.description}}
+      </div>
+    </div>
+  </div>
+</div>
