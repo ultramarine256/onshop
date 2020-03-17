@@ -9,10 +9,10 @@ import {
   Shipping,
   OrderCreateModel,
   OrderRepository,
-  OrderResponse, UserRepository, UserModel
+  OrderResponse, UserRepository, UserModel, ProjectRepository, ProjectResponse
 } from '../../../_data';
 import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../../_domain';
-import {ProjectRepository, ProjectResponse} from '../../../_data/repository/project';
+
 
 @Component({
   selector: 'app-checkout-page',
@@ -33,6 +33,7 @@ export class CheckoutPageComponent implements OnInit {
   public isLoading = false;
   public isUserLoaded = false;
   public didLoaded = false;
+
   /// helper
   public validationHelper = ValidationHelper;
 
@@ -44,12 +45,6 @@ export class CheckoutPageComponent implements OnInit {
               private router: Router,
               private userRepository: UserRepository,
               private projectRepository: ProjectRepository) {
-
-    // this.projects = [
-    //   new Project({id: 'pr-313-1', name: 'Project 313-1'}),
-    //   new Project({id: 'pr-313-2', name: 'Project 313-2'}),
-    //   new Project({id: 'pr-313-3', name: 'Project 313-3'}),
-    // ];
   }
 
   ngOnInit() {

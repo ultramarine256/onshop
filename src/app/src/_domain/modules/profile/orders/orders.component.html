@@ -17,7 +17,7 @@
         </div>
         <div class=" font-less"
              [ngClass]="{'text-warning':item.status==='processing',
-                         'text-warning':item.status==='pending',
+                         'text-secondary':item.status==='pending',
                          'text-success':item.status==='completed '}">
           {{item.status}}
         </div>

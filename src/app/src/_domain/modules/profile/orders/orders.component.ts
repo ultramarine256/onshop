@@ -9,5 +9,3 @@ import {OrderResponse} from '../../../../_data';
 export class OrdersComponent {
   @Input() items: Array<OrderResponse> = [];
 }
-
-

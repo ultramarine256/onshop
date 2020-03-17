@@ -15,8 +15,6 @@ export class ProjectsPageComponent {
               private projectRepository: ProjectRepository) {
     this.projectRepository.getOrders()
       .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<ProjectResponse>) => {
-        this.projects = items;
-      });
+      .subscribe((items: Array<ProjectResponse>) => this.projects = items);
   }
 }
