@@ -15,10 +15,10 @@
             </div>
           </div>
         </div>
-        <div class=" font-less"
+        <div class="font-less text-secondary"
              [ngClass]="{'text-warning':item.status==='processing',
                          'text-secondary':item.status==='pending',
-                         'text-success':item.status==='completed '}">
+                         'text-success':item.status==='completed'}">
           {{item.status}}
         </div>
         <div class="d-flex flex-column align-items-end font-less">
