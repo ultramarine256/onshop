@@ -9,9 +9,10 @@ import {
   Shipping,
   OrderCreateModel,
   OrderRepository,
-  OrderResponse, UserRepository, UserModel
+  OrderResponse, UserRepository, UserModel, ProjectRepository, ProjectResponse
 } from '../../../_data';
 import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../../_domain';
+
 
 @Component({
   selector: 'app-checkout-page',
@@ -21,7 +22,7 @@ import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../
 export class CheckoutPageComponent implements OnInit {
   /// fields
   public checkoutForm: FormGroup;
-  public projects: Array<Project> = [];
+  public projects: Array<ProjectResponse> = [];
   public orderNumber = 'ON-34412';
   public userInfo: UserModel;
   public products: CartItemEntity[] = [];
@@ -31,6 +32,8 @@ export class CheckoutPageComponent implements OnInit {
   /// spinners
   public isLoading = false;
   public isUserLoaded = false;
+  public didLoaded = false;
+
   /// helper
   public validationHelper = ValidationHelper;
 
@@ -40,19 +43,17 @@ export class CheckoutPageComponent implements OnInit {
               private cartService: CartService,
               private authService: AuthService,
               private router: Router,
-              private userRepository: UserRepository) {
-    this.projects = [
-      new Project({id: 'pr-313-1', name: 'Project 313-1'}),
-      new Project({id: 'pr-313-2', name: 'Project 313-2'}),
-      new Project({id: 'pr-313-3', name: 'Project 313-3'}),
-    ];
+              private userRepository: UserRepository,
+              private projectRepository: ProjectRepository) {
   }
 
   ngOnInit() {
     if (this.cartService.itemsCount === 0) {
       this.router.navigate([`/cart`]);
     }
-
+    this.projectRepository.getOrders()
+      .pipe(finalize(() => this.didLoaded = true))
+      .subscribe((items: Array<ProjectResponse>) => this.projects = items);
     this.products = this.cartService.getItems;
     this.userRepository.getUser().subscribe(item => {
       this.userInfo = item;
@@ -62,7 +63,7 @@ export class CheckoutPageComponent implements OnInit {
         email: [item.billing.email, Validators.required],
         phone: [item.billing.phone, Validators.required],
 
-        projectName: ['', Validators.required],
+        projectName: [''],
         projectNumber: ['', Validators.required],
         deliveryDate: [''],
 

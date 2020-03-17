@@ -21,7 +21,7 @@
 <div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!isUserLoaded">
   <div class="spinner-grow text-primary" role="status"></div>
 </div>
-<div class="container mb-3" *ngIf="isUserLoaded" [class.d-none]="orderCompleted">
+<div class="container mb-3" *ngIf="isUserLoaded && didLoaded" [class.d-none]="orderCompleted">
   <mat-horizontal-stepper labelPosition="bottom" #stepper>
     <!-- Project Info -->
     <mat-step>
@@ -70,7 +70,7 @@
                     formControlName="projectNumber"
                     class="form-control"
                     [ngClass]="{'is-valid': validationHelper.isValid('projectNumber', checkoutForm), 'is-invalid': validationHelper.isInvalid('projectNumber', checkoutForm)}">
-              <option *ngFor="let item of projects" [value]="item.id">{{item.name}}</option>
+              <option *ngFor="let item of projects" [value]="item.name">{{item.name}}</option>
             </select>
           </div>
         </div>
@@ -114,13 +114,13 @@
               [ngClass]="{'is-valid': validationHelper.isValid('zip',checkoutForm), 'is-invalid': validationHelper.isInvalid('zip',checkoutForm)}">
           </div>
         </div>
+        <div class="d-flex w-100 justify-content-center">
+          <button class="btn btn-primary float-right" [disabled]="!checkoutForm.valid" matStepperNext>Continue to
+            schedule delivery
+          </button>
+        </div>
       </form>
 
-      <div class="d-flex w-100 justify-content-center">
-        <button class="btn btn-primary float-right" [disabled]="checkoutForm.invalid" matStepperNext>Continue to
-          schedule delivery
-        </button>
-      </div>
     </mat-step>
 
     <!-- Calendar -->
@@ -145,6 +145,28 @@
       <!--Pm-->
       <!--</div>-->
       <!--</div>-->
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Confirm Billing</ng-template>
+      <div class="container">
+        <div class="row justify-content-center ">
+          <h3 class="col-12 text-center my-3">Confirm Billing</h3>
+          <div class="col-md-10 d-flex flex-column">
+            <div class="form-group">
+              <input [(ngModel)]="firstName.value + ' '+lastName.value" [disabled]="true" class="form-control">
+            </div>
+            <div class="form-group">
+              <input [(ngModel)]="project.value" [disabled]="true" class="form-control">
+            </div>
+            <div class="form-group">
+              <input [(ngModel)]="project.value" [disabled]="true" class="form-control">
+            </div>
+          </div>
+          <button class="btn col-md-3 btn-primary float-center" [disabled]="!checkoutForm.valid" matStepperNext>
+            Continue to review
+          </button>
+        </div>
+      </div>
     </mat-step>
 
     <!-- Review -->
@@ -229,6 +251,9 @@
                   <img *ngIf="item.imageUrl" class="img border rounded m-1 mr-0"
                        src="{{item.imageUrl}}" style="height: 50px; width: 50px">
                   <b>{{item.title}}</b>
+                </div>
+                <div>
+                  {{item.count}}
                 </div>
                 <div>
                   {{item.price}}$

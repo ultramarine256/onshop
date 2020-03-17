@@ -3,10 +3,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {OrdersComponent} from './orders';
 import {RouterModule} from '@angular/router';
+import {ProjectsComponent} from './projects';
 
 @NgModule({
   declarations: [
-    OrdersComponent
+    OrdersComponent,
+    ProjectsComponent
   ],
     imports: [
         FormsModule,
@@ -15,7 +17,8 @@ import {RouterModule} from '@angular/router';
         RouterModule
     ],
   exports: [
-    OrdersComponent
+    OrdersComponent,
+    ProjectsComponent
   ]
 })
 export class ProfileModule {

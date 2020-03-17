@@ -5,7 +5,6 @@ import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-projects-page',
-  styleUrls: ['./projects-page.component.scss'],
   templateUrl: './projects-page.component.html'
 })
 export class ProjectsPageComponent {
@@ -16,9 +15,6 @@ export class ProjectsPageComponent {
               private projectRepository: ProjectRepository) {
     this.projectRepository.getOrders()
       .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<ProjectResponse>) => {
-        console.log(items);
-        this.projects = items;
-      });
+      .subscribe((items: Array<ProjectResponse>) => this.projects = items);
   }
 }
