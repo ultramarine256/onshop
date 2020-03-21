@@ -83,8 +83,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 
 						$response->set_data( [
 							'items'      => $response->get_data(),
-							'filters'    => $this->get_filters(),
-							'query_args' => $query_args,
+							'filters'    => $this->get_filters( $query_args['tax_query'] ),
 						] );
 
 						return $response;
@@ -152,7 +151,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		return $tax_query;
 	}
 
-	private function get_filters() {
+	private function get_filters( $tax_query ) {
 		global $wpdb;
 
 		$attributes = [];
@@ -186,15 +185,17 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 					'name'         => $row->pa_name,
 					'filter_items' => [
 						[
-							'name'  => $row->pa_term_value,
-							'count' => $row->count
+							'name'       => $row->pa_term_value,
+							'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
+							'count'      => $row->count,
 						]
 					]
 				];
 			} else {
 				$attributes[ $row->pa_name ]['filter_items'][] = [
-					'name'  => $row->pa_term_value,
-					'count' => $row->count
+					'name'       => $row->pa_term_value,
+					'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
+					'count'      => $row->count,
 				];
 			}
 		}
@@ -215,5 +216,13 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		];
 
 		return $attributes;
+	}
+
+	private function is_term_checked( $tax_query, $pa_key, $pa_term_id ) {
+		$filtered = array_filter( $tax_query, function ( $el ) use ( $pa_key, $pa_term_id ) {
+			return $el['taxonomy'] === $pa_key && in_array( $pa_term_id, $el['terms'] );
+		} );
+
+		return ! empty( $filtered );
 	}
 }
