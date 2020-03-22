@@ -121,12 +121,18 @@ function add_links_to_admin_bar( $admin_bar ) {
 
 // add projects admin panel page
 function add_projects_menu_item() {
+	$user          = wp_get_current_user();
+	$jwt = ONSHOP_AUTH::generate_token( [
+		"user_id" => $user->ID,
+		"email"   => $user->data->user_email,
+	] );
+
 	add_menu_page(
 		__( 'Projects' ),
 		__( 'Projects' ),
 		'edit_posts',
 		'projects',
-		function () {
+		function () use ($jwt) {
 			?>
             <style>
                 .admin-iframe {
@@ -135,7 +141,7 @@ function add_projects_menu_item() {
                     margin-top: 20px;
                 }
             </style>
-            <iframe class="admin-iframe" src="http://admin.xolutionz.com"></iframe>
+            <iframe class="admin-iframe" data-token="<?php echo $jwt ?>" src="http://admin.xolutionz.com"></iframe>
 			<?php
 		},
 		'dashicons-schedule',
@@ -151,10 +157,10 @@ add_action( 'admin_menu', 'add_projects_menu_item' );
  * ------------------------------------------------------------------------
  */
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'app/', 'info', array(
+	register_rest_route( 'app/', 'info', [
 		'methods'  => 'GET',
 		'callback' => 'app_info',
-	) );
+	] );
 } );
 /**
  * ------------------------------------------------------------------------
