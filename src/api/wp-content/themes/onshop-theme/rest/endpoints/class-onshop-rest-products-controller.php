@@ -26,7 +26,16 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 				[
 					'methods'  => WP_REST_Server::READABLE,
 					'callback' => function ( WP_REST_Request $request ) {
-						$query_args    = $this->prepare_objects_query( $request );
+						$query_args = $this->prepare_objects_query( $request );
+
+						$filter_str = $request->get_param( 'filter' );
+
+						if ( ! empty( $filter_str ) ) {
+							$filter_labeled = json_decode( $filter_str, true );
+
+							$query_args['tax_query'] = $this->get_tax_query( $filter_labeled );
+						}
+
 						$query_results = $this->get_objects( $query_args );
 
 						$objects = [];
@@ -73,8 +82,8 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 						}
 
 						$response->set_data( [
-							'items'   => $response->get_data(),
-							'filters' => $this->get_filters(),
+							'items'      => $response->get_data(),
+							'filters'    => $this->get_filters( $query_args['tax_query'] ),
 						] );
 
 						return $response;
@@ -94,8 +103,104 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		);
 	}
 
-	private function get_filters() {
+	private function get_tax_query( $filter_labeled ) {
+		$tax_query = [];
+
 		global $wpdb;
+
+		$labels_used_in_filter = array_map( function ( $el ) {
+			return "'" . esc_sql( $el ) . "'";
+		}, array_keys( $filter_labeled ) );
+
+		// get all results in one db transaction to load to memory but faster processing
+		$terms_with_taxonomy = $wpdb->get_results( "
+				SELECT *
+				FROM wp_term_taxonomy inner JOIN wp_terms ON wp_term_taxonomy.term_id=wp_terms.term_id
+				    inner JOIN wp_woocommerce_attribute_taxonomies ON CONCAT('pa_', wp_woocommerce_attribute_taxonomies.attribute_name) = wp_term_taxonomy.taxonomy
+				WHERE wp_woocommerce_attribute_taxonomies.attribute_label in (" . implode( ',', $labels_used_in_filter ) . ");
+			"
+		);
+
+		foreach ( $filter_labeled as $attribute_label => $term_labels ) {
+			$data_for_label = array_filter( $terms_with_taxonomy, function ( $row ) use ( $attribute_label ) {
+				return $row->attribute_label === $attribute_label;
+			} );
+
+			if ( empty( $data_for_label ) ) {
+				continue;
+			}
+
+			$term_ids = [];
+
+			foreach ( $term_labels as $term_label ) {
+				$rows = array_filter( $data_for_label, function ( $row ) use ( $term_label ) {
+					return $row->name === $term_label;
+				} );
+				$row  = array_pop( $rows );
+
+				$term_ids[] = $row->term_id;
+			}
+
+			$tax_query[] = [
+				'taxonomy' => array_pop( $data_for_label )->taxonomy,
+				'field'    => 'term_id',
+				'terms'    => $term_ids
+			];
+		}
+
+		return $tax_query;
+	}
+
+	private function get_filters( $tax_query ) {
+		global $wpdb;
+
+		$attributes = [];
+
+		/*
+		 * wp_posts.post_type = 'product' are records for products
+		 * wp_term_taxonomy.taxonomy LIKE 'pa_%' are records for custom products attribute per attribute value
+		 * wp_term_relationships is many-to-many between products and product attributes types
+		 * wp_term_taxonomy is many-to-many between product attribute types and products attribute values
+		 */
+		$rows = $wpdb->get_results( "
+			SELECT 
+			       wp_term_taxonomy.term_taxonomy_id as pa_id,
+			       wp_term_taxonomy.taxonomy as pa_key,
+			       wp_terms.term_id as pa_term_id,
+			       wp_terms.name as pa_term_value,
+			       wp_woocommerce_attribute_taxonomies.attribute_label as pa_name,
+			       count(wp_posts.id) as count
+			FROM wp_posts, wp_term_relationships, wp_term_taxonomy, wp_terms, wp_woocommerce_attribute_taxonomies
+			WHERE wp_posts.id = wp_term_relationships.object_id AND
+			      wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id AND
+			      wp_term_taxonomy.term_id = wp_terms.term_id AND
+			      CONCAT('pa_', wp_woocommerce_attribute_taxonomies.attribute_name) = wp_term_taxonomy.taxonomy AND
+			      wp_term_taxonomy.taxonomy LIKE 'pa_%'
+			GROUP BY wp_terms.term_id
+		" );
+
+		foreach ( $rows as $row ) {
+			if ( empty( $attributes[ $row->pa_name ] ) ) {
+				$attributes[ $row->pa_name ] = [
+					'name'         => $row->pa_name,
+					'filter_items' => [
+						[
+							'name'       => $row->pa_term_value,
+							'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
+							'count'      => $row->count,
+						]
+					]
+				];
+			} else {
+				$attributes[ $row->pa_name ]['filter_items'][] = [
+					'name'       => $row->pa_term_value,
+					'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
+					'count'      => $row->count,
+				];
+			}
+		}
+
+		$attributes = array_values( $attributes );
 
 		$prices = $wpdb->get_row( "
 	     	select min(meta_value) as min_price, max(meta_value) as max_price
@@ -104,13 +209,20 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 			AND wp_postmeta.meta_key = '_price';
 	     " );
 
-		return [
-			[
-				"category_name" => "price",
-				"min_price"     => $prices->min_price,
-				"max_price"     => $prices->max_price,
-			],
+		$attributes[] = [
+			'name' => 'Price',
+			'min'  => $prices->min_price,
+			'max'  => $prices->max_price,
 		];
+
+		return $attributes;
+	}
+
+	private function is_term_checked( $tax_query, $pa_key, $pa_term_id ) {
+		$filtered = array_filter( $tax_query, function ( $el ) use ( $pa_key, $pa_term_id ) {
+			return $el['taxonomy'] === $pa_key && in_array( $pa_term_id, $el['terms'] );
+		} );
+
+		return ! empty( $filtered );
 	}
 }
-

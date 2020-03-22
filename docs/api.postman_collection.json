@@ -490,6 +490,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "products?filters",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/product?filter={\"TestAttribute1\":[\"TestTerm1\",\"TestTerm2\"], \"RentPriceMonth\":[\"20\"]}",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"product"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "{\"TestAttribute1\":[\"TestTerm1\",\"TestTerm2\"], \"RentPriceMonth\":[\"20\"]}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -794,6 +831,17 @@
 								"project",
 								"6"
 							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "project/:id/orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
 						}
 					},
 					"response": []
