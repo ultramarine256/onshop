@@ -167,6 +167,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{Token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?password=Qwert1234%&first_name=Abdula",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "test_password"
+								},
+								{
+									"key": "first_name",
+									"value": "Abdula"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
