@@ -122,5 +122,39 @@ class ONSHOP_REST_Users_Controller extends WC_REST_Customers_Controller {
 				}
 			]
 		);
+		register_rest_route(
+			$this->namespace,
+			'user',
+			[
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => function ( WP_REST_Request $request ) {
+					$user          = wp_get_current_user();
+					$request['id'] = $user->ID;
+
+					return $this->update_item( $request );
+				},
+				'permission_callback' => function () {
+					return ONSHOP_AUTH::verify_auth();
+				},
+				'args'     => [
+					'username' => [
+						'required'          => false,
+						'description'       => __( 'Username for user sign up' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						},
+					],
+					'password' => [
+						'required'          => false,
+						'description'       => __( 'User\'s password' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						}
+					],
+				],
+			]
+		);
 	}
 }
