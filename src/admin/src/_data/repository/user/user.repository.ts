@@ -15,10 +15,14 @@ export class UserRepository extends BaseRepository {
     const items = [
       new UserEntity({
         id: 6,
+        name: 'custumer2',
+        lastName: 'customeroff2',
         email: 'customer@mail.com',
       }),
       new UserEntity({
         id: 16,
+        name: 'custumer3',
+        lastName: 'customeroff3',
         email: 'customer@mail.com',
       })
     ];

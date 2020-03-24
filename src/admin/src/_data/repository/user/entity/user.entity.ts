@@ -1,5 +1,7 @@
 export class UserEntity {
   id: number;
+  name: string;
+  lastName: string;
   email: string;
 
   constructor(init?: Partial<UserEntity>) {
@@ -8,6 +10,8 @@ export class UserEntity {
 
   public mapFromDto(dto: any) {
     this.id = dto.id;
+    this.name = dto.name;
+    this.lastName = dto.lastName;
     this.email = dto.email;
   }
 }

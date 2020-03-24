@@ -18,7 +18,6 @@ export class AppComponent {
     if (token) {
       a.setToken(token);
     }
-    // RepositoryConfigurator.Instance.token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJZT1VSX0lTU1VFUl9DTEFJTSIsImF1ZCI6IlRIRV9BVURJRU5DRSIsImlhdCI6MTU4NDU0MDU5MCwibmJmIjoxNTg0NTQwNTkwLCJleHAiOjE1ODQ3MjA1OTAsImRhdGEiOnsidXNlcl9pZCI6MTYsImVtYWlsIjoiYW5ndWxhckB1a3IubmV0In19.ifDL-xhJF0LeVz2PBGfmXIi-dOeXZ1Ux1rPn_VYdMc8`;
     RepositoryConfigurator.Instance.token = a.getToken();
   }
 

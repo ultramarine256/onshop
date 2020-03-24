@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProjectRepository} from '../../../../_data';
+import {ProjectRepository, UserEntity, UserRepository} from '../../../../_data';
 
 @Component({
   selector: 'app-project-users',
@@ -8,27 +8,10 @@ import {ProjectRepository} from '../../../../_data';
 })
 export class ProjectsUsersComponent implements OnInit {
   // @Input() projectId: number;
+
+
   public showAllUsers = false;
-  users: Array<User> = [
-    {
-      id: 1,
-      name: 'custumer1',
-      lastName: 'customeroff2',
-      email: 'customer@gmail.com'
-    },
-    {
-      id: 2,
-      name: 'custumer2',
-      lastName: 'customeroff2',
-      email: 'customer@gmail2.com'
-    },
-    {
-      id: 3,
-      name: 'custumer3',
-      lastName: 'customeroff3',
-      email: 'customer@gmail3.com'
-    }
-  ];
+  public users: Array<UserEntity> = [];
 
   allUsers: Array<User> = [
     {
@@ -69,10 +52,13 @@ export class ProjectsUsersComponent implements OnInit {
     }
   ];
 
-  constructor(private projectRepository: ProjectRepository) {
+  constructor(private userRepository: UserRepository) {
+    this.userRepository.getUsers().subscribe(res =>
+      this.users.push(res));
   }
 
   ngOnInit() {
+
   }
 
 }

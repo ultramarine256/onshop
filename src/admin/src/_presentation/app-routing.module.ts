@@ -5,7 +5,6 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/app-pages.module').then(m => m.AppPagesModule),
-    // loadChildren: './pages/app-pages.module#AppPagesModule',
   },
   {
     path: '**',
@@ -19,5 +18,3 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
-// export const AppRouting: ModuleWithProviders = RouterModule.forChild(routes);
-//src/admin/src/_presentation/pages/app-pages.module.ts  ./pages/app-pages.module#AppPagesModule
