@@ -17,7 +17,7 @@ function app_info() {
 function the_dramatist_custom_login_css() {
 	echo '<style type="text/css"> 
                 .login h1 a {
-                    background-image: url(/wp-content/themes/onshop-theme/app/src/assets/img/onshop-logo.svg);
+                    background-image: url(/wp-content/themes/onshop-theme/styles/onshop-logo.svg);
                     background-size: 100% 100%;
                     width: auto !important;
                     height: 50px;
@@ -78,7 +78,7 @@ function custom_menu_page_removing() {
 		remove_menu_page( 'edit-comments.php' ); // comments
 		remove_menu_page( 'options-general.php' ); // options-general
 		remove_menu_page( 'edit.php?post_type=page' ); // comments
-		wp_enqueue_script( 'my_custom_script', get_template_directory_uri() . '/app/dist/client.js' );
+        wp_enqueue_style( 'my_custom_style', get_template_directory_uri() . '/styles/client.css' );
 	}
 }
 
