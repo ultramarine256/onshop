@@ -12,8 +12,16 @@ export class ProductItemComponent {
   @Input() item: ProductModel;
   @Input() baseUrl: string;
   @Output() addToCart = new EventEmitter<ProductModel>();
+  public showPopUp = false;
 
   /// constructor
   constructor() {
+  }
+
+  popUpFunction(event) {
+    this.showPopUp = true;
+    setTimeout(() => {
+      this.showPopUp = false;
+    }, 3000);
   }
 }

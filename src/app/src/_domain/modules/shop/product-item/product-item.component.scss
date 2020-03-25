@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-
+  position: relative;
   border: 1px solid #f8f9fa;
   border-radius: 4px;
   margin-top: 15px;
@@ -41,9 +41,22 @@
     height: 200px;
     display: flex;
     overflow: hidden;
+    position: relative;
     justify-content: center;
     align-items: center;
 
+    .pop-up-window {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color:white;
+      background-color: rgba(144, 238, 144, 0.7);
+    }
     .image__src {
       width: 100%;
     }
@@ -66,3 +79,4 @@
     }
   }
 }
+

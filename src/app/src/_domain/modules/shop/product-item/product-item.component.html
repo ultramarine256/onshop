@@ -5,8 +5,13 @@
   </a>
   <a class="image" [routerLink]="baseUrl + '/' + item.slug">
     <img class="image__src" [src]="item.firstImage">
+    <div *ngIf="showPopUp" class="pop-up-window">
+      Added
+      <span class="material-icons">
+        check_circle_outline
+      </span>
+    </div>
   </a>
-
   <div class="price-options bg-light text-secondary w-100 mt-2">
     <div class="price-item d-flex justify-content-between">
       <span class="price-title font-weight-500 text-center">Buy</span>
@@ -16,7 +21,7 @@
       <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"
               style="border: none;"
               *ngIf="allowPurchase"
-              (click)="addToCart.emit(item)">
+              (click)="addToCart.emit(item);popUpFunction($event)">
         <i class="material-icons-outlined">add_shopping_cart</i>
       </button>
       <span *ngIf="!allowPurchase" class="text-center text-white">-</span>
@@ -34,5 +39,4 @@
       </span>
     </div>
   </div>
-
 </div>
