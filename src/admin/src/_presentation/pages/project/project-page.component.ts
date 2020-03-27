@@ -9,11 +9,17 @@ import {ProjectEntity} from '../../../_data/repository/project/entity';
 })
 export class ProjectPageComponent {
   public didLoaded: boolean;
+  public showProject: boolean;
   public projects: Array<ProjectEntity> = [];
 
   constructor(private projectRepository: ProjectRepository) {
     this.projectRepository.getProjects()
       .pipe(finalize(() => this.didLoaded = true))
       .subscribe((items: Array<ProjectEntity>) => this.projects = items);
+  }
+
+  public getFormResponse(event) {
+    console.log(event);
+    this.projects.push(event);
   }
 }

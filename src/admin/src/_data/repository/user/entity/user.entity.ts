@@ -15,3 +15,7 @@ export class UserEntity {
     this.email = dto.email;
   }
 }
+
+export class AddUser {
+  user_ids: Array<number>;
+}

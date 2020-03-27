@@ -14,3 +14,4 @@ export class ProjectEntity {
     this.description = dto.description;
   }
 }
+

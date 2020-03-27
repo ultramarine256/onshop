@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BaseRepository} from '../base.repository';
 import {HttpClient} from '@angular/common/http';
 import {from, Observable} from 'rxjs';
-import {UserEntity} from './entity';
+import {AddUser, UserEntity} from './entity';
 
 @Injectable()
 export class UserRepository extends BaseRepository {
@@ -14,19 +14,57 @@ export class UserRepository extends BaseRepository {
   getUsers(): Observable<any> {
     const items = [
       new UserEntity({
-        id: 6,
-        name: 'custumer2',
+        id: 1,
+        name: 'admin',
         lastName: 'customeroff2',
+        email: 'ultramarine256@gmail.com',
+      }),
+      new UserEntity({
+        id: 5,
+        name: 'manager',
+        lastName: 'manager',
+        email: 'manager@mail.com',
+      }),
+      new UserEntity({
+        id: 6,
+        name: 'custumer6',
+        lastName: 'customeroff6',
         email: 'customer@mail.com',
       }),
       new UserEntity({
+        id: 15,
+        name: 'custumer1',
+        lastName: 'customeroff1',
+        email: 'customer1@wp.com',
+      }),
+      new UserEntity({
         id: 16,
-        name: 'custumer3',
-        lastName: 'customeroff3',
-        email: 'customer@mail.com',
+        name: 'angular',
+        lastName: 'angular',
+        email: 'angular@ukr.net',
       })
     ];
     const b = from(items);
     return b;
   }
+
+  setProjectUsers(projectId: number, userId: number) {
+    const user: AddUser = {
+      user_ids: [userId]
+    };
+    console.log(user);
+    return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + projectId + '/users', user, {
+      headers: {
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  // public deleteProjectUser(id: number, user_ids) {
+  //   return this.httpClient.delete(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id + '/users', user_ids, {
+  //     headers: {
+  //       Authorization: 'Bearer ' + this.token
+  //     }
+  //   });
+  // }
 }
