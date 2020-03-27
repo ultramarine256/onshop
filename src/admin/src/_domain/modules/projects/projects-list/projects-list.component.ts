@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {ProjectEntity, ProjectRepository} from '../../../../_data';
 
@@ -8,22 +8,20 @@ import {ProjectEntity, ProjectRepository} from '../../../../_data';
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss']
 })
-export class AppProjectsListComponent {
+export class AppProjectsListComponent implements OnChanges {
   @Input() projects: Array<ProjectEntity> = [];
 
-  constructor(private projectRepository: ProjectRepository,
-              private router: Router) {
+  constructor(private router: Router) {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('it works.');
   }
 
   showProject(id: number) {
     this.router.navigate([`project/${id}`]).then();
   }
-
-  deleteCurrentProject(id: number) {
-    // this.projectRepository.deleteProject(id).subscribe(() => alert('deleted'));
-  }
-
 }
 
 

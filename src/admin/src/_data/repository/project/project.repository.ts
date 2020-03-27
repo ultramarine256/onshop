@@ -40,8 +40,24 @@ export class ProjectRepository extends BaseRepository {
     });
   }
 
+  public addProject(project) {
+    return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v1/project`, project, {
+      headers: {
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
   public deleteProject(id: number) {
     return this.httpClient.delete(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id, {
+      headers: {
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
+
+  public getProjectUsers(id: number) {
+    return this.httpClient.get(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id + '/users', {
       headers: {
         Authorization: 'Bearer ' + this.token
       }

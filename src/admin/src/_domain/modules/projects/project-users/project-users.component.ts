@@ -7,60 +7,58 @@ import {ProjectRepository, UserEntity, UserRepository} from '../../../../_data';
   styleUrls: ['./project-users.component.scss']
 })
 export class ProjectsUsersComponent implements OnInit {
-  // @Input() projectId: number;
-
+  @Input() projectId: number;
 
   public showAllUsers = false;
+  private userResponse: boolean;
   public users: Array<UserEntity> = [];
+  public projectUsersId: any;
+  public projectUsers: Array<UserEntity> = [];
 
-  allUsers: Array<User> = [
-    {
-      id: 1,
-      name: 'custumer1',
-      lastName: 'customeroff2',
-      email: 'customer@gmail.com'
-    },
-    {
-      id: 2,
-      name: 'custumer2',
-      lastName: 'customeroff2',
-      email: 'customer@gmail2.com'
-    },
-    {
-      id: 3,
-      name: 'custumer3',
-      lastName: 'customeroff3',
-      email: 'customer@gmail3.com'
-    },
-    {
-      id: 4,
-      name: 'custumer1',
-      lastName: 'customeroff2',
-      email: 'customer@gmail.com'
-    },
-    {
-      id: 5,
-      name: 'custumer2',
-      lastName: 'customeroff2',
-      email: 'customer@gmail2.com'
-    },
-    {
-      id: 6,
-      name: 'custumer3',
-      lastName: 'customeroff3',
-      email: 'customer@gmail3.com'
-    }
-  ];
-
-  constructor(private userRepository: UserRepository) {
-    this.userRepository.getUsers().subscribe(res =>
-      this.users.push(res));
+  constructor(private userRepository: UserRepository,
+              private projectRepository: ProjectRepository) {
   }
 
   ngOnInit() {
+    if (this.projectId) {
+      this.userRepository.getUsers().subscribe(res => {
+        this.users.push(res);
+        this.userResponse = true;
+      });
+      this.projectRepository.getProjectUsers(this.projectId).subscribe(items => {
+        this.projectUsersId = items;
+        console.log(items);
+        if (this.userResponse) {
+          this._setProjectUsers(this.users, this.projectUsersId);
+        }
+      });
+    }
+  }
+
+  _setProjectUsers(allUsers: Array<UserEntity>, UsersId) {
+    const arr = allUsers.slice();
+    for (let i = 0; i < allUsers.length; i++) {
+      for (const id of UsersId.user_ids) {
+        if (allUsers[i] && allUsers[i].id === id) {
+          this.projectUsers.push(allUsers[i]);
+          arr.splice(i, 1);
+        }
+      }
+    }
+    allUsers = arr;
+  }
+
+  deleteFromProject(user, id: number) {
+    this.projectUsers.splice(id, 1);
+    this.users.push(user);
 
   }
 
+  addProjectUser(user: UserEntity, id: number) {
+    this.userRepository.setProjectUsers(id, user.id).subscribe(() => alert('done'));
+    this.users.splice(id, 1);
+    this.projectUsers.push(user);
+  }
 }
 
 class User {
@@ -69,3 +67,5 @@ class User {
   lastName: string;
   email: string;
 }
+
+

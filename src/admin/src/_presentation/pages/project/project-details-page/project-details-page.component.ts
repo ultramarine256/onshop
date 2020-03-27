@@ -24,6 +24,13 @@ export class ProjectDetailPageComponent implements OnInit {
     });
   }
 
+  deleteCurrentProject(id: number) {
+    this.projectRepository.deleteProject(id).subscribe(() => {
+      alert('deleted');
+      this._location.back();
+    });
+  }
+
   close() {
     this._location.back();
   }
