@@ -8,24 +8,24 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-3">
+    <div class="col-3 col-sm-1 col-md-3">
       <div class="d-flex flex-column">
         <a [routerLink]="'/profile'" class="list-item">
-          <i class="icon-inner fas fa-mobile-alt mr-2" aria-hidden="true"></i>Account
+          <i class="icon-inner fas fa-mobile-alt mr-2" aria-hidden="true"></i><span class="description-text">Account</span>
         </a>
         <a [routerLink]="'/profile/orders'" class="list-item">
-          <i class="fas fa-cart-arrow-down mr-2"></i>Orders
+          <i class="fas fa-cart-arrow-down mr-2"></i><span class="description-text">Orders</span>
         </a>
         <a [routerLink]="'/profile/projects'" class="list-item">
-          <i class="fas fa-cart-arrow-down mr-2"></i>Projects
+          <i class="fas fa-project-diagram mr-2"></i><span class="description-text">Projects</span>
         </a>
         <a href="javascript:void(0)"  class="list-item" (click)="logout()">
-          <i class="fas fa-sign-out-alt mr-2"></i>Logout
+          <i class="fas fa-sign-out-alt mr-2"></i><span class="description-text">Logout</span>
         </a>
       </div>
       <!--<a [routerLink]="'/inventory/' + item.slug">Account details</a>-->
     </div>
-    <div class="col-9">
+    <div class="col-9 col-sm-11 col-md-9">
       <router-outlet></router-outlet>
     </div>
   </div>

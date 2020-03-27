@@ -1,0 +1,28 @@
+<div class="container ">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light my-2 px-3 ">
+      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Projects</a></li>
+      <li *ngIf="entity" class="breadcrumb-item active">{{entity.name}}</li>
+    </ol>
+  </nav>
+</div>
+<div *ngIf="!entity" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+  <div class="spinner-grow text-primary" role="status"></div>
+</div>
+<div *ngIf="entity" class="container">
+  <div class="row">
+    <div class="col-md-6 d-flex flex-column small p-3">
+      <h4 class="mb-3">
+        {{entity.name}}
+      </h4>
+      <p class="text-muted">
+        {{entity.description}}
+      </p>
+    </div>
+    <div class="col-md-12">
+      <div>
+        <app-project-users></app-project-users>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,4 +13,15 @@
   &.active {
     color: #333e48;
   }
+
+}
+
+@media screen and (max-width: 600px){
+  .description-text{
+    display: none;
+  }
+  .list-item{
+    border-bottom:0;
+    margin-bottom: 5px;
+  }
 }

@@ -6,6 +6,7 @@ import {UserRepository} from './user';
 import {AppRepository} from './app';
 import {CategoryRepository} from './category';
 import {OrderRepository} from './order';
+import {ProjectRepository} from './project';
 
 @NgModule({
   declarations: [],
@@ -18,8 +19,11 @@ import {OrderRepository} from './order';
     CategoryRepository,
     OrderRepository,
     ProductRepository,
+    ProjectRepository,
     UserRepository
   ]
 })
 export class RepositoryModule {
 }
+
+

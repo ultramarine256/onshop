@@ -35,3 +35,6 @@ export class AppPagesComponent {
     this.router.navigate([`product/${slug}`]).then();
   }
 }
+
+
+

@@ -1,5 +1,12 @@
 <?php
 
+require_once get_template_directory() . '/redux-template/onshop-config.php';
+function app_info() {
+	global $redux_demo;
+
+	return $redux_demo;
+}
+
 /**
  * ------------------------------------------------------------------------
  * Include Assets in to WordPress admin panel
@@ -10,7 +17,7 @@
 function the_dramatist_custom_login_css() {
 	echo '<style type="text/css"> 
                 .login h1 a {
-                    background-image: url(/wp-content/themes/onshop-theme/app/src/assets/img/onshop-logo.svg);
+                    background-image: url(/wp-content/themes/onshop-theme/styles/onshop-logo.svg);
                     background-size: 100% 100%;
                     width: auto !important;
                     height: 50px;
@@ -71,7 +78,7 @@ function custom_menu_page_removing() {
 		remove_menu_page( 'edit-comments.php' ); // comments
 		remove_menu_page( 'options-general.php' ); // options-general
 		remove_menu_page( 'edit.php?post_type=page' ); // comments
-		wp_enqueue_script( 'my_custom_script', get_template_directory_uri() . '/app/dist/client.js' );
+        wp_enqueue_style( 'my_custom_style', get_template_directory_uri() . '/styles/client.css' );
 	}
 }
 
@@ -89,23 +96,71 @@ function wooninja_remove_items() {
 
 add_action( 'admin_menu', 'wooninja_remove_items', 99, 0 );
 
+//Change WooCommerce title in Admin side menu
+function change_woocommerce_menu_title( $translated ) {
+	$translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
+
+	return $translated;
+}
+
+add_filter( 'gettext', 'change_woocommerce_menu_title' );
+
+add_action( 'admin_bar_menu', 'add_links_to_admin_bar', 999 );
+
+//Adding link in onshop-api admin menu
+function add_links_to_admin_bar( $admin_bar ) {
+	$args = array(
+		'parent' => 'site-name',
+		'id'     => 'wp-admin-bar-view-store-url',
+		'title'  => 'Visit Store',
+//		'href'   => app_info()['opt-store-url'],
+		'meta'   => false
+	);
+	$admin_bar->add_node( $args );
+}
+
+// add projects admin panel page
+function add_projects_menu_item() {
+	$user          = wp_get_current_user();
+	$jwt = ONSHOP_AUTH::generate_token( [
+		"user_id" => $user->ID,
+		"email"   => $user->data->user_email,
+	] );
+
+	add_menu_page(
+		__( 'Projects' ),
+		__( 'Projects' ),
+		'edit_posts',
+		'projects',
+		function () use ($jwt) {
+			?>
+            <style>
+                .admin-iframe {
+                    width: 98.5%;
+                    height: 85vh;
+                    margin-top: 20px;
+                }
+            </style>
+            <iframe class="admin-iframe" data-token="<?php echo $jwt ?>" src="http://admin.xolutionz.com"></iframe>
+			<?php
+		},
+		'dashicons-schedule',
+		60.8
+	);
+}
+
+add_action( 'admin_menu', 'add_projects_menu_item' );
+
 /**
  * ------------------------------------------------------------------------
  * Rest Api
  * ------------------------------------------------------------------------
  */
-require_once get_template_directory() . '/redux-template/onshop-config.php';
-function app_info() {
-	global $redux_demo;
-
-	return $redux_demo;
-}
-
 add_action( 'rest_api_init', function () {
-	register_rest_route( 'app/', 'info', array(
+	register_rest_route( 'app/', 'info', [
 		'methods'  => 'GET',
 		'callback' => 'app_info',
-	) );
+	] );
 } );
 /**
  * ------------------------------------------------------------------------
@@ -131,24 +186,3 @@ add_action( 'rest_api_init', function () {
 	$projects_Controller = new ONSHOP_REST_Projects_Controller();
 	$projects_Controller->register_routes();
 } );
-
-//Change WooCommerce title in Admin side menu
-function change_woocommerce_menu_title( $translated ) {
-    $translated = str_replace( 'WooCommerce', 'Ecommerce', $translated );
-return $translated;
-}
-add_filter( 'gettext', 'change_woocommerce_menu_title' );
-
-add_action( 'admin_bar_menu', 'add_links_to_admin_bar',999 );
-
-//Adding link in onshop-api admin menu
-function add_links_to_admin_bar($admin_bar) {
-    $args = array(
-        'parent' => 'site-name',
-        'id'     => 'wp-admin-bar-view-store-url',
-        'title'  => 'Visit Store',
-        'href'   => app_info()['opt-store-url'],
-        'meta'   => false
-    );
-    $admin_bar->add_node( $args );
-}

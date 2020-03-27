@@ -1,15 +1,22 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {ProductRepository} from '../../../../_data';
-import {AuthService} from '../../../../_domain';
+import {UserModel, UserRepository} from '../../../../_data';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-page',
   templateUrl: './account-page.component.html'
 })
 export class AccountPageComponent {
-  constructor(public authService: AuthService) {
+  /// fields
+  public item: UserModel;
 
-    console.log(this.authService.identity);
+  // predicates
+  public didLoaded = false;
+
+  /// constructor
+  constructor(public userRepository: UserRepository) {
+    this.userRepository.getUser()
+      .pipe(finalize(() => this.didLoaded = true))
+      .subscribe((item: UserModel) => this.item = item);
   }
 }
