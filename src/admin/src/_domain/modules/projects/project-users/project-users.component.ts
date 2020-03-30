@@ -15,8 +15,7 @@ export class ProjectsUsersComponent implements OnInit {
   public projectUsersId: any;
   public projectUsers: Array<UserEntity> = [];
 
-  constructor(private userRepository: UserRepository,
-              private projectRepository: ProjectRepository) {
+  constructor(private userRepository: UserRepository) {
   }
 
   ngOnInit() {
@@ -25,9 +24,8 @@ export class ProjectsUsersComponent implements OnInit {
         this.users.push(res);
         this.userResponse = true;
       });
-      this.projectRepository.getProjectUsers(this.projectId).subscribe(items => {
+      this.userRepository.getProjectUsers(this.projectId).subscribe(items => {
         this.projectUsersId = items;
-        console.log(items);
         if (this.userResponse) {
           this._setProjectUsers(this.users, this.projectUsersId);
         }
@@ -41,21 +39,21 @@ export class ProjectsUsersComponent implements OnInit {
       for (const id of UsersId.user_ids) {
         if (allUsers[i] && allUsers[i].id === id) {
           this.projectUsers.push(allUsers[i]);
-          arr.splice(i, 1);
+          const index = arr.indexOf(allUsers[i]);
+          arr.splice(index, 1);
         }
       }
     }
-    allUsers = arr;
+    this.users = arr;
   }
 
   deleteFromProject(user, id: number) {
     this.projectUsers.splice(id, 1);
     this.users.push(user);
-
   }
 
   addProjectUser(user: UserEntity, id: number) {
-    this.userRepository.setProjectUsers(id, user.id).subscribe(() => alert('done'));
+    this.userRepository.setProjectUsers(this.projectId, user.id).subscribe(() => alert('User added!'));
     this.users.splice(id, 1);
     this.projectUsers.push(user);
   }

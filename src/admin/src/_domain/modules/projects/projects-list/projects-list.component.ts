@@ -1,26 +1,20 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Router} from '@angular/router';
-import {ProjectEntity, ProjectRepository} from '../../../../_data';
-
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ProjectEntity} from '../../../../_data';
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './projects-list.component.html',
-  styleUrls: ['./projects-list.component.scss']
+  styles: [`
+    .project-name {
+      cursor: pointer;
+    }`]
 })
-export class AppProjectsListComponent implements OnChanges {
+export class AppProjectsListComponent {
   @Input() projects: Array<ProjectEntity> = [];
-
-  constructor(private router: Router) {
-
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('it works.');
-  }
+  @Output() itemClick = new EventEmitter<number>();
 
   showProject(id: number) {
-    this.router.navigate([`project/${id}`]).then();
+    this.itemClick.emit(id);
   }
 }
 

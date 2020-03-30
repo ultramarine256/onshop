@@ -13,7 +13,9 @@
     </textarea>
     </label>
     <div class="d-flex w-100 align-self-end justify-content-between">
-      <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">Submit</button>
+      <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">
+        <span *ngIf="formSubmit" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Submit</button>
       <button class="btn btn-warning" (click)=" formDone.emit(false);">
         close
       </button>

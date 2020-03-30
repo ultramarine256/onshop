@@ -52,7 +52,6 @@ export class UserRepository extends BaseRepository {
     const user: AddUser = {
       user_ids: [userId]
     };
-    console.log(user);
     return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + projectId + '/users', user, {
       headers: {
         Authorization: 'Bearer ' + this.token
@@ -60,11 +59,11 @@ export class UserRepository extends BaseRepository {
     });
   }
 
-  // public deleteProjectUser(id: number, user_ids) {
-  //   return this.httpClient.delete(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id + '/users', user_ids, {
-  //     headers: {
-  //       Authorization: 'Bearer ' + this.token
-  //     }
-  //   });
-  // }
+  public getProjectUsers(id: number) {
+    return this.httpClient.get(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id + '/users', {
+      headers: {
+        Authorization: 'Bearer ' + this.token
+      }
+    });
+  }
 }
