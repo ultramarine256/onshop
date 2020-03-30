@@ -1,7 +1,8 @@
 <div class="form-container">
-  <form class="d-flex bg-light mt-3 p-2 border form-creation rounded flex-column align-items-center justify-content-center"
-        [formGroup]="profileForm"
-        (ngSubmit)="onSubmit()">
+  <form
+    class="d-flex bg-light mt-3 p-2 border form-creation rounded flex-column align-items-center justify-content-center"
+    [formGroup]="profileForm"
+    (ngSubmit)="onSubmit()">
     <h3>New project</h3>
     <label class="w-100">
       name:
@@ -15,10 +16,9 @@
     <div class="d-flex w-100 align-self-end justify-content-between">
       <button class="btn btn-primary" type="submit" [disabled]="!profileForm.valid">
         <span *ngIf="formSubmit" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Submit</button>
-      <button class="btn btn-warning" (click)=" formDone.emit(false);">
-        close
+        Submit
       </button>
+      <button class="btn btn-warning" (click)=" formDone.emit(false)">close</button>
     </div>
   </form>
 </div>

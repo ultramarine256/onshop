@@ -12,10 +12,6 @@ import {ProjectEntity} from '../../../../_data';
 export class AppProjectsListComponent {
   @Input() projects: Array<ProjectEntity> = [];
   @Output() itemClick = new EventEmitter<number>();
-
-  showProject(id: number) {
-    this.itemClick.emit(id);
-  }
 }
 
 
