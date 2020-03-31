@@ -1,4 +1,4 @@
-<div class="container ">
+<div class="container">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb my-2 px-3 bg-light ">
       <li class="breadcrumb-item active">Projects</li>
@@ -6,18 +6,13 @@
   </nav>
 </div>
 <div class="container">
-  <div class="bg-white rounded">
-    <div class="w-100 d-flex justify-content-end align-items-center">
-      <app-project-add *ngIf="showProject" (formDone)="showProject=false" (formDoneValue)="getFormResponse($event)"></app-project-add>
-      <div>
-        <div class="btn btn-sm btn-primary" (click)="showProject=true">
-          Create
-        </div>
-      </div>
-    </div>
-    <app-project-list *ngIf="didLoaded" [projects]="projects"></app-project-list>
+  <div class="w-100 d-flex justify-content-end">
+    <button class="btn btn-sm btn-primary" (click)="showProject=true">Create</button>
   </div>
+  <app-project-list *ngIf="didLoaded" [projects]="projects" (itemClick)="showProj($event)"></app-project-list>
 </div>
+<app-project-add *ngIf="showProject" (formDone)="showProject=false"
+                 (formDoneValue)="getFormResponse($event)"></app-project-add>
 
 
 

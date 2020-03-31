@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ProjectsUsersComponent} from './project-users';
 import {AppProjectsListComponent} from './projects-list';
-import {ProjectsAddComponent} from './project-add/project-add.component';
+import {ProjectsAddComponent} from './project-create/project-create.component';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({

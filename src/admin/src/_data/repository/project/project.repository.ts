@@ -55,12 +55,4 @@ export class ProjectRepository extends BaseRepository {
       }
     });
   }
-
-  public getProjectUsers(id: number) {
-    return this.httpClient.get(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id + '/users', {
-      headers: {
-        Authorization: 'Bearer ' + this.token
-      }
-    });
-  }
 }
