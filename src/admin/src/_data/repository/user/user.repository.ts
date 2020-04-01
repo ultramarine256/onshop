@@ -23,15 +23,6 @@ export class UserRepository extends BaseRepository {
     const user: AddUser = {
       user_ids: [userId]
     };
-    // const options = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json',
-    //     Authorization: 'Bearer ' + this.token
-    //   }),
-    //   body: {
-    //     user_ids: userId,
-    //   },
-    // };
     return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + projectId + '/users', user, {
       headers: {
         Authorization: 'Bearer ' + this.token
