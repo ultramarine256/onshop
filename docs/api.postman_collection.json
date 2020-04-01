@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "774cf5c2-f36a-4251-beba-4bb6f79ba77a",
+		"_postman_id": "92ca1611-5b5a-401b-883c-04aed6d42612",
 		"name": "/wp-json/onshop/v1/",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -50,7 +50,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/register?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/register",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -103,7 +103,7 @@
 							]
 						},
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/login",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -147,7 +147,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -156,6 +156,49 @@
 								"onshop",
 								"v1",
 								"user"
+							],
+							"query": [
+								{
+									"key": "XDEBUG_SESSION_START",
+									"value": "PHPSTORM",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{Token}}"
+							}
+						],
+						"url": {
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/users",
+							"host": [
+								"{{ApiBaseUrl}}"
+							],
+							"path": [
+								"wp-json",
+								"onshop",
+								"v1",
+								"users"
 							],
 							"query": [
 								{
@@ -180,7 +223,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?password=Qwert1234%&first_name=Abdula",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user?password=test_password&first_name=Abdula",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -280,7 +323,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],
@@ -324,7 +367,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/121?",
+							"raw": "{{ApiBaseUrl}}/wp-json/onshop/v1/user/orders/121",
 							"host": [
 								"{{ApiBaseUrl}}"
 							],

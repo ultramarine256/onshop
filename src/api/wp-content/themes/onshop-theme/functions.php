@@ -141,7 +141,8 @@ function add_projects_menu_item() {
                     margin-top: 20px;
                 }
             </style>
-            <iframe class="admin-iframe" src="http://admin.xolutionz.com?token=<?php echo $jwt ?>"></iframe>
+            ADMIN_URL
+            <iframe class="admin-iframe" src="<?php echo ADMIN_URL ?>?token=<?php echo $jwt ?>"></iframe>
 			<?php
 		},
 		'dashicons-schedule',

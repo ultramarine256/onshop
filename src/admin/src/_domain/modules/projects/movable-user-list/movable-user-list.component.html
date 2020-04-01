@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row  d-flex align-items-center border-bottom">
+    <div class="col-1 tabel-element">
+      #
+    </div>
+    <div class="col-3 tabel-element ">
+      Name
+    </div>
+    <div class="col-3 tabel-element">
+      Last Name
+    </div>
+    <div class="col-4 tabel-element">
+      Email
+    </div>
+    <div class="col-1 tabel-element">
+      <i class="material-icons">
+        edit
+      </i>
+    </div>
+  </div>
+  <div>
+    <div *ngFor="let user of existingItems;let i=index " class="row small">
+      <div class="col-1 tabel-element">
+        {{user.id}}
+      </div>
+      <div class="col-3 tabel-element">
+        {{user.first_name}}
+      </div>
+      <div class="col-3 tabel-element">
+        {{user.last_name}}
+      </div>
+      <div class="col-4 tabel-element">
+        {{user.email}}
+      </div>
+      <div class="col-1 tabel-element btn text-danger">
+        <button [disabled]="isProcessing" class="btn btn-lg p-0 material-icons text-danger"
+                (click)="delete(user,existingItems);add(user,allItems);deleted.emit(user)">
+          clear
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3 justify-content-end m-2">
+    <button class="btn btn-sm btn-primary" (click)="addList.isVisible =! addList.isVisible">
+      Add new user
+    </button>
+  </div>
+</div>
+
+<!-- addable list -->
+<div #addList class="container mt-3 mb-3">
+  <div *ngIf="addList.isVisible">
+    <div class="row d-flex align-items-center border-bottom">
+      <div class="col-1 tabel-element">
+        #
+      </div>
+      <div class="col-3 tabel-element ">
+        Name
+      </div>
+      <div class="col-3 tabel-element">
+        Last Name
+      </div>
+      <div class="col-4 tabel-element">
+        Email
+      </div>
+      <div class="col-1 tabel-element">
+        <i class="material-icons">
+          edit
+        </i>
+      </div>
+    </div>
+    <div *ngFor="let user of allItems" class="row small">
+      <div class="col-1 tabel-element">
+        {{user.id}}
+      </div>
+      <div class="col-3 tabel-element">
+        {{user.first_name}}
+      </div>
+      <div class="col-3 tabel-element">
+        {{user.last_name}}
+      </div>
+      <div class="col-4 tabel-element">
+        {{user.email}}
+      </div>
+      <div class="col-1 tabel-element btn text-success"
+           (click)="add(user,existingItems);delete(user,allItems);added.emit(user);">
+        <button [disabled]="isProcessing" class="btn btn-lg p-0 text-success material-icons">
+          add_box
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

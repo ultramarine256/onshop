@@ -42,6 +42,7 @@ if ( file_exists( $config ) ) {
 	$connectstr_dbname     = $json->{'dbname'};
 	$connectstr_dbusername = $json->{'dbusername'};
 	$connectstr_dbpassword = $json->{'dbpassword'};
+	$admin_url = $json->{'admin-url'};
 
 	$auth_secret_sign_key          = $json->{'auth'}->{'secret-sign-key'};
 	$auth_secret_enc_key           = $json->{'auth'}->{'secret-enc-key'};
@@ -59,6 +60,7 @@ define( 'ISSUER_CLAIM', $issuer_claim );
 define( 'AUDIENCE_CLAIM', $audience_claim );
 define( 'TOKEN_VALIDATION_DELAY_SEC', $token_validation_delay_sec );
 define( 'TOKEN_EXPIRATION_INTERVAL_SEC', $token_expiration_interval_sec );
+define( 'ADMIN_URL', $admin_url );
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
