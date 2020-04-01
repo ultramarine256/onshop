@@ -23,7 +23,6 @@ export class ProjectDetailPageComponent implements OnInit {
     this.route.params.subscribe(async x => {
       this.entity = await this.projectRepository.getProjectById(x.id).toPromise();
       const items = await this.userRepository.getAllUsers().toPromise();
-      console.log(items);
       const existingItems: AddUser = await this.userRepository.getProjectUsers(x.id).toPromise();
       this.existingUsers = items.filter(item => existingItems.user_ids.includes(item.id));
       this.allUsers = items.filter(item => !(existingItems.user_ids.includes(item.id)));
