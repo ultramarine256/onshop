@@ -26,4 +26,8 @@ export abstract class FilterEntity {
     }
     return qs;
   }
+
+  public buildFilterString(){
+
+  }
 }

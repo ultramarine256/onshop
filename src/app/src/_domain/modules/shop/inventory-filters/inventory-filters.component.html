@@ -4,7 +4,8 @@
     <h5 class="filters-scope__title">{{scope.title}}</h5>
     <div class="filter-item" *ngFor="let attr of scope.attributes">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" [id]="attr.name" [disabled]="attr.isDisabled" [checked]="!!attr.isChecked">
+        <input type="checkbox" class="custom-control-input" [id]="attr.name" [disabled]="attr.isDisabled"
+               [checked]="!!attr.isChecked">
         <label class="custom-control-label" [for]="attr.name">{{attr.name}}</label>
       </div>
     </div>
@@ -26,7 +27,11 @@
     </dx-range-slider>
   </div>
 
+  <div>
+<!--    <app-filters-items [filter]="filter" (setFilter)="_setFilter($event)"></app-filters-items>-->
+  </div>
   <button type="button" class="btn btn-sm btn-primary w-100 mt-3 px-3"
           [disabled]="disabled"
-          (click)="changed.emit(filter)">Filter</button>
+          (click)="changed.emit(filter)">Filter
+  </button>
 </div>
