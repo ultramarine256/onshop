@@ -16,7 +16,7 @@ export class InventoryPageComponent implements OnInit {
   public category: CategoryModel = new CategoryModel();
   public filter: InventoryFilter;
   public searchResult: ProductSearchResult;
-
+  public itemFilters: any;
   /// predicates
   public isLoading = true;
 
@@ -40,6 +40,14 @@ export class InventoryPageComponent implements OnInit {
       .subscribe(result => this.searchResult = result);
   }
 
+  public setNewFilter(filter) {
+    // filter += `&category=${this.category.id}`;
+    this.productRepository.getProducts2(filter)
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe(result => this.searchResult = result);
+    console.log(filter);
+  }
+
   /// constructor
   constructor(private productRepository: ProductRepository,
               private categoryRepository: CategoryRepository,
@@ -53,6 +61,10 @@ export class InventoryPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      this.productRepository.getFiltersProduct(0).subscribe(res => {
+        this.itemFilters = res;
+        console.log(this.itemFilters);
+      });
       this.categoryRepository.getCategory(params.categoryId).subscribe(item => this.category = item);
       this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}))
         .pipe(finalize(() => this.isLoading = false))

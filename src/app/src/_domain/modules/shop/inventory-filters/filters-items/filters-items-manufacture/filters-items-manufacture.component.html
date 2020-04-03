@@ -1,0 +1,18 @@
+<div #manufactureFilter class="col-12 d-flex justify-content-between my-2 p-0" style="cursor:pointer"
+     (click)="manufactureFilter.isVisible =! manufactureFilter.isVisible">
+  <b>Manufacture</b>
+  <div class="d-flex align-items-center ">
+    <i *ngIf="!manufactureFilter.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
+    <i *ngIf="manufactureFilter.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
+  </div>
+</div>
+<div *ngFor="let item of manufacturer" [class.d-none]="!manufactureFilter.isVisible"
+     [class.d-flex]="manufactureFilter.isVisible">
+  <div class="filters-scope d-flex flex-column">
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" name="{{item}}" class="custom-control-input" [id]="item" [checked]="check"
+             (change)="chooseManufacture(item)"/>
+      <label class="custom-control-label" [for]="item">{{item}}</label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div #materialFilter class="col-12 d-flex justify-content-between my-2 p-0" style="cursor:pointer"
+     (click)="materialFilter.isVisible =! materialFilter.isVisible">
+  <b>Material</b>
+  <div class="d-flex align-items-center ">
+    <i *ngIf="!materialFilter.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
+    <i *ngIf="materialFilter.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
+  </div>
+</div>
+<div *ngFor="let item of materials" [class.d-none]="!materialFilter.isVisible"
+     [class.d-flex]="materialFilter.isVisible">
+  <div class="filters-scope d-flex flex-column">
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" name="{{item}}" class="custom-control-input" [id]="item" [checked]="check"
+             (change)="chooseMaterial(item)"/>
+      <label class="custom-control-label" [for]="item">{{item}}</label>
+    </div>
+  </div>
+</div>
+
