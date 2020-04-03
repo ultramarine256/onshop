@@ -41,6 +41,7 @@ export class InventoryPageComponent implements OnInit {
   }
 
   public setNewFilter(filter) {
+    this.isLoading = true;
     // filter += `&category=${this.category.id}`;
     this.productRepository.getProducts2(filter)
       .pipe(finalize(() => this.isLoading = false))
