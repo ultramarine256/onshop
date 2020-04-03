@@ -10,7 +10,7 @@
      [class.d-flex]="usageFilter.isVisible">
   <div class="filters-scope d-flex flex-column">
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" name="{{item.name}}" class="custom-control-input" [id]="item.name" [checked]="check"
+      <input type="checkbox" name="{{item.name}}" class="custom-control-input" [id]="item.name"
              (change)="chosenFilter(item.name)"/>
       <label class="custom-control-label d-flex justify-content-between" [for]="item.name">{{item.name}} ({{item.count}})</label>
     </div>
