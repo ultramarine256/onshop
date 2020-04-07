@@ -1,1 +1,1 @@
-export * from './filters-items';
+export * from './filter-item.model';

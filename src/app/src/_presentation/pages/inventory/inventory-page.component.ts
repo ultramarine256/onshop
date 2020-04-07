@@ -41,12 +41,9 @@ export class InventoryPageComponent implements OnInit {
   }
 
   public setNewFilter(filter) {
-    this.isLoading = true;
-    // filter += `&category=${this.category.id}`;
     this.productRepository.getProducts2(filter)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => this.searchResult = result);
-    console.log(filter);
   }
 
   /// constructor
@@ -83,7 +80,12 @@ export class InventoryPageComponent implements OnInit {
   }
 
   public addToCart(item: ProductModel) {
-    this.cartService.addItem(AppMapper.toCartItem(item));
+    if (!item) {
+      (window as any).toastr.options.positionClass = 'toast-bottom-right';
+      (window as any).toastr.info('Login to make shopping');
+    } else {
+      this.cartService.addItem(AppMapper.toCartItem(item));
+    }
   }
 }
 

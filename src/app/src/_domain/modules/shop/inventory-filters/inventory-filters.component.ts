@@ -12,10 +12,5 @@ export class InventoryFiltersComponent {
   @Input() filter: InventoryFilter = new InventoryFilter();
   @Output() changed = new EventEmitter<InventoryFilter>();
   @Output() setFilter = new EventEmitter<string>();
-  public filterItems: InventoryFilter;
-
-  public _setFilter(a) {
-    this.setFilter.emit(a);
-  }
 }
 
