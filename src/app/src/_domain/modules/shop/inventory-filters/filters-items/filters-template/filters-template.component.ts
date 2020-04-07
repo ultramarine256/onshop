@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FilterItemModel} from '../../../../../../_data';
+import {FilterItemModel} from '../../../../../../_data/repository/product/model';
 
 @Component({
   selector: 'app-filters-template',

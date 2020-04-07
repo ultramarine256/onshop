@@ -38,7 +38,8 @@ export class FiltersItemsComponent {
     this.filtersItems = (this.filtersArray.length !== 0 ? '?filter={' : '');
     this.filtersArray.forEach(x => {
       const a = this.setQuery(x.properties);
-      this.filtersItems += (this.filtersArray.indexOf(x) !== 0 ? ',' : '') + '"' + x.name + '":[' + a + ']}';
+      this.filtersItems += (this.filtersArray.indexOf(x) !== 0 ? ',' : '') + '"' + x.name + '":[' + a + ']' +
+        (this.filtersArray.indexOf(x) === this.filtersArray.length - 1 ? '}' : '');
     });
     this.setFilter.emit(this.filtersItems);
   }
