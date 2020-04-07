@@ -1,5 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-filters-items',
@@ -12,7 +11,6 @@ export class FiltersItemsComponent {
   public filtersArray: Array<FiltersProperties> = [];
   private filtersItems = '';
   public check = false;
-
 
   public _setFilters(event) {
     const newFilter = new FiltersProperties(event.name, event.property);

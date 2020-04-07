@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FilterItemModel} from '../../../../../../_data/repository/product/model';
+import {FilterItemModel} from '../model';
+
 
 @Component({
   selector: 'app-filters-template',
@@ -29,7 +30,7 @@ export class FiltersTemplateComponent {
   }
 }
 
-export class FilterToSet {
+class FilterToSet {
   name: string;
   property: string;
   checked: boolean;
