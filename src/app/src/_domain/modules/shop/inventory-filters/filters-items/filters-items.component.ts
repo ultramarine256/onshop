@@ -1,32 +1,22 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FilterItems} from './model';
+
 
 @Component({
   selector: 'app-filters-items',
-  styleUrls: ['./filters-items.component.scss'],
   templateUrl: './filters-items.component.html'
 })
-export class FiltersItemsComponent implements OnInit {
+export class FiltersItemsComponent {
   @Input() filter: any;
   @Output() setFilter = new EventEmitter<string>();
 
-  public filters: FilterItems;
   public filtersArray: Array<FiltersProperties> = [];
   private filtersItems = '';
   public check = false;
 
-  constructor() {
-    this.filters = new FilterItems();
-  }
-
-  ngOnInit() {
-    console.log(this.filter.filters);
-  }
 
   public _setFilters(event) {
     const newFilter = new FiltersProperties(event.name, event.property);
     let controll = false;
-
     this.filtersArray.forEach(x => {
       if (x.name === newFilter.name) {
         const i = this.filtersArray.indexOf(x);
@@ -36,15 +26,10 @@ export class FiltersItemsComponent implements OnInit {
           this.filtersArray[i].properties.splice(j, 1);
           if (this.filtersArray[i].properties.length === 0) {
             this.filtersArray.splice(i, 1);
-            // tslint:disable-next-line:triple-equals
-            // if (this.filtersArray.length === 0) {
-            //   return this.setFilter.emit(this.filtersItems);
-            // }
           }
         } else {
           this.filtersArray[i].properties.push(event.property);
         }
-
       }
     });
     if (!controll) {
@@ -67,7 +52,6 @@ export class FiltersItemsComponent implements OnInit {
         query += `"${x}",`;
       }
     });
-    console.log(query);
     return query;
   }
 }

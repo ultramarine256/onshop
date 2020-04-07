@@ -20,8 +20,7 @@
       </span>
       <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"
               style="border: none;"
-              *ngIf="allowPurchase"
-              (click)="addToCart.emit(item);popUpFunction($event)">
+              (click)="addCart(item,$event)">
         <i class="material-icons-outlined">add_shopping_cart</i>
       </button>
       <span *ngIf="!allowPurchase" class="text-center text-white">-</span>

@@ -18,10 +18,19 @@ export class ProductItemComponent {
   constructor() {
   }
 
-  popUpFunction(event) {
+  public popUpFunction(event) {
     this.showPopUp = true;
     setTimeout(() => {
       this.showPopUp = false;
     }, 3000);
+  }
+
+  public addCart(item, event) {
+    if (!this.allowPurchase) {
+      this.addToCart.emit(null);
+    } else {
+      this.addToCart.emit(item);
+      this.popUpFunction(event);
+    }
   }
 }
