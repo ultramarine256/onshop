@@ -11,8 +11,6 @@ export class InventoryFiltersComponent {
   @Input() disabled: boolean;
   @Input() filter: InventoryFilter = new InventoryFilter();
   @Output() changed = new EventEmitter<InventoryFilter>();
-
-  /// constructor
-  constructor() {
-  }
+  @Output() setFilter = new EventEmitter<string>();
 }
+

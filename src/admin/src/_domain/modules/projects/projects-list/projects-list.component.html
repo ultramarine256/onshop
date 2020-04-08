@@ -7,11 +7,8 @@
   </svg>
   <div class="media-body d-flex justify-content-between pb-3 mb-0 small lh-125 border-bottom border-gray">
         <div class="d-flex flex-column justify-content-between">
-          <div (click)="showProject(item.id)"><strong class="d-block project-name text-gray-dark">{{item.name}}</strong></div>
+          <div (click)="itemClick.emit(item.id);"><strong class="d-block project-name text-gray-dark">{{item.name}}</strong></div>
           {{item.description}}
         </div>
-    <button class="btn d-flex justify-content-center" (click)="deleteCurrentProject(item.id)">
-      <i class="material-icons text-danger">delete_forever</i>
-    </button>
   </div>
 </div>

@@ -13,11 +13,14 @@
     <!-- filters -->
     <div class="col-12 col-md-3 d-none d-md-block">
       <h4 class="content-title mb-2" style="font-size: 1.286em;">Filters</h4>
-      <app-inventory-filters
-        [disabled]="isLoading"
-        [filter]="filter"
-        (changed)="filtersChanged($event)">
-      </app-inventory-filters>
+<!--            <app-inventory-filters-->
+<!--              [disabled]="isLoading"-->
+<!--              [filter]="filter"-->
+<!--              (changed)="filtersChanged($event)"-->
+<!--              (setFilter)="setNewFilter($event)">-->
+<!--            </app-inventory-filters>-->
+      <app-filters-items *ngIf="itemFilters" [filter]="itemFilters"
+                         (setFilter)="setNewFilter($event)"></app-filters-items>
     </div>
 
     <!-- inventory -->
@@ -25,9 +28,9 @@
 
       <!-- category -->
       <!--<div class="row">-->
-        <!--<div class="col-12 mb-2">-->
-          <!--<span class="category-title">{{category.name}}</span>-->
-        <!--</div>-->
+      <!--<div class="col-12 mb-2">-->
+      <!--<span class="category-title">{{category.name}}</span>-->
+      <!--</div>-->
       <!--</div>-->
 
       <!-- sorting -->
@@ -38,12 +41,14 @@
       </div>
 
       <!-- load-indicator -->
-      <div class="d-flex justify-content-center align-items-center h-300" *ngIf="isLoading && searchResult.items.length == 0">
+      <div class="d-flex justify-content-center align-items-center h-300"
+           *ngIf="isLoading && searchResult.items.length == 0">
         <div class="spinner-grow text-primary" role="status"></div>
       </div>
 
       <!-- no-products-msg -->
-      <div class="d-flex justify-content-center align-items-center text-center" style="height: 300px;" *ngIf="searchResult.items.length == 0 && !isLoading">
+      <div class="d-flex justify-content-center align-items-center text-center" style="height: 300px;"
+           *ngIf="searchResult.items.length == 0 && !isLoading">
         <h4>0 products</h4>
       </div>
 

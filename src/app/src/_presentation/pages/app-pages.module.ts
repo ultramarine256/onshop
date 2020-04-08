@@ -18,12 +18,12 @@ import {
   RepositoryModule
 } from '../../_data';
 import {
-  AuthModule,
-  CartModule,
-  InfoModule,
-  ProfileModule,
-  ShopModule,
-  ThemeModule
+    AuthModule,
+    CartModule, FiltersModule,
+    InfoModule,
+    ProfileModule,
+    ShopModule,
+    ThemeModule
 } from '../../_domain';
 
 @NgModule({
@@ -45,26 +45,27 @@ import {
     AccountPageComponent,
     OrdersPageComponent
   ],
-  imports: [
-    /// angular
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    imports: [
+        /// angular
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
 
-    /// data
-    RepositoryModule,
+        /// data
+        RepositoryModule,
 
-    /// domain
-    ShopModule,
-    ProfileModule,
-    ThemeModule,
-    CartModule,
-    InfoModule,
-    AuthModule,
+        /// domain
+        ShopModule,
+        ProfileModule,
+        ThemeModule,
+        CartModule,
+        InfoModule,
+        AuthModule,
 
-    /// routing
-    AppPagesRouting
-  ],
+        /// routing
+        AppPagesRouting,
+        FiltersModule
+    ],
   exports: [],
   providers: []
 })

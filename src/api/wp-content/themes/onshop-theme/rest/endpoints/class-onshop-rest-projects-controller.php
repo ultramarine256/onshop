@@ -46,7 +46,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					}
 
 					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator' ];
+					$allowed_roles = [ 'administrator','shop_manager'];
 
 					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 						return false;
@@ -90,7 +90,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						$params = $request->get_params();
 
 						$user          = wp_get_current_user();
-						$allowed_roles = [ 'administrator' ];
+						$allowed_roles = [ 'administrator','shop_manager'];
 
 						if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 							$user_ids = ONSHOP_MODEL_UsersXProjects::get_project_users( $params['id'] );
@@ -126,7 +126,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => function () {
 						$user          = wp_get_current_user();
-						$allowed_roles = [ 'administrator' ];
+						$allowed_roles = [ 'administrator' , 'shop_manager'];
 						$result        = [];
 
 						if ( array_intersect( $allowed_roles, $user->roles ) ) {
@@ -179,7 +179,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					}
 
 					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator' ];
+					$allowed_roles = [ 'administrator','shop_manager'];
 
 					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 						return false;
@@ -236,7 +236,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						}
 
 						$user          = wp_get_current_user();
-						$allowed_roles = [ 'administrator' ];
+						$allowed_roles = [ 'administrator','shop_manager'];
 
 						if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 							return false;
@@ -274,7 +274,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					}
 
 					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator' ];
+					$allowed_roles = [ 'administrator','shop_manager'];
 
 					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 						return false;
@@ -332,7 +332,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					}
 
 					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator' ];
+					$allowed_roles = [ 'administrator','shop_manager'];
 
 					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 						return false;
@@ -373,7 +373,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					}
 
 					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator' ];
+					$allowed_roles = [ 'administrator','shop_manager'];
 
 					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 						return false;

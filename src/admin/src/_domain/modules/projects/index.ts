@@ -1,3 +1,3 @@
-export * from './project-users';
+export * from './movable-user-list';
 
 export * from './projects.module';

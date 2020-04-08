@@ -2,7 +2,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-light my-2 px-3 ">
       <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Projects</a></li>
-      <li *ngIf="entity" class="breadcrumb-item active">{{entity.name}}</li>
+      <li class="breadcrumb-item active">{{entity.name}}</li>
     </ol>
   </nav>
 </div>
@@ -11,18 +11,27 @@
 </div>
 <div *ngIf="entity" class="container">
   <div class="row">
+    <div class="w-100 d-flex justify-content-between px-3 mb-0 align-items-center">
+      <h4>{{entity.name}}</h4>
+      <button class="btn btn-sm d-flex justify-content-center text-danger p-1 mt-2"
+              (click)="deleteCurrentProject(entity.id)">
+        Remove
+        <i class="material-icons ">delete</i>
+      </button>
+    </div>
     <div class="col-md-6 d-flex flex-column small p-3">
-      <h4 class="mb-3">
-        {{entity.name}}
-      </h4>
       <p class="text-muted">
         {{entity.description}}
       </p>
     </div>
     <div class="col-md-12">
-      <div>
-        <app-project-users></app-project-users>
-      </div>
+      <app-project-users
+        [allItems]="allUsers"
+        [existingItems]="existingUsers"
+        [isProcessing]="isProcessing"
+        (added)="addUser($event)"
+        (deleted)="deleteUser($event)"
+      ></app-project-users>
     </div>
   </div>
 </div>

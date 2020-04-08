@@ -1,29 +1,17 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
-import {ProjectEntity, ProjectRepository} from '../../../../_data';
-
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ProjectEntity} from '../../../../_data';
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './projects-list.component.html',
-  styleUrls: ['./projects-list.component.scss']
+  styles: [`
+    .project-name {
+      cursor: pointer;
+    }`]
 })
 export class AppProjectsListComponent {
   @Input() projects: Array<ProjectEntity> = [];
-
-  constructor(private projectRepository: ProjectRepository,
-              private router: Router) {
-
-  }
-
-  showProject(id: number) {
-    this.router.navigate([`project/${id}`]).then();
-  }
-
-  deleteCurrentProject(id: number) {
-    // this.projectRepository.deleteProject(id).subscribe(() => alert('deleted'));
-  }
-
+  @Output() itemClick = new EventEmitter<number>();
 }
 
 

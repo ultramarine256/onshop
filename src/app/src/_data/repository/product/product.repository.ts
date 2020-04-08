@@ -45,6 +45,38 @@ export class ProductRepository extends BaseRepository {
       }));
   }
 
+  public getProducts2(filter): Observable<ProductSearchResult> {
+    return this.httpClient
+      .get<ProductSearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product${filter}`, {observe: 'response'})
+      .pipe(map(response => {
+
+        const body = (response as any).body;
+
+        const items = [];
+        for (const dto of body.items as any) {
+          const item = new ProductModel();
+          item.mapFromDto(dto);
+          items.push(item);
+        }
+
+        const result = new ProductSearchResult({
+          items,
+          filters: new SearchResultFilters({
+            price: new PricingFilter({
+              minPrice: body.filters.min_price,
+              maxPrice: body.filters.max_price
+            })
+          }),
+          totalCount: Number(response.headers.get('X-WP-Total')),
+          totalPages: Number(response.headers.get('X-WP-TotalPages'))
+        });
+
+        return result;
+      }));
+  }
+  public getFiltersProduct(filter) {
+    return this.httpClient.get <any>(this.apiBaseUrl + '/wp-json/onshop/v1/product');
+  }
   public newArrivals(): Observable<Array<ProductModel>> {
     return this.getProducts().pipe(map(r => r.items));
   }
