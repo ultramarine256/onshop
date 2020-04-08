@@ -33,7 +33,10 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 						if ( ! empty( $filter_str ) ) {
 							$filter_labeled = json_decode( $filter_str, true );
 
-							$query_args['tax_query'] = array_merge($query_args['tax_query'], $this->get_tax_query( $filter_labeled ));
+							$query_args['tax_query'] = array_merge(
+								empty($query_args['tax_query']) ?  [] : $query_args['tax_query'] ,
+								$this->get_tax_query( $filter_labeled )
+							);
 						}
 
 						$query_results = $this->get_objects( $query_args );
@@ -83,7 +86,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 
 						$response->set_data( [
 							'items'      => $response->get_data(),
-							'filters'    => $this->get_filters( $query_args['tax_query'] ),
+							'filters'    => $this->get_filters( empty($query_args['tax_query']) ?  [] : $query_args['tax_query'] ),
 						] );
 
 						return $response;
@@ -219,6 +222,10 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 	}
 
 	private function is_term_checked( $tax_query, $pa_key, $pa_term_id ) {
+		if (empty($tax_query)) {
+			return false;
+		}
+
 		$filtered = array_filter( $tax_query, function ( $el ) use ( $pa_key, $pa_term_id ) {
 			return $el['taxonomy'] === $pa_key && in_array( $pa_term_id, $el['terms'] );
 		} );
