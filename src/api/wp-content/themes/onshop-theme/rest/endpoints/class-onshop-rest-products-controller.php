@@ -33,7 +33,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 						if ( ! empty( $filter_str ) ) {
 							$filter_labeled = json_decode( $filter_str, true );
 
-							$query_args['tax_query'] = $this->get_tax_query( $filter_labeled );
+							$query_args['tax_query'] = array_merge($query_args['tax_query'], $this->get_tax_query( $filter_labeled ));
 						}
 
 						$query_results = $this->get_objects( $query_args );
