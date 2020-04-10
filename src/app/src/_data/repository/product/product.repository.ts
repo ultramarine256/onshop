@@ -55,7 +55,6 @@ export class ProductRepository extends BaseRepository {
             filters.filterItems.push(filterItem);
           }
         }
-        console.log('it works');
         const result = new ProductSearchResult({
           items,
           filters: filters,

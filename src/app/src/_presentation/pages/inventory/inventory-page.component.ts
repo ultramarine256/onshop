@@ -49,14 +49,6 @@ export class InventoryPageComponent implements OnInit {
       });
   }
 
-  //
-  public setNewFilter(filter) {
-    const a = (filter ? filter + '&category=' : '?category=') + this.category.id;
-    this.productRepository.getProducts2(a)
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe(result => this.searchResult = result);
-  }
-
   /// constructor
   constructor(private productRepository: ProductRepository,
               private categoryRepository: CategoryRepository,
