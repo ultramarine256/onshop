@@ -141,7 +141,6 @@ function add_projects_menu_item() {
                     margin-top: 20px;
                 }
             </style>
-            ADMIN_URL
             <iframe class="admin-iframe" src="<?php echo ADMIN_URL ?>?token=<?php echo $jwt ?>"></iframe>
 			<?php
 		},

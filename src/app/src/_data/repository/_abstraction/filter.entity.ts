@@ -3,6 +3,9 @@ export abstract class FilterEntity {
   public asQueryString(): string {
     const obj = {} as any;
     for (const key of Object.keys(this)) {
+      if (key === 'filters') {
+        continue;
+      }
       obj[key] = this[key];
     }
     return this._buildQueryString(obj);
@@ -25,9 +28,5 @@ export abstract class FilterEntity {
       qs = qs.substring(0, qs.length - 1); // chop off last "&"
     }
     return qs;
-  }
-
-  public buildFilterString(){
-
   }
 }

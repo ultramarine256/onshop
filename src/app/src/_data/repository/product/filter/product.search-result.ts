@@ -18,39 +18,34 @@ export class ProductSearchResult {
 
 export class SearchResultFilters {
   /// fields
-  categories: Array<CategoryFilterResponse>;
+  filterItems: Array<FilterItem>;
   price: PricingFilter;
 
   /// constructor
   constructor(init?: Partial<SearchResultFilters>) {
-    this.categories = [];
+    this.filterItems = [];
     this.price = new PricingFilter();
     Object.assign(this as any, init);
   }
-
-  /// mapper
-  public mapFromDto(dto: any) {
-  }
 }
 
-export class CategoryFilterResponse {
-  categoryName: string;
-  filterItems: Array<any>;
+export class FilterItem {
+  name: string;
+  items: Array<any>;
 
-  /// constructor
-  constructor(init?: Partial<CategoryFilterResponse>) {
-    this.filterItems = [];
+  constructor(init?: Partial<FilterItem>) {
+    this.items = [];
     Object.assign(this as any, init);
   }
 
-  /// mapper
   public mapFromDto(dto: any) {
-    this.categoryName = dto.categoryName;
-    this.filterItems = [];
+    this.name = dto.categoryName;
+    this.items = [];
   }
 }
 
 export class PricingFilter {
+  name: string;
   minPrice: string;
   maxPrice: string;
 

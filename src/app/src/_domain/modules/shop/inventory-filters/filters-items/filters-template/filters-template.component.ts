@@ -4,11 +4,13 @@ import {FilterItemModel} from '../model';
 
 @Component({
   selector: 'app-filters-template',
+  styleUrls: ['./filters-template.component.scss'],
   templateUrl: './filters-template.component.html'
 })
 export class FiltersTemplateComponent {
   @Input()
   public set filters(items: FilterItemModel) {
+    console.log(items);
     if (items.filter_items) {
       this.filter.name = items.name;
       this.filter.filter_items = items.filter_items.sort((a, b) => {

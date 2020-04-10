@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
 import {finalize} from 'rxjs/operators';
 import {
   LineItem,
@@ -132,6 +133,7 @@ export class CheckoutPageComponent implements OnInit {
         this.cartService.clearCart();
       });
   }
+
 }
 
 export class Project {
