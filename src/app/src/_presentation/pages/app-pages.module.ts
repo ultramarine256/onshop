@@ -19,13 +19,13 @@ import {
 } from '../../_data';
 import {
   AuthModule,
-  CartModule, FiltersModule,
+  CartModule,
   InfoModule,
   ProfileModule,
   ShopModule,
   ThemeModule
 } from '../../_domain';
-import {DevExtremeModule, DxSchedulerModule, DxTemplateHost, DxTemplateModule} from 'devextreme-angular';
+
 
 @NgModule({
   declarations: [
@@ -64,8 +64,7 @@ import {DevExtremeModule, DxSchedulerModule, DxTemplateHost, DxTemplateModule} f
     AuthModule,
 
     /// routing
-    AppPagesRouting,
-    FiltersModule
+    AppPagesRouting
   ],
   exports: [],
   providers: []

@@ -10,7 +10,6 @@ import {ProductFilter, SearchResultFilters} from '../../../../_data/repository/p
 export class InventoryFiltersComponent {
   /// binding
   @Input() filter: SearchResultFilters;
-  // @Output() changed = new EventEmitter<InventoryFilter>();
   @Output() setFilter = new EventEmitter<string>();
   public filtersArray: Array<FiltersProperties> = [];
   private filtersItems = '';
@@ -18,7 +17,6 @@ export class InventoryFiltersComponent {
 
   public chosenFilter(filterName, itemName) {
     const completeFilter = new FilterToSet(filterName, itemName);
-    console.log(completeFilter);
     this._setFilters(completeFilter);
   }
 
