@@ -32,6 +32,7 @@ export class FilterAttribute {
 
   /// constructor
   constructor(init?: Partial<FilterAttribute>) {
+
     Object.assign(this as any, init);
   }
 }

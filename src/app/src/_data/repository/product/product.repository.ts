@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {BaseRepository} from '../base.repository';
-import {PricingFilter, ProductFilter, ProductSearchResult, SearchResultFilters} from './filter';
+import {FilterItem, PricingFilter, ProductFilter, ProductSearchResult, SearchResultFilters} from './filter';
 import {ProductModel} from './model';
 
 @Injectable()
@@ -15,11 +15,14 @@ export class ProductRepository extends BaseRepository {
   }
 
   /// methods
-  public getProducts(filter: ProductFilter = new ProductFilter()): Observable<ProductSearchResult> {
+  public getProducts(wpFilter: ProductFilter = new ProductFilter(), customFilters: string = null): Observable<ProductSearchResult> {
+    let url = `${this.apiBaseUrl}/wp-json/onshop/v1/product?${wpFilter.asQueryString()}`;
+    if (customFilters) {
+      url += `&filter={${customFilters}`;
+    }
     return this.httpClient
-      .get<ProductSearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product?${filter.asQueryString()}`, {observe: 'response'})
+      .get<ProductSearchResult>(url, {observe: 'response'})
       .pipe(map(response => {
-
         const body = (response as any).body;
 
         const items = [];
@@ -29,14 +32,33 @@ export class ProductRepository extends BaseRepository {
           items.push(item);
         }
 
+        const filters = new SearchResultFilters();
+        for (const filterType of body.filters as any) {
+
+          if (filterType.name === 'Price') {
+            const pricingFilter = new PricingFilter();
+            pricingFilter.name = filterType.name;
+            pricingFilter.minPrice = filterType.min;
+            pricingFilter.maxPrice = filterType.max;
+            filters.price = pricingFilter;
+
+          } else {
+            const filterItem = new FilterItem();
+            filterItem.name = filterType.name;
+            for (const filterItemDto of filterType.filter_items) {
+              filterItem.items.push({
+                name: filterItemDto.name,
+                isChecked: filterItemDto.is_checked,
+                count: filterItemDto.count
+              });
+            }
+            filters.filterItems.push(filterItem);
+          }
+        }
+        console.log('it works');
         const result = new ProductSearchResult({
           items,
-          filters: new SearchResultFilters({
-            price: new PricingFilter({
-              minPrice: body.filters.min_price,
-              maxPrice: body.filters.max_price
-            })
-          }),
+          filters: filters,
           totalCount: Number(response.headers.get('X-WP-Total')),
           totalPages: Number(response.headers.get('X-WP-TotalPages'))
         });
@@ -74,9 +96,11 @@ export class ProductRepository extends BaseRepository {
         return result;
       }));
   }
+
   public getFiltersProduct(filter) {
     return this.httpClient.get <any>(this.apiBaseUrl + '/wp-json/onshop/v1/product');
   }
+
   public newArrivals(): Observable<Array<ProductModel>> {
     return this.getProducts().pipe(map(r => r.items));
   }

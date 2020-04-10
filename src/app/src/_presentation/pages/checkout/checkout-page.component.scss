@@ -1,3 +1,10 @@
 .checkout-info-title{
   margin: 20px;
 }
+::ng-deep .employee-weekend-1 {
+  background-color: rgba(86, 202, 133, 0.2);
+}
+
+::ng-deep .employee-weekend-2 {
+  background-color: rgba(255, 151, 71, 0.2);
+}

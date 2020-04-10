@@ -1,7 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
-import {CategoryModel, ProductModel, ProductFilter, ProductRepository, ProductSearchResult, CategoryRepository} from '../../../_data';
+import {
+  CategoryModel,
+  ProductModel,
+  ProductFilter,
+  ProductRepository,
+  ProductSearchResult,
+  CategoryRepository,
+  SearchResultFilters
+} from '../../../_data';
 import {AppMapper} from '../../_mapper';
 import {AuthService, CartService, FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
 
@@ -14,34 +22,37 @@ export class InventoryPageComponent implements OnInit {
   /// fields
   public items: Array<ProductModel> = [];
   public category: CategoryModel = new CategoryModel();
-  public filter: InventoryFilter;
+  public filter: SearchResultFilters;
+  public filterConstant: InventoryFilter;
   public searchResult: ProductSearchResult;
   public itemFilters: any;
+  public categoryId: number;
   /// predicates
   public isLoading = true;
 
   /// events
-  public filtersChanged(filter: InventoryFilter) {
+  public filtersChanged(dynamicFilter: string) {
     // TODO: update url according to query params
-    this.filter = filter;
+    // this.filterConstant = filter;
     // console.log(this.filter);
 
     // TODO: dynamic filter mapping
     const a = new ProductFilter({
       per_page: 100,
-      category: this.category.id,
-      min_price: this.filter.priceRange.start,
-      max_price: this.filter.priceRange.end,
+      category: this.category.id
     });
-
     this.isLoading = true;
-    this.productRepository.getProducts(a)
+    this.productRepository.getProducts(new ProductFilter({per_page: 100, category: this.category.id}), dynamicFilter)
       .pipe(finalize(() => this.isLoading = false))
-      .subscribe(result => this.searchResult = result);
+      .subscribe(result => {
+        this.searchResult = result;
+      });
   }
 
+  //
   public setNewFilter(filter) {
-    this.productRepository.getProducts2(filter)
+    const a = (filter ? filter + '&category=' : '?category=') + this.category.id;
+    this.productRepository.getProducts2(a)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => this.searchResult = result);
   }
@@ -53,7 +64,7 @@ export class InventoryPageComponent implements OnInit {
               public authService: AuthService,
               private route: ActivatedRoute,
               private router: Router) {
-    this.filter = DefaultFilters.Get();
+    // this.filter = DefaultFilters.Get();
     this.searchResult = new ProductSearchResult();
   }
 
@@ -61,12 +72,15 @@ export class InventoryPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.productRepository.getFiltersProduct(0).subscribe(res => {
         this.itemFilters = res;
-        console.log(this.itemFilters);
       });
+      this.categoryId = params.cacategoryId;
       this.categoryRepository.getCategory(params.categoryId).subscribe(item => this.category = item);
-      this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}))
+      this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}), null)
         .pipe(finalize(() => this.isLoading = false))
-        .subscribe(result => this.searchResult = result);
+        .subscribe(result => {
+          this.filter = result.filters;
+          this.searchResult = result;
+        });
     });
   }
 

@@ -1,4 +1,5 @@
 import {FilterEntity} from '../../_abstraction';
+import array from 'devextreme/ui/file_manager/file_provider/array';
 
 export class ProductFilter extends FilterEntity {
   /// fields
@@ -15,6 +16,7 @@ export class ProductFilter extends FilterEntity {
   max_price: number;
   stock_status: string;
   status: string;
+
 
   /// constructor
   constructor(init?: Partial<ProductFilter>) {

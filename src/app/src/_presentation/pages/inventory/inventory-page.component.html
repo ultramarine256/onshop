@@ -13,14 +13,12 @@
     <!-- filters -->
     <div class="col-12 col-md-3 d-none d-md-block">
       <h4 class="content-title mb-2" style="font-size: 1.286em;">Filters</h4>
-<!--            <app-inventory-filters-->
-<!--              [disabled]="isLoading"-->
-<!--              [filter]="filter"-->
-<!--              (changed)="filtersChanged($event)"-->
-<!--              (setFilter)="setNewFilter($event)">-->
-<!--            </app-inventory-filters>-->
-      <app-filters-items *ngIf="itemFilters" [filter]="itemFilters"
-                         (setFilter)="setNewFilter($event)"></app-filters-items>
+      <app-inventory-filters
+        [filter]="filter"
+        (setFilter)="filtersChanged($event)">
+      </app-inventory-filters>
+<!--      <app-filters-items *ngIf="itemFilters" [filter]="itemFilters"-->
+<!--                         (setFilter)="setNewFilter($event)"></app-filters-items>-->
     </div>
 
     <!-- inventory -->
