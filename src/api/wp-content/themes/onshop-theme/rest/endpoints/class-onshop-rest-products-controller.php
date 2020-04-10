@@ -167,9 +167,9 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		$checked_group_with_options_to_match = [];
 
 		foreach ( $tax_query as $tax ) {
-			$checked_group_with_options_to_match[ $tax['taxonomy'] ] = array_map(function($str) {
-				return (int)$str;
-			},  $tax['terms']);
+			$checked_group_with_options_to_match[ $tax['taxonomy'] ] = array_map( function ( $str ) {
+				return (int) $str;
+			}, $tax['terms'] );
 		}
 
 		$groups_with_options_counters = [];
@@ -192,43 +192,28 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 							$groups_with_options_counters[ $group_key ] = [
 								'name'         => $group['group_name'],
 								'filter_items' => [
-									$option_value => 1,
+									$option => [
+										'name'       => $option_value,
+										'is_checked' => $this->is_option_checked( $checked_group_with_options_to_match, $group_key, $option),
+										'count'      => 1,
+									],
 								]
 							];
 						} else {
-							if ( empty($groups_with_options_counters[ $group_key ]['filter_items'][ $option_value ]) ) {
-								$groups_with_options_counters[ $group_key ]['filter_items'][ $option_value ] = 1;
+							if ( empty( $groups_with_options_counters[ $group_key ]['filter_items'][ $option ] ) ) {
+								$groups_with_options_counters[ $group_key ]['filter_items'][ $option ] = [
+									'name'       => $option_value,
+									'is_checked' => $this->is_option_checked( $checked_group_with_options_to_match, $group_key, $option),
+									'count'      => 1,
+								];
 							} else {
-								$groups_with_options_counters[ $group_key ]['filter_items'][ $option_value ]++;
+								$groups_with_options_counters[ $group_key ]['filter_items'][ $option ]['count'] ++;
 							}
 						}
 					}
 				}
 			}
 		}
-
-//		foreach ( $rows as $row ) {
-//			if ( empty( $attributes[ $row->pa_name ] ) ) {
-//				$attributes[ $row->pa_name ] = [
-//					'name'         => $row->pa_name,
-//					'filter_items' => [
-//						[
-//							'name'       => $row->pa_term_value,
-//							'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
-//							'count'      => $row->count,
-//						]
-//					]
-//				];
-//			} else {
-//				$attributes[ $row->pa_name ]['filter_items'][] = [
-//					'name'       => $row->pa_term_value,
-//					'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
-//					'count'      => $row->count,
-//				];
-//			}
-//		}
-//
-//		$attributes = array_values( $attributes );
 
 		// TODO min max calc from calculation
 		$prices = $wpdb->get_row( "
@@ -239,8 +224,8 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 	     " );
 
 		$groups_with_options_counters['Price'] = [
-			'min'  => $prices->min_price,
-			'max'  => $prices->max_price,
+			'min' => $prices->min_price,
+			'max' => $prices->max_price,
 		];
 
 		return $groups_with_options_counters;
@@ -275,6 +260,14 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		}
 
 		return true;
+	}
+
+	private function is_option_checked( $checked_group_with_options_to_match, $group_key, $option) {
+		if (empty($checked_group_with_options_to_match[$group_key])) {
+			return false;
+		}
+
+		return in_array($option, $checked_group_with_options_to_match[$group_key]);
 	}
 
 	private function is_term_checked( $tax_query, $pa_key, $pa_term_id ) {
