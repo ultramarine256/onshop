@@ -34,7 +34,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 							$filter_labeled = json_decode( $filter_str, true );
 
 							$query_args['tax_query'] = array_merge(
-								empty($query_args['tax_query']) ?  [] : $query_args['tax_query'] ,
+								empty( $query_args['tax_query'] ) ? [] : $query_args['tax_query'],
 								$this->get_tax_query( $filter_labeled )
 							);
 						}
@@ -85,8 +85,8 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 						}
 
 						$response->set_data( [
-							'items'      => $response->get_data(),
-							'filters'    => $this->get_filters( empty($query_args['tax_query']) ?  [] : $query_args['tax_query'] ),
+							'items'   => $response->get_data(),
+							'filters' => $this->get_filters( empty( $query_args['tax_query'] ) ? [] : $query_args['tax_query'] ),
 						] );
 
 						return $response;
@@ -155,56 +155,82 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 	}
 
 	private function get_filters( $tax_query ) {
+		/*
+		 * group options object:
+		 * [
+		 *      group_key => option_ids[]
+		 * ]
+		 */
 		global $wpdb;
 
-		$attributes = [];
+		// transform tax_query to groups options object
+		$checked_group_with_options_to_match = [];
 
-		/*
-		 * wp_posts.post_type = 'product' are records for products
-		 * wp_term_taxonomy.taxonomy LIKE 'pa_%' are records for custom products attribute per attribute value
-		 * wp_term_relationships is many-to-many between products and product attributes types
-		 * wp_term_taxonomy is many-to-many between product attribute types and products attribute values
-		 */
-		$rows = $wpdb->get_results( "
-			SELECT 
-			       wp_term_taxonomy.term_taxonomy_id as pa_id,
-			       wp_term_taxonomy.taxonomy as pa_key,
-			       wp_terms.term_id as pa_term_id,
-			       wp_terms.name as pa_term_value,
-			       wp_woocommerce_attribute_taxonomies.attribute_label as pa_name,
-			       count(wp_posts.id) as count
-			FROM wp_posts, wp_term_relationships, wp_term_taxonomy, wp_terms, wp_woocommerce_attribute_taxonomies
-			WHERE wp_posts.id = wp_term_relationships.object_id AND
-			      wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id AND
-			      wp_term_taxonomy.term_id = wp_terms.term_id AND
-			      CONCAT('pa_', wp_woocommerce_attribute_taxonomies.attribute_name) = wp_term_taxonomy.taxonomy AND
-			      wp_term_taxonomy.taxonomy LIKE 'pa_%'
-			GROUP BY wp_terms.term_id
-		" );
+		foreach ( $tax_query as $tax ) {
+			$checked_group_with_options_to_match[ $tax['taxonomy'] ] = array_map(function($str) {
+				return (int)$str;
+			},  $tax['terms']);
+		}
 
-		foreach ( $rows as $row ) {
-			if ( empty( $attributes[ $row->pa_name ] ) ) {
-				$attributes[ $row->pa_name ] = [
-					'name'         => $row->pa_name,
-					'filter_items' => [
-						[
-							'name'       => $row->pa_term_value,
-							'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
-							'count'      => $row->count,
-						]
-					]
-				];
-			} else {
-				$attributes[ $row->pa_name ]['filter_items'][] = [
-					'name'       => $row->pa_term_value,
-					'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
-					'count'      => $row->count,
-				];
+		$groups_with_options_counters = [];
+
+		$groups_with_options = ONSHOP_MODEL_ProductsFilter::get_all_groups_with_options();
+
+		$records = ONSHOP_MODEL_ProductsFilter::get_all_records_for_filters();
+
+
+		foreach ( $records as $record ) {
+			$product_for_filter = ONSHOP_MODEL_ProductsFilter::adopt_record_to_product_for_filter( $record );
+
+			foreach ( $groups_with_options as $group_key => $group ) {
+				foreach ( $group['options'] as $option => $option_value ) {
+					if ( $this->match_group_options(
+						$this->unite_groups_checked_with_option( $checked_group_with_options_to_match, $group_key, $option ),
+						$product_for_filter['groups'] )
+					) {
+						if ( empty( $groups_with_options_counters[ $group_key ] ) ) {
+							$groups_with_options_counters[ $group_key ] = [
+								'name'         => $group['group_name'],
+								'filter_items' => [
+									$option_value => 1,
+								]
+							];
+						} else {
+							if ( empty($groups_with_options_counters[ $group_key ]['filter_items'][ $option_value ]) ) {
+								$groups_with_options_counters[ $group_key ]['filter_items'][ $option_value ] = 1;
+							} else {
+								$groups_with_options_counters[ $group_key ]['filter_items'][ $option_value ]++;
+							}
+						}
+					}
+				}
 			}
 		}
 
-		$attributes = array_values( $attributes );
+//		foreach ( $rows as $row ) {
+//			if ( empty( $attributes[ $row->pa_name ] ) ) {
+//				$attributes[ $row->pa_name ] = [
+//					'name'         => $row->pa_name,
+//					'filter_items' => [
+//						[
+//							'name'       => $row->pa_term_value,
+//							'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
+//							'count'      => $row->count,
+//						]
+//					]
+//				];
+//			} else {
+//				$attributes[ $row->pa_name ]['filter_items'][] = [
+//					'name'       => $row->pa_term_value,
+//					'is_checked' => $this->is_term_checked( $tax_query, $row->pa_key, $row->pa_term_id ),
+//					'count'      => $row->count,
+//				];
+//			}
+//		}
+//
+//		$attributes = array_values( $attributes );
 
+		// TODO min max calc from calculation
 		$prices = $wpdb->get_row( "
 	     	select min(meta_value) as min_price, max(meta_value) as max_price
 			from wp_posts, wp_postmeta
@@ -212,17 +238,47 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 			AND wp_postmeta.meta_key = '_price';
 	     " );
 
-		$attributes[] = [
-			'name' => 'Price',
+		$groups_with_options_counters['Price'] = [
 			'min'  => $prices->min_price,
 			'max'  => $prices->max_price,
 		];
 
-		return $attributes;
+		return $groups_with_options_counters;
+	}
+
+	private function unite_groups_checked_with_option( $checked_group_with_options_to_match, $group_key, $option ) {
+		$groups_with_options = [];
+
+		// do a copy TODO make it cleaner
+		foreach ( $checked_group_with_options_to_match as $checked_group => $checked_option_ids ) {
+			$groups_with_options[ $checked_group ] = $checked_option_ids;
+		}
+
+		if ( in_array( $group_key, array_keys( $groups_with_options ) ) ) {
+			array_push( $groups_with_options[ $group_key ], $option );
+		} else {
+			$groups_with_options[ $group_key ] = [ $option ];
+		}
+
+		return $groups_with_options;
+	}
+
+	private function match_group_options( $checked_groups, $record_groups ) {
+		foreach ( $checked_groups as $group_key => $option_ids ) {
+			if ( in_array( $group_key, array_keys( $record_groups ) ) ) {
+				if ( count( array_intersect( $record_groups[ $group_key ], $option_ids ) ) == 0 ) {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private function is_term_checked( $tax_query, $pa_key, $pa_term_id ) {
-		if (empty($tax_query)) {
+		if ( empty( $tax_query ) ) {
 			return false;
 		}
 
