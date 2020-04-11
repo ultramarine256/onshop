@@ -63,13 +63,6 @@ class ONSHOP_MODEL_ProductsFilter {
 	public static function get_all_records_for_filters() {
 		global $wpdb;
 
-		// wp_terms.term_id as option_id
-		// wp_terms.name as option_key
-
-		// 			        wp_posts.post_name as product_name,
-		//			    	wp_term_taxonomy.taxonomy as group_key,
-		//					COALESCE(wp_woocommerce_attribute_taxonomies.attribute_label, 'category') as group_name,
-
 		$rows = $wpdb->get_results( "
 			SELECT
 			        wp_posts.id as product_id,
@@ -85,7 +78,8 @@ class ONSHOP_MODEL_ProductsFilter {
 			      wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id AND
 			      wp_term_taxonomy.term_id = wp_terms.term_id AND (
 				    wp_term_taxonomy.taxonomy LIKE 'pa_%' OR wp_term_taxonomy.taxonomy = 'product_cat'
-				  )
+				  ) AND
+			      wp_posts.post_status != 'trash'
 			GROUP BY wp_posts.id
 			ORDER BY wp_posts.id
 		" );

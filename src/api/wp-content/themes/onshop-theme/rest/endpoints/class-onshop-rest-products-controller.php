@@ -118,16 +118,25 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		// get all results in one db transaction to load to memory but faster processing
 		$terms_with_taxonomy = $wpdb->get_results( "
 				SELECT *
-				FROM wp_term_taxonomy inner JOIN wp_terms ON wp_term_taxonomy.term_id=wp_terms.term_id
-				    inner JOIN wp_woocommerce_attribute_taxonomies ON CONCAT('pa_', wp_woocommerce_attribute_taxonomies.attribute_name) = wp_term_taxonomy.taxonomy
-				WHERE wp_woocommerce_attribute_taxonomies.attribute_label in (" . implode( ',', $labels_used_in_filter ) . ");
+				FROM wp_terms inner JOIN wp_term_taxonomy ON wp_terms.term_id=wp_term_taxonomy.term_id
+				    LEFT JOIN wp_woocommerce_attribute_taxonomies ON CONCAT('pa_', wp_woocommerce_attribute_taxonomies.attribute_name) = wp_term_taxonomy.taxonomy
+				WHERE wp_woocommerce_attribute_taxonomies.attribute_label in (" . implode( ',', $labels_used_in_filter ) . ") OR
+					wp_term_taxonomy.taxonomy = 'product_cat';
 			"
 		);
 
 		foreach ( $filter_labeled as $attribute_label => $term_labels ) {
-			$data_for_label = array_filter( $terms_with_taxonomy, function ( $row ) use ( $attribute_label ) {
-				return $row->attribute_label === $attribute_label;
-			} );
+			$data_for_label = [];
+
+			if ($attribute_label !== 'category') {
+				$data_for_label = array_filter( $terms_with_taxonomy, function ( $row ) use ( $attribute_label ) {
+					return $row->attribute_label === $attribute_label;
+				} );
+			} else {
+				$data_for_label = array_filter( $terms_with_taxonomy, function ( $row ) use ( $attribute_label ) {
+					return $row->taxonomy === 'product_cat';
+				} );
+			}
 
 			if ( empty( $data_for_label ) ) {
 				continue;
