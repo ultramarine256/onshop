@@ -229,7 +229,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 	     	select min(meta_value) as min_price, max(meta_value) as max_price
 			from wp_posts, wp_postmeta
 			where wp_posts.ID = wp_postmeta.post_id AND wp_posts.post_type = 'product'
-			AND wp_postmeta.meta_key = '_price';
+			AND wp_postmeta.meta_key = '_price' AND wp_posts.post_status != 'trash';
 	     " );
 
 		$groups_with_options_counters['Price'] = [
@@ -277,17 +277,5 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 		}
 
 		return in_array($option, $checked_group_with_options_to_match[$group_key]);
-	}
-
-	private function is_term_checked( $tax_query, $pa_key, $pa_term_id ) {
-		if ( empty( $tax_query ) ) {
-			return false;
-		}
-
-		$filtered = array_filter( $tax_query, function ( $el ) use ( $pa_key, $pa_term_id ) {
-			return $el['taxonomy'] === $pa_key && in_array( $pa_term_id, $el['terms'] );
-		} );
-
-		return ! empty( $filtered );
 	}
 }
