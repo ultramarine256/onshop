@@ -25,6 +25,7 @@ import {
   ShopModule,
   ThemeModule
 } from '../../_domain';
+import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import {
 
     /// data
     RepositoryModule,
-
+    DxSchedulerModule,
+    DxTemplateModule,
     /// domain
     ShopModule,
     ProfileModule,

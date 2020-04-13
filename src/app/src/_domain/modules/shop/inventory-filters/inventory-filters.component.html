@@ -1,7 +1,7 @@
 <div *ngIf="filter" class="d-flex filters__content flex-column p-2">
 
   <div class="filters-scope mb-3" *ngFor="let item of filter.filterItems">
-    <div *ngIf="!(item.name.includes('rent_'))">
+    <div *ngIf="item.name && !(item.name.includes('rent_')) && item.name!==('category')">
       <div #usageFilter class="col-12 d-flex justify-content-between my-2 p-0"
            style="cursor:pointer"
            (click)="usageFilter.isVisible =! usageFilter.isVisible">
@@ -11,7 +11,6 @@
           <i *ngIf="!usageFilter.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
         </div>
       </div>
-      <!--    <h5 class="filters-scope__title">{{item.name}}</h5>-->
       <div *ngFor="let filters of item.items;let i=index" [class.d-none]="usageFilter.isVisible"
            [class.d-flex]="!usageFilter.isVisible">
         <div *ngIf="i<10" class="custom-control custom-checkbox">

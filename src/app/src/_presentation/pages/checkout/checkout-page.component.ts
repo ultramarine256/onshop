@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
+import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
 import {finalize} from 'rxjs/operators';
 import {
   LineItem,
@@ -13,6 +13,7 @@ import {
   OrderResponse, UserRepository, UserModel, ProjectRepository, ProjectResponse
 } from '../../../_data';
 import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../../_domain';
+import data from 'devextreme';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class CheckoutPageComponent implements OnInit {
   public products: CartItemEntity[] = [];
   /// predicates
   public orderCompleted = false;
+  const;
+  currentDate = new Date();
 
   /// spinners
   public isLoading = false;
@@ -86,7 +89,16 @@ export class CheckoutPageComponent implements OnInit {
   /// actions
   public cellClick($event) {
     const date = new Date($event.cellData.startDate);
-    this.checkoutForm.value.deliveryDate = date;
+    if (date <= this.currentDate) {
+      (window as any).toastr.options.positionClass = 'toast-top-center';
+      (window as any).toastr.error('No delivery to the past!');
+      return;
+    } else {
+      this.checkoutForm.value.deliveryDate = date;
+      (window as any).toastr.options.positionClass = 'toast-top-center';
+      (window as any).toastr.success(`Delivery: ${date.toLocaleDateString()}`);
+    }
+
   }
 
   /// methods
@@ -134,6 +146,15 @@ export class CheckoutPageComponent implements OnInit {
       });
   }
 
+  markWeekEnd(cellData) {
+    const date = new Date(cellData.startDate);
+    if (date <= this.currentDate) {
+      return 'pastDay';
+    } else {
+      const day = date.getDay();
+      return day === 0 || day === 6;
+    }
+  }
 }
 
 export class Project {

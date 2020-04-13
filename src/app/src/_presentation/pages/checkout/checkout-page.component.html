@@ -131,23 +131,22 @@
         [currentView]="'month'"
         [views]='["month"]'
         [startDayHour]="9"
-        (onCellClick)="cellClick($event)">
+        [firstDayOfWeek]="1"
+        (onCellClick)="cellClick($event)"
+        dataCellTemplate="dataCellTemplate">
+        <div *dxTemplate="let cellData of 'dataCellTemplate'" [class.past-date]="markWeekEnd(cellData)==='pastDay'"
+             [class.weekend]="markWeekEnd(cellData) && markWeekEnd(cellData)!=='pastDay'">
+          <div class='day-cell' >{{cellData.text}}</div>
+        </div>
       </dx-scheduler>
-<!--      <div *dxTemplate="let cellData of 'dataCellTemplate'" class='employee-weekend' [ngClass]="markWeekEnd(cellData)">-->
-<!--        <div class='day-cell' >aa</div>-->
-<!--      </div>-->
       <div *ngIf="checkoutForm.value.deliveryDate">
         <b>Delivery is scheduled for :</b> {{checkoutForm.value.deliveryDate | date}}
       </div>
-      <!--<div class="d-flex w-100">-->
-      <!--<span class="d-flex">Delivery is scheduled for </span>-->
-      <!--<span class="d-flex">October 10, 2019</span>-->
-
-      <!--<div class="d-flex">-->
-      <!--Am-->
-      <!--Pm-->
-      <!--</div>-->
-      <!--</div>-->
+      <div class="d-flex w-100 justify-content-center mt-2">
+        <button class="btn btn-primary float-right" [disabled]="!checkoutForm.value.deliveryDate" matStepperNext>Continue to
+          schedule delivery
+        </button>
+      </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Confirm Billing</ng-template>

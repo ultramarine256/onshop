@@ -33,23 +33,24 @@ export class ProductRepository extends BaseRepository {
         }
 
         const filters = new SearchResultFilters();
-        for (const filterType of body.filters as any) {
-
-          if (filterType.name === 'Price') {
+        for (const filteritem in body.filters) {
+          const name = body.filters[filteritem].name;
+          if (name === 'Price') {
             const pricingFilter = new PricingFilter();
-            pricingFilter.name = filterType.name;
-            pricingFilter.minPrice = filterType.min;
-            pricingFilter.maxPrice = filterType.max;
+            pricingFilter.name = body.filters[filteritem].name;
+            pricingFilter.minPrice = body.filters[filteritem].min;
+            pricingFilter.maxPrice = body.filters[filteritem].max;
             filters.price = pricingFilter;
 
           } else {
             const filterItem = new FilterItem();
-            filterItem.name = filterType.name;
-            for (const filterItemDto of filterType.filter_items) {
+            filterItem.name = name;
+
+            for (const filterItemDto in body.filters[filteritem].filter_items) {
               filterItem.items.push({
-                name: filterItemDto.name,
-                isChecked: filterItemDto.is_checked,
-                count: filterItemDto.count
+                name: body.filters[filteritem].filter_items[filterItemDto].name,
+                isChecked: body.filters[filteritem].filter_items[filterItemDto].is_checked,
+                count: body.filters[filteritem].filter_items[filterItemDto].count
               });
             }
             filters.filterItems.push(filterItem);
@@ -61,37 +62,6 @@ export class ProductRepository extends BaseRepository {
           totalCount: Number(response.headers.get('X-WP-Total')),
           totalPages: Number(response.headers.get('X-WP-TotalPages'))
         });
-
-        return result;
-      }));
-  }
-
-  public getProducts2(filter): Observable<ProductSearchResult> {
-    return this.httpClient
-      .get<ProductSearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v1/product${filter}`, {observe: 'response'})
-      .pipe(map(response => {
-
-        const body = (response as any).body;
-
-        const items = [];
-        for (const dto of body.items as any) {
-          const item = new ProductModel();
-          item.mapFromDto(dto);
-          items.push(item);
-        }
-
-        const result = new ProductSearchResult({
-          items,
-          filters: new SearchResultFilters({
-            price: new PricingFilter({
-              minPrice: body.filters.min_price,
-              maxPrice: body.filters.max_price
-            })
-          }),
-          totalCount: Number(response.headers.get('X-WP-Total')),
-          totalPages: Number(response.headers.get('X-WP-TotalPages'))
-        });
-
         return result;
       }));
   }

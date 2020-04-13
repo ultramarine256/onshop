@@ -42,6 +42,7 @@ export class InventoryPageComponent implements OnInit {
       category: this.category.id
     });
     this.isLoading = true;
+
     this.productRepository.getProducts(new ProductFilter({per_page: 100, category: this.category.id}), dynamicFilter)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => {
