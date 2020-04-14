@@ -17,6 +17,26 @@
   <div class="row categories-items">
 
     <!-- category -->
+    <div class="col-md-4 col-sm-6 mb-3 ">
+      <div class="card shadow-sm" [routerLink]="'/inventory/' + 'all'">
+        <div class="category-image__wrap rounded-lg mb-2 ">
+          <img class="image"
+               src='https://ndwesti.ru/wp-content/uploads/2019/03/pochemu-vygodno-brat-instrument-v-prokat-1.jpg'
+               alt="Clothing">
+        </div>
+        <div class="card-body">
+          <div class="title-content border-top">
+            <h5 class="h5 font-weight-bold">All Categories</h5>
+          </div>
+          <div class="view-all-item align-items-center justify-content-between">
+            <a class="nav-link-style font-weight-500 text-decoration-none" [routerLink]="'/inventory/' + 'all'">
+              Total
+            </a>
+            <span class="text-muted font-weight-500"> all </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-md-4 col-sm-6 mb-3 " *ngFor="let item of categories">
       <app-category-item
         class="item"
@@ -27,9 +47,7 @@
         [photo]="item.image.src"
         [subCategories]="getSubCategories(item.id,categories)">
       </app-category-item>
-
     </div>
 
   </div>
 </div>
-
