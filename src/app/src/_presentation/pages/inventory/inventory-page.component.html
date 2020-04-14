@@ -15,10 +15,9 @@
       <h4 class="content-title mb-2" style="font-size: 1.286em;">Filters</h4>
       <app-inventory-filters
         [filter]="filter"
+        [showCategory]="showCategories"
         (setFilter)="filtersChanged($event)">
       </app-inventory-filters>
-<!--      <app-filters-items *ngIf="itemFilters" [filter]="itemFilters"-->
-<!--                         (setFilter)="setNewFilter($event)"></app-filters-items>-->
     </div>
 
     <!-- inventory -->
@@ -61,7 +60,6 @@
           </app-product-item>
         </div>
       </div>
-
       <hr class="mb-2">
       <div class="d-flex justify-content-between">
         <div>Page: {{searchResult.page ? searchResult.page : 1}} of {{searchResult.totalPages}}</div>

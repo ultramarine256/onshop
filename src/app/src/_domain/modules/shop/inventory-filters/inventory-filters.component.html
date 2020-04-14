@@ -1,7 +1,6 @@
 <div *ngIf="filter" class="d-flex filters__content flex-column p-2">
-
-  <div class="filters-scope mb-3" *ngFor="let item of filter.filterItems">
-    <div *ngIf="item.name && !(item.name.includes('rent_')) && item.name!==('category')">
+  <div class="filters-scope" *ngFor="let item of filter.filterItems">
+    <div *ngIf="item.name && !(item.name.includes('rent_')) && item.name!==('category') || (showCategory)">
       <div #usageFilter class="col-12 d-flex justify-content-between my-2 p-0"
            style="cursor:pointer"
            (click)="usageFilter.isVisible =! usageFilter.isVisible">
@@ -15,14 +14,14 @@
            [class.d-flex]="!usageFilter.isVisible">
         <div *ngIf="i<10" class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" [id]="filters.name + '_' + item.name"
-                 (change)="chosenFilter(item.name,filters.name)">
+                 (change)="chosenFilter(item.name,filters.name)" [checked]="filters.isChecked">
           <label class="custom-control-label text-muted" [for]="filters.name + '_' + item.name">{{filters.name}}
             ({{filters.count}})</label>
         </div>
         <div *ngIf="i>=10 && showMore.isVisible" class="custom-control custom-checkbox"
              [class.d-none]="!showMore.isVisible">
           <input type="checkbox" class="custom-control-input" [id]="filters.name + '_' + item.name"
-                 (change)="chosenFilter(item.name,filters.name)"/>
+                 (change)="chosenFilter(item.name,filters.name)" [checked]="filters.isChecked"/>
           <label class="custom-control-label d-flex justify-content-between align-items-center text-muted"
                  [for]="filters.name + '_' + item.name">{{filters.name}}({{filters.count}})
           </label>

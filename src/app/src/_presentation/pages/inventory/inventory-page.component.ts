@@ -27,6 +27,7 @@ export class InventoryPageComponent implements OnInit {
   public searchResult: ProductSearchResult;
   public itemFilters: any;
   public categoryId: number;
+  public showCategories: true;
   /// predicates
   public isLoading = true;
 
@@ -42,10 +43,10 @@ export class InventoryPageComponent implements OnInit {
       category: this.category.id
     });
     this.isLoading = true;
-
     this.productRepository.getProducts(new ProductFilter({per_page: 100, category: this.category.id}), dynamicFilter)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => {
+        this.filter = result.filters;
         this.searchResult = result;
       });
   }
@@ -67,13 +68,27 @@ export class InventoryPageComponent implements OnInit {
         this.itemFilters = res;
       });
       this.categoryId = params.cacategoryId;
-      this.categoryRepository.getCategory(params.categoryId).subscribe(item => this.category = item);
-      this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}), null)
-        .pipe(finalize(() => this.isLoading = false))
-        .subscribe(result => {
-          this.filter = result.filters;
-          this.searchResult = result;
-        });
+      this.categoryRepository.getCategory(params.categoryId).subscribe(item => {
+        this.category = item;
+
+      });
+      if (params.categoryId.toString() === 'all') {
+        this.showCategories = true;
+        this.productRepository.getProducts(new ProductFilter({per_page: 100}), null)
+          .pipe(finalize(() => this.isLoading = false))
+          .subscribe(result => {
+            this.filter = result.filters;
+            this.searchResult = result;
+          });
+      } else {
+        this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}), null)
+          .pipe(finalize(() => this.isLoading = false))
+          .subscribe(result => {
+            this.filter = result.filters;
+            this.searchResult = result;
+          });
+      }
+
     });
   }
 

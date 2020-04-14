@@ -18,7 +18,7 @@ export class CategoryModel {
 
   /// mappers
   mapFromDto(dto: any) {
-    this.id = dto.id;
+    this.id = Number(dto.id);
     this.name = dto.name;
     this.slug = dto.slug;
     this.description = dto.status;
