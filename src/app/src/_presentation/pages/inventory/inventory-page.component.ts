@@ -27,6 +27,7 @@ export class InventoryPageComponent implements OnInit {
   public searchResult: ProductSearchResult;
   public itemFilters: any;
   public categoryId: number;
+  public showCategories: true;
   /// predicates
   public isLoading = true;
 
@@ -48,7 +49,6 @@ export class InventoryPageComponent implements OnInit {
         this.filter = result.filters;
         this.searchResult = result;
       });
-
   }
 
   /// constructor
@@ -73,6 +73,7 @@ export class InventoryPageComponent implements OnInit {
 
       });
       if (params.categoryId.toString() === 'all') {
+        this.showCategories = true;
         this.productRepository.getProducts(new ProductFilter({per_page: 100}), null)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe(result => {

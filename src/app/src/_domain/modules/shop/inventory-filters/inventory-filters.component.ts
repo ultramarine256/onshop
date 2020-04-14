@@ -9,6 +9,7 @@ import {ProductFilter, SearchResultFilters} from '../../../../_data/repository/p
 })
 export class InventoryFiltersComponent {
   /// binding
+  @Input() showCategory: boolean;
   @Input() filter: SearchResultFilters;
   @Output() setFilter = new EventEmitter<string>();
   public filtersArray: Array<FiltersProperties> = [];
