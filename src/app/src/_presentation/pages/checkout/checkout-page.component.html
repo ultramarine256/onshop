@@ -24,7 +24,7 @@
 <div class="container mb-3" *ngIf="isUserLoaded && didLoaded" [class.d-none]="orderCompleted">
   <mat-horizontal-stepper labelPosition="bottom" #stepper>
     <!-- Project Info -->
-    <mat-step>
+    <mat-step [stepControl]="checkoutForm">
       <ng-template matStepLabel>Project</ng-template>
       <form [formGroup]="checkoutForm" class="row">
         <div class="col-12 col-md-6">
@@ -135,15 +135,17 @@
         (onCellClick)="cellClick($event)"
         dataCellTemplate="dataCellTemplate">
         <div *dxTemplate="let cellData of 'dataCellTemplate'" [class.past-date]="markWeekEnd(cellData)==='pastDay'"
-             [class.weekend]="markWeekEnd(cellData) && markWeekEnd(cellData)!=='pastDay'">
-          <div class='day-cell' >{{cellData.text}}</div>
+             [class.weekend]="markWeekEnd(cellData) && markWeekEnd(cellData)!=='pastDay'"
+             [class.weekDay]="!markWeekEnd(cellData) && markWeekEnd(cellData)!=='pastDay'">
+          <div class='day-cell'>{{cellData.text}}</div>
         </div>
       </dx-scheduler>
       <div *ngIf="checkoutForm.value.deliveryDate">
         <b>Delivery is scheduled for :</b> {{checkoutForm.value.deliveryDate | date}}
       </div>
       <div class="d-flex w-100 justify-content-center mt-2">
-        <button class="btn btn-primary float-right" [disabled]="!checkoutForm.value.deliveryDate" matStepperNext>Continue to
+        <button class="btn btn-primary float-right" [disabled]="!checkoutForm.value.deliveryDate" matStepperNext>
+          Continue to
           schedule delivery
         </button>
       </div>
@@ -158,10 +160,11 @@
               <input [(ngModel)]="firstName.value + ' '+lastName.value" [disabled]="true" class="form-control">
             </div>
             <div class="form-group">
-              <input [(ngModel)]="project.value" [disabled]="true" class="form-control">
+              <input placeholder='{{project.value}}' [disabled]="true" class="form-control">
             </div>
             <div class="form-group">
-              <input [(ngModel)]="project.value" [disabled]="true" class="form-control">
+              <input [disabled]="true" class="form-control"
+                     placeholder="{{project.value.replace(' ', '-').toLocaleLowerCase()}}">
             </div>
           </div>
           <button class="btn col-md-3 btn-primary float-center" [disabled]="!checkoutForm.valid" matStepperNext>
@@ -172,7 +175,7 @@
     </mat-step>
 
     <!-- Review -->
-    <mat-step>
+    <mat-step editable="false">
       <ng-template matStepLabel>Review</ng-template>
       <div class="d-flex flex-column">
         <div class="container ">
@@ -252,7 +255,7 @@
                 <div class="d-flex align-items-center">
                   <img *ngIf="item.imageUrl" class="img border rounded m-1 mr-0"
                        src="{{item.imageUrl}}" style="height: 50px; width: 50px">
-                  <b>{{item.title}} (x{{item.count}})</b>
+                  <b>{{item.title}} ({{ item.duration ? item.duration + 'days' : 'x' + item.count}})</b>
                 </div>
                 <div>
                   {{item.price | currency}}

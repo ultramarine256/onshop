@@ -5,4 +5,6 @@ export class CartItemEntity {
   title: string;
   price: number;
   count: number;
+
+  duration: number; // days
 }

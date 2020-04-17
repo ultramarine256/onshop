@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {InventoryFilter} from './model';
-import {ProductFilter, SearchResultFilters} from '../../../../_data/repository/product/filter';
+import {SearchResultFilters} from '../../../../_data/repository/product/filter';
 
 @Component({
   selector: 'app-inventory-filters',
