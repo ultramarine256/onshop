@@ -5,10 +5,12 @@
 ::ng-deep .dx-scheduler-date-table-other-month.dx-scheduler-date-table-cell {
   opacity: 1;
   color: rgba(0, 0, 0, 0.3);
+
 }
 
 ::ng-deep .dx-scheduler-group-header-content, ::ng-deep .dx-scheduler-date-table-cell {
   position: relative;
+  cursor:pointer;
 }
 
 ::ng-deep .dx-scheduler-date-table-cell .dx-template-wrapper {
@@ -19,7 +21,7 @@
 
 .weekend {
   position: relative;
-  background-color: rgba(176, 226, 255, 0.36);
+  background-color: rgba(177, 250, 255, 0.36);
 }
 
 .weekend::after {
@@ -28,7 +30,15 @@
   top: 5px;
   right: 5px;
 }
-
+.weekDay{
+  position: relative;
+}
+.weekDay::after {
+  content: "60$";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 .past-date {
   background-color: rgba(255, 151, 71, 0.07);
 }

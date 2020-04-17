@@ -77,6 +77,14 @@ export class InventoryPageComponent implements OnInit {
         this.productRepository.getProducts(new ProductFilter({per_page: 100}), null)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe(result => {
+            const filterResult = result.filters.filterItems;
+            for (let i = 0; i < filterResult.length; i++) {
+              if (filterResult[i].name === 'category') {
+                const temp = filterResult[0];
+                filterResult[0] = filterResult[i];
+                filterResult[i] = temp;
+              }
+            }
             this.filter = result.filters;
             this.searchResult = result;
           });

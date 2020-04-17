@@ -1,8 +1,8 @@
 <div *ngIf="filter" class="d-flex filters__content flex-column p-2">
   <div class="filters-scope" *ngFor="let item of filter.filterItems">
-    <div *ngIf="item.name && !(item.name.includes('rent_')) && item.name!==('category') || (showCategory)">
+    <div *ngIf="item.name && ((!(item.name.includes('rent_')) && item.name!==('category')) || (showCategory && !item.name.includes('rent_')))">
       <div #usageFilter class="col-12 d-flex justify-content-between my-2 p-0"
-           style="cursor:pointer"
+           style="cursor:pointer" [class.text-primary]="item.name===('category')"
            (click)="usageFilter.isVisible =! usageFilter.isVisible">
         <b>{{item.name}}</b>
         <div class="d-flex align-items-center ">

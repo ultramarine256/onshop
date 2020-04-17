@@ -14,10 +14,12 @@ export class ProductDetailsPageComponent implements OnInit {
   /// fields
   public product: ProductModel;
   public relatedProducts: Array<ProductModel> = [];
-
+  public rentalOptions: RentalOptions[] = [];
   /// predicates
   public isLoaded = false;
   public relatedIsLoaded = false;
+  public rentalDuration = 1;
+  public checkPrice = true;
 
   /// lifecycle
   constructor(private productRepository: ProductRepository,
@@ -27,7 +29,7 @@ export class ProductDetailsPageComponent implements OnInit {
     this.product = new ProductModel();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.params.subscribe(params =>
       this.productRepository.getProducts(new ProductFilter({slug: params.slug}))
         .pipe(finalize(() => this.isLoaded = true))
@@ -35,7 +37,26 @@ export class ProductDetailsPageComponent implements OnInit {
         .pipe(map(x => x.items[0]))
         .subscribe(item => {
           this.product = item;
-          console.log(item);
+          const productProperties = Object.keys(this.product);
+          for (const element of productProperties) {
+            let rentItem: RentalOptions;
+            switch (element) {
+              case 'rentPerDayPrice':
+                rentItem = new RentalOptions(element, item.rentPerDayPrice, false, 1, 'day');
+                this.rentalOptions.push(rentItem);
+                break;
+              case 'rentPerWeekPrice':
+                rentItem = new RentalOptions(element, item.rentPerWeekPrice, false, 7, 'week');
+                this.rentalOptions.push(rentItem);
+                break;
+              case 'rentPerMonthPrice':
+                rentItem = new RentalOptions(element, item.rentPerMonthPrice, false, 30, 'month');
+                this.rentalOptions.push(rentItem);
+                break;
+              default:
+                break;
+            }
+          }
           this.productRepository.getProducts(new ProductFilter({include: this.product.relatedIds.join(',')}))
             .pipe(finalize(() => this.relatedIsLoaded = true))
             .pipe(finalize(() => setTimeout(() => (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS), 200)))
@@ -44,9 +65,56 @@ export class ProductDetailsPageComponent implements OnInit {
   }
 
   /// methods
-  public addToCart(item: ProductModel) {
-    this.cartService.addItem(AppMapper.toCartItem(item));
+
+  public addToCart(item: ProductModel, rentDuration: number = 0) {
+    const mapedItem = AppMapper.toCartItem(item);
+    if (!this.checkPrice) {
+      this.rentalOptions.map(x => {
+        if (x.checked) {
+          if (this.rentalDuration < 1) {
+            this.rentalDuration = 1;
+          }
+          rentDuration = x.index * this.rentalDuration;
+          mapedItem.price = this.product.rentPerDayPrice * rentDuration;
+        }
+      });
+      mapedItem.duration = rentDuration;
+    } else {
+      mapedItem.price = Number(this.product.price);
+      mapedItem.duration = null;
+    }
+    this.cartService.addItem(mapedItem);
   }
 
-  /// helpers
+  public choseRent(rent) {
+    if (rent === 'price') {
+      this.checkPrice = !this.checkPrice;
+    }
+    this.rentalOptions.map(x => {
+      if (x.name === rent) {
+        x.checked = !x.checked;
+        if (this.checkPrice) {
+          this.checkPrice = !this.checkPrice;
+        }
+      } else {
+        x.checked = false;
+      }
+    });
+  }
+}
+
+class RentalOptions {
+  name: string;
+  price: number;
+  checked: boolean;
+  index: number;
+  shortDesc: string;
+
+  constructor(name: string, price: number, checked: boolean, index: number, shortDesc: string) {
+    this.name = name;
+    this.price = price;
+    this.checked = checked;
+    this.index = index;
+    this.shortDesc = shortDesc;
+  }
 }

@@ -145,6 +145,8 @@ export class LineItem {
   /// fields
   productId: number;
   quantity: number;
+  total: number;
+  rentalDuration: number;
 
   /// constructor
   constructor(init?: Partial<LineItem>) {
@@ -153,10 +155,18 @@ export class LineItem {
 
   /// mappers
   public asWooObject(): {} {
-    return {
+    const result = {
       product_id: this.productId,
       quantity: this.quantity
     };
+    if (this.rentalDuration > 0) {
+      (result as any).meta_data = [{
+        key: 'rental-duration',
+        value: this.rentalDuration
+      }];
+      (result as any).total = this.total * this.quantity;
+    }
+    return result;
   }
 }
 

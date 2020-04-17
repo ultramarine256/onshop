@@ -130,7 +130,9 @@ export class CheckoutPageComponent implements OnInit {
     for (const item of this.cartService.getItems) {
       model.products.push(new LineItem({
         productId: item.id,
-        quantity: item.count
+        quantity: item.count,
+        rentalDuration: item.duration,
+        total: item.price
       }));
     }
 
