@@ -1,0 +1,8 @@
+<div class="dropdown show">
+  <div class="form-group d-flex justify-content-end">
+    <select #filter class="form-control w-25 rounded form-control-sm" id="sel1" (change)="change(filter.value)">
+      <option>All</option>
+      <option *ngFor="let item of sortItemsArray">{{item.title}}</option>
+    </select>
+  </div>
+</div>

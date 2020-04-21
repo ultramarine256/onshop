@@ -11,6 +11,8 @@ export class ProductFilter extends FilterEntity {
 
   page: number;
   per_page: number;
+  order: string;
+  orderby: string;
 
   min_price: number;
   max_price: number;
