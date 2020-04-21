@@ -1,0 +1,16 @@
+.pagination-box {
+  cursor: pointer;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+::ng-deep .custom-height-slider {
+  height: 75px;
+}
+
+::ng-deep  .dx-field .dx-slider {
+  flex: 1;
+}

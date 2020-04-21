@@ -110,3 +110,12 @@ li:nth-last-child(-n+2) {
 .update-nag {
     display: none !important;
 }
+
+/**
+* ------------------------------------------------------------------------
+* Hide discount
+* ------------------------------------------------------------------------
+*/
+.wc-order-item-discount {
+    display: none !important;
+}

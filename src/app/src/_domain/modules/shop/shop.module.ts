@@ -6,14 +6,18 @@ import {CategoryItemComponent} from './category-item';
 import {RouterModule} from '@angular/router';
 import {ProductItemComponent} from './product-item';
 import {InventoryFiltersComponent} from './inventory-filters';
-import {DxRangeSliderModule} from 'devextreme-angular';
+import {DxNumberBoxModule, DxRangeSliderModule, DxSliderModule} from 'devextreme-angular';
+import {SortingBarComponent} from './sorting-bar';
+import {InventoryPaginationComponent} from './inventory-pagination';
 
 @NgModule({
   declarations: [
     CategoryItemComponent,
     CheckoutComponent,
     InventoryFiltersComponent,
-    ProductItemComponent
+    InventoryPaginationComponent,
+    ProductItemComponent,
+    SortingBarComponent
   ],
   imports: [
     /// angular
@@ -24,12 +28,16 @@ import {DxRangeSliderModule} from 'devextreme-angular';
 
     /// dev-extreme
     DxRangeSliderModule,
+    DxSliderModule,
+    DxNumberBoxModule,
   ],
   exports: [
     CategoryItemComponent,
     CheckoutComponent,
     InventoryFiltersComponent,
-    ProductItemComponent
+    InventoryPaginationComponent,
+    ProductItemComponent,
+    SortingBarComponent
   ]
 })
 export class ShopModule {
