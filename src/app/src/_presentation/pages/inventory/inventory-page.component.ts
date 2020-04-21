@@ -23,31 +23,42 @@ export class InventoryPageComponent implements OnInit {
   public items: Array<ProductModel> = [];
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
-  public filterConstant: InventoryFilter;
+  public pagination: ProductFilter;
+  public dynamicFilterSave = '';
+  public sortingSave: any;
   public searchResult: ProductSearchResult;
   public itemFilters: any;
   public categoryId: number;
   public showCategories: true;
+  public element: HTMLElement;
   /// predicates
   public isLoading = true;
 
   /// events
-  public filtersChanged(dynamicFilter: string) {
+  public filtersChanged(dynamicFilter: string, page: any, sorting: any) {
     // TODO: update url according to query params
-    // this.filterConstant = filter;
-    // console.log(this.filter);
-
     // TODO: dynamic filter mapping
-    const a = new ProductFilter({
-      per_page: 100,
-      category: this.category.id
-    });
     this.isLoading = true;
-    this.productRepository.getProducts(new ProductFilter({per_page: 100, category: this.category.id}), dynamicFilter)
+    this.scrollToView();
+    const a = new ProductFilter();
+    if (page) {
+      this.pagination.page = page.setPage;
+      this.pagination.per_page = page.setAmount;
+    }
+    a.page = this.pagination.page;
+    a.per_page = this.pagination.per_page;
+    if (sorting) {
+      a.order = sorting.property;
+      a.orderby = sorting.name;
+    }
+    a.category = this.category.id;
+    this.productRepository.getProducts(a, dynamicFilter)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => {
         this.filter = result.filters;
         this.searchResult = result;
+        this.dynamicFilterSave = dynamicFilter;
+        this.sortingSave = sorting;
       });
   }
 
@@ -60,6 +71,10 @@ export class InventoryPageComponent implements OnInit {
               private router: Router) {
     // this.filter = DefaultFilters.Get();
     this.searchResult = new ProductSearchResult();
+    this.pagination = new ProductFilter({
+      page: 1,
+      per_page: 12
+    });
   }
 
   ngOnInit(): void {
@@ -70,11 +85,10 @@ export class InventoryPageComponent implements OnInit {
       this.categoryId = params.cacategoryId;
       this.categoryRepository.getCategory(params.categoryId).subscribe(item => {
         this.category = item;
-
       });
       if (params.categoryId.toString() === 'all') {
         this.showCategories = true;
-        this.productRepository.getProducts(new ProductFilter({per_page: 100}), null)
+        this.productRepository.getProducts(new ProductFilter({per_page: 12}), null)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe(result => {
             const filterResult = result.filters.filterItems;
@@ -89,14 +103,13 @@ export class InventoryPageComponent implements OnInit {
             this.searchResult = result;
           });
       } else {
-        this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}), null)
+        this.productRepository.getProducts(new ProductFilter({per_page: 12, category: params.categoryId}), null)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe(result => {
             this.filter = result.filters;
             this.searchResult = result;
           });
       }
-
     });
   }
 
@@ -116,6 +129,11 @@ export class InventoryPageComponent implements OnInit {
     } else {
       this.cartService.addItem(AppMapper.toCartItem(item));
     }
+  }
+
+  public scrollToView() {
+    this.element = document.getElementById('scrollView') as HTMLElement;
+    this.element.scrollIntoView({block: 'start', behavior: 'smooth'});
   }
 }
 

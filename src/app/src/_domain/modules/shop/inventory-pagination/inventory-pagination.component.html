@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-7 d-flex justify-content-between my-3">
+      <div class="pagination-box border rounded mr-2" (click)="pagination(-1,false,false)">
+        <i class="material-icons">
+          arrow_back_ios
+        </i>
+      </div>
+      <div class="d-flex">
+        <div class="pagination-box bg-primary rounded " (click)="pagination(0,true,false)">
+          <span>{{pageCounter}}</span>
+        </div>
+        <div *ngIf="pageCounter!=inventoryCount" class=" mx-3">
+          of
+        </div>
+        <div *ngIf="inventoryCount && pageCounter!=inventoryCount" class="pagination-box border rounded"
+             (click)="pagination(3,false,true)">
+          {{inventoryCount}}
+        </div>
+      </div>
+      <div class="pagination-box border rounded ml-2" (click)="pagination(1,false,false)">
+        <i class="material-icons ">
+          arrow_forward_ios
+        </i>
+      </div>
+    </div>
+    <!--    <div class="col-md-8 d-flex justify-content-start border rounded p-2 shadow-sm">-->
+    <!--      <div class="dx-fieldset m-0 w-100 p-0">-->
+    <!--        <div class="dx-field m-0">-->
+    <!--          <dx-slider #slider-->
+    <!--                     [min]="1"-->
+    <!--                     [max]="20"-->
+    <!--                     [(value)]="maxRange">-->
+    <!--            <dxo-label-->
+    <!--              [visible]="true"-->
+    <!--              [format]="format"-->
+    <!--              position="top"-->
+    <!--            ></dxo-label>-->
+    <!--          </dx-slider>-->
+    <!--        </div>-->
+    <!--        <div class="dx-field d-flex flex-column m-0 p-0">-->
+    <!--          <div class="mb-2"><b>Items Per page: {{maxRange}}</b></div>-->
+    <!--          <button class="btn btn-primary" (click)="setPage()">-->
+    <!--            set-->
+    <!--          </button>-->
+    <!--        </div>-->
+    <!--        <div class="dx-field">-->
+    <!--          <div class="dx-field-label">Per page</div>-->
+    <!--          <div class="dx-field-value d-flex">-->
+    <!--            <dx-number-box-->
+    <!--              [min]="1"-->
+    <!--              [max]="20"-->
+    <!--              [showSpinButtons]="true"-->
+    <!--              [(value)]="maxRange"-->
+    <!--            ></dx-number-box>-->
+    <!--            <button class="btn btn-primary" (click)="setPage()">-->
+    <!--              set-->
+    <!--            </button>-->
+    <!--          </div>-->
+    <!--        </div>-->
+
+  </div>
+</div>
