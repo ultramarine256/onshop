@@ -144,7 +144,7 @@ if ( wc_tax_enabled() ) {
 	<?php endif; ?>
 	<table class="wc-order-totals">
 		<?php if ( 0 < $order->get_total_discount() ) : ?>
-			<tr>
+			<tr class="discount">
 				<td class="label"><?php esc_html_e( 'Discount:', 'woocommerce' ); ?></td>
 				<td width="1%"></td>
 				<td class="total">

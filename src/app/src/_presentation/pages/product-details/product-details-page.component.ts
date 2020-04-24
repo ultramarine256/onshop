@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 import {finalize, map} from 'rxjs/operators';
 import {ProductFilter, ProductRepository, ProductModel} from '../../../_data';
 import {AppMapper} from '../../_mapper';
 import {AuthService, CartService, OWL_CAROUSEL} from '../../../_domain';
+
 
 @Component({
   selector: 'app-product-details-page',
@@ -20,12 +22,15 @@ export class ProductDetailsPageComponent implements OnInit {
   public relatedIsLoaded = false;
   public rentalDuration = 1;
   public checkPrice = true;
+  public addedToCard = false;
+  public toSearch = false;
 
   /// lifecycle
   constructor(private productRepository: ProductRepository,
               private route: ActivatedRoute,
               private cartService: CartService,
-              public authService: AuthService) {
+              public authService: AuthService,
+              private location: Location) {
     this.product = new ProductModel();
   }
 
@@ -67,6 +72,7 @@ export class ProductDetailsPageComponent implements OnInit {
   /// methods
 
   public addToCart(item: ProductModel, rentDuration: number = 0) {
+    this.addedToCard = true;
     const mapedItem = AppMapper.toCartItem(item);
     if (!this.checkPrice) {
       this.rentalOptions.map(x => {
@@ -81,9 +87,12 @@ export class ProductDetailsPageComponent implements OnInit {
       mapedItem.duration = rentDuration;
     } else {
       mapedItem.price = Number(this.product.price);
-      mapedItem.duration = null;
     }
     this.cartService.addItem(mapedItem);
+    setTimeout(() => {
+      this.addedToCard = false;
+      this.toSearch = true;
+    }, 2500);
   }
 
   public choseRent(rent) {
@@ -100,6 +109,10 @@ export class ProductDetailsPageComponent implements OnInit {
         x.checked = false;
       }
     });
+  }
+
+  public backToSearch() {
+    this.location.back();
   }
 }
 

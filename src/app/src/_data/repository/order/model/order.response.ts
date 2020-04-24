@@ -1,4 +1,3 @@
-
 export class OrderResponse {
   /// fields
   id: number;
@@ -32,7 +31,6 @@ export class OrderResponse {
     this.billing = dto.billing;
     this.shipping = dto.shipping;
     this.productItems = dto.line_items;
-
     for (const item of dto.meta_data) {
       if (item.key === ORDER_METADATA_NAMES.DELIVERY_DATE) {
         this.deliveryDate = new Date(item.value);
@@ -54,4 +52,5 @@ class ProductItems {
   name: string;
   productId: string;
   price: number;
+  duration: number;
 }

@@ -7,19 +7,22 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class InventoryPaginationComponent {
   @Input() set itemsCount(value: number) {
-    // this.maxRange = value;
     this.inventoryCount = Math.ceil(value / this.maxRange);
     this.pageCounter = 1;
-    this.maxRange = 12;
     this.itemsNumber = value;
-  };
+  }
+
+  @Input() set sortChanged(value) {
+    this.pageCounter = value;
+  }
 
   @Output() setPagination = new EventEmitter<SetPagination>();
   public inventoryCount: number;
   public pageCounter: number;
   public setPaginationAmount: SetPagination;
-  public maxRange: number;
+  public maxRange = 12;
   public itemsNumber: number;
+  public paginationAmounts = [4, 8, 12, 16];
 
   constructor() {
     this.setPaginationAmount = new SetPagination(this.pageCounter, this.maxRange);
@@ -46,8 +49,9 @@ export class InventoryPaginationComponent {
     this.setPagination.emit(this.setPaginationAmount);
   }
 
-  public setPage() {
-    this.inventoryCount = Math.ceil( this.itemsNumber  / this.maxRange);
+  public setPage(value: number) {
+    this.maxRange = value;
+    this.inventoryCount = Math.ceil(this.itemsNumber / this.maxRange);
     this.setPaginationAmount.setPage = this.pageCounter;
     this.setPaginationAmount.setAmount = this.maxRange;
     this.setPagination.emit(this.setPaginationAmount);

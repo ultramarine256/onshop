@@ -16,29 +16,20 @@
       <app-inventory-filters
         [filter]="filter"
         [showCategory]="showCategories"
-        (setFilter)="filtersChanged($event,pagination,sortingSave)">
+        (setFilter)="filtersChanged($event,0,null)">
       </app-inventory-filters>
     </div>
 
     <!-- inventory -->
     <div class="col-12 col-md-9">
-
-      <!-- category -->
-      <!--<div class="row">-->
-      <!--<div class="col-12 mb-2">-->
-      <!--<span class="category-title">{{category.name}}</span>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!-- sorting -->
       <div class="row">
         <div class="col-12 mb-2">
           <div class="shop-control-bar rounded" id="scrollView">
-            <app-sorting-bar (sortQuery)="filtersChanged(dynamicFilterSave,pagination,$event)"></app-sorting-bar>
+            <app-sorting-bar class="w-100 h-100"
+                             (sortQuery)="filtersChanged(dynamicFilterSave,null,$event);sortChanged=1"></app-sorting-bar>
           </div>
         </div>
       </div>
-
       <!-- load-indicator -->
       <div class="d-flex justify-content-center align-items-center h-300"
            *ngIf="isLoading">
@@ -52,8 +43,8 @@
       </div>
 
       <!-- products -->
-      <div  class="row">
-        <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items">
+      <div class="row">
+        <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items"  (click)="savePages()">
           <app-product-item
             *ngIf="!isLoading"
             [item]="item"
@@ -66,9 +57,9 @@
       <hr class="mb-2">
       <div class="d-flex justify-content-center row">
         <app-inventory-pagination class="col-12" [itemsCount]="searchResult.totalCount"
-                                  (setPagination)="filtersChanged(dynamicFilterSave,$event,sortingSave)"></app-inventory-pagination>
-        <!--        <div>Page: {{searchResult.page ? searchResult.page : 1}} of {{searchResult.totalPages}}</div>-->
-<!--                <div>Total: {{searchResult.totalCount}}</div>-->
+                                  [sortChanged]="sortChanged"
+                                  (setPagination)="filtersChanged(dynamicFilterSave,$event,sortingSave)">
+        </app-inventory-pagination>
       </div>
     </div>
   </div>
