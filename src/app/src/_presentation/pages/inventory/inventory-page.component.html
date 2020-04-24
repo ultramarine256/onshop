@@ -13,36 +13,26 @@
     <!-- filters -->
     <div class="col-12 col-md-3 d-none d-md-block">
       <h4 class="content-title mb-2" style="font-size: 1.286em;">Filters</h4>
-<!--            <app-inventory-filters-->
-<!--              [disabled]="isLoading"-->
-<!--              [filter]="filter"-->
-<!--              (changed)="filtersChanged($event)"-->
-<!--              (setFilter)="setNewFilter($event)">-->
-<!--            </app-inventory-filters>-->
-      <app-filters-items *ngIf="itemFilters" [filter]="itemFilters"
-                         (setFilter)="setNewFilter($event)"></app-filters-items>
+      <app-inventory-filters
+        [filter]="filter"
+        [showCategory]="showCategories"
+        (setFilter)="filtersChanged($event,0,null)">
+      </app-inventory-filters>
     </div>
 
     <!-- inventory -->
     <div class="col-12 col-md-9">
-
-      <!-- category -->
-      <!--<div class="row">-->
-      <!--<div class="col-12 mb-2">-->
-      <!--<span class="category-title">{{category.name}}</span>-->
-      <!--</div>-->
-      <!--</div>-->
-
-      <!-- sorting -->
       <div class="row">
         <div class="col-12 mb-2">
-          <div class="shop-control-bar rounded"></div>
+          <div class="shop-control-bar rounded" id="scrollView">
+            <app-sorting-bar class="w-100 h-100"
+                             (sortQuery)="filtersChanged(dynamicFilterSave,null,$event);sortChanged=1"></app-sorting-bar>
+          </div>
         </div>
       </div>
-
       <!-- load-indicator -->
       <div class="d-flex justify-content-center align-items-center h-300"
-           *ngIf="isLoading && searchResult.items.length == 0">
+           *ngIf="isLoading">
         <div class="spinner-grow text-primary" role="status"></div>
       </div>
 
@@ -54,8 +44,9 @@
 
       <!-- products -->
       <div class="row">
-        <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items">
+        <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items"  (click)="savePages()">
           <app-product-item
+            *ngIf="!isLoading"
             [item]="item"
             [baseUrl]="'/product'"
             [allowPurchase]="authService.isAuthorized"
@@ -63,11 +54,12 @@
           </app-product-item>
         </div>
       </div>
-
       <hr class="mb-2">
-      <div class="d-flex justify-content-between">
-        <div>Page: {{searchResult.page ? searchResult.page : 1}} of {{searchResult.totalPages}}</div>
-        <div>Total: {{searchResult.totalCount}}</div>
+      <div class="d-flex justify-content-center row">
+        <app-inventory-pagination class="col-12" [itemsCount]="searchResult.totalCount"
+                                  [sortChanged]="sortChanged"
+                                  (setPagination)="filtersChanged(dynamicFilterSave,$event,sortingSave)">
+        </app-inventory-pagination>
       </div>
     </div>
   </div>

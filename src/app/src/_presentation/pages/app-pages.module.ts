@@ -18,13 +18,15 @@ import {
   RepositoryModule
 } from '../../_data';
 import {
-    AuthModule,
-    CartModule, FiltersModule,
-    InfoModule,
-    ProfileModule,
-    ShopModule,
-    ThemeModule
+  AuthModule,
+  CartModule,
+  InfoModule,
+  ProfileModule,
+  ShopModule,
+  ThemeModule
 } from '../../_domain';
+import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
+
 
 @NgModule({
   declarations: [
@@ -45,27 +47,27 @@ import {
     AccountPageComponent,
     OrdersPageComponent
   ],
-    imports: [
-        /// angular
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
+  imports: [
+    /// angular
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
-        /// data
-        RepositoryModule,
+    /// data
+    RepositoryModule,
+    DxSchedulerModule,
+    DxTemplateModule,
+    /// domain
+    ShopModule,
+    ProfileModule,
+    ThemeModule,
+    CartModule,
+    InfoModule,
+    AuthModule,
 
-        /// domain
-        ShopModule,
-        ProfileModule,
-        ThemeModule,
-        CartModule,
-        InfoModule,
-        AuthModule,
-
-        /// routing
-        AppPagesRouting,
-        FiltersModule
-    ],
+    /// routing
+    AppPagesRouting
+  ],
   exports: [],
   providers: []
 })

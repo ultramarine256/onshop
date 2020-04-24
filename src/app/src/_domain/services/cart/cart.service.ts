@@ -37,7 +37,7 @@ export class CartService {
   /// methods
   public addItem(item: CartItemEntity, amount: number = 1) {
     item.count = amount;
-    const index = this._items.findIndex(r => r.id === item.id);
+    const index = this._items.findIndex(r => r.id === item.id && !r.duration && !item.duration);
     if (index > -1) {
       this._items[index].count++;
       this._items[index].price += Number(item.price);

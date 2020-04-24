@@ -13,18 +13,18 @@
     </div>
   </a>
   <div class="price-options bg-light text-secondary w-100 mt-2">
-    <div class="price-item d-flex justify-content-between">
+    <div class="price-item d-flex justify-content-center">
       <span class="price-title font-weight-500 text-center">Buy</span>
       <span class="price-details text-center">
         {{item.price | currency}}
       </span>
-      <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"
-              style="border: none;"
-              (click)="addCart(item,$event)">
-        <i class="material-icons-outlined">add_shopping_cart</i>
-      </button>
+      <!--      <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"-->
+      <!--              style="border: none;"-->
+      <!--              (click)="addCart(item,$event)">-->
+      <!--        <i class="material-icons-outlined">add_shopping_cart</i>-->
+      <!--      </button>-->
     </div>
-    <div class="price-item d-flex border-left" *ngIf="item.isRentable">
+    <div class="price-item d-flex border-left justify-content-center" *ngIf="item.isRentable">
       <span class="price-title font-weight-500 text-center">Rent</span>
       <span class="price-details pl-2">
         {{item.rentPerDayPrice ? '$' + item.rentPerDayPrice + '/day' : ''}}
@@ -36,5 +36,12 @@
         {{item.rentPerMonthPrice ? '$' + item.rentPerMonthPrice + '/mo' : ''}}
       </span>
     </div>
+
   </div>
+  <button class="btn btn-primary d-flex justify-content-center align-items-center border-none"
+          style="border: none;"
+          [routerLink]="baseUrl + '/' + item.slug">
+    <span>View More</span>
+    <span class="material-icons-outlined">double_arrow</span>
+  </button>
 </div>

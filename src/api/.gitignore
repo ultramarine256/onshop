@@ -26,4 +26,4 @@ db-seeds/*.sql
 *.sqlite
 
 # configs
-_config.json
+_config_.json

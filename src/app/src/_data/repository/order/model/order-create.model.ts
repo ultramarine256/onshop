@@ -15,6 +15,8 @@ export class OrderCreateModel {
   public projectName: string;
   public projectNumber: string;
 
+  public discountTotal: number;
+
   /// constructor
   constructor(init?: Partial<OrderCreateModel>) {
     this.deliveryDate = new Date();
@@ -33,6 +35,7 @@ export class OrderCreateModel {
     json.payment_method = this.paymentMethod;
     json.payment_method_title = this.paymentMethodTitle;
     json.set_paid = this.setPaid;
+    json.discount_total = this.discountTotal;
 
     if (this.billing && this.billing.phone) {
       json.billing = this.billing.asWooObject();
@@ -122,13 +125,11 @@ export class Shipping {
 
   /// constructor
   constructor(init?: Partial<Billing>) {
-    debugger
     Object.assign(this as any, init);
   }
 
   /// mappers
   public asWooObject(): {} {
-    debugger
     return {
       first_name: this.fistName,
       last_name: this.lastName,
@@ -145,6 +146,8 @@ export class LineItem {
   /// fields
   productId: number;
   quantity: number;
+  total: number;
+  rentalDuration: number;
 
   /// constructor
   constructor(init?: Partial<LineItem>) {
@@ -153,10 +156,18 @@ export class LineItem {
 
   /// mappers
   public asWooObject(): {} {
-    return {
+    const result = {
       product_id: this.productId,
       quantity: this.quantity
     };
+    if (this.rentalDuration > 0) {
+      (result as any).meta_data = [{
+        key: 'rental-duration',
+        value: this.rentalDuration
+      }];
+      (result as any).total = this.total * this.quantity;
+    }
+    return result;
   }
 }
 

@@ -12,6 +12,7 @@ export class ProjectDetailPageComponent implements OnInit {
   public allUsers: UserEntity[];
   public existingUsers: UserEntity[];
   public isProcessing: boolean;
+  public didLoaded = false;
 
   constructor(private projectRepository: ProjectRepository,
               private userRepository: UserRepository,
@@ -21,11 +22,13 @@ export class ProjectDetailPageComponent implements OnInit {
 
   async ngOnInit() {
     this.route.params.subscribe(async x => {
+      this.didLoaded = true;
       this.entity = await this.projectRepository.getProjectById(x.id).toPromise();
       const items = await this.userRepository.getAllUsers().toPromise();
       const existingItems: AddUser = await this.userRepository.getProjectUsers(x.id).toPromise();
       this.existingUsers = items.filter(item => existingItems.user_ids.includes(item.id));
       this.allUsers = items.filter(item => !(existingItems.user_ids.includes(item.id)));
+      this.didLoaded = false;
     });
   }
 

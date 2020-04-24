@@ -22,11 +22,12 @@
   <div class="spinner-grow text-primary" role="status"></div>
 </div>
 <div class="container mb-3" *ngIf="isUserLoaded && didLoaded" [class.d-none]="orderCompleted">
-  <mat-horizontal-stepper labelPosition="bottom" #stepper>
+  <mat-horizontal-stepper labelPosition="bottom" #stepper >
     <!-- Project Info -->
-    <mat-step>
-      <ng-template matStepLabel>Project</ng-template>
+    <mat-step [stepControl]="checkoutForm">
+
       <form [formGroup]="checkoutForm" class="row">
+        <ng-template matStepLabel>Project</ng-template>
         <div class="col-12 col-md-6">
           <h5 class="mb-3 text-center">Requested By</h5>
           <div class="form-row">
@@ -54,7 +55,7 @@
               formControlName="email"
               placeholder="Email"
               class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('email',checkoutForm), 'is-invalid': validationHelper.isInvalid('email',checkoutForm)}">
+              [ngClass]="{'is-valid': validationHelper.isValid('email',checkoutForm), 'is-invalid': validationHelper.isInvalid('email',checkoutForm)}" required>
           </div>
           <div class="form-group">
             <input
@@ -131,20 +132,24 @@
         [currentView]="'month'"
         [views]='["month"]'
         [startDayHour]="9"
-        (onCellClick)="cellClick($event)">
+        [firstDayOfWeek]="1"
+        (onCellClick)="cellClick($event)"
+        dataCellTemplate="dataCellTemplate">
+        <div *dxTemplate="let cellData of 'dataCellTemplate'" [class.past-date]="markWeekEnd(cellData)==='pastDay'"
+             [class.weekend]="markWeekEnd(cellData) && markWeekEnd(cellData)!=='pastDay'"
+             [class.weekDay]="!markWeekEnd(cellData) && markWeekEnd(cellData)!=='pastDay'">
+          <div class='day-cell'>{{cellData.text}}</div>
+        </div>
       </dx-scheduler>
       <div *ngIf="checkoutForm.value.deliveryDate">
         <b>Delivery is scheduled for :</b> {{checkoutForm.value.deliveryDate | date}}
       </div>
-      <!--<div class="d-flex w-100">-->
-      <!--<span class="d-flex">Delivery is scheduled for </span>-->
-      <!--<span class="d-flex">October 10, 2019</span>-->
-
-      <!--<div class="d-flex">-->
-      <!--Am-->
-      <!--Pm-->
-      <!--</div>-->
-      <!--</div>-->
+      <div class="d-flex w-100 justify-content-center mt-2">
+        <button class="btn btn-primary float-right" [disabled]="!checkoutForm.value.deliveryDate" matStepperNext>
+          Continue to
+          schedule delivery
+        </button>
+      </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Confirm Billing</ng-template>
@@ -156,10 +161,11 @@
               <input [(ngModel)]="firstName.value + ' '+lastName.value" [disabled]="true" class="form-control">
             </div>
             <div class="form-group">
-              <input [(ngModel)]="project.value" [disabled]="true" class="form-control">
+              <input placeholder='{{project.value}}' [disabled]="true" class="form-control">
             </div>
             <div class="form-group">
-              <input [(ngModel)]="project.value" [disabled]="true" class="form-control">
+              <input [disabled]="true" class="form-control"
+                     placeholder="{{project.value.replace(' ', '-').toLocaleLowerCase()}}">
             </div>
           </div>
           <button class="btn col-md-3 btn-primary float-center" [disabled]="!checkoutForm.valid" matStepperNext>
@@ -170,7 +176,7 @@
     </mat-step>
 
     <!-- Review -->
-    <mat-step>
+    <mat-step editable="false">
       <ng-template matStepLabel>Review</ng-template>
       <div class="d-flex flex-column">
         <div class="container ">
@@ -250,30 +256,16 @@
                 <div class="d-flex align-items-center">
                   <img *ngIf="item.imageUrl" class="img border rounded m-1 mr-0"
                        src="{{item.imageUrl}}" style="height: 50px; width: 50px">
-                  <b>{{item.title}}</b>
+                  <b>{{item.title}} ({{ item.duration ? item.duration + 'days' : 'x' + item.count}})</b>
                 </div>
                 <div>
-                  {{item.count}}
-                </div>
-                <div>
-                  {{item.price}}$
+                  {{item.price | currency}}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!--<div class="d-flex flex-column">-->
-      <!--<div class="d-flex bg-light rounded w-100 p-3 mb-3">-->
-      <!--Product Items-->
-      <!--</div>-->
-
-      <!--<small class="text-secondary">Est. Delivery Date</small>-->
-      <!--<div class="d-flex bg-light rounded w-100 p-3 mb-3">-->
-      <!--<span>October 10, 2019</span>-->
-      <!--<span>PM Delivery</span>-->
-      <!--</div>-->
-      <!--</div>-->
       <div class="d-flex flex-column w-100 text-center mt-3 mb-3">
         <h6 class="">Forgot something ?</h6>
         <a routerLink="/categories" class="">Click here to Continue Shopping</a>

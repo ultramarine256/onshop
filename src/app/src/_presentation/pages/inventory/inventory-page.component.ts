@@ -1,7 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {finalize} from 'rxjs/operators';
-import {CategoryModel, ProductModel, ProductFilter, ProductRepository, ProductSearchResult, CategoryRepository} from '../../../_data';
+import {
+  CategoryModel,
+  ProductModel,
+  ProductFilter,
+  ProductRepository,
+  ProductSearchResult,
+  CategoryRepository,
+  SearchResultFilters
+} from '../../../_data';
 import {AppMapper} from '../../_mapper';
 import {AuthService, CartService, FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
 
@@ -14,36 +22,60 @@ export class InventoryPageComponent implements OnInit {
   /// fields
   public items: Array<ProductModel> = [];
   public category: CategoryModel = new CategoryModel();
-  public filter: InventoryFilter;
+  public filter: SearchResultFilters;
+  public pagination = {setPage: 1, setAmount: 12};
+  public sorting = {name: '', property: ''};
+  public dynamicFilterSave = '';
+  public sortingSave: any;
   public searchResult: ProductSearchResult;
   public itemFilters: any;
+  public categoryId: number;
+  public showCategories: true;
+  public element: HTMLElement;
+  public sortChanged: number;
   /// predicates
   public isLoading = true;
 
   /// events
-  public filtersChanged(filter: InventoryFilter) {
-    // TODO: update url according to query params
-    this.filter = filter;
-    // console.log(this.filter);
-
-    // TODO: dynamic filter mapping
-    const a = new ProductFilter({
-      per_page: 100,
-      category: this.category.id,
-      min_price: this.filter.priceRange.start,
-      max_price: this.filter.priceRange.end,
-    });
-
+  public filtersChanged(dynamicFilter: string, page: any, sorting: any) {
     this.isLoading = true;
-    this.productRepository.getProducts(a)
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe(result => this.searchResult = result);
-  }
 
-  public setNewFilter(filter) {
-    this.productRepository.getProducts2(filter)
+    this.scrollToView();
+    if (page && this.pagination !== page) {
+      this.pagination.setPage = page.setPage;
+      this.pagination.setAmount = page.setAmount;
+    } else if (this.dynamicFilterSave !== dynamicFilter) {
+      this.sortChanged = 1;
+      this.pagination.setPage = 1;
+    }
+    const a = new ProductFilter({
+      page: this.pagination.setPage,
+      per_page: this.pagination.setAmount,
+      category: this.category.id
+    });
+    if (sorting && this.sorting !== sorting) {
+      this.sorting.name = sorting.name;
+      this.sorting.property = sorting.property;
+      if (this.sorting.name !== 'all') {
+        a.order = this.sorting.property;
+        a.orderby = this.sorting.name;
+      }
+
+      a.page = 1;
+    } else {
+      a.order = this.sorting.property;
+      a.orderby = this.sorting.name;
+    }
+
+    this.productRepository.getProducts(a, dynamicFilter)
       .pipe(finalize(() => this.isLoading = false))
-      .subscribe(result => this.searchResult = result);
+      .subscribe(result => {
+        localStorage.setItem('pageForPagination', this.pagination.setPage.toString());
+        localStorage.setItem('amountForPagination', this.pagination.setAmount.toString());
+        this.filter = result.filters;
+        this.searchResult = result;
+        this.dynamicFilterSave = dynamicFilter;
+      });
   }
 
   /// constructor
@@ -53,20 +85,57 @@ export class InventoryPageComponent implements OnInit {
               public authService: AuthService,
               private route: ActivatedRoute,
               private router: Router) {
-    this.filter = DefaultFilters.Get();
+    // this.filter = DefaultFilters.Get();
     this.searchResult = new ProductSearchResult();
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('pageForPagination')) {
+      this.pagination.setPage = Number(localStorage.getItem('pageForPagination'));
+      this.pagination.setAmount = Number(localStorage.getItem('amountForPagination'));
+      localStorage.removeItem('pageForPagination');
+      localStorage.removeItem('amountForPagination');
+    }
+
     this.route.params.subscribe(params => {
       this.productRepository.getFiltersProduct(0).subscribe(res => {
         this.itemFilters = res;
-        console.log(this.itemFilters);
       });
-      this.categoryRepository.getCategory(params.categoryId).subscribe(item => this.category = item);
-      this.productRepository.getProducts(new ProductFilter({per_page: 100, category: params.categoryId}))
-        .pipe(finalize(() => this.isLoading = false))
-        .subscribe(result => this.searchResult = result);
+      this.categoryId = params.cacategoryId;
+      this.categoryRepository.getCategory(params.categoryId).subscribe(item => {
+        this.category = item;
+      });
+      if (params.categoryId.toString() === 'all') {
+        this.showCategories = true;
+        this.productRepository.getProducts(new ProductFilter({per_page: this.pagination.setAmount, page: this.pagination.setPage}),
+          null)
+          .pipe(finalize(() => this.isLoading = false))
+          .subscribe(result => {
+            const filterResult = result.filters.filterItems;
+            for (let i = 0; i < filterResult.length; i++) {
+              if (filterResult[i].name === 'category') {
+                const temp = filterResult[0];
+                filterResult[0] = filterResult[i];
+                filterResult[i] = temp;
+              }
+            }
+            this.filter = result.filters;
+            this.searchResult = result;
+            this.sortChanged = this.pagination.setPage;
+          });
+      } else {
+        this.productRepository.getProducts(new ProductFilter({
+          per_page: this.pagination.setAmount,
+          page: this.pagination.setPage,
+          category: params.categoryId
+        }), null)
+          .pipe(finalize(() => this.isLoading = false))
+          .subscribe(result => {
+            this.filter = result.filters;
+            this.searchResult = result;
+            this.sortChanged = this.pagination.setPage;
+          });
+      }
     });
   }
 
@@ -86,6 +155,16 @@ export class InventoryPageComponent implements OnInit {
     } else {
       this.cartService.addItem(AppMapper.toCartItem(item));
     }
+  }
+
+  public scrollToView() {
+    this.element = document.getElementById('scrollView') as HTMLElement;
+    this.element.scrollIntoView({block: 'start', behavior: 'smooth'});
+  }
+
+  public savePages() {
+
+
   }
 }
 

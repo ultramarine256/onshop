@@ -101,3 +101,25 @@ li:nth-last-child(-n+2) {
 #wp-admin-bar-view-store {
     display: none;
 }
+
+/**
+* ------------------------------------------------------------------------
+* Hide WP update message
+* ------------------------------------------------------------------------
+*/
+.update-nag {
+    display: none !important;
+}
+
+/**
+* ------------------------------------------------------------------------
+* Hide discount
+* ------------------------------------------------------------------------
+*/
+.wc-order-item-discount {
+    display: none !important;
+}
+
+.discount{
+    display: none !important;
+}

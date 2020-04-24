@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
 import {finalize} from 'rxjs/operators';
 import {
   LineItem,
@@ -12,6 +13,7 @@ import {
   OrderResponse, UserRepository, UserModel, ProjectRepository, ProjectResponse
 } from '../../../_data';
 import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../../_domain';
+import data from 'devextreme';
 
 
 @Component({
@@ -28,6 +30,8 @@ export class CheckoutPageComponent implements OnInit {
   public products: CartItemEntity[] = [];
   /// predicates
   public orderCompleted = false;
+  const;
+  currentDate = new Date();
 
   /// spinners
   public isLoading = false;
@@ -62,15 +66,11 @@ export class CheckoutPageComponent implements OnInit {
         lastName: [item.billing.lastName, Validators.required],
         email: [item.billing.email, Validators.required],
         phone: [item.billing.phone, Validators.required],
-
-        projectName: [''],
-        projectNumber: ['', Validators.required],
-        deliveryDate: [''],
-
         address: [item.shipping.address, Validators.required],
         city: [item.shipping.city, Validators.required],
         state: ['', Validators.required],
-        zip: [item.shipping.postcode, Validators.required]
+        zip: [item.shipping.postcode, Validators.required],
+        projectNumber: ['', Validators.required],
       });
       this.isUserLoaded = true;
     });
@@ -85,7 +85,16 @@ export class CheckoutPageComponent implements OnInit {
   /// actions
   public cellClick($event) {
     const date = new Date($event.cellData.startDate);
-    this.checkoutForm.value.deliveryDate = date;
+    if (date <= this.currentDate) {
+      (window as any).toastr.options.positionClass = 'toast-top-center';
+      (window as any).toastr.error('No delivery to the past!');
+      return;
+    } else {
+      this.checkoutForm.value.deliveryDate = date;
+      (window as any).toastr.options.positionClass = 'toast-top-center';
+      (window as any).toastr.success(`Delivery: ${date.toLocaleDateString()}`);
+    }
+
   }
 
   /// methods
@@ -111,16 +120,18 @@ export class CheckoutPageComponent implements OnInit {
       }),
       deliveryDate: new Date(),
       projectName: form.value.projectName,
-      projectNumber: form.value.projectNumber,
+      projectNumber: form.value.projectNumber
     });
 
     for (const item of this.cartService.getItems) {
       model.products.push(new LineItem({
         productId: item.id,
-        quantity: item.count
+        quantity: item.count,
+        rentalDuration: item.duration,
+        total: item.price
       }));
     }
-
+    console.log(model);
     this.isLoading = true;
     this.orderRepository.placeOrder(model.mapToWooCommerceOrder())
       .pipe(finalize(() => {
@@ -131,6 +142,16 @@ export class CheckoutPageComponent implements OnInit {
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });
+  }
+
+  markWeekEnd(cellData) {
+    const date = new Date(cellData.startDate);
+    if (date <= this.currentDate) {
+      return 'pastDay';
+    } else {
+      const day = date.getDay();
+      return day === 0 || day === 6;
+    }
   }
 }
 
