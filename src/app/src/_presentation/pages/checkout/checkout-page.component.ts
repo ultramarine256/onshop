@@ -66,15 +66,11 @@ export class CheckoutPageComponent implements OnInit {
         lastName: [item.billing.lastName, Validators.required],
         email: [item.billing.email, Validators.required],
         phone: [item.billing.phone, Validators.required],
-
-        projectName: [''],
-        projectNumber: ['', Validators.required],
-        deliveryDate: [''],
-
         address: [item.shipping.address, Validators.required],
         city: [item.shipping.city, Validators.required],
         state: ['', Validators.required],
-        zip: [item.shipping.postcode, Validators.required]
+        zip: [item.shipping.postcode, Validators.required],
+        projectNumber: ['', Validators.required],
       });
       this.isUserLoaded = true;
     });
@@ -124,7 +120,7 @@ export class CheckoutPageComponent implements OnInit {
       }),
       deliveryDate: new Date(),
       projectName: form.value.projectName,
-      projectNumber: form.value.projectNumber,
+      projectNumber: form.value.projectNumber
     });
 
     for (const item of this.cartService.getItems) {
@@ -135,7 +131,7 @@ export class CheckoutPageComponent implements OnInit {
         total: item.price
       }));
     }
-
+    console.log(model);
     this.isLoading = true;
     this.orderRepository.placeOrder(model.mapToWooCommerceOrder())
       .pipe(finalize(() => {

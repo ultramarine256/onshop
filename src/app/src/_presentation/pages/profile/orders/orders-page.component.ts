@@ -18,6 +18,8 @@ export class OrdersPageComponent {
               private orderRepository: OrderRepository) {
     this.orderRepository.getOrders()
       .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<OrderResponse>) => this.items = items);
+      .subscribe((items: Array<OrderResponse>) => {
+        this.items = items;
+      });
   }
 }
