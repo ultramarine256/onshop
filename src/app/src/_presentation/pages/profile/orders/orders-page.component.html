@@ -1,4 +1,5 @@
 <div *ngIf="!didLoaded" class="d-flex justify-content-center align-items-center" style="height: 300px;" >
   <div class="spinner-grow text-primary" role="status"></div>
 </div>
+<h3>Orders</h3>
 <app-orders-component *ngIf="didLoaded" [items]="items"></app-orders-component>
