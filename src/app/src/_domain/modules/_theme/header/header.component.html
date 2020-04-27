@@ -127,7 +127,7 @@
             <a class="icon-item text-decoration-none text-dark position-relative" routerLink="/cart">
               <i class="icon material-icons-outlined">shopping_cart</i>
               <span class="cart-items-count" *ngIf="productsCount">{{productsCount}}</span>
-              <span class="font-weight-500 ml-3">{{!productsPrice ? '0.00' : productsPrice }}$</span>
+              <span class="font-weight-500 ml-3">{{(!productsPrice ? '0.00' : productsPrice) | currency }}</span>
             </a>
           </div>
         </div>

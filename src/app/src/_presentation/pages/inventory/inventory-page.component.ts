@@ -59,8 +59,10 @@ export class InventoryPageComponent implements OnInit {
       if (this.sorting.name !== 'all') {
         a.order = this.sorting.property;
         a.orderby = this.sorting.name;
+      } else {
+        this.sorting.name = '';
+        this.sorting.property = '';
       }
-
       a.page = 1;
     } else {
       a.order = this.sorting.property;
