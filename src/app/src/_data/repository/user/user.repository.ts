@@ -22,4 +22,9 @@ export class UserRepository extends BaseRepository {
         return a;
       }));
   }
+
+  public editUser(user: UserModel) {
+    return this.httpClient.post<UserModel>
+    (`${environment.apiBaseUrl}/wp-json/onshop/v1/user?first_name=${user.firstName}`, user);
+  }
 }

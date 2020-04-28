@@ -13,7 +13,7 @@ import {CartPageComponent} from './cart';
 import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
 import {LoginPageComponent} from './login';
-import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent, ProjectsPageComponent} from './profile';
+import {AccountEditPageComponent, AccountPageComponent, OrdersPageComponent, ProfilePageComponent, ProjectsPageComponent} from './profile';
 import {
   RepositoryModule
 } from '../../_data';
@@ -44,6 +44,7 @@ import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
     ProjectsPageComponent,
     SearchResultPageComponent,
     TrackOrderPageComponent,
+    AccountEditPageComponent,
     AccountPageComponent,
     OrdersPageComponent
   ],

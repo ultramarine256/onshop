@@ -35,7 +35,6 @@ export class OrderRepository extends BaseRepository {
           entity.mapFromDto(item);
           result.push(entity);
         }
-
         return result;
       }));
   }

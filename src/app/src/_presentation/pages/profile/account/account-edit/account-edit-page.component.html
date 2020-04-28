@@ -1,0 +1,142 @@
+<form [formGroup]="profileForm" class="mb-3">
+  <mat-horizontal-stepper labelPosition="bottom" #stepper>
+    <!-- Project Info -->
+    <mat-step>
+      <ng-template matStepLabel>User</ng-template>
+      <h5>User Info</h5>
+      <div class="d-flex flex-column">
+        <label>
+          First name:
+          <input class="form-control form-control-sm" type="text" formControlName="firstName">
+        </label>
+        <label>
+          Last name:
+          <input class="form-control form-control-sm" type="text" formControlName="lastName">
+        </label>
+        <label>
+          Username:
+          <input class="form-control form-control-sm" type="text" formControlName="username">
+        </label>
+      </div>
+      <button class="btn btn-primary" matStepperNext>
+        Continue to billing
+      </button>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Billing</ng-template>
+      <div formGroupName="billing" class="d-flex flex-column">
+        <h5>Billing</h5>
+        <label>
+          First name:
+          <input class="form-control form-control-sm" type="text" formControlName="firstName">
+        </label>
+        <label>
+          Last name:
+          <input class="form-control form-control-sm" type="text" formControlName="lastName">
+        </label>
+        <label>
+          City:
+          <input class="form-control form-control-sm" type="text" formControlName="city">
+        </label>
+        <label>
+          State:
+          <input class="form-control form-control-sm" type="text" formControlName="state">
+        </label>
+        <label>
+          Post Code:
+          <input class="form-control form-control-sm" type="text" formControlName="postcode">
+        </label>
+        <label>
+          Email:
+          <input class="form-control form-control-sm" type="text" formControlName="email">
+        </label><label>
+        Phone:
+        <input class="form-control form-control-sm" type="text" formControlName="phone">
+      </label>
+      </div>
+      <button class="btn btn-primary " matStepperNext>Continue to
+        shipping
+      </button>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>shipping</ng-template>
+      <div formGroupName="shipping" class="d-flex flex-column">
+        <h5>Shipping</h5>
+        <label>
+          First name:
+          <input class="form-control form-control-sm" type="text" formControlName="firstName">
+        </label>
+        <label>
+          Last name:
+          <input class="form-control form-control-sm" type="text" formControlName="lastName">
+        </label>
+        <label>
+          City:
+          <input class="form-control form-control-sm" type="text" formControlName="city">
+        </label>
+        <label>
+          Postcode:
+          <input class="form-control form-control-sm" type="text" formControlName="postcode">
+        </label>
+      </div>
+      <button type="submit" [disabled]="!profileForm.valid" class="btn btn-success" (click)="onSubmit()"> Done</button>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+
+  <!--  <label>-->
+  <!--    First name:-->
+  <!--    <input class="form-control form-control-sm" type="text" formControlName="firstName">-->
+  <!--  </label>-->
+  <!--  <label>-->
+  <!--    Last name:-->
+  <!--    <input class="form-control form-control-sm" type="text" formControlName="lastName">-->
+  <!--  </label>-->
+  <!--  <label>-->
+  <!--    Username:-->
+  <!--    <input class="form-control form-control-sm" type="text" formControlName="username">-->
+  <!--  </label>-->
+  <!--  <label>-->
+  <!--    Username:-->
+  <!--    <input class="form-control form-control-sm" type="text" formControlName="username">-->
+  <!--  </label>-->
+  <!--  <div formGroupName="billing">-->
+  <!--    <h5>Billing</h5>-->
+  <!--    <label>-->
+  <!--      First name:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="firstName">-->
+  <!--    </label>-->
+  <!--    <label>-->
+  <!--      Last name:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="lastName">-->
+  <!--    </label>-->
+  <!--    <label>-->
+  <!--      Phone:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="phone">-->
+  <!--    </label>-->
+  <!--  </div>-->
+  <!--  <div formGroupName="address">-->
+  <!--    <h5>Address</h5>-->
+
+  <!--    <label>-->
+  <!--      Street:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="street">-->
+  <!--    </label>-->
+
+  <!--    <label>-->
+  <!--      City:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="city">-->
+  <!--    </label>-->
+
+  <!--    <label>-->
+  <!--      State:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="state">-->
+  <!--    </label>-->
+
+  <!--    <label>-->
+  <!--      Zip Code:-->
+  <!--      <input class="form-control form-control-sm" type="text" formControlName="zip">-->
+  <!--    </label>-->
+  <!--  </div>-->
+
+</form>

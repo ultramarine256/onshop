@@ -20,11 +20,11 @@ import {ProjectRepository} from '../../../../_data/repository/project';
 
     .form-creation {
       width: 50%;
-      height: 50vh;
+      height: 70vh;
     }
   `]
 })
-export class ProjectsAddComponent implements OnInit {
+export class ProjectsAddComponent {
   @Output() formDone = new EventEmitter<boolean>();
   @Output() formDoneValue = new EventEmitter<FormGroup>();
   profileForm: FormGroup;
@@ -35,9 +35,6 @@ export class ProjectsAddComponent implements OnInit {
       name: new FormControl(''),
       description: new FormControl(''),
     });
-  }
-
-  ngOnInit() {
   }
 
   onSubmit() {

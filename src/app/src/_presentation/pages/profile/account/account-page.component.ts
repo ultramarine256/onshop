@@ -12,6 +12,7 @@ export class AccountPageComponent {
 
   // predicates
   public didLoaded = false;
+  public editUser = false;
 
   /// constructor
   constructor(public userRepository: UserRepository) {
