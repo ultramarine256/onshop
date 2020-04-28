@@ -21,4 +21,9 @@ export class CategoryItemComponent {
   /// constructor
   constructor() {
   }
+
+  public clearStorage() {
+    localStorage.removeItem('pageForPagination');
+    localStorage.removeItem('amountForPagination');
+  }
 }
