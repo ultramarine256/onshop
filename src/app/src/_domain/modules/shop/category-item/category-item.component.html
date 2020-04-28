@@ -1,5 +1,5 @@
 <div class="card shadow-sm">
-  <div class="category-image__wrap rounded-lg mb-2 " [routerLink]="baseUrl + '/' + id">
+  <div class="category-image__wrap rounded-lg mb-2 " [routerLink]="baseUrl + '/' + id" (click)="clearStorage()">
     <img class="image"
          [src]="photo ? photo : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + title"
          alt="Clothing">
