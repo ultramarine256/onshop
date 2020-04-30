@@ -24,6 +24,7 @@ export class ProductDetailsPageComponent implements OnInit {
   public checkPrice = true;
   public addedToCard = false;
   public toSearch = false;
+  public finalePrice: number;
 
   /// lifecycle
   constructor(private productRepository: ProductRepository,
@@ -82,17 +83,19 @@ export class ProductDetailsPageComponent implements OnInit {
           }
           rentDuration = x.index * this.rentalDuration;
           mapedItem.price = this.product.rentPerDayPrice * rentDuration;
+          this.finalePrice = mapedItem.price;
         }
       });
       mapedItem.duration = rentDuration;
     } else {
       mapedItem.price = Number(this.product.price);
+      this.finalePrice = mapedItem.price;
     }
     this.cartService.addItem(mapedItem);
     setTimeout(() => {
       this.addedToCard = false;
       this.toSearch = true;
-    }, 2500);
+    }, 5000);
   }
 
   public choseRent(rent) {

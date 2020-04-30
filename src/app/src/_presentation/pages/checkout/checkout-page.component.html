@@ -1,13 +1,3 @@
-<!--<div class="container">-->
-<!--  <nav aria-label="breadcrumb">-->
-<!--    <ol class="breadcrumb my-2 px-0 bg-white">-->
-<!--      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>-->
-<!--      <li class="breadcrumb-item"><a routerLink="/cart" class="text-decoration-none">Cart</a></li>-->
-<!--      <li class="breadcrumb-item active" aria-current="page">Checkout</li>-->
-<!--    </ol>-->
-<!--  </nav>-->
-<!--</div>-->
-
 <div class="container" *ngIf="orderCompleted">
   <div class="d-flex justify-content-center align-items-center flex-column" style="height: 300px;">
     <div class="col col-md-4">
@@ -22,7 +12,7 @@
   <div class="spinner-grow text-primary" role="status"></div>
 </div>
 <div class="container mb-3" *ngIf="isUserLoaded && didLoaded" [class.d-none]="orderCompleted">
-  <mat-horizontal-stepper labelPosition="bottom" #stepper >
+  <mat-horizontal-stepper labelPosition="bottom" #stepper>
     <!-- Project Info -->
     <mat-step [stepControl]="checkoutForm">
 
@@ -55,7 +45,8 @@
               formControlName="email"
               placeholder="Email"
               class="form-control"
-              [ngClass]="{'is-valid': validationHelper.isValid('email',checkoutForm), 'is-invalid': validationHelper.isInvalid('email',checkoutForm)}" required>
+              [ngClass]="{'is-valid': validationHelper.isValid('email',checkoutForm), 'is-invalid': validationHelper.isInvalid('email',checkoutForm)}"
+              required>
           </div>
           <div class="form-group">
             <input
@@ -78,7 +69,6 @@
         <div class="col-12 col-md-6">
           <h5 class="mb-3 text-center">Shipping Address</h5>
           <div class="form-group">
-            <!--<label>Address</label>-->
             <input
               #address
               formControlName="address"
@@ -87,7 +77,6 @@
               [ngClass]="{'is-valid': validationHelper.isValid('address',checkoutForm), 'is-invalid': validationHelper.isInvalid('address',checkoutForm)}">
           </div>
           <div class="form-group">
-            <!--<label>City</label>-->
             <input
               #city
               formControlName="city"
@@ -97,7 +86,6 @@
               validationHelper.isInvalid('city',checkoutForm)}">
           </div>
           <div class="form-group">
-            <!--<label>State</label>-->
             <input
               #state
               formControlName="state"
@@ -121,9 +109,7 @@
           </button>
         </div>
       </form>
-
     </mat-step>
-
     <!-- Calendar -->
     <mat-step class="p-0">
       <ng-template matStepLabel>Delivery</ng-template>
@@ -174,7 +160,6 @@
         </div>
       </div>
     </mat-step>
-
     <!-- Review -->
     <mat-step editable="false">
       <ng-template matStepLabel>Review</ng-template>
@@ -276,7 +261,6 @@
           <div class="spinner-grow text-light mr-2" role="status" [hidden]="!isLoading"></div>
           Place Order
         </button>
-        <!-- [disabled]="checkoutForm.invalid" -->
       </div>
     </mat-step>
   </mat-horizontal-stepper>

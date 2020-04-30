@@ -73,20 +73,18 @@
           Add to Cart
         </button>
         <div *ngIf="addedToCard" class="d-flex align-items-center text-success ml-2">
-          <b>Done</b>
           <i class="material-icons ml-1">
             check_circle
           </i>
+          <b>{{finalePrice | currency}}</b>
         </div>
         <button *ngIf="toSearch" class="btn btn-primary ml-3 d-flex align-items-center" (click)="backToSearch()">
-            back to search
+          back to search
           <i class="material-icons">
             keyboard_return
           </i>
         </button>
-
       </div>
-
     </div>
     <div class="col-12 my-3">
       <div [innerHTML]="product.description"></div>

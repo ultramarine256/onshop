@@ -131,7 +131,6 @@ export class CheckoutPageComponent implements OnInit {
         total: item.price
       }));
     }
-    console.log(model);
     this.isLoading = true;
     this.orderRepository.placeOrder(model.mapToWooCommerceOrder())
       .pipe(finalize(() => {
