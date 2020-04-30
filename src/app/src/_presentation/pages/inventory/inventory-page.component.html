@@ -44,7 +44,7 @@
 
       <!-- products -->
       <div class="row">
-        <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items"  (click)="savePages()">
+        <div class="col-6 col-md-3 p-0" *ngFor="let item of searchResult.items">
           <app-product-item
             *ngIf="!isLoading"
             [item]="item"

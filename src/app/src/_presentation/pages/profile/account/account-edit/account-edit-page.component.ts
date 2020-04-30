@@ -8,7 +8,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class AccountEditPageComponent {
   @Input() set userProperties(value: UserModel) {
-    console.log(value);
     this.setResult = value;
     this.profileForm = new FormGroup({
       firstName: new FormControl(value.firstName, Validators.required),
@@ -51,10 +50,8 @@ export class AccountEditPageComponent {
 
   editUser(user: UserModel) {
     this.userRepository.editUser(user).subscribe((response) => {
-      console.log(response);
       (window as any).toastr.options.positionClass = 'toast-top-center';
       (window as any).toastr.success('Done!');
     });
-
   }
 }

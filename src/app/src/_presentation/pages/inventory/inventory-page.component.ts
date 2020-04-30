@@ -163,11 +163,6 @@ export class InventoryPageComponent implements OnInit {
     this.element = document.getElementById('scrollView') as HTMLElement;
     this.element.scrollIntoView({block: 'start', behavior: 'smooth'});
   }
-
-  public savePages() {
-
-
-  }
 }
 
 export class DefaultFilters {
