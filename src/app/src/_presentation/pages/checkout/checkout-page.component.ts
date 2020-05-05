@@ -30,8 +30,7 @@ export class CheckoutPageComponent implements OnInit {
   public products: CartItemEntity[] = [];
   /// predicates
   public orderCompleted = false;
-  const;
-  currentDate = new Date();
+  public currentDate = new Date();
 
   /// spinners
   public isLoading = false;
@@ -74,12 +73,6 @@ export class CheckoutPageComponent implements OnInit {
       });
       this.isUserLoaded = true;
     });
-    // this.checkoutForm.controls.firstName.disable();
-    // this.checkoutForm.controls.lastName.disable();
-    // this.checkoutForm.controls.email.disable();
-    // this.checkoutForm.controls.phone.disable();
-    //
-    // this.checkoutForm.controls.projectName.disable();
   }
 
   /// actions
@@ -94,7 +87,6 @@ export class CheckoutPageComponent implements OnInit {
       (window as any).toastr.options.positionClass = 'toast-top-center';
       (window as any).toastr.success(`Delivery: ${date.toLocaleDateString()}`);
     }
-
   }
 
   /// methods
@@ -118,7 +110,7 @@ export class CheckoutPageComponent implements OnInit {
         state: form.value.state,
         postcode: form.value.zip,
       }),
-      deliveryDate: new Date(),
+      deliveryDate: form.value.deliveryDate,
       projectName: form.value.projectName,
       projectNumber: form.value.projectNumber
     });

@@ -12,6 +12,7 @@ import {SearchResultPageComponent} from './search-result';
 import {CheckoutPageComponent} from './checkout';
 import {LoginPageComponent} from './login';
 import {AccountPageComponent, OrdersPageComponent, ProfilePageComponent, ProjectsPageComponent} from './profile';
+import {PurchaseReturnsPageComponent} from './purchase-returns';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,10 @@ export const routes: Routes = [
       {
         path: 'cart',
         component: CartPageComponent,
+      },
+      {
+        path: 'return-product',
+        component: PurchaseReturnsPageComponent,
       },
       {
         path: 'checkout',

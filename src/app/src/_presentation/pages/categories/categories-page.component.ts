@@ -34,5 +34,3 @@ export class CategoriesPageComponent implements OnInit {
     return result;
   }
 }
-
-
