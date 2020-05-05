@@ -1,0 +1,53 @@
+<div class="project-create-popup">
+  <div mat-dialog-title>New project</div>
+
+  <div mat-dialog-content>
+    <form class="" [formGroup]="profileForm">
+      <label class="w-100">
+        Name:
+        <input class="form-control" type="text" formControlName="name" placeholder="Name" />
+      </label>
+      <div class="d-flex flex-column flex-md-row w-100">
+        <label>
+          Market Segment
+          <select class="browser-default custom-select">
+            <option selected>Market Segment</option>
+            <option value="1">Segment One</option>
+            <option value="2">Segment Two</option>
+            <option value="3">Segment Three</option>
+          </select>
+        </label>
+        <label>
+          Project Manager
+          <select class="browser-default custom-select">
+            <option selected>Project Manager</option>
+            <option value="1">Manager One</option>
+            <option value="2">Manager Two</option>
+            <option value="3">Manager Three</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="d-flex flex-column flex-md-row w-100">
+        <div class="w-100">
+          Project code
+          <input class="form-control" type="text" placeholder="Number" />
+        </div>
+        <div class="w-100">
+          Address:
+          <input class="form-control" type="text" formControlName="name" placeholder="Address" />
+        </div>
+      </div>
+      <label class="w-100">
+        Description:
+        <textarea class="form-control" type="text" formControlName="description"> </textarea>
+      </label>
+      <div class="d-flex w-100">
+        <button mat-raised-button color="primary">
+          <ng-template #loader><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></ng-template>
+          <span *ngIf="!isLoading; else loader" (click)="onSubmit()">Submit</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

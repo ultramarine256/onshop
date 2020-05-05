@@ -1,0 +1,18 @@
+.project-page {
+  .project-page__create-button {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .project-page__project-item {
+    padding: 0 10px;
+    border-bottom: 1px solid #ccc;
+
+    &:hover {
+      text-decoration: none;
+      background: #eee;
+      border-bottom: 1px solid #eee;
+    }
+  }
+}
