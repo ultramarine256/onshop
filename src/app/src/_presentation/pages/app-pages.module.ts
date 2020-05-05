@@ -26,12 +26,14 @@ import {
   ThemeModule
 } from '../../_domain';
 import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
+import {PurchaseReturnsPageComponent} from './purchase-returns';
 
 
 @NgModule({
   declarations: [
     AppPagesComponent,
 
+    PurchaseReturnsPageComponent,
     CartPageComponent,
     CategoriesPageComponent,
     CheckoutPageComponent,

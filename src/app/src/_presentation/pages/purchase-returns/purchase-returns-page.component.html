@@ -1,0 +1,60 @@
+<div class="container">
+  <h2 class="text-center">Purchase returns</h2>
+  <div class="row mt-3 justify-content-center">
+
+    <div class="col-12 col-md-6 mb-3">
+      <div *ngIf="!didLoaded" class="d-flex justify-content-center text-primary">
+        <div class="spinner-grow" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div *ngIf="didLoaded" class="w-100">
+        <div class="d-flex justify-content-between">
+          <div>
+            Name:
+          </div>
+          <div>
+            {{userInfo.firstName}} {{userInfo.lastName}}
+          </div>
+        </div>
+        <div class="d-flex justify-content-between my-2">
+          <div>
+            City:
+          </div>
+          <div>
+            {{userInfo.billing.city}} ({{userInfo.billing.state}})
+          </div>
+        </div>
+      </div>
+      <form *ngIf="didLoaded" [formGroup]="returnProductForm" (ngSubmit)="onSubmit(returnProductForm.value)">
+        <label for="start">Date:</label>
+        <input class="form-control" type="date" id="start" name="trip-start"
+               [value]="deliveryDate"
+               min='{{currentDate}}'>
+        <div class="form-group">
+          <label for="address">
+            Address
+          </label>
+          <input id="address" class="form-control" type="text" formControlName="address">
+        </div>
+        <div class="form-group">
+          <label for="uniqueCode">
+            SKU
+          </label>
+          <input id="uniqueCode" class="form-control" type="text" formControlName="uniqueCode">
+        </div>
+        <div class="form-group">
+          <label for="description">
+            Short description
+          </label>
+          <textarea class="form-control" id="description" type="text" formControlName="description">
+            </textarea>
+        </div>
+        <button class="btn btn-primary" (click)="complete = true" [disabled]="!returnProductForm.valid"
+                type="submit">
+          Confirm
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
