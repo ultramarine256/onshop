@@ -41,12 +41,15 @@ export class ProjectRepository extends BaseRepository {
     });
   }
 
-  public addProject(project) {
-    return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v1/project`, project, {
-      headers: {
-        Authorization: 'Bearer ' + this.token,
-      },
-    });
+  public addProject(values): Observable<{ id: number }> {
+    const entity = new ProjectEntity(values);
+    return this.httpClient
+      .post(`${this.apiBaseUrl}/wp-json/onshop/v1/project`, entity.toJson(), {
+        headers: {
+          Authorization: 'Bearer ' + this.token,
+        },
+      })
+      .pipe(map((res: any) => ({ id: res.id })));
   }
 
   public deleteProject(id: number) {

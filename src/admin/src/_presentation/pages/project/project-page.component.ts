@@ -40,11 +40,11 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
     dialogRef
       .afterClosed()
       .pipe(
-        filter((res) => res),
+        filter((data) => data),
         takeUntil(this.destroy$)
       )
-      .subscribe((data) => {
-        this.projects = this.projects.concat(data);
+      .subscribe((project: ProjectEntity) => {
+        this.projects = this.projects.concat(project);
       });
   }
 }

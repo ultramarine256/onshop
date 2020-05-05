@@ -4,7 +4,7 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { ProjectEntity, ProjectRepository } from '@data/repository/project';
+import { ProjectRepository } from '@data/repository/project';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
@@ -28,8 +28,13 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
 
   ngOnInit() {
     this.profileForm = this.fb.group({
-      name: [null, [Validators.required]],
-      description: [null],
+      name: ['', [Validators.required]],
+      description: [''],
+      marketSegment: [''],
+      code: [''],
+      address: [''],
+      pricingMargin: [''],
+      estimatedStartDate: [''], // TODO: Date validator
     });
   }
 
@@ -47,10 +52,8 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
         finalize(() => (this.isLoading = false)),
         takeUntil(this.destroy$)
       )
-      .subscribe(() => {
-        const entity = new ProjectEntity();
-        const model = entity.mapFromDto({ ...this.profileForm.value });
-        this.matDialogRef.close(model);
+      .subscribe((response) => {
+        this.matDialogRef.close({ ...this.profileForm.value, id: response.id });
       });
   }
 }
