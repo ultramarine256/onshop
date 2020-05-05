@@ -1,0 +1,17 @@
+{
+  "dbhost": "172.18.0.2",
+  "dbname": "prod_blue-shop",
+  "dbusername": "root",
+  "dbpassword": "YOUR_ROOT_PASSWORD",
+  "use-debug": true,
+  "admin-url": "http://admin.xolutionz.com",
+
+  "auth": {
+    "secret-sign-key": "YOUR_SECRET_SIGN_KEY",
+    "secret-enc-key": "YOUR_SECRET_ENC_KEY",
+    "issuer-claim": "YOUR_ISSUER_CLAIM",
+    "audience-claim": "THE_AUDIENCE",
+    "token-validation-delay-sec": 0,
+    "token-expiration-interval-sec": 18000
+  }
+}

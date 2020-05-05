@@ -34,7 +34,7 @@ $token_expiration_interval_sec = 600;
 $wp_debug = false;
 
 // server configuration
-$config = __DIR__ . "/_config_prod.json";
+$config = __DIR__ . "/_config.json";
 if ( file_exists( $config ) ) {
 	$json = json_decode( file_get_contents( $config ) );
 
