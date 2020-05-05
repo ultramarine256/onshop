@@ -71,6 +71,47 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 							return is_string( $value );
 						}
 					],
+                    'address' => [
+						'required'          => false,
+						'description'       => __( 'Project\'s address' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						}
+					],
+                    'code' => [
+						'required'          => false,
+						'description'       => __( 'Project\'s code' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						}
+					],
+                    'market_segment' => [
+						'required'          => false,
+						'description'       => __( 'Project\'s market segment' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						}
+					],
+                    'pricing_margin' => [
+						'required'          => false,
+						'description'       => __( 'Project\'s pricing margin' ),
+						'type'              => 'string',
+						'validate_callback' => function ( $value ) {
+							return is_string( $value );
+						}
+					],
+                    'estimated_start_date' => [
+						'required'          => false,
+						'description'       => __( 'Project\'s estimated start date' ),
+						'type'              => 'integer',
+                        'validate_callback' => function ( $value ) {
+                            return is_integer( $value );
+                        }
+                    ],
+
 				],
 			]
 		);

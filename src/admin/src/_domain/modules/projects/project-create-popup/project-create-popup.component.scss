@@ -1,0 +1,20 @@
+.project-create-popup {
+  .mat-dialog-content {
+    max-height: 85vh;
+  }
+
+  .project-create-popup__action {
+    margin-top: 5px;
+    padding: 5px 0;
+  }
+
+  .project-create-popup__datepicker {
+    position: relative;
+
+    mat-datepicker-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}

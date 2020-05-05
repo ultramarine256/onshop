@@ -36,14 +36,14 @@ class ONSHOP_MODEL_Projects {
 	public static function getAll() {
 		global $wpdb;
 
-		return $wpdb->get_results( 'SELECT id, name, description FROM projects' );
+		return $wpdb->get_results( 'SELECT id, name, description, address, code, market_segment, pricing_margin, estimated_start_date FROM projects' );
 	}
 
 	public static function getByUserId( $user_id ) {
 		global $wpdb;
 
 		return $wpdb->get_results( '
-			SELECT p.id, p.name, p.description
+			SELECT p.id, p.name, p.description, p.address, p.code, p.market_segment, p.pricing_margin, p.estimated_start_date
 			FROM projects as p INNER JOIN usersXprojects as up ON p.id = up.project_id
 			WHERE up.user_id=' . $user_id );
 	}
@@ -79,6 +79,33 @@ class ONSHOP_MODEL_Projects {
 			$result['description'] = $obj['description'];
 		}
 
+        if ( $obj['description'] ) {
+            $result['description'] = $obj['description'];
+        }
+
+        if ( $obj['market_segment'] ) {
+            $result['market_segment'] = $obj['market_segment'];
+        }
+
+        if ( $obj['description'] ) {
+            $result['description'] = $obj['description'];
+        }
+
+        if ( $obj['code'] ) {
+            $result['code'] = $obj['code'];
+        }
+
+        if ( $obj['address'] ) {
+            $result['address'] = $obj['address'];
+        }
+
+        if ( $obj['pricing_margin'] ) {
+            $result['pricing_margin'] = $obj['pricing_margin'];
+        }
+
+        if ( $obj['estimated_start_date'] ) {
+            $result['estimated_start_date'] = $obj['estimated_start_date'];
+        }
 		return $result;
 	}
 }

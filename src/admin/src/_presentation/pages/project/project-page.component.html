@@ -1,23 +1,49 @@
-<div class="container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb my-2 px-3 bg-light ">
-      <li class="breadcrumb-item active">Projects</li>
-    </ol>
-  </nav>
-</div>
-<div class="container">
-  <div class="w-100 d-flex justify-content-end">
-    <button class="btn btn-sm btn-primary" (click)="showProject=true">Create</button>
+<div class="project-page">
+  <ng-template #loader>
+    <div class="d-flex justify-content-center align-items-center h-350">
+      <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+  </ng-template>
+
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb my-2 px-3 bg-light">
+        <li class="breadcrumb-item active">Projects</li>
+      </ol>
+    </nav>
   </div>
-  <div class="d-flex justify-content-center align-items-center h-350"
-       *ngIf="!didLoaded">
-    <div class="spinner-grow text-primary" role="status"></div>
+  <div class="container" *ngIf="!isLoading; else loader">
+    <ng-container *ngFor="let project of projects">
+      <a [routerLink]="['project', project.id]" class="project-page__project-item media text-muted pt-3" style="cursor: pointer;">
+        <svg
+          class="bd-placeholder-img mr-2 rounded"
+          width="32"
+          height="32"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice"
+          focusable="false"
+          role="img"
+          aria-label="Placeholder: 32x32"
+        >
+          <title>Placeholder</title>
+          <rect width="100%" height="100%" fill="#007bff" />
+          <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+        </svg>
+        <div class="media-body d-flex justify-content-between pb-3 mb-0 small lh-125 border-gray">
+          <div class="d-flex flex-column justify-content-between">
+            <div>
+              <strong class="d-block project-name text-gray-dark">{{ project.name }}</strong>
+            </div>
+            {{ project.description }}
+          </div>
+        </div>
+      </a>
+    </ng-container>
   </div>
-  <app-project-list *ngIf="didLoaded" [projects]="projects" (itemClick)="showProj($event)"></app-project-list>
+
+  <div class="project-page__create-button">
+    <button (click)="openProjectCreatePopup()" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
 </div>
-<app-project-add *ngIf="showProject" (formDone)="showProject=false"
-                 (formDoneValue)="getFormResponse($event)"></app-project-add>
-
-
-
-
