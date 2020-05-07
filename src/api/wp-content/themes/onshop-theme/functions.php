@@ -186,3 +186,74 @@ add_action( 'rest_api_init', function () {
 	$projects_Controller = new ONSHOP_REST_Projects_Controller();
 	$projects_Controller->register_routes();
 } );
+
+/**
+ * ------------------------------------------------------------------------
+ * Custom hooks
+ * ------------------------------------------------------------------------
+ */
+add_action('woocommerce_new_order', function($order_id) {
+    $API_KEY = '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';
+    $TEMPLATE_ID = 'd-bd53b0a6026549b6a12e16ecd491f5cf';
+
+    $orderData = getOrderDataById($order_id);
+
+    $clientEmail = $orderData['email'];
+    $senderEmail = 'leevitgen@gmail.com';
+    $supportEmail = 'support@mail.com'; // TODO: Change to real email
+
+    // Email sending for client
+    $sendGrid = new SendGrid($API_KEY);
+    try {
+        $email = new \SendGrid\Mail\Mail();
+        $email->setSubject('Order receipt #' . $order_id);
+        $email->
+        $email->setFrom($senderEmail);
+        $toEmails = [
+            $clientEmail => 'Client',
+            $supportEmail => 'Support'
+        ];
+        $email->addTos($toEmails);
+        $email->setTemplateId($TEMPLATE_ID);
+        $email->addDynamicTemplateDatas($orderData);
+
+        $sendGrid->send($email);
+    } catch (Exception $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "";
+    }
+}, 1, 1);
+
+function getOrderDataById($orderId) {
+    $orderData = wc_get_order($orderId)->get_data();
+    $itemsTotal = number_format(array_reduce($orderData['line_items'], function($acc, $item) {
+        return $acc += $item->get_data()['total'];
+    }, 0), 2);
+    $feeTotal = number_format(array_reduce($orderData['fee_lines'], function($acc, $item) {
+        return $acc += $item->get_data()['total'];
+    }, 0), 2);
+    $shippingTotal = number_format($orderData['shipping_total'], 2);
+    $total = number_format($orderData['total'], 2);
+    return [
+        'itemsTotal' => $itemsTotal,
+        '$feeTotal' => $feeTotal,
+        'shippingTotal' => $shippingTotal,
+        'total' => $total,
+        'email' => $orderData['billing']['email'],
+        "name" => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
+        "address01" => $orderData['billing']['address_1'],
+        "address02" => $orderData['billing']['address_2'],
+        "city" => $orderData['billing']['city'],
+        "state" => $orderData['billing']['state'],
+        "zip" => $orderData['billing']['postcode'],
+        "phone" => $orderData['billing']['phone'],
+        "date" => $orderData['date_created']->date ? date('Y.m.d H:i:s', strtotime($orderData['date_created']->date)) : null,
+        'items' => array_map(function($orderItem) {
+            $orderItemData = $orderItem->get_data();
+            return (object)[
+                'text' => $orderItemData['name'],
+                'count' => $orderItemData['quantity'],
+                'price' => number_format($orderItemData['total'], 2),
+            ];
+        }, $orderData['line_items'])
+    ];
+}
