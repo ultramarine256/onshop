@@ -192,11 +192,11 @@ add_action( 'rest_api_init', function () {
  * Custom hooks
  * ------------------------------------------------------------------------
  */
-add_action('woocommerce_new_order', function($order_id) {
+add_action('woocommerce_new_order', function($orderId) {
     $API_KEY = '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';
     $TEMPLATE_ID = 'd-bd53b0a6026549b6a12e16ecd491f5cf';
 
-    $orderData = getOrderDataById($order_id);
+    $orderData = getOrderDataById($orderId);
 
     $clientEmail = $orderData['email'];
     $senderEmail = 'leevitgen@gmail.com';
@@ -205,7 +205,7 @@ add_action('woocommerce_new_order', function($order_id) {
     $sendGrid = new SendGrid($API_KEY);
     try {
         $email = new \SendGrid\Mail\Mail();
-        $email->setSubject('Order receipt #' . $order_id);
+        $email->setSubject('Order receipt #' . $orderId);
         $email->setFrom($senderEmail);
         $toEmails = [
             $clientEmail => 'Client',
