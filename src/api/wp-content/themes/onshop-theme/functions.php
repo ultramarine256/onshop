@@ -193,44 +193,50 @@ add_action( 'rest_api_init', function () {
  * ------------------------------------------------------------------------
  */
 add_action('woocommerce_new_order', function($orderId) {
-    $API_KEY = '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';
     $TEMPLATE_ID = 'd-bd53b0a6026549b6a12e16ecd491f5cf';
 
     $orderData = getOrderDataById($orderId);
 
     $clientEmail = $orderData['email'];
-    $senderEmail = 'leevitgen@gmail.com';
-    $supportEmail = 'support@mail.com'; // TODO: Change to real email
+    $managerEmail = app_info()['email-manager'];
+    $senderEmail = app_info()['email-sender'];
 
-    $sendGrid = new SendGrid($API_KEY);
     try {
         $email = new \SendGrid\Mail\Mail();
         $email->setSubject('Order receipt #' . $orderId);
         $email->setFrom($senderEmail);
-        $toEmails = [
+        $email->addTos([
             $clientEmail => 'Client',
-            $supportEmail => 'Support'
-        ];
-        $email->addTos($toEmails);
+            $managerEmail => 'Manager'
+        ]);
         $email->setTemplateId($TEMPLATE_ID);
         $email->addDynamicTemplateDatas($orderData);
 
+        $sendGrid = new SendGrid($_ENV['SEND_GRID_API_KEY']);
         $sendGrid->send($email);
     } catch (Exception $e) {
         echo 'Caught exception: ',  $e->getMessage(), "";
     }
 }, 1, 1);
 
+/**
+ * @param $orderId int
+ * @return array
+ */
 function getOrderDataById($orderId) {
     $orderData = wc_get_order($orderId)->get_data();
+
+    // we do not have separate field for total items and total fee, so we need to calculate it manually
     $itemsTotal = number_format(array_reduce($orderData['line_items'], function($acc, $item) {
         return $acc += $item->get_data()['total'];
     }, 0), 2);
     $feeTotal = number_format(array_reduce($orderData['fee_lines'], function($acc, $item) {
         return $acc += $item->get_data()['total'];
     }, 0), 2);
+
     $shippingTotal = number_format($orderData['shipping_total'], 2);
     $total = number_format($orderData['total'], 2);
+
     return [
         'itemsTotal' => $itemsTotal,
         '$feeTotal' => $feeTotal,
