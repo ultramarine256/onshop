@@ -1,8 +1,8 @@
-.card {
+.category-item {
   height: calc(100%);
   border: none;
 
-  .category-image__wrap {
+  .category-item__image-container {
     display: flex;
     height: 200px;
     overflow: hidden;
@@ -11,26 +11,16 @@
     padding: 0.5rem;
     cursor: pointer;
 
-    .image {
+    img {
       max-height: 190px;
     }
   }
-  .title-content {
-    height: 50px;
+
+  .category-item__title {
+    padding-top: 10px;
+  }
+
+  .category-item__total {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-
   }
-
-  .subitems-link {
-    color: #0062bd;
-  }
-}
-
-.view-all-item {
-  display: flex;
-  margin-top: auto;
 }
