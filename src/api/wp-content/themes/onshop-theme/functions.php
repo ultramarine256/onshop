@@ -207,7 +207,6 @@ add_action('woocommerce_new_order', function($order_id) {
     try {
         $email = new \SendGrid\Mail\Mail();
         $email->setSubject('Order receipt #' . $order_id);
-        $email->
         $email->setFrom($senderEmail);
         $toEmails = [
             $clientEmail => 'Client',
