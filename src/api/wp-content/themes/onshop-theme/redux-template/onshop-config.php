@@ -47,7 +47,19 @@ Redux::setSection( $opt_name, array(
 			'type'     => 'text',
 			'title'    => __( 'Phone #2', 'redux-framework-demo' ),
 			'subtitle' => __( 'Example subtitle.', 'redux-framework-demo' )
-		)
+		),
+        array(
+            'id'       => 'email-sender',
+            'type'     => 'text',
+            'title'    => __( 'Email sender', 'redux-framework-demo' ),
+            'subtitle' => __( '', 'redux-framework-demo' )
+        ),
+        array(
+            'id'       => 'email-manager',
+            'type'     => 'text',
+            'title'    => __( 'Email manager', 'redux-framework-demo' ),
+            'subtitle' => __( '', 'redux-framework-demo' )
+        ),
 	)
 ));
 

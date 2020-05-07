@@ -18,6 +18,11 @@
  * @package WordPress
  */
 
+// initialize env variable
+require_once(__DIR__ . '/vendor/autoload.php');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 // default configuration
 $connectstr_dbhost     = 'DEFAULT-DB-HOST';
 $connectstr_dbname     = 'DEFAULT-DB-NAME';
