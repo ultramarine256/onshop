@@ -12,6 +12,7 @@ export class CategoryItemComponent {
 
   constructor() {}
 
+  // TODO: delete this method after the paginator will work through the router
   public clearStorage() {
     localStorage.removeItem('pageForPagination');
     localStorage.removeItem('amountForPagination');
