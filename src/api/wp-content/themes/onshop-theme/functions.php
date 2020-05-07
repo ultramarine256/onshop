@@ -202,7 +202,6 @@ add_action('woocommerce_new_order', function($order_id) {
     $senderEmail = 'leevitgen@gmail.com';
     $supportEmail = 'support@mail.com'; // TODO: Change to real email
 
-    // Email sending for client
     $sendGrid = new SendGrid($API_KEY);
     try {
         $email = new \SendGrid\Mail\Mail();
