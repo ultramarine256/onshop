@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BaseRepository } from '../base.repository';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+
 import { CategoryModel } from './model';
+import { BaseRepository } from '../base.repository';
 
 @Injectable()
 export class CategoryRepository extends BaseRepository {
@@ -29,11 +30,11 @@ export class CategoryRepository extends BaseRepository {
         // associate categories with their parent categoryId
         const nestedCategories = response
           .filter((dto) => dto.parent)
-          .reduce((acc, item) => {
-            if (!acc[item.parent]) {
-              acc[item.parent] = [];
+          .reduce((acc, dto) => {
+            if (!acc[dto.parent]) {
+              acc[dto.parent] = [];
             }
-            acc[item.parent] = acc[item.parent].concat(item);
+            acc[dto.parent] = acc[dto.parent].concat(dto);
             return acc;
           }, {});
         const nestedCategoriesIds = Object.keys(nestedCategories).map((key) => +key);
