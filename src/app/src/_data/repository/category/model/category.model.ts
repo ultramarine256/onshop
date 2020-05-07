@@ -1,4 +1,4 @@
-import {environment} from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 export class CategoryModel {
   /// fields
@@ -9,6 +9,7 @@ export class CategoryModel {
   image: CategoryImage;
   count: number;
   parent: number;
+  subCategories: CategoryModel[] = [];
 
   /// constructor
   constructor(init?: Partial<CategoryModel>) {
@@ -43,4 +44,3 @@ export class CategoryImage {
     this.src = `${environment.apiBaseUrl}/${dto.src}`;
   }
 }
-
