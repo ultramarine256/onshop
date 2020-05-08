@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UserModel, UserRepository} from '../../../_data/repository/user';
+import {OrderRepository, OrderResponse} from '../../../_data/repository/order';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-purchase-returns-page',
@@ -8,59 +10,41 @@ import {UserModel, UserRepository} from '../../../_data/repository/user';
   templateUrl: './purchase-returns-page.component.html'
 })
 export class PurchaseReturnsPageComponent implements OnInit {
-  public currentDate = new Date();
   public returnProductForm: FormGroup;
-  public userInfo: UserModel;
   public didLoaded = false;
-  public returnInfo: any;
-  public deliveryDate: Date;
-  public complete = false;
+  public orderInfo: OrderResponse;
+  public orderId: number;
+  public note = '';
+  serializedDate = new FormControl((new Date()).toISOString());
+  public minDate: Date;
+  public maxDate: Date;
 
-  constructor(private formBuilder: FormBuilder, private userRepository: UserRepository) {
-
+  constructor(private formBuilder: FormBuilder, private userRepository: UserRepository, private orderRepository: OrderRepository, private route: ActivatedRoute) {
+    const currentYear = new Date().getFullYear();
+    const d = new Date().getDate() + 1;
+    const m = new Date().getMonth();
+    this.minDate = new Date(currentYear, m, d);
+    this.maxDate = new Date(currentYear + 1, 11, 31);
   }
 
   ngOnInit() {
-    this.userRepository.getUser().subscribe(item => {
-      this.userInfo = item;
-      this.returnProductForm = this.formBuilder.group({
-        address: ['', Validators.required],
-        description: '',
-        uniqueCode: ['', Validators.required]
-      });
+    this.orderId = Number(this.route.snapshot.paramMap.get('id'));
+    this.orderRepository.getOrder(this.orderId).subscribe(resp => {
+      console.log(resp);
+      this.orderInfo = resp;
       this.didLoaded = true;
     });
-    this.deliveryDate = new Date();
   }
 
-  public onSubmit(formValue) {
-    this.returnInfo = formValue;
+  public EndDateChange(date) {
+    // const a = date.toDateString();
+    this.note = 'Ready to return! Date:(' +
+      date.toDateString();
   }
 
-  markWeekEnd(cellData) {
-    const date = new Date(cellData.startDate);
-    if (date <= this.currentDate) {
-      return 'pastDay';
-    } else {
-      const day = date.getDay();
-      return day === 0 || day === 6;
-    }
-  }
-
-  public cellClick($event) {
-    const date = new Date($event.cellData.startDate);
-    if (date <= this.currentDate) {
-      (window as any).toastr.options.positionClass = 'toast-top-center';
-      (window as any).toastr.error('Can not schedule to the past!');
-      return;
-    } else {
-      this.deliveryDate = date;
-      (window as any).toastr.options.positionClass = 'toast-top-center';
-      (window as any).toastr.success(`Scheduled: ${date.toLocaleDateString()}`);
-    }
-  }
-
-  public return() {
-    console.log(this.returnInfo);
+  public createNote() {
+    this.note += ')Adress:(' + this.orderInfo.shipping.address_1 + ')';
+    console.log(this.note);
+    this.orderRepository.postNote(this.note, this.orderId).subscribe(() => alert('done'));
   }
 }
