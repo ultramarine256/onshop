@@ -27,7 +27,7 @@ export const routes: Routes = [
         component: CartPageComponent,
       },
       {
-        path: 'return-product',
+        path: 'return-product/:id',
         component: PurchaseReturnsPageComponent,
       },
       {

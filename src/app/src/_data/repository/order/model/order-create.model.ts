@@ -192,3 +192,13 @@ export const CUSTOM_FIELDS = {
 export const RENTAL_OPTIONS = {
   USE_RENT: 'yes'
 };
+
+export class OrderNote {
+  note: string;
+  addedByUser: boolean;
+
+  constructor(note: string) {
+    this.note = note;
+    // this.addedByUser = addedByUser;
+  }
+}

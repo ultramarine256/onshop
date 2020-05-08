@@ -27,7 +27,8 @@ import {
 } from '../../_domain';
 import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
 import {PurchaseReturnsPageComponent} from './purchase-returns';
-
+import {MatDatepickerModule} from '@angular/material';
+import {MatNativeDateModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import {PurchaseReturnsPageComponent} from './purchase-returns';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
+    MatNativeDateModule,
     /// data
     RepositoryModule,
     DxSchedulerModule,
@@ -69,7 +70,8 @@ import {PurchaseReturnsPageComponent} from './purchase-returns';
     AuthModule,
 
     /// routing
-    AppPagesRouting
+    AppPagesRouting,
+    MatDatepickerModule
   ],
   exports: [],
   providers: []
