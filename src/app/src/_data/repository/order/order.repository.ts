@@ -51,10 +51,5 @@ export class OrderRepository extends BaseRepository {
     const woocommerceNote = new OrderNote(noteWo);
     return this.httpClient
       .post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v1/orders/${id}/notes`, woocommerceNote);
-    // .pipe(map(dto => {
-    //   const model = new OrderNote();
-    //   model.mapFromDto(dto);
-    //   return model;
-    // }));
   }
 }
