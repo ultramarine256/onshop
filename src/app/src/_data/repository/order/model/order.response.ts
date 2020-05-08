@@ -8,9 +8,11 @@ export class OrderResponse {
   total: string;
   billing: any;
   shipping: any;
+  meta_data: any;
+  line_items:any;
   deliveryDate: Date;
   projectNumber: string;
-  productItems: ProductItems[];
+  productItems: any;
 
   /// constructor
   constructor(init?: Partial<OrderResponse>) {
