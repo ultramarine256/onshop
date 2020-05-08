@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BaseRepository} from '../base.repository';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {OrderCreateModel, OrderResponse} from './model';
+import {OrderCreateModel, OrderNote, OrderResponse} from './model';
 import {map} from 'rxjs/operators';
 
 @Injectable()
@@ -37,5 +37,19 @@ export class OrderRepository extends BaseRepository {
         }
         return result;
       }));
+  }
+
+  public getOrder(id: number) {
+    return this.httpClient
+      .get<OrderResponse>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/orders/` + id)
+      .pipe(map(resp => {
+        return resp;
+      }));
+  }
+
+  public postNote(noteWo: string, id: number) {
+    const woocommerceNote = new OrderNote(noteWo);
+    return this.httpClient
+      .post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v1/orders/${id}/notes`, woocommerceNote);
   }
 }
