@@ -263,7 +263,7 @@
           </div>
 
           <div class="d-flex w-100 justify-content-center">
-            <button mat-raised-button color="primary" [disabled]="isSubmitInProgress" (click)="submit()">
+            <button mat-raised-button color="primary" (click)="!isSubmitInProgress && submit()">
               <div class="spinner-grow text-light" role="status" [hidden]="!isSubmitInProgress"></div>
               <span [hidden]="isSubmitInProgress">Place Order</span>
             </button>
