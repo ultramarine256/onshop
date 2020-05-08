@@ -43,7 +43,9 @@ export class OrderRepository extends BaseRepository {
     return this.httpClient
       .get<OrderResponse>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/orders/` + id)
       .pipe(map(resp => {
-        return resp;
+        const model = new OrderResponse();
+        model.mapFromDto(resp);
+        return model;
       }));
   }
 

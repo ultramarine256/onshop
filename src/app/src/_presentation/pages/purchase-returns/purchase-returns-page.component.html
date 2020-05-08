@@ -32,11 +32,11 @@
       </tr>
       <tr>
         <td>Order</td>
-        <td>{{orderInfo.order_key}}</td>
+        <td>{{orderInfo.orderKey}}</td>
       </tr>
       <tr>
         <td>Project</td>
-        <td>{{orderInfo.meta_data[1].value}}</td>
+        <td>{{orderInfo.projectNumber}}</td>
       </tr>
       <tr>
         <td>
@@ -68,7 +68,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let item of orderInfo.line_items;let i=index">
+      <tr *ngFor="let item of orderInfo.productItems;let i=index">
         <td>{{i + 1}}</td>
         <td>{{item.name}}</td>
         <td>{{item.quantity}}</td>
