@@ -1,6 +1,13 @@
-import {DxSchedulerModule} from 'devextreme-angular';
-import {NgModule} from '@angular/core';
-import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, MatStepperModule} from '@angular/material';
+import { DxSchedulerModule } from 'devextreme-angular';
+import { NgModule } from '@angular/core';
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRippleModule,
+  MatSnackBarModule,
+  MatStepperModule,
+} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -13,6 +20,7 @@ import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, Ma
     MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
+    MatSnackBarModule,
   ],
   exports: [
     // dev-extreme
@@ -24,7 +32,6 @@ import {MatButtonModule, MatFormFieldModule, MatInputModule, MatRippleModule, Ma
     MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
-  ]
+  ],
 })
-export class ThirdPartyModule {
-}
+export class ThirdPartyModule {}

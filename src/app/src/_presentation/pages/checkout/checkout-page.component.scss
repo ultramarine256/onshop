@@ -1,44 +1,78 @@
-.checkout-info-title {
-  margin: 20px;
-}
+.checkout-page {
+  .checkout-page__title {
+    margin: 20px;
+  }
 
-::ng-deep .dx-scheduler-date-table-other-month.dx-scheduler-date-table-cell {
-  opacity: 1;
-  color: rgba(0, 0, 0, 0.3);
+  .checkout-page__action {
+    padding: 5px 0;
+  }
 
-}
+  .checkout-page__scheduler {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
 
-::ng-deep .dx-scheduler-group-header-content, ::ng-deep .dx-scheduler-date-table-cell {
-  position: relative;
-  cursor:pointer;
-}
+  .checkout-page__scheduler-template {
+    height: 100%;
 
-::ng-deep .dx-scheduler-date-table-cell .dx-template-wrapper {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
+    &.checkout-page__scheduler-template--past-day {
+      background-color: #f6f6f6;
+      opacity: 0.5;
+      &:hover {
+        cursor: pointer;
+        background-color: #f6f6f6;
+      }
+    }
 
-.weekend {
-  position: relative;
-  background-color: rgba(177, 250, 255, 0.36);
-}
+    &.checkout-page__scheduler-template--day-off {
+      background: rgba(177, 250, 255, 0.36);
+    }
+  }
 
-.weekend::after {
-  content: "80$";
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-.weekDay{
-  position: relative;
-}
-.weekDay::after {
-  content: "60$";
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-.past-date {
-  background-color: rgba(255, 151, 71, 0.07);
+  .checkout-page__scheduler-template-content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .checkout-page__review-table {
+    .checkout-page__review-table-label {
+      font-weight: bold;
+    }
+
+    .checkout-page__review-table-value {
+      text-align: right;
+    }
+  }
+
+  .checkout-page__review-form {
+    margin-bottom: 10px;
+  }
+
+  .checkout-page__continue-shopping {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  ::ng-deep .dx-scheduler-date-table-current-date {
+    .checkout-page__scheduler-template.checkout-page__scheduler-template--past-day {
+      opacity: 1;
+    }
+  }
+
+  ::ng-deep .dx-scheduler-date-table-cell {
+    padding: 0;
+
+    &.dx-scheduler-date-table-other-month {
+      opacity: 1;
+      color: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  ::ng-deep .dx-scheduler-view-switcher-label {
+    display: none;
+  }
+
+  ::ng-deep .dx-scheduler-view-switcher {
+    display: none;
+  }
 }

@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {DxSchedulerModule, DxTemplateModule} from 'devextreme-angular';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { zip } from 'rxjs';
+
 import {
   LineItem,
   PAYMENT,
@@ -10,88 +12,104 @@ import {
   Shipping,
   OrderCreateModel,
   OrderRepository,
-  OrderResponse, UserRepository, UserModel, ProjectRepository, ProjectResponse
-} from '../../../_data';
-import {AuthService, CartItemEntity, CartService, ValidationHelper} from '../../../_domain';
-import data from 'devextreme';
-
+  OrderResponse,
+  UserRepository,
+  UserModel,
+  ProjectRepository,
+  ProjectResponse,
+} from '@data/index';
+import { AuthService, CartService, ValidationHelper } from '@domain/index';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
   selector: 'app-checkout-page',
   styleUrls: ['./checkout-page.component.scss'],
-  templateUrl: './checkout-page.component.html'
+  templateUrl: './checkout-page.component.html',
 })
-export class CheckoutPageComponent implements OnInit {
+export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit {
   /// fields
   public checkoutForm: FormGroup;
-  public projects: Array<ProjectResponse> = [];
-  public orderNumber = 'ON-34412';
-  public userInfo: UserModel;
-  public products: CartItemEntity[] = [];
+  public projects: ProjectResponse[];
+  public orderNumber: string;
+  public user: UserModel;
+  public deliveryDate: FormControl;
+  public products = this.cartService.items;
+
   /// predicates
   public orderCompleted = false;
   public currentDate = new Date();
 
   /// spinners
-  public isLoading = false;
-  public isUserLoaded = false;
-  public didLoaded = false;
+  public isLoading: boolean;
+  public isSubmitInProgress: boolean;
 
   /// helper
   public validationHelper = ValidationHelper;
 
   /// constructor
-  constructor(private _formBuilder: FormBuilder,
-              private orderRepository: OrderRepository,
-              private cartService: CartService,
-              private authService: AuthService,
-              private router: Router,
-              private userRepository: UserRepository,
-              private projectRepository: ProjectRepository) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private router: Router,
+    private cartService: CartService,
+    private authService: AuthService,
+    private orderRepository: OrderRepository,
+    private userRepository: UserRepository,
+    private projectRepository: ProjectRepository
+  ) {
+    super();
   }
 
   ngOnInit() {
-    if (this.cartService.itemsCount === 0) {
+    if (!this.cartService.itemsCount) {
       this.router.navigate([`/cart`]);
     }
-    this.projectRepository.getOrders()
-      .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<ProjectResponse>) => this.projects = items);
-    this.products = this.cartService.getItems;
-    this.userRepository.getUser().subscribe(item => {
-      this.userInfo = item;
-      this.checkoutForm = this._formBuilder.group({
-        firstName: [item.billing.firstName, Validators.required],
-        lastName: [item.billing.lastName, Validators.required],
-        email: [item.billing.email, Validators.required],
-        phone: [item.billing.phone, Validators.required],
-        address: [item.shipping.address, Validators.required],
-        city: [item.shipping.city, Validators.required],
-        state: ['', Validators.required],
-        zip: [item.shipping.postcode, Validators.required],
-        projectNumber: ['', Validators.required],
+    this.loadInfo();
+  }
+
+  private loadInfo() {
+    this.isLoading = true;
+    return zip(this.userRepository.getUser(), this.projectRepository.getOrders())
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([user, projectItems]) => {
+        this.user = user;
+        this.checkoutForm = this.getCheckoutForm(user);
+        this.deliveryDate = new FormControl('', [Validators.required]);
+
+        this.projects = projectItems;
       });
-      this.isUserLoaded = true;
+  }
+
+  private getCheckoutForm(user: UserModel): FormGroup {
+    return this.fb.group({
+      firstName: [user.billing.firstName, Validators.required],
+      lastName: [user.billing.lastName, Validators.required],
+      email: [user.billing.email, [Validators.required, Validators.email]],
+      phone: [user.billing.phone, Validators.required],
+      address: [user.shipping.address, Validators.required],
+      city: [user.shipping.city, Validators.required],
+      state: ['', Validators.required],
+      zip: [user.shipping.postcode, Validators.required],
+      projectNumber: ['', Validators.required],
     });
   }
 
-  /// actions
-  public cellClick($event) {
-    const date = new Date($event.cellData.startDate);
-    if (date <= this.currentDate) {
-      (window as any).toastr.options.positionClass = 'toast-top-center';
-      (window as any).toastr.error('No delivery to the past!');
+  public selectDeliveryDate($event) {
+    if ($event.cellData.startDate <= this.currentDate) {
       return;
-    } else {
-      this.checkoutForm.value.deliveryDate = date;
-      (window as any).toastr.options.positionClass = 'toast-top-center';
-      (window as any).toastr.success(`Delivery: ${date.toLocaleDateString()}`);
     }
+    this.deliveryDate.setValue($event.cellData.startDate);
+    this.snackBar.open(`Delivery: ${$event.cellData.startDate.toLocaleDateString()}`, null, {
+      duration: 2000,
+    });
   }
 
-  /// methods
-  public placeOrder(form: FormGroup) {
-    const model = new OrderCreateModel({
+  public submit() {
+    const form = this.checkoutForm;
+    const order = new OrderCreateModel({
       customerId: this.authService.identity.id,
       paymentMethod: PAYMENT.payment_method__bacs,
       paymentMethodTitle: PAYMENT.payment_title__direct,
@@ -110,49 +128,34 @@ export class CheckoutPageComponent implements OnInit {
         state: form.value.state,
         postcode: form.value.zip,
       }),
-      deliveryDate: form.value.deliveryDate,
       projectName: form.value.projectName,
-      projectNumber: form.value.projectNumber
+      projectNumber: form.value.projectNumber,
+      deliveryDate: this.deliveryDate.value,
     });
 
-    for (const item of this.cartService.getItems) {
-      model.products.push(new LineItem({
-        productId: item.id,
-        quantity: item.count,
-        rentalDuration: item.duration,
-        total: item.price
-      }));
-    }
-    this.isLoading = true;
-    this.orderRepository.placeOrder(model.mapToWooCommerceOrder())
-      .pipe(finalize(() => {
-        this.isLoading = false;
-        this.orderCompleted = true;
-      }))
+    order.products = this.cartService.items.map(
+      (cartItem) =>
+        new LineItem({
+          productId: cartItem.id,
+          quantity: cartItem.count,
+          rentalDuration: cartItem.duration,
+          total: cartItem.price,
+        })
+    );
+
+    this.isSubmitInProgress = true;
+    this.orderRepository
+      .placeOrder(order.mapToWooCommerceOrder())
+      .pipe(
+        finalize(() => {
+          this.isSubmitInProgress = false;
+          this.orderCompleted = true;
+        }),
+        takeUntil(this.destroy$)
+      )
       .subscribe((item: OrderResponse) => {
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });
-  }
-
-  markWeekEnd(cellData) {
-    const date = new Date(cellData.startDate);
-    if (date <= this.currentDate) {
-      return 'pastDay';
-    } else {
-      const day = date.getDay();
-      return day === 0 || day === 6;
-    }
-  }
-}
-
-export class Project {
-  /// fields
-  id: string;
-  name: string;
-
-  /// constructor
-  constructor(init?: Partial<Project>) {
-    Object.assign(this as any, init);
   }
 }

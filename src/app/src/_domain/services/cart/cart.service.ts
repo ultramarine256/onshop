@@ -1,6 +1,5 @@
-import {Injectable} from '@angular/core';
-import {CartItemEntity} from './entities';
-import {NumberExtensions} from '../../extensions';
+import { Injectable } from '@angular/core';
+import { CartItemEntity } from './entities';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +22,7 @@ export class CartService {
     return count;
   }
 
-  get getItems(): Array<CartItemEntity> {
+  get items(): Array<CartItemEntity> {
     return this._items;
   }
 
@@ -37,7 +36,7 @@ export class CartService {
   /// methods
   public addItem(item: CartItemEntity, amount: number = 1) {
     item.count = amount;
-    const index = this._items.findIndex(r => r.id === item.id && !r.duration && !item.duration);
+    const index = this._items.findIndex((r) => r.id === item.id && !r.duration && !item.duration);
     if (index > -1) {
       this._items[index].count++;
       this._items[index].price += Number(item.price);
@@ -50,7 +49,7 @@ export class CartService {
   }
 
   public removeItem(id: number) {
-    const index = this._items.findIndex(r => r.id === id);
+    const index = this._items.findIndex((r) => r.id === id);
     if (index > -1) {
       this._items.splice(index, 1);
       this._itemsPrice = this.calculatePrice(this._items);
