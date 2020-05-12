@@ -1,28 +1,30 @@
-import {DateExtensions, ObjectExtensions} from '../../../../_domain';
+import { DateExtensions, ObjectExtensions } from '@domain/extensions';
+
+import { CustomOrderFields } from '../enum/custom-order-fields.enum';
 
 export class OrderCreateModel {
   /// fields
   public customerId: number;
-
   public paymentMethod: string;
   public paymentMethodTitle: string;
   public setPaid: boolean;
-  public billing: Billing;
-  public shipping: Shipping;
-  public products: Array<LineItem>;
-
+  public billing: BillingModel;
+  public shipping: ShippingModel;
+  public products: LineItemModel[];
   public deliveryDate: Date;
+  public deliveryInstructions: string;
+  public deliveryTime: number;
   public projectName: string;
   public projectNumber: string;
-
   public discountTotal: number;
 
   /// constructor
   constructor(init?: Partial<OrderCreateModel>) {
     this.deliveryDate = new Date();
-    this.billing = new Billing();
-    this.shipping = new Shipping();
+    this.billing = new BillingModel();
+    this.shipping = new ShippingModel();
     this.products = [];
+
     Object.assign(this as any, init);
   }
 
@@ -53,22 +55,36 @@ export class OrderCreateModel {
     json.meta_data = [];
     if (this.deliveryDate) {
       json.meta_data.push({
-        key: CUSTOM_FIELDS.DELIVERY_DATE_KEY,
-        value: DateExtensions.monthDayYear(this.deliveryDate)
+        key: CustomOrderFields.DeliveryDate,
+        value: DateExtensions.monthDayYear(this.deliveryDate),
+      });
+    }
+
+    if (this.deliveryInstructions) {
+      json.meta_data.push({
+        key: CustomOrderFields.DeliveryInstructions,
+        value: this.deliveryInstructions,
+      });
+    }
+
+    if (this.deliveryTime) {
+      json.meta_data.push({
+        key: CustomOrderFields.DeliveryTime,
+        value: this.deliveryTime,
       });
     }
 
     if (this.projectName) {
       json.meta_data.push({
-        key: CUSTOM_FIELDS.PROJECT_NAME_KEY,
-        value: this.projectName
+        key: CustomOrderFields.ProjectName,
+        value: this.projectName,
       });
     }
 
     if (this.projectNumber) {
       json.meta_data.push({
-        key: CUSTOM_FIELDS.PROJECT_NUMBER_KEY,
-        value: this.projectNumber
+        key: CustomOrderFields.ProjectNumber,
+        value: this.projectNumber,
       });
     }
 
@@ -78,7 +94,7 @@ export class OrderCreateModel {
   }
 }
 
-export class Billing {
+export class BillingModel {
   /// fields
   fistName: string;
   lastName: string;
@@ -92,7 +108,7 @@ export class Billing {
   phone: string;
 
   /// constructor
-  constructor(init?: Partial<Billing>) {
+  constructor(init?: Partial<BillingModel>) {
     Object.assign(this as any, init);
   }
 
@@ -108,12 +124,12 @@ export class Billing {
       postcode: this.postcode,
       country: this.country,
       email: this.email,
-      phone: this.phone
+      phone: this.phone,
     };
   }
 }
 
-export class Shipping {
+export class ShippingModel {
   /// fields
   fistName: string;
   lastName: string;
@@ -124,7 +140,7 @@ export class Shipping {
   country: string;
 
   /// constructor
-  constructor(init?: Partial<Billing>) {
+  constructor(init?: Partial<BillingModel>) {
     Object.assign(this as any, init);
   }
 
@@ -137,12 +153,12 @@ export class Shipping {
       city: this.city,
       state: this.state,
       postcode: this.postcode,
-      country: this.country
+      country: this.country,
     };
   }
 }
 
-export class LineItem {
+export class LineItemModel {
   /// fields
   productId: number;
   quantity: number;
@@ -150,7 +166,7 @@ export class LineItem {
   rentalDuration: number;
 
   /// constructor
-  constructor(init?: Partial<LineItem>) {
+  constructor(init?: Partial<LineItemModel>) {
     Object.assign(this as any, init);
   }
 
@@ -158,47 +174,25 @@ export class LineItem {
   public asWooObject(): {} {
     const result = {
       product_id: this.productId,
-      quantity: this.quantity
+      quantity: this.quantity,
     };
     if (this.rentalDuration > 0) {
-      (result as any).meta_data = [{
-        key: 'rental-duration',
-        value: this.rentalDuration
-      }];
+      (result as any).meta_data = [
+        {
+          key: 'rental-duration',
+          value: this.rentalDuration,
+        },
+      ];
       (result as any).total = this.total * this.quantity;
     }
     return result;
   }
 }
 
-export const PAYMENT = {
-  payment_method__bacs: 'bacs',
-  payment_title__direct: 'Direct Bank Transfer'
-};
-
-export const SHIPPING = {
-  country: 'US'
-};
-
-export const CUSTOM_FIELDS = {
-  DELIVERY_DATE_KEY: 'delivery-date',
-  PROJECT_NAME_KEY: 'project-name',
-  PROJECT_NUMBER_KEY: 'project-number',
-
-  TALE_ON_RENT_KEY: 'take-on-rent',
-  RENT_DURATION_KEY: 'rent-duration'
-};
-
-export const RENTAL_OPTIONS = {
-  USE_RENT: 'yes'
-};
-
-export class OrderNote {
+export class OrderNoteModel {
   note: string;
-  addedByUser: boolean;
 
   constructor(note: string) {
     this.note = note;
-    // this.addedByUser = addedByUser;
   }
 }

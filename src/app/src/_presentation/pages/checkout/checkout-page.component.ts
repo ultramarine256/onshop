@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { finalize, takeUntil } from 'rxjs/operators';
 import { zip } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import {
-  LineItem,
-  PAYMENT,
-  Billing,
-  Shipping,
+  BillingModel,
+  DeliveryTime,
+  LineItemModel,
   OrderCreateModel,
   OrderRepository,
   OrderResponse,
-  UserRepository,
-  UserModel,
+  Payment,
   ProjectRepository,
   ProjectResponse,
-} from '@data/index';
-import { AuthService, CartService, ValidationHelper } from '@domain/index';
+  ShippingModel,
+  UserModel,
+  UserRepository,
+} from '@data/repository';
+import { AuthService, CartService } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
@@ -33,6 +33,9 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
   public orderNumber: string;
   public user: UserModel;
   public deliveryDate: FormControl;
+  public deliveryInstructions: FormControl;
+  public deliveryTime: FormControl;
+  public deliveryTimeOptions = DeliveryTime;
   public products = this.cartService.items;
 
   /// predicates
@@ -43,12 +46,8 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
   public isLoading: boolean;
   public isSubmitInProgress: boolean;
 
-  /// helper
-  public validationHelper = ValidationHelper;
-
   /// constructor
   constructor(
-    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private router: Router,
     private cartService: CartService,
@@ -78,7 +77,8 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
         this.user = user;
         this.checkoutForm = this.getCheckoutForm(user);
         this.deliveryDate = new FormControl('', [Validators.required]);
-
+        this.deliveryInstructions = new FormControl('');
+        this.deliveryTime = new FormControl(this.deliveryTimeOptions.Am);
         this.projects = projectItems;
       });
   }
@@ -102,25 +102,22 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       return;
     }
     this.deliveryDate.setValue($event.cellData.startDate);
-    this.snackBar.open(`Delivery: ${$event.cellData.startDate.toLocaleDateString()}`, null, {
-      duration: 2000,
-    });
   }
 
   public submit() {
     const form = this.checkoutForm;
     const order = new OrderCreateModel({
       customerId: this.authService.identity.id,
-      paymentMethod: PAYMENT.payment_method__bacs,
-      paymentMethodTitle: PAYMENT.payment_title__direct,
+      paymentMethod: Payment.Bacs,
+      paymentMethodTitle: Payment.Direct,
       setPaid: false,
-      billing: new Billing({
+      billing: new BillingModel({
         fistName: form.value.firstName,
         lastName: form.value.lastName,
         email: form.value.email,
         phone: form.value.phone,
       }),
-      shipping: new Shipping({
+      shipping: new ShippingModel({
         fistName: form.value.firstName,
         lastName: form.value.lastName,
         address1: form.value.address,
@@ -131,11 +128,13 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       projectName: form.value.projectName,
       projectNumber: form.value.projectNumber,
       deliveryDate: this.deliveryDate.value,
+      deliveryInstructions: this.deliveryInstructions.value,
+      deliveryTime: this.deliveryTime.value,
     });
 
     order.products = this.cartService.items.map(
       (cartItem) =>
-        new LineItem({
+        new LineItemModel({
           productId: cartItem.id,
           quantity: cartItem.count,
           rentalDuration: cartItem.duration,

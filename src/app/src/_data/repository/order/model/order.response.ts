@@ -1,3 +1,5 @@
+import { CustomOrderFields } from '../enum/custom-order-fields.enum';
+
 export class OrderResponse {
   /// fields
   id: number;
@@ -9,8 +11,10 @@ export class OrderResponse {
   billing: any;
   shipping: any;
   meta_data: any;
-  line_items:any;
+  line_items: any;
   deliveryDate: Date;
+  deliveryInstructions: string;
+  deliveryTime: string;
   projectNumber: string;
   productItems: any;
 
@@ -33,26 +37,20 @@ export class OrderResponse {
     this.billing = dto.billing;
     this.shipping = dto.shipping;
     this.productItems = dto.line_items;
-    for (const item of dto.meta_data) {
-      if (item.key === ORDER_METADATA_NAMES.DELIVERY_DATE) {
+
+    dto.meta_data.forEach((item) => {
+      if (item.key === CustomOrderFields.DeliveryDate) {
         this.deliveryDate = new Date(item.value);
       }
-      if (item.key === ORDER_METADATA_NAMES.PROJECT_NUMBER) {
+      if (item.key === CustomOrderFields.DeliveryInstructions) {
+        this.deliveryInstructions = item.value;
+      }
+      if (item.key === CustomOrderFields.DeliveryTime) {
+        this.deliveryTime = item.value;
+      }
+      if (item.key === CustomOrderFields.ProjectNumber) {
         this.projectNumber = item.value;
       }
-    }
+    });
   }
-}
-
-export const ORDER_METADATA_NAMES = {
-  DELIVERY_DATE: 'delivery-date',
-  PROJECT_NUMBER: 'project-number',
-};
-
-class ProductItems {
-  id: number;
-  name: string;
-  productId: string;
-  price: number;
-  duration: number;
 }
