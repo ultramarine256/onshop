@@ -1,7 +1,7 @@
 <div class="checkout-page">
-  <ng-container *ngIf="orderCompleted">
-    <div class="container">
-      <div class="d-flex justify-content-center align-items-center flex-column" style="height: 300px;">
+  <ng-template #receipt>
+    <div class="checkout-page__receipt container">
+      <div class="checkout-page__receipt-content d-flex justify-content-center align-items-center flex-column">
         <div class="col col-md-8">
           <h3>Thank you</h3>
           <h6 class="font-weight-500">Confirmation Number: {{ orderNumber }}</h6>
@@ -9,11 +9,11 @@
         </div>
       </div>
     </div>
-  </ng-container>
+  </ng-template>
 
-  <ng-container *ngIf="!orderCompleted">
+  <ng-container *ngIf="!orderCompleted; else receipt">
     <ng-template #loader>
-      <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+      <div class="checkout-page__loader d-flex justify-content-center align-items-center">
         <div class="spinner-grow text-primary" role="status"></div>
       </div>
     </ng-template>
@@ -22,129 +22,81 @@
       <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
         <!-- Project Info -->
         <mat-step [stepControl]="checkoutForm">
-          <form [formGroup]="checkoutForm" class="row">
+          <form [formGroup]="checkoutForm" class="checkout-page__form">
             <ng-template matStepLabel>Project</ng-template>
             <div class="col-12 col-md-6">
               <h5 class="mb-3 text-center">Requested By</h5>
-              <div class="form-row">
-                <div class="form-group col-6">
-                  <input
-                    #firstName
-                    formControlName="firstName"
-                    class="form-control"
-                    placeholder="First Name"
-                    [ngClass]="{
-                      'is-valid': validationHelper.isValid('firstName', checkoutForm),
-                      'is-invalid': validationHelper.isInvalid('firstName', checkoutForm)
-                    }"
-                  />
-                </div>
-                <div class="form-group col-6">
-                  <input
-                    #lastName
-                    formControlName="lastName"
-                    class="form-control"
-                    placeholder="Last Name"
-                    [ngClass]="{
-                      'is-valid': validationHelper.isValid('lastName', checkoutForm),
-                      'is-invalid': validationHelper.isInvalid('lastName', checkoutForm)
-                    }"
-                  />
-                </div>
-              </div>
               <div class="form-group">
-                <input
-                  #email
-                  formControlName="email"
-                  placeholder="Email"
-                  class="form-control"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('email', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('email', checkoutForm)
-                  }"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  #phone
-                  formControlName="phone"
-                  placeholder="Phone"
-                  class="form-control"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('phone', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('phone', checkoutForm)
-                  }"
-                />
-              </div>
-              <div class="form-group">
-                <select
-                  #project
-                  formControlName="projectNumber"
-                  class="form-control"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('projectNumber', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('projectNumber', checkoutForm)
-                  }"
-                >
-                  <option value="" disabled selected>Select your project</option>
-                  <option *ngFor="let item of projects" [value]="item.name">{{ item.name }}</option>
-                </select>
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>First name</mat-label>
+                  <input matInput formControlName="firstName" placeholder="First name" />
+                  <mat-error *ngIf="checkoutForm.get('firstName').hasError('required')">
+                    First name name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>Last name</mat-label>
+                  <input matInput formControlName="lastName" placeholder="Last Name" />
+                  <mat-error *ngIf="checkoutForm.get('lastName').hasError('required')"> Last name is <strong>required</strong> </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" placeholder="Email" />
+                  <mat-error *ngIf="checkoutForm.get('email').hasError('required')"> Email is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('email').hasError('email')">
+                    Please enter a valid email address
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="phone" placeholder="Phone" />
+                  <mat-error *ngIf="checkoutForm.get('phone').hasError('required')"> Phone is <strong>required</strong> </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>Select project</mat-label>
+                  <mat-select formControlName="projectNumber">
+                    <mat-option *ngFor="let project of projects" [value]="project.name">
+                      {{ project.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="checkoutForm.get('projectNumber').hasError('required')">
+                    Project is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
               </div>
             </div>
             <div class="col-12 col-md-6">
               <h5 class="mb-3 text-center">Shipping Address</h5>
               <div class="form-group">
-                <input
-                  #address
-                  formControlName="address"
-                  class="form-control"
-                  placeholder="Address"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('address', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('address', checkoutForm)
-                  }"
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  #city
-                  formControlName="city"
-                  placeholder="City"
-                  class="form-control"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('city', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('city', checkoutForm)
-                  }"
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  #state
-                  formControlName="state"
-                  placeholder="state"
-                  class="form-control"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('state', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('state', checkoutForm)
-                  }"
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  #zip
-                  formControlName="zip"
-                  class="form-control"
-                  placeholder="Zip Code"
-                  [ngClass]="{
-                    'is-valid': validationHelper.isValid('zip', checkoutForm),
-                    'is-invalid': validationHelper.isInvalid('zip', checkoutForm)
-                  }"
-                />
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>Address</mat-label>
+                  <input matInput formControlName="address" placeholder="Address" />
+                  <mat-error *ngIf="checkoutForm.get('address').hasError('required')"> Address is <strong>required</strong> </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="city" placeholder="City" />
+                  <mat-error *ngIf="checkoutForm.get('city').hasError('required')"> City is <strong>required</strong> </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>State</mat-label>
+                  <input matInput formControlName="state" placeholder="State" />
+                  <mat-error *ngIf="checkoutForm.get('state').hasError('required')"> State is <strong>required</strong> </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="checkout-page__form-field">
+                  <mat-label>Zip code</mat-label>
+                  <input matInput formControlName="zip" placeholder="Zip code" />
+                  <mat-error *ngIf="checkoutForm.get('zip').hasError('required')"> Zip code is <strong>required</strong> </mat-error>
+                </mat-form-field>
               </div>
             </div>
-            <div class="checkout-page__action d-flex w-100 justify-content-center">
-              <button mat-raised-button color="primary" [disabled]="!checkoutForm.valid" matStepperNext>Next</button>
+            <div class="checkout-page__action">
+              <button mat-raised-button color="primary" [disabled]="!checkoutForm.valid" matStepperNext>
+                Continue to schedule delivery
+              </button>
             </div>
           </form>
         </mat-step>
@@ -168,15 +120,47 @@
               }"
             >
               <div class="checkout-page__scheduler-template-content">
-                <div>{{ cellData.text }}</div>
-                <div>40$</div>
+                <div class="checkout-page__scheduler-template-text">{{ cellData.text }}</div>
+                <div class="checkout-page__scheduler-template-price" *ngIf="cellData.startDate > currentDate">
+                  <div class="checkout-page__scheduler-template-price-label">Delivery fee</div>
+                  <div class="checkout-page__scheduler-template-amount">$40</div>
+                </div>
               </div>
             </div>
           </dx-scheduler>
-          <div *ngIf="deliveryDate.value"><b>Delivery is scheduled for :</b> {{ deliveryDate.value | date }}</div>
-          <div class="checkout-page__action d-flex w-100 justify-content-center">
+
+          <ng-container *ngIf="deliveryDate.value">
+            <div class="checkout-page__selected-date">
+              <div class="checkout-page__selected-label">
+                Delivery is scheduled for:
+              </div>
+              <div class="checkout-page__selected-date-value">
+                {{ deliveryDate.value | date }}
+              </div>
+            </div>
+            <div class="checkout-page__delivery-time">
+              <mat-radio-group [formControl]="deliveryTime" aria-label="Select delivery time">
+                <mat-radio-button [value]="deliveryTimeOptions.Am">AM Delivery</mat-radio-button>
+                <mat-radio-button [value]="deliveryTimeOptions.Pm">PM Delivery</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="checkout-page__instructions">
+              <mat-form-field class="checkout-page__form-field">
+                <mat-label>Delivery instructions</mat-label>
+                <textarea
+                  matInput
+                  cdkTextareaAutosize
+                  [formControl]="deliveryInstructions"
+                  cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="5"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </ng-container>
+
+          <div class="checkout-page__action">
             <button mat-raised-button color="primary" [disabled]="!deliveryDate.value" matStepperNext>
-              Next
+              Click to continue
             </button>
           </div>
         </mat-step>
@@ -193,19 +177,21 @@
                   <table class="checkout-page__review-table">
                     <tr>
                       <td class="checkout-page__review-table-label">Name</td>
-                      <td class="checkout-page__review-table-value">{{ firstName.value }} {{ lastName.value }}</td>
+                      <td class="checkout-page__review-table-value">
+                        {{ checkoutForm.get('firstName').value }} {{ checkoutForm.get('lastName').value }}
+                      </td>
                     </tr>
                     <tr>
                       <td class="checkout-page__review-table-label">Email</td>
-                      <td class="checkout-page__review-table-value">{{ email.value }}</td>
+                      <td class="checkout-page__review-table-value">{{ checkoutForm.get('email').value }}</td>
                     </tr>
                     <tr>
                       <td class="checkout-page__review-table-label">Phone</td>
-                      <td class="checkout-page__review-table-value">{{ phone.value }}</td>
+                      <td class="checkout-page__review-table-value">{{ checkoutForm.get('phone').value }}</td>
                     </tr>
                     <tr>
                       <td class="checkout-page__review-table-label">Project</td>
-                      <td class="checkout-page__review-table-value">{{ project.value }}</td>
+                      <td class="checkout-page__review-table-value">{{ checkoutForm.get('projectNumber').value }}</td>
                     </tr>
                   </table>
                 </div>
@@ -216,12 +202,13 @@
                   <table class="checkout-page__review-table">
                     <tr>
                       <td class="checkout-page__review-table-label">Address</td>
-                      <td class="checkout-page__review-table-value">{{ address.value }}</td>
+                      <td class="checkout-page__review-table-value">{{ checkoutForm.get('address').value }}</td>
                     </tr>
                     <tr>
                       <td class="checkout-page__review-table-label">City</td>
                       <td class="checkout-page__review-table-value">
-                        {{ city.value }} <ng-container *ngIf="state.value">({{ state.value }})</ng-container>
+                        {{ checkoutForm.get('city').value }}
+                        <ng-container *ngIf="checkoutForm.get('state').value">({{ checkoutForm.get('state').value }})</ng-container>
                       </td>
                     </tr>
                     <tr>
@@ -229,8 +216,12 @@
                       <td class="checkout-page__review-table-value">{{ deliveryDate.value | date }}</td>
                     </tr>
                     <tr>
+                      <td class="checkout-page__review-table-label">Delivery instructions</td>
+                      <td class="checkout-page__review-table-value">{{ deliveryInstructions.value }}</td>
+                    </tr>
+                    <tr>
                       <td class="checkout-page__review-table-label">Zip</td>
-                      <td class="checkout-page__review-table-value">{{ zip.value }}</td>
+                      <td class="checkout-page__review-table-value">{{ checkoutForm.get('zip').value }}</td>
                     </tr>
                   </table>
                 </div>
@@ -242,9 +233,8 @@
                     <div class="d-flex align-items-center">
                       <img
                         *ngIf="item.imageUrl"
-                        class="img border rounded m-1 mr-0"
+                        class="checkout-page__product-image img border rounded m-1 mr-0"
                         src="{{ item.imageUrl }}"
-                        style="height: 50px; width: 50px;"
                       />
                       <b>{{ item.title }} ({{ item.duration ? item.duration + 'days' : 'x' + item.count }})</b>
                     </div>
@@ -262,10 +252,15 @@
             <a routerLink="/categories">Click here to Continue Shopping</a>
           </div>
 
-          <div class="d-flex w-100 justify-content-center">
+          <div class="checkout-page__confirm-action d-flex w-100 justify-content-center">
             <button mat-raised-button color="primary" (click)="!isSubmitInProgress && submit()">
-              <div class="spinner-grow text-light" role="status" [hidden]="!isSubmitInProgress"></div>
-              <span [hidden]="isSubmitInProgress">Place Order</span>
+              <mat-spinner
+                class="checkout-page__confirm-spinner"
+                color="accent"
+                [diameter]="20"
+                [hidden]="!isSubmitInProgress"
+              ></mat-spinner>
+              <span [hidden]="isSubmitInProgress">Place order</span>
             </button>
           </div>
         </mat-step>
