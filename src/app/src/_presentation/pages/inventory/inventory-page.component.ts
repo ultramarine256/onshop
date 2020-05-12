@@ -27,12 +27,16 @@ export class InventoryPageComponent implements OnInit {
   public sorting = {name: '', property: ''};
   public dynamicFilterSave = '';
   public sortingSave: any;
+
+  public setFilters: ProductFilter;
+
   public searchResult: ProductSearchResult;
   public itemFilters: any;
   public categoryId: number;
   public showCategories: true;
   public element: HTMLElement;
   public sortChanged: number;
+  public setCurrentFilter: string;
   /// predicates
   public isLoading = true;
 
@@ -41,39 +45,92 @@ export class InventoryPageComponent implements OnInit {
     this.isLoading = true;
 
     this.scrollToView();
-    if (page && this.pagination !== page) {
-      this.pagination.setPage = page.setPage;
-      this.pagination.setAmount = page.setAmount;
-    } else if (this.dynamicFilterSave !== dynamicFilter) {
-      this.sortChanged = 1;
-      this.pagination.setPage = 1;
+    if (dynamicFilter) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          dynamicFilter
+        },
+        queryParamsHandling: 'merge',
+      });
+      this.dynamicFilterSave = dynamicFilter;
+      this.setFilters.page = 1;
+    } else if (page) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          page: page.setPage
+        },
+        queryParamsHandling: 'merge',
+      });
+      this.setFilters.page = page.setPage;
+    } else if (sorting) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          sortingBar: sorting.title,
+          orderBy: sorting.name,
+          order: sorting.property
+        },
+        queryParamsHandling: 'merge',
+      });
+      this.setFilters.orderby = sorting.name;
+      this.setFilters.order = sorting.property;
     }
-    const a = new ProductFilter({
-      page: this.pagination.setPage,
-      per_page: this.pagination.setAmount,
-      category: this.category.id
-    });
-    if (sorting && this.sorting !== sorting) {
-      this.sorting.name = sorting.name;
-      this.sorting.property = sorting.property;
-      if (this.sorting.name !== 'all') {
-        a.order = this.sorting.property;
-        a.orderby = this.sorting.name;
-      } else {
-        this.sorting.name = '';
-        this.sorting.property = '';
-      }
-      a.page = 1;
-    } else {
-      a.order = this.sorting.property;
-      a.orderby = this.sorting.name;
-    }
+    // if (page && this.pagination !== page) {
+    //   this.router.navigate([], {
+    //     relativeTo: this.route,
+    //     queryParams: {
+    //       page: page.setPage
+    //     },
+    //     queryParamsHandling: 'merge',
+    //   });
+    //   this.pagination.setPage = page.setPage;
+    //   this.pagination.setAmount = page.setAmount;
+    // } else if (this.dynamicFilterSave !== dynamicFilter) {
+    //   this.router.navigate([], {
+    //     relativeTo: this.route,
+    //     queryParams: {
+    //       dynamicFilter
+    //     },
+    //     queryParamsHandling: 'merge',
+    //   });
+    //   this.sortChanged = 1;
+    //   this.pagination.setPage = 1;
+    // }
+    // const a = new ProductFilter({
+    //   page: this.pagination.setPage,
+    //   per_page: this.pagination.setAmount,
+    //   category: this.category.id
+    // });
+    // if (sorting && this.sorting !== sorting) {
+    //   this.router.navigate([], {
+    //     relativeTo: this.route,
+    //     queryParams: {
+    //       sortingBar: sorting.title,
+    //       orderBy: sorting.name,
+    //       order: sorting.property
+    //     },
+    //     queryParamsHandling: 'merge',
+    //   });
+    //   this.sorting.name = sorting.name;
+    //   this.sorting.property = sorting.property;
+    //   if (this.sorting.name !== 'all') {
+    //     a.order = this.sorting.property;
+    //     a.orderby = this.sorting.name;
+    //   } else {
+    //     this.sorting.name = '';
+    //     this.sorting.property = '';
+    //   }
+    //   a.page = 1;
+    // } else {
+    //   a.order = this.sorting.property;
+    //   a.orderby = this.sorting.name;
+    // }
 
-    this.productRepository.getProducts(a, dynamicFilter)
+    this.productRepository.getProducts(this.setFilters, dynamicFilter)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe(result => {
-        localStorage.setItem('pageForPagination', this.pagination.setPage.toString());
-        localStorage.setItem('amountForPagination', this.pagination.setAmount.toString());
         this.filter = result.filters;
         this.searchResult = result;
         this.dynamicFilterSave = dynamicFilter;
@@ -91,13 +148,19 @@ export class InventoryPageComponent implements OnInit {
     this.searchResult = new ProductSearchResult();
   }
 
-  ngOnInit(): void {
-    if (localStorage.getItem('pageForPagination')) {
-      this.pagination.setPage = Number(localStorage.getItem('pageForPagination'));
-      this.pagination.setAmount = Number(localStorage.getItem('amountForPagination'));
-      localStorage.removeItem('pageForPagination');
-      localStorage.removeItem('amountForPagination');
-    }
+  ngOnInit() {
+    this.route.queryParams.subscribe(res => {
+      this.pagination.setPage = Number(res.page) || 1;
+      this.dynamicFilterSave = res.dynamicFilter || '';
+      this.setCurrentFilter = res.sortingBar || '';
+      this.setFilters = new ProductFilter({
+        page: Number(res.page),
+        per_page: 12,
+        orderby: res.orderBy,
+        order: res.order
+      });
+      console.log(res);
+    });
 
     this.route.params.subscribe(params => {
       this.productRepository.getFiltersProduct(0).subscribe(res => {
@@ -109,8 +172,8 @@ export class InventoryPageComponent implements OnInit {
       });
       if (params.categoryId.toString() === 'all') {
         this.showCategories = true;
-        this.productRepository.getProducts(new ProductFilter({per_page: this.pagination.setAmount, page: this.pagination.setPage}),
-          null)
+        this.productRepository.getProducts(new ProductFilter(this.setFilters),
+          this.dynamicFilterSave)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe(result => {
             const filterResult = result.filters.filterItems;
@@ -126,11 +189,7 @@ export class InventoryPageComponent implements OnInit {
             this.sortChanged = this.pagination.setPage;
           });
       } else {
-        this.productRepository.getProducts(new ProductFilter({
-          per_page: this.pagination.setAmount,
-          page: this.pagination.setPage,
-          category: params.categoryId
-        }), null)
+        this.productRepository.getProducts(new ProductFilter(this.setFilters), null)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe(result => {
             this.filter = result.filters;

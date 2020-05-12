@@ -9,11 +9,17 @@ import {SearchResultFilters} from '../../../../_data/repository/product/filter';
 export class InventoryFiltersComponent {
   /// binding
   @Input() showCategory: boolean;
+
+  @Input() set setFilterString(value: string) {
+    this.filtersItems = value;
+  }
+
   @Input() filter: SearchResultFilters;
   @Output() setFilter = new EventEmitter<string>();
   public filtersArray: Array<FiltersProperties> = [];
   private filtersItems = '';
   public check = false;
+
 
   public chosenFilter(filterName, itemName) {
     const completeFilter = new FilterToSet(filterName, itemName);

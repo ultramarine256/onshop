@@ -10,9 +10,10 @@ export class InventoryPaginationComponent {
     this.inventoryCount = Math.ceil(value / this.maxRange);
     this.pageCounter = 1;
     this.itemsNumber = value;
+    console.log(value);
   }
 
-  @Input() set sortChanged(value) {
+  @Input() set sortChanged(value: number) {
     this.pageCounter = value;
   }
 
@@ -30,22 +31,27 @@ export class InventoryPaginationComponent {
 
   public pagination(page: number, firstPage: boolean, lastPage: boolean) {
     if ((this.pageCounter === this.inventoryCount) && page === 1) {
+      console.log(this.pageCounter);
       return;
     }
     if (this.pageCounter > 1 && !firstPage && !lastPage && this.pageCounter <= this.inventoryCount) {
+      console.log(this.pageCounter);
       this.pageCounter += page;
     } else if (firstPage) {
       this.pageCounter = 0;
     } else if (lastPage) {
       this.pageCounter = this.inventoryCount;
     } else if (this.pageCounter === 1 && page === -1) {
+
       return;
     } else if (this.pageCounter === 1 && page === 1) {
       this.pageCounter += page;
+      console.log(this.pageCounter);
     }
     this.setPaginationAmount.setPage = this.pageCounter;
     // console.log(this.setPaginationAmount);
     this.setPaginationAmount.setAmount = this.maxRange;
+    console.log(this.setPaginationAmount);
     this.setPagination.emit(this.setPaginationAmount);
   }
 
