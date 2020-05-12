@@ -309,6 +309,11 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
         $shippingTotal = number_format($orderData['shipping_total'], 2);
         $total = number_format($orderData['total'], 2);
 
+        $metaData = array_map(function($meta) {
+            return $meta->get_data();
+        }, $orderData['meta_data']);
+        $metaFormattedData = $this->getMetaData($metaData);
+
         return [
             'orderId' => $orderId,
             'itemsTotal' => $itemsTotal,
@@ -316,15 +321,16 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             'shippingTotal' => $shippingTotal,
             'total' => $total,
             'email' => $orderData['billing']['email'],
-            "name" => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
-            "address01" => $orderData['shipping']['address_1'],
-            "address02" => $orderData['shipping']['address_2'],
-            "city" => $orderData['shipping']['city'],
-            "state" => $orderData['shipping']['state'],
-            "zip" => $orderData['shipping']['postcode'],
-            "phone" => $orderData['billing']['phone'],
-            "date" => $orderData['meta_data'][0]->get_data()['value'],
-            'project' => $orderData['meta_data'][1]->get_data()['value'],
+            'name' => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
+            'address01' => $orderData['shipping']['address_1'],
+            'address02' => $orderData['shipping']['address_2'],
+            'city' => $orderData['shipping']['city'],
+            'state' => $orderData['shipping']['state'],
+            'zip' => $orderData['shipping']['postcode'],
+            'phone' => $orderData['billing']['phone'],
+            'project' => $metaFormattedData['project-number'],
+            'deliveryDate' => $metaFormattedData['delivery-date'],
+            'deliveryInstructions' => $metaFormattedData['delivery-instructions'],
             'items' => array_map(function($orderItem) {
                 $orderItemData = $orderItem->get_data();
                 return (object)[
@@ -334,6 +340,19 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
                 ];
             }, $orderData['line_items'])
         ];
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    function getMetaData($data)
+    {
+        $metaInfo = [];
+        foreach ($data as $item) {
+            $metaInfo[$item['key']] = $item['value'];
+        }
+        return $metaInfo;
     }
 
 	/**
