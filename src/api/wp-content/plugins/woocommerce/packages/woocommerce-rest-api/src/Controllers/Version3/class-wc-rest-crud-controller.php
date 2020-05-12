@@ -331,6 +331,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             'project' => $metaFormattedData['project-number'],
             'deliveryDate' => $metaFormattedData['delivery-date'],
             'deliveryInstructions' => $metaFormattedData['delivery-instructions'],
+            'deliveryTime' => $metaFormattedData['delivery-time'],
             'items' => array_map(function($orderItem) {
                 $orderItemData = $orderItem->get_data();
                 return (object)[
