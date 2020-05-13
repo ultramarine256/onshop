@@ -12,7 +12,7 @@ export class InventoryPaginationComponent {
     this.itemsNumber = value;
   }
 
-  @Input() set sortChanged(value) {
+  @Input() set sortChanged(value: number) {
     this.pageCounter = value;
   }
 
@@ -39,6 +39,7 @@ export class InventoryPaginationComponent {
     } else if (lastPage) {
       this.pageCounter = this.inventoryCount;
     } else if (this.pageCounter === 1 && page === -1) {
+
       return;
     } else if (this.pageCounter === 1 && page === 1) {
       this.pageCounter += page;

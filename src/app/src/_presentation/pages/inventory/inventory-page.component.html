@@ -15,6 +15,7 @@
       <h4 class="content-title mb-2" style="font-size: 1.286em;">Filters</h4>
       <app-inventory-filters
         [filter]="filter"
+        [setFilterString]="this.dynamicFilterSave"
         [showCategory]="showCategories"
         (setFilter)="filtersChanged($event,0,null)">
       </app-inventory-filters>
@@ -26,7 +27,8 @@
         <div class="col-12 mb-2">
           <div class="shop-control-bar rounded" id="scrollView">
             <app-sorting-bar class="w-100 h-100"
-                             (sortQuery)="filtersChanged(dynamicFilterSave,null,$event);sortChanged=1"></app-sorting-bar>
+                             [setCurrentFilter]="setCurrentFilter"
+                             (sortQuery)="filtersChanged(null,null,$event)"></app-sorting-bar>
           </div>
         </div>
       </div>
@@ -58,7 +60,7 @@
       <div class="d-flex justify-content-center row">
         <app-inventory-pagination class="col-12" [itemsCount]="searchResult.totalCount"
                                   [sortChanged]="sortChanged"
-                                  (setPagination)="filtersChanged(dynamicFilterSave,$event,sortingSave)">
+                                  (setPagination)="filtersChanged(null,$event,null)">
         </app-inventory-pagination>
       </div>
     </div>

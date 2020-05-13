@@ -1,7 +1,7 @@
 <div class="dropdown show h-100 ">
   <div class="form-group w-100 h-100 d-flex align-items-center justify-content-end">
     <select #filter class="form-control w-25 rounded form-control-sm" id="sel1" (change)="change(filter.value)">
-      <option *ngFor="let item of sortItemsArray" [disabled]="!item.visible" >{{item.title}}</option>
+      <option *ngFor="let item of sortItemsArray" [disabled]="!item.visible" [selected]="item.title===selectedFilter ">{{item.title}}</option>
     </select>
   </div>
 </div>
