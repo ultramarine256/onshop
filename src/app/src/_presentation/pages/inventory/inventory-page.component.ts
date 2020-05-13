@@ -94,9 +94,9 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
       });
   }
 
-  public onPageChanged($event) {
+  public onPageChanged(page: number) {
     const filterState = { ...this.filterState };
-    filterState.productFilter.page = $event;
+    filterState.productFilter.page = page;
     this.filterUpdated$.next(filterState);
   }
 
