@@ -1,6 +1,21 @@
 <div class="container">
-  <h4 class="text-center">User info</h4>
-  <div *ngIf="didLoaded" class="row flex-column mt-3 justify-content-center align-items-center mb-3">
+  <div *ngIf="!didLoaded && !wrongUser" class="row justify-content-center align-items-center" style="height: 300px">
+    <div class="spinner-grow text-primary" role="status">
+      <span class="sr-only text-primary">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="wrongUser" class="row justify-content-center">
+    <div class="col-md-5 d-flex flex-column align-items-center  justify-content-center mt-3 p-5 shadow-sm">
+      <h4 class="text-center">Make sure that you are authorized and you have this order</h4>
+      <div class="d-flex mt-3">
+        <button class="btn btn-primary mr-2" routerLink="/profile">
+          My Profile
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="didLoaded && !wrongUser" class="row flex-column mt-3 justify-content-center align-items-center mb-3">
+    <h4 class="text-center">User info</h4>
     <table class="col-md-6 m-md-0 m-1 table table-sm table-bordered user-info-table text-dark">
       <tbody>
       <tr>

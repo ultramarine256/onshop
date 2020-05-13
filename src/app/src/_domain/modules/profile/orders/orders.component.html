@@ -45,6 +45,7 @@
               </div>
             </div>
             <div class="font-weight-bold">
+              <span *ngIf="product.meta_data.length">{{product.meta_data[0].value}}/d rent</span>
               {{product.price | currency}}
             </div>
           </div>
@@ -102,6 +103,10 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="col-md-6 d-flex">
+            <div class="hide-element" style="width: 38px"></div>
+            <button class="btn btn-sm btn-primary" routerLink="/return-product/{{item.id}}">Return order</button>
           </div>
         </div>
       </div>

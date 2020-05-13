@@ -10,22 +10,33 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './purchase-returns-page.component.html'
 })
 export class PurchaseReturnsPageComponent implements OnInit {
-  public didLoaded = false;
   public orderInfo: OrderResponse;
   public orderId: number;
   public note = '';
-  serializedDate = new FormControl((new Date()).toISOString());
+  public serializedDate = new FormControl((new Date()).toISOString());
   public minDate: Date;
+  // Spinners
+  public wrongUser = false;
+  public didLoaded = false;
 
-  constructor(private formBuilder: FormBuilder, private userRepository: UserRepository, private orderRepository: OrderRepository, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private userRepository: UserRepository, private orderRepository: OrderRepository,
+              private route: ActivatedRoute) {
     this.minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 3);
   }
 
   ngOnInit() {
     this.orderId = Number(this.route.snapshot.paramMap.get('id'));
-    this.orderRepository.getOrder(this.orderId).subscribe(resp => {
-      this.orderInfo = resp;
-      this.didLoaded = true;
+    this.orderRepository.getOrders().subscribe(resp => {
+      if (resp.filter(x => x.id === this.orderId).length > 0) {
+        this.orderRepository.getOrder(this.orderId).subscribe(response => {
+          this.orderInfo = response;
+          this.didLoaded = true;
+        });
+      } else {
+        (window as any).toastr.options.positionClass = 'toast-bottom-right';
+        (window as any).toastr.error('You are not allowed to do this!');
+        this.wrongUser = true;
+      }
     });
   }
 
