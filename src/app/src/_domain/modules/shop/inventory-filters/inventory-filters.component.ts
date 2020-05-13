@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SearchResultFilters} from '../../../../_data/repository/product/filter';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+import { SearchResultFilters } from '@data/repository';
 
 @Component({
   selector: 'app-inventory-filters',
   styleUrls: ['./inventory-filters.component.scss'],
-  templateUrl: './inventory-filters.component.html'
+  templateUrl: './inventory-filters.component.html',
 })
 export class InventoryFiltersComponent {
-  /// binding
   @Input() showCategory: boolean;
   @Input() filter: SearchResultFilters;
-  @Output() setFilter = new EventEmitter<string>();
+  @Output() filterChanged = new EventEmitter<string>();
   public filtersArray: Array<FiltersProperties> = [];
   private filtersItems = '';
   public check = false;
@@ -23,7 +23,7 @@ export class InventoryFiltersComponent {
   public _setFilters(event) {
     const newFilter = new FiltersProperties(event.name, event.property);
     let controll = false;
-    this.filtersArray.forEach(x => {
+    this.filtersArray.forEach((x) => {
       if (x.name === newFilter.name) {
         const i = this.filtersArray.indexOf(x);
         controll = true;
@@ -42,17 +42,23 @@ export class InventoryFiltersComponent {
       this.filtersArray.push(newFilter);
     }
     this.filtersItems = '';
-    this.filtersArray.forEach(x => {
+    this.filtersArray.forEach((x) => {
       const a = this.setQuery(x.properties);
-      this.filtersItems += (this.filtersArray.indexOf(x) !== 0 ? ',' : '') + '"' + x.name + '":[' + a + ']' +
+      this.filtersItems +=
+        (this.filtersArray.indexOf(x) !== 0 ? ',' : '') +
+        '"' +
+        x.name +
+        '":[' +
+        a +
+        ']' +
         (this.filtersArray.indexOf(x) === this.filtersArray.length - 1 ? '}' : '');
     });
-    this.setFilter.emit(this.filtersItems);
+    this.filterChanged.emit(this.filtersItems);
   }
 
   public setQuery(items: Array<string>) {
     let query = '';
-    items.map(x => {
+    items.map((x) => {
       if (items.indexOf(x) === items.length - 1) {
         query += `"${x}"`;
       } else {
@@ -66,12 +72,10 @@ export class InventoryFiltersComponent {
 class FilterToSet {
   name: string;
   property: string;
-  checked: boolean;
 
   constructor(name, property) {
     this.name = name;
     this.property = property;
-
   }
 }
 

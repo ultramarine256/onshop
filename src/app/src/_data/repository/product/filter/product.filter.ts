@@ -1,8 +1,6 @@
-import {FilterEntity} from '../../_abstraction';
-import array from 'devextreme/ui/file_manager/file_provider/array';
+import { FilterEntity } from '../../_abstraction';
 
 export class ProductFilter extends FilterEntity {
-  /// fields
   slug: string;
   search: string;
 
@@ -19,26 +17,24 @@ export class ProductFilter extends FilterEntity {
   stock_status: string;
   status: string;
 
-
-  /// constructor
   constructor(init?: Partial<ProductFilter>) {
     super();
-    this.stock_status = STOCK_STATUS.INSTOCK;
-    this.status = INVENTORY_STATUS.PUBLISH;
+    this.stock_status = StockStatus.Instock;
+    this.status = InventoryStatus.Publish;
     Object.assign(this as any, init);
   }
 }
 
-export const STOCK_STATUS = {
-  INSTOCK: 'instock',
-  OUTOFSTOCK: 'outofstock',
-  ONBACKORDER: 'onbackorder'
-};
+export enum StockStatus {
+  Instock = 'instock',
+  OutOfStock = 'outofstock',
+  OnBackOrder = 'onbackorder',
+}
 
-export const INVENTORY_STATUS = {
-  ANY: 'any',
-  draft: 'draft',
-  pending: 'pending',
-  private: 'private',
-  PUBLISH: 'publish'
-};
+export enum InventoryStatus {
+  Any = 'any',
+  Draft = 'draft',
+  Pending = 'pending',
+  Private = 'private',
+  Publish = 'publish',
+}

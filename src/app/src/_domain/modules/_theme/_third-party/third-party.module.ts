@@ -4,6 +4,7 @@ import {
   MatButtonModule,
   MatCheckboxModule,
   MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
   MatOptionModule,
   MatProgressSpinnerModule,
@@ -31,6 +32,7 @@ import {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatIconModule,
   ],
   exports: [
     // dev-extreme
@@ -47,6 +49,7 @@ import {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatIconModule,
   ],
 })
 export class ThirdPartyModule {}

@@ -1,5 +1,10 @@
-<div *ngIf="!didLoaded" class="d-flex justify-content-center align-items-center" style="height: 300px;" >
-  <div class="spinner-grow text-primary" role="status"></div>
-</div>
-<h3>Projects</h3>
-<app-projects-component *ngIf="didLoaded" [items]="projects"></app-projects-component>
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <div class="spinner-grow text-primary" role="status"></div>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="projects$ | async as projects; else loader">
+  <h3>Projects</h3>
+  <app-projects-component [items]="projects"></app-projects-component>
+</ng-container>

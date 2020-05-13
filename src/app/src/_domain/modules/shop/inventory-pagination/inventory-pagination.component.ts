@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-inventory-pagination',
   styleUrls: ['./inventory-pagination.component.scss'],
-  templateUrl: './inventory-pagination.component.html'
+  templateUrl: './inventory-pagination.component.html',
 })
 export class InventoryPaginationComponent {
   @Input() set itemsCount(value: number) {
@@ -16,7 +16,7 @@ export class InventoryPaginationComponent {
     this.pageCounter = value;
   }
 
-  @Output() setPagination = new EventEmitter<SetPagination>();
+  @Output() pageChanged = new EventEmitter<SetPagination>();
   public inventoryCount: number;
   public pageCounter: number;
   public setPaginationAmount: SetPagination;
@@ -29,7 +29,7 @@ export class InventoryPaginationComponent {
   }
 
   public pagination(page: number, firstPage: boolean, lastPage: boolean) {
-    if ((this.pageCounter === this.inventoryCount) && page === 1) {
+    if (this.pageCounter === this.inventoryCount && page === 1) {
       return;
     }
     if (this.pageCounter > 1 && !firstPage && !lastPage && this.pageCounter <= this.inventoryCount) {
@@ -46,7 +46,7 @@ export class InventoryPaginationComponent {
     this.setPaginationAmount.setPage = this.pageCounter;
     // console.log(this.setPaginationAmount);
     this.setPaginationAmount.setAmount = this.maxRange;
-    this.setPagination.emit(this.setPaginationAmount);
+    this.pageChanged.emit(this.setPaginationAmount);
   }
 
   public setPage(value: number) {
@@ -54,11 +54,11 @@ export class InventoryPaginationComponent {
     this.inventoryCount = Math.ceil(this.itemsNumber / this.maxRange);
     this.setPaginationAmount.setPage = this.pageCounter;
     this.setPaginationAmount.setAmount = this.maxRange;
-    this.setPagination.emit(this.setPaginationAmount);
+    this.pageChanged.emit(this.setPaginationAmount);
   }
 }
 
-class SetPagination {
+export class SetPagination {
   setPage: number;
   setAmount: number;
 

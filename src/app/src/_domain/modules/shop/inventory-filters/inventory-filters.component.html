@@ -1,55 +1,68 @@
 <div *ngIf="filter" class="d-flex filters__content flex-column p-2">
-  <div class="filters-scope" *ngFor="let item of filter.filterItems">
-    <div *ngIf="item.name && ((!(item.name.includes('rent_')) && item.name!==('category')) || (showCategory && !item.name.includes('rent_')))">
-      <div #usageFilter class="col-12 d-flex justify-content-between my-2 p-0"
-           style="cursor:pointer" [class.text-primary]="item.name===('category')"
-           (click)="usageFilter.isVisible =! usageFilter.isVisible">
-        <b>{{item.name}}</b>
-        <div class="d-flex align-items-center ">
+  <div class="filters-scope" *ngFor="let filter of filter.filterItems">
+    <div
+      *ngIf="
+        filter.name && ((!filter.name.includes('rent_') && filter.name !== 'category') || (showCategory && !filter.name.includes('rent_')))
+      "
+    >
+      <div
+        #usageFilter
+        class="col-12 d-flex justify-content-between my-2 p-0"
+        style="cursor: pointer;"
+        [class.text-primary]="filter.name === 'category'"
+        (click)="usageFilter.isVisible = !usageFilter.isVisible"
+      >
+        <b>{{ filter.name }}</b>
+        <div class="d-flex align-items-center">
           <i *ngIf="usageFilter.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
           <i *ngIf="!usageFilter.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
         </div>
       </div>
-      <div *ngFor="let filters of item.items;let i=index" [class.d-none]="usageFilter.isVisible"
-           [class.d-flex]="!usageFilter.isVisible">
-        <div *ngIf="i<10" class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [id]="filters.name + '_' + item.name"
-                 (change)="chosenFilter(item.name,filters.name)" [checked]="filters.isChecked">
-          <label class="custom-control-label text-muted" [for]="filters.name + '_' + item.name">{{filters.name}}
-            ({{filters.count}})</label>
+
+      <div
+        *ngFor="let filters of filter.items; let i = index"
+        [class.d-none]="usageFilter.isVisible"
+        [class.d-flex]="!usageFilter.isVisible"
+      >
+        <div *ngIf="i < 10" class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [id]="filters.name + '_' + filter.name"
+            (change)="chosenFilter(filter.name, filters.name)"
+            [checked]="filters.isChecked"
+          />
+          <label class="custom-control-label text-muted" [for]="filters.name + '_' + filter.name"
+            >{{ filters.name }} ({{ filters.count }})</label
+          >
         </div>
-        <div *ngIf="i>=10 && showMore.isVisible" class="custom-control custom-checkbox"
-             [class.d-none]="!showMore.isVisible">
-          <input type="checkbox" class="custom-control-input" [id]="filters.name + '_' + item.name"
-                 (change)="chosenFilter(item.name,filters.name)" [checked]="filters.isChecked"/>
-          <label class="custom-control-label d-flex justify-content-between align-items-center text-muted"
-                 [for]="filters.name + '_' + item.name">{{filters.name}}({{filters.count}})
+        <div *ngIf="i >= 10 && showMore.isVisible" class="custom-control custom-checkbox" [class.d-none]="!showMore.isVisible">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            [id]="filters.name + '_' + filter.name"
+            (change)="chosenFilter(filter.name, filters.name)"
+            [checked]="filters.isChecked"
+          />
+          <label
+            class="custom-control-label d-flex justify-content-between align-items-center text-muted"
+            [for]="filters.name + '_' + filter.name"
+            >{{ filters.name }}({{ filters.count }})
           </label>
         </div>
       </div>
-      <div #showMore (click)="showMore.isVisible =! showMore.isVisible"
-           [class.d-flex]="item.items.length>9 && !usageFilter.isVisible"
-           [class.d-none]="item.items.length<=9 || usageFilter.isVisible">
-        <div class="align-items-center justify-content-between my-2" style="cursor:pointer">
-          <span *ngIf="!showMore.isVisible">Show more ({{item.items.length}})</span>
+
+      <div
+        #showMore
+        (click)="showMore.isVisible = !showMore.isVisible"
+        [class.d-flex]="filter.items.length > 9 && !usageFilter.isVisible"
+        [class.d-none]="filter.items.length <= 9 || usageFilter.isVisible"
+      >
+        <div class="align-items-center justify-content-between my-2" style="cursor: pointer;">
+          <span *ngIf="!showMore.isVisible">Show more ({{ filter.items.length }})</span>
           <span *ngIf="showMore.isVisible">Show less</span>
         </div>
       </div>
     </div>
   </div>
-  <!--  <div class="filters-scope">-->
-  <!--    <h5 class="filters-scope__title">Price</h5>-->
-  <!--    <div class="price__content">-->
-  <!--      from {{priceSlider.start}} to {{priceSlider.end}} $-->
-  <!--    </div>-->
-  <!--    <dx-range-slider-->
-  <!--      #priceSlider-->
-  <!--      [min]="filter.priceRange.min"-->
-  <!--      [max]="filter.priceRange.max"-->
-  <!--      [start]="filter.priceRange.start"-->
-  <!--      [end]="filter.priceRange.end"-->
-  <!--      (startChange)="filter.priceRange.start = priceSlider.start"-->
-  <!--      (endChange)="filter.priceRange.end = priceSlider.end">-->
-  <!--    </dx-range-slider>-->
-  <!--  </div>-->
 </div>

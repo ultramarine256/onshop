@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sorting-bar',
   styleUrls: ['./sorting-bar.component.scss'],
-  templateUrl: './sorting-bar.component.html'
+  templateUrl: './sorting-bar.component.html',
 })
 export class SortingBarComponent {
-  @Output() sortQuery = new EventEmitter<SortItem>();
+  @Output() sortTypeChanged = new EventEmitter<SortItem>();
   public sortItemsArray: SortItem[] = [];
 
   constructor() {
@@ -15,56 +15,57 @@ export class SortingBarComponent {
         name: 'all',
         property: 'all',
         title: 'All',
-        visible: true
+        visible: true,
       },
       {
         name: 'price',
         property: 'desc',
         title: 'price desc',
-        visible: true
+        visible: true,
       },
       {
         name: 'price',
         property: 'asc',
         title: 'price asc',
-        visible: true
+        visible: true,
       },
       {
         name: 'date',
         property: 'desc',
         title: 'date desc',
-        visible: true
+        visible: true,
       },
       {
         name: 'date',
         property: 'asc',
         title: 'date asc',
-        visible: true
+        visible: true,
       },
       {
         name: 'rent',
         property: 'asc',
         title: 'rent price asc',
-        visible: false
+        visible: false,
       },
       {
         name: 'rent',
         property: 'asc',
         title: 'rent price asc',
-        visible: false
-      }];
+        visible: false,
+      },
+    ];
   }
 
   public change(value) {
-    this.sortItemsArray.forEach(x => {
+    this.sortItemsArray.forEach((x) => {
       if (x.title === value) {
-        return this.sortQuery.emit(x);
+        return this.sortTypeChanged.emit(x);
       }
     });
   }
 }
 
-class SortItem {
+export class SortItem {
   name: string;
   property: string;
   title: string;
