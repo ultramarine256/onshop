@@ -18,7 +18,7 @@ export class PurchaseReturnsPageComponent implements OnInit {
   public minDate: Date;
 
   constructor(private formBuilder: FormBuilder, private userRepository: UserRepository, private orderRepository: OrderRepository, private route: ActivatedRoute) {
-    this.minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1);
+    this.minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 3);
   }
 
   ngOnInit() {
