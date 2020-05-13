@@ -21,9 +21,7 @@
       <div class="col-12 col-md-8">
         <div class="row">
           <div class="col-12 mb-2">
-            <div class="shop-control-bar rounded" id="scrollView">
-              <app-sorting-bar class="w-100 h-100" (sortTypeChanged)="onSortTypeChanged($event)"></app-sorting-bar>
-            </div>
+            <app-sorting-bar id="scrollView" class="w-100 h-100" (sortTypeChanged)="onSortTypeChanged($event)"></app-sorting-bar>
           </div>
         </div>
         <!-- load-indicator -->
@@ -41,8 +39,14 @@
         </div>
 
         <!-- products -->
-        <div class="row">
-          <div class="col-6 p-0" *ngFor="let item of searchResult.items">
+        <div class="inventory-page__products row">
+          <div
+            class="col-6 p-0"
+            *ngFor="
+              let item of searchResult.items
+                | paginate: { itemsPerPage: paginationConfig.itemsPerPage, currentPage: currentPage, totalItems: totalResults }
+            "
+          >
             <app-product-item
               *ngIf="!isLoading"
               [item]="item"
@@ -54,13 +58,15 @@
           </div>
         </div>
         <div class="d-flex justify-content-center row" *ngIf="!isLoading">
-          <app-inventory-pagination
-            class="col-12"
-            [itemsCount]="searchResult.totalCount"
-            [sortChanged]="pageCounter"
-            (pageChanged)="onPageChanged($event)"
-          >
-          </app-inventory-pagination>
+          <pagination-controls
+            (pageChange)="onPageChanged($event)"
+            (pageBoundsCorrection)="onPageChanged($event)"
+            maxSize="9"
+            directionLinks="true"
+            responsive="true"
+            previousLabel="Previous"
+            nextLabel="Next"
+          ></pagination-controls>
         </div>
       </div>
     </div>

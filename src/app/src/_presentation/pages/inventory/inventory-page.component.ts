@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { Subject } from 'rxjs';
+import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import {
   CategoryModel,
@@ -14,9 +14,14 @@ import {
   SearchResultFilters,
 } from '@data/index';
 import { AppMapper } from '@presentation/_mapper/app-mapper';
-import { AuthService, CartService, SetPagination, SortItem } from '@domain/index';
+import { AuthService, CartService, SortingOption } from '@domain/index';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+
+interface FilterState {
+  productFilter: ProductFilter;
+  dynamicFilter: string;
+}
 
 @Component({
   selector: 'app-inventory-page',
@@ -26,18 +31,17 @@ import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit {
   public filterUpdated$ = new Subject<{ productFilter: ProductFilter; dynamicFilter: string }>();
 
-  public pagination = { setPage: 1, setAmount: 12 };
   public searchResult = new ProductSearchResult();
   public products: ProductModel[];
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
-  public pageCounter: number;
+  public readonly paginationConfig = { itemsPerPage: 12 };
 
   public showCategories: boolean;
   public isLoading = true;
 
   private element: HTMLElement;
-  private filterState: { productFilter: ProductFilter; dynamicFilter: string };
+  private filterState: FilterState;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -52,27 +56,33 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
   }
 
   ngOnInit(): void {
+    const page = this.activatedRoute.snapshot.queryParams.page ? +this.activatedRoute.snapshot.queryParams.page : 1;
+    const category = this.activatedRoute.snapshot.params.categoryId ? +this.activatedRoute.snapshot.params.categoryId : null;
+
+    // Initiate state for filters
     this.filterState = {
       productFilter: new ProductFilter({
-        page: this.pagination.setPage,
-        per_page: this.pagination.setAmount,
-        category: this.category.id,
+        page,
+        category,
+        per_page: this.paginationConfig.itemsPerPage,
       }),
       dynamicFilter: '',
-    } as const;
+    };
 
-    this.loadProducts(+this.activatedRoute.snapshot.params.categoryId);
-
+    // Stream which is responsible for filtering products on the page based on filters
     this.filterUpdated$
       .pipe(
+        startWith(this.filterState),
         tap(() => {
           this.scrollToView();
           this.isLoading = true;
         }),
-        switchMap((filterState) =>
+        switchMap((filterState: FilterState) =>
           this.productRepository.getProducts(filterState.productFilter, filterState.dynamicFilter).pipe(
             tap(() => {
               this.isLoading = false;
+              this.filterState = filterState;
+              this.updateUrl(filterState);
             })
           )
         ),
@@ -84,18 +94,16 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
       });
   }
 
-  public onPageChanged($event: SetPagination) {
+  public onPageChanged($event) {
     const filterState = { ...this.filterState };
-    filterState.productFilter.page = $event.setPage;
-
+    filterState.productFilter.page = $event;
     this.filterUpdated$.next(filterState);
   }
 
-  public onSortTypeChanged($event: SortItem) {
+  public onSortTypeChanged($event: SortingOption) {
     const filterState = { ...this.filterState };
     filterState.productFilter.order = $event.property;
     filterState.productFilter.orderby = $event.name;
-
     this.filterUpdated$.next(filterState);
   }
 
@@ -103,35 +111,7 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     const filterState = { ...this.filterState };
     filterState.productFilter.page = 1;
     filterState.dynamicFilter = dynamicFilter;
-
     this.filterUpdated$.next(filterState);
-  }
-
-  private loadProducts(categoryId: number) {
-    this.showCategories = !categoryId; // show category when we do not have any specific category
-
-    this.isLoading = true;
-    this.productRepository
-      .getProducts(new ProductFilter({ per_page: this.pagination.setAmount, page: this.pagination.setPage, category: categoryId || null }))
-      .pipe(
-        finalize(() => (this.isLoading = false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((productSearchResult) => {
-        if (!categoryId) {
-          const filterResult = productSearchResult.filters.filterItems;
-          for (let i = 0; i < filterResult.length; i++) {
-            if (filterResult[i].name === 'category') {
-              const temp = filterResult[0];
-              filterResult[0] = filterResult[i];
-              filterResult[i] = temp;
-            }
-          }
-        }
-        this.filter = productSearchResult.filters;
-        this.searchResult = productSearchResult;
-        this.pageCounter = this.pagination.setPage;
-      });
   }
 
   public onAddedToCart(product: ProductModel) {
@@ -141,8 +121,22 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     this.cartService.addItem(AppMapper.toCartItem(product));
   }
 
-  public scrollToView() {
+  private updateUrl(productFilter: FilterState) {
+    this.router.navigate([], {
+      queryParams: { page: productFilter.productFilter.page },
+    });
+  }
+
+  private scrollToView() {
     this.element = document.getElementById('scrollView') as HTMLElement;
     this.element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  public get currentPage(): number {
+    return this.filterState.productFilter.page;
+  }
+
+  public get totalResults(): number {
+    return this.searchResult.totalCount;
   }
 }

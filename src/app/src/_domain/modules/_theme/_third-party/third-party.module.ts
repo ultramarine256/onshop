@@ -14,6 +14,7 @@ import {
   MatSnackBarModule,
   MatStepperModule,
 } from '@angular/material';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import {
     MatCheckboxModule,
     MatRadioModule,
     MatIconModule,
+    NgxPaginationModule,
   ],
   exports: [
     // dev-extreme
@@ -50,6 +52,7 @@ import {
     MatCheckboxModule,
     MatRadioModule,
     MatIconModule,
+    NgxPaginationModule,
   ],
 })
 export class ThirdPartyModule {}

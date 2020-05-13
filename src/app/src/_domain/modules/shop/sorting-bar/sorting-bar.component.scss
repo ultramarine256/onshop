@@ -1,7 +1,9 @@
-.bar-box {
-  width: 100%;
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+:host {
+  display: block;
+}
+
+.sorting-bar {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px 10px;
 }
