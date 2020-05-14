@@ -1,0 +1,16 @@
+.login-page__form {
+  .login-page__form-field {
+    width: 100%;
+  }
+
+  .login-page__form-action {
+    margin-top: 10px;
+    width: 100%;
+    text-align: right;
+
+    button {
+      min-height: 40px;
+      min-width: 100px;
+    }
+  }
+}

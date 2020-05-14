@@ -1,25 +1,19 @@
-import {Component} from '@angular/core';
-import {AuthService} from '../../../../_domain/services/auth';
-import {OrderRepository, OrderResponse} from '../../../../_data/repository/order';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { OrderRepository, OrderResponse } from '@data/repository';
+import { AuthService } from '@domain/services';
 
 @Component({
   selector: 'app-orders-page',
-  templateUrl: './orders-page.component.html'
+  templateUrl: './orders-page.component.html',
 })
-export class OrdersPageComponent {
-  /// fields
-  public items: Array<OrderResponse> = [];
+export class OrdersPageComponent implements OnInit {
+  public orders$: Observable<OrderResponse[]>;
 
-  /// spinners
-  public didLoaded = false;
+  constructor(public authService: AuthService, private orderRepository: OrderRepository) {}
 
-  constructor(public authService: AuthService,
-              private orderRepository: OrderRepository) {
-    this.orderRepository.getOrders()
-      .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<OrderResponse>) => {
-        this.items = items;
-      });
+  ngOnInit() {
+    this.orders$ = this.orderRepository.getOrders();
   }
 }

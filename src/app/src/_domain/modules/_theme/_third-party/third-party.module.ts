@@ -4,6 +4,7 @@ import {
   MatButtonModule,
   MatCheckboxModule,
   MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
   MatOptionModule,
   MatProgressSpinnerModule,
@@ -13,6 +14,7 @@ import {
   MatSnackBarModule,
   MatStepperModule,
 } from '@angular/material';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatIconModule,
+    NgxPaginationModule,
   ],
   exports: [
     // dev-extreme
@@ -47,6 +51,8 @@ import {
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatIconModule,
+    NgxPaginationModule,
   ],
 })
 export class ThirdPartyModule {}

@@ -23,7 +23,7 @@
       "@domain/*": ["src/_domain/*"],
       "@presentation/*": ["src/_presentation/*"],
       "@shared/*": ["src/shared/*"]
-    }
+    },
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

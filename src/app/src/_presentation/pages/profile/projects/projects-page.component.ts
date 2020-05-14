@@ -1,20 +1,19 @@
-import {Component} from '@angular/core';
-import {AuthService} from '../../../../_domain';
-import {ProjectRepository, ProjectResponse} from '../../../../_data/repository/project';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { ProjectRepository, ProjectResponse } from '@data/repository';
+import { AuthService } from '@domain/services';
 
 @Component({
   selector: 'app-projects-page',
-  templateUrl: './projects-page.component.html'
+  templateUrl: './projects-page.component.html',
 })
-export class ProjectsPageComponent {
-  public didLoaded: boolean;
-  public projects: Array<ProjectResponse> = [];
+export class ProjectsPageComponent implements OnInit {
+  public projects$: Observable<ProjectResponse[]>;
 
-  constructor(public authService: AuthService,
-              private projectRepository: ProjectRepository) {
-    this.projectRepository.getOrders()
-      .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<ProjectResponse>) => this.projects = items);
+  constructor(public authService: AuthService, private projectRepository: ProjectRepository) {}
+
+  ngOnInit() {
+    this.projects$ = this.projectRepository.getOrders();
   }
 }

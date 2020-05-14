@@ -1,23 +1,20 @@
-import {Component} from '@angular/core';
-import {UserModel, UserRepository} from '../../../../_data';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { UserModel, UserRepository } from '@data/repository';
 
 @Component({
   selector: 'app-account-page',
-  templateUrl: './account-page.component.html'
+  templateUrl: './account-page.component.html',
 })
-export class AccountPageComponent {
-  /// fields
-  public item: UserModel;
+export class AccountPageComponent implements OnInit {
+  public edit: boolean;
 
-  // predicates
-  public didLoaded = false;
-  public editUser = false;
+  public user$: Observable<UserModel>;
 
-  /// constructor
-  constructor(public userRepository: UserRepository) {
-    this.userRepository.getUser()
-      .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((item: UserModel) => this.item = item);
+  constructor(public userRepository: UserRepository) {}
+
+  ngOnInit() {
+    this.user$ = this.userRepository.getUser();
   }
 }

@@ -19,11 +19,10 @@
         <a [routerLink]="'/profile/projects'" class="list-item">
           <i class="fas fa-project-diagram mr-2"></i><span class="description-text">Projects</span>
         </a>
-        <a href="javascript:void(0)"  class="list-item" (click)="logout()">
+        <a href="javascript:void(0)" class="list-item" (click)="logout()">
           <i class="fas fa-sign-out-alt mr-2"></i><span class="description-text">Logout</span>
         </a>
       </div>
-      <!--<a [routerLink]="'/inventory/' + item.slug">Account details</a>-->
     </div>
     <div class="col-9 col-sm-11 col-md-9">
       <router-outlet></router-outlet>

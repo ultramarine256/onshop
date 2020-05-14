@@ -1,10 +1,10 @@
 <div class="product-item p-3">
-  <div class="category">{{item.firstCategory.name}}</div>
+  <div class="category">{{ item.firstCategory.name }}</div>
   <a class="title text-decoration-none" [routerLink]="baseUrl + '/' + item.slug">
-    {{item.name}}
+    {{ item.name }}
   </a>
   <a class="image" [routerLink]="baseUrl + '/' + item.slug">
-    <img class="image__src" [src]="item.firstImage">
+    <img class="image__src" [src]="item.firstImage" />
     <div *ngIf="showPopUp" class="pop-up-window">
       Added
       <span class="material-icons">
@@ -16,31 +16,27 @@
     <div class="price-item d-flex justify-content-center">
       <span class="price-title font-weight-500 text-center">Buy</span>
       <span class="price-details text-center">
-        {{item.price | currency}}
+        {{ item.price | currency }}
       </span>
-      <!--      <button class="d-flex justify-content-center border-none py-1 mt-1 text-primary add-to-cart"-->
-      <!--              style="border: none;"-->
-      <!--              (click)="addCart(item,$event)">-->
-      <!--        <i class="material-icons-outlined">add_shopping_cart</i>-->
-      <!--      </button>-->
     </div>
     <div class="price-item d-flex border-left justify-content-center" *ngIf="item.isRentable">
       <span class="price-title font-weight-500 text-center">Rent</span>
       <span class="price-details pl-2">
-        {{item.rentPerDayPrice ? '$' + item.rentPerDayPrice + '/day' : ''}}
+        {{ item.rentPerDayPrice ? '$' + item.rentPerDayPrice + '/day' : '' }}
       </span>
       <span class="price-details pl-2">
-        {{item.rentPerWeekPrice ? '$' + item.rentPerWeekPrice + '/wk' : ''}}
+        {{ item.rentPerWeekPrice ? '$' + item.rentPerWeekPrice + '/wk' : '' }}
       </span>
       <span class="price-details pl-2">
-        {{item.rentPerMonthPrice ? '$' + item.rentPerMonthPrice + '/mo' : ''}}
+        {{ item.rentPerMonthPrice ? '$' + item.rentPerMonthPrice + '/mo' : '' }}
       </span>
     </div>
-
   </div>
-  <button class="btn btn-primary d-flex justify-content-center align-items-center border-none"
-          style="border: none;"
-          [routerLink]="baseUrl + '/' + item.slug">
+  <button
+    class="btn btn-primary d-flex justify-content-center align-items-center border-none"
+    style="border: none;"
+    [routerLink]="baseUrl + '/' + item.slug"
+  >
     <span>View More</span>
     <span class="material-icons-outlined">double_arrow</span>
   </button>

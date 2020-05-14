@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { Subject } from 'rxjs';
+import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+
 import {
   CategoryModel,
   ProductModel,
@@ -8,174 +11,132 @@ import {
   ProductRepository,
   ProductSearchResult,
   CategoryRepository,
-  SearchResultFilters
-} from '../../../_data';
-import {AppMapper} from '../../_mapper';
-import {AuthService, CartService, FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
+  SearchResultFilters,
+} from '@data/index';
+import { AppMapper } from '@presentation/_mapper/app-mapper';
+import { AuthService, CartService, SortingOption } from '@domain/index';
+
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+
+interface FilterState {
+  productFilter: ProductFilter;
+  dynamicFilter: string;
+}
 
 @Component({
   selector: 'app-inventory-page',
   styleUrls: ['./inventory-page.component.scss'],
-  templateUrl: './inventory-page.component.html'
+  templateUrl: './inventory-page.component.html',
 })
-export class InventoryPageComponent implements OnInit {
-  /// fields
-  public items: Array<ProductModel> = [];
+export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit {
+  public filterUpdated$ = new Subject<{ productFilter: ProductFilter; dynamicFilter: string }>();
+
+  public searchResult = new ProductSearchResult();
+  public products: ProductModel[];
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
-  public setFilters: ProductFilter;
-  public searchResult: ProductSearchResult;
-  public itemFilters: any;
-  public categoryId: number;
-  public sortChanged: number;
-  public setCurrentFilter: string;
+  public readonly paginationConfig = { itemsPerPage: 12 };
 
-  /// predicates
+  public showCategories: boolean;
   public isLoading = true;
-  public pagination = {setPage: 1, setAmount: 12};
-  public dynamicFilterSave = '';
-  public showCategories: true;
-  public element: HTMLElement;
 
+  private element: HTMLElement;
+  private filterState: FilterState;
 
-  /// constructor
-  constructor(private productRepository: ProductRepository,
-              private categoryRepository: CategoryRepository,
-              private cartService: CartService,
-              public authService: AuthService,
-              private route: ActivatedRoute,
-              private router: Router) {
-    this.searchResult = new ProductSearchResult();
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private productRepository: ProductRepository,
+    private categoryRepository: CategoryRepository,
+    private cartService: CartService,
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
+  ) {
+    super();
   }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(res => {
-      this.pagination.setPage = Number(res.page) || 1;
-      this.dynamicFilterSave = res.dynamicFilter || '';
-      this.setCurrentFilter = res.sortingBar || '';
-      this.setFilters = new ProductFilter({
-        page: Number(res.page),
-        per_page: 12,
-        orderby: res.orderBy,
-        order: res.order
-      });
-    });
+  ngOnInit(): void {
+    const page = this.activatedRoute.snapshot.queryParams.page ? +this.activatedRoute.snapshot.queryParams.page : 1;
+    const category = this.activatedRoute.snapshot.params.categoryId ? +this.activatedRoute.snapshot.params.categoryId : null;
 
-    this.route.params.subscribe(params => {
-      this.productRepository.getFiltersProduct(0).subscribe(res => {
-        this.itemFilters = res;
+    // Initiate state for filters
+    this.filterState = {
+      productFilter: new ProductFilter({
+        page,
+        category,
+        per_page: this.paginationConfig.itemsPerPage,
+      }),
+      dynamicFilter: '',
+    };
+
+    // Stream which is responsible for filtering products on the page based on filters
+    this.filterUpdated$
+      .pipe(
+        startWith(this.filterState),
+        tap(() => {
+          this.scrollToView();
+          this.isLoading = true;
+        }),
+        switchMap((filterState: FilterState) =>
+          this.productRepository.getProducts(filterState.productFilter, filterState.dynamicFilter).pipe(
+            tap(() => {
+              this.isLoading = false;
+              this.filterState = filterState;
+              this.updateUrl(filterState);
+            })
+          )
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((data) => {
+        this.filter = data.filters;
+        this.searchResult = data;
       });
-      this.categoryId = params.cacategoryId;
-      this.categoryRepository.getCategory(params.categoryId).subscribe(item => {
-        this.category = item;
-      });
-      if (params.categoryId.toString() === 'all') {
-        this.showCategories = true;
-        this.productRepository.getProducts(new ProductFilter(this.setFilters),
-          this.dynamicFilterSave)
-          .pipe(finalize(() => this.isLoading = false))
-          .subscribe(result => {
-            const filterResult = result.filters.filterItems;
-            for (let i = 0; i < filterResult.length; i++) {
-              if (filterResult[i].name === 'category') {
-                const temp = filterResult[0];
-                filterResult[0] = filterResult[i];
-                filterResult[i] = temp;
-              }
-            }
-            this.filter = result.filters;
-            this.searchResult = result;
-            this.sortChanged = this.pagination.setPage;
-          });
-      } else {
-        this.productRepository.getProducts(new ProductFilter(this.setFilters), null)
-          .pipe(finalize(() => this.isLoading = false))
-          .subscribe(result => {
-            this.filter = result.filters;
-            this.searchResult = result;
-            this.sortChanged = this.pagination.setPage;
-          });
-      }
-    });
   }
 
-  public filtersChanged(dynamicFilter: string, page: any, sorting: any) {
-    this.isLoading = true;
-    this.scrollToView();
-    if (dynamicFilter) {
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: {
-          dynamicFilter
-        },
-        queryParamsHandling: 'merge',
-      });
-      this.dynamicFilterSave = dynamicFilter;
-      this.setFilters.page = 1;
-    } else if (page) {
-      this.sortChanged = page.setPage;
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: {
-          page: page.setPage
-        },
-        queryParamsHandling: 'merge',
-      });
-      this.setFilters.page = page.setPage;
-    } else if (sorting) {
-      this.sortChanged = 1;
-      if (sorting.name !== 'all') {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {
-            sortingBar: sorting.title,
-            orderBy: sorting.name,
-            order: sorting.property,
-            page: 1
-          },
-          queryParamsHandling: 'merge',
-        });
-        this.setFilters.orderby = sorting.name;
-        this.setFilters.order = sorting.property;
-      } else {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {
-            sortingBar: null,
-            orderBy: null,
-            order: null,
-            page: 1
-          },
-          queryParamsHandling: 'merge',
-        });
-        this.setFilters.orderby = null;
-        this.setFilters.order = null;
-      }
-      this.setFilters.page = 1;
+  public onPageChanged(page: number) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.page = page;
+    this.filterUpdated$.next(filterState);
+  }
+
+  public onSortTypeChanged($event: SortingOption) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.order = $event.property;
+    filterState.productFilter.orderby = $event.name;
+    this.filterUpdated$.next(filterState);
+  }
+
+  public onFilterChanged(dynamicFilter: string) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.page = 1;
+    filterState.dynamicFilter = dynamicFilter;
+    this.filterUpdated$.next(filterState);
+  }
+
+  public onAddedToCart(product: ProductModel) {
+    if (!product) {
+      this.router.navigate(['/login']);
     }
-
-    this.productRepository.getProducts(this.setFilters, dynamicFilter)
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe(result => {
-        this.filter = result.filters;
-        this.searchResult = result;
-        this.dynamicFilterSave = dynamicFilter;
-      });
+    this.cartService.addItem(AppMapper.toCartItem(product));
   }
 
-  /// methods
-
-  public addToCart(item: ProductModel) {
-    if (!item) {
-      (window as any).toastr.options.positionClass = 'toast-bottom-right';
-      (window as any).toastr.info('Login to make shopping');
-    } else {
-      this.cartService.addItem(AppMapper.toCartItem(item));
-    }
+  private updateUrl(productFilter: FilterState) {
+    this.router.navigate([], {
+      queryParams: { page: productFilter.productFilter.page },
+    });
   }
 
-  public scrollToView() {
+  private scrollToView() {
     this.element = document.getElementById('scrollView') as HTMLElement;
-    this.element.scrollIntoView({block: 'start', behavior: 'smooth'});
+    this.element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  public get currentPage(): number {
+    return this.filterState.productFilter.page;
+  }
+
+  public get totalResults(): number {
+    return this.searchResult.totalCount;
   }
 }
