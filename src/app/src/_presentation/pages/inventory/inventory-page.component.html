@@ -57,7 +57,7 @@
             </app-product-item>
           </div>
         </div>
-        <div class="d-flex justify-content-center row" *ngIf="!isLoading">
+        <div class="d-flex justify-content-center row" *ngIf="!isLoading && totalResults > paginationConfig.itemsPerPage">
           <pagination-controls
             (pageChange)="onPageChanged($event)"
             (pageBoundsCorrection)="onPageChanged($event)"
