@@ -123,3 +123,11 @@ li:nth-last-child(-n+2) {
 .discount{
     display: none !important;
 }
+
+
+/**
+ * Hide order actions
+ */
+#woocommerce-order-actions {
+    display: none!important;
+}
