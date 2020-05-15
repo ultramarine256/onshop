@@ -144,6 +144,16 @@ export class ShippingModel {
     Object.assign(this as any, init);
   }
 
+  public mapFromDto(dto: any) {
+    this.fistName = dto.first_name;
+    this.lastName = dto.last_name;
+    this.address1 = dto.address_1;
+    this.city = dto.city;
+    this.state = dto.state;
+    this.postcode = dto.postcode;
+    this.country = dto.country;
+  }
+
   /// mappers
   public asWooObject(): {} {
     return {
@@ -186,13 +196,5 @@ export class LineItemModel {
       (result as any).total = this.total * this.quantity;
     }
     return result;
-  }
-}
-
-export class OrderNoteModel {
-  note: string;
-
-  constructor(note: string) {
-    this.note = note;
   }
 }
