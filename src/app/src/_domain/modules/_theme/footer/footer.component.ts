@@ -6,9 +6,8 @@ import { Component, Input } from '@angular/core';
   templateUrl: './footer.component.html',
 })
 export class FooterComponent {
-  /// binding
   @Input() phone: string;
+  @Input() isAuthorized: boolean;
 
-  /// constructor
   constructor() {}
 }

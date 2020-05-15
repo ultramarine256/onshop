@@ -1,42 +1,32 @@
-<div class="container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb my-2 px-0 bg-white">
-      <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Login</li>
-    </ol>
-  </nav>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-md-6 pr-3 pr-md-5">
-      <h2 class="content-title">Login</h2>
-      <p>
-        Welcome back! Sign in to your account.
-      </p>
-      <form class="login-page__form" [formGroup]="loginForm">
-        <mat-form-field class="login-page__form-field">
-          <mat-label>Email</mat-label>
-          <input matInput type="text" formControlName="email" placeholder="Email" />
-          <mat-error *ngIf="loginForm.get('email').hasError('required')"> Email is <strong>required</strong> </mat-error>
-          <mat-error *ngIf="loginForm.get('email').hasError('email')">
-            Please enter a valid email address
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="login-page__form-field">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" placeholder="Password" />
-          <mat-error *ngIf="loginForm.get('password').hasError('required')"> Password is <strong>required</strong> </mat-error>
-        </mat-form-field>
+<div class="login-page">
+  <div class="login-page__abstract"></div>
+  <div class="login-page__content">
+    <h2 class="login-page__title">Login</h2>
+    <form class="login-page__form" [formGroup]="loginForm">
+      <mat-form-field class="login-page__form-field">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" formControlName="email" placeholder="Email" />
+        <mat-error *ngIf="loginForm.get('email').hasError('required')"> Email is <strong>required</strong> </mat-error>
+        <mat-error *ngIf="loginForm.get('email').hasError('email')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="login-page__form-field">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="Password" />
+        <mat-error *ngIf="loginForm.get('password').hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
 
-        <div class="login-page__form-action">
-          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" (click)="!loginProcessing && login()">
-            <mat-icon [hidden]="!loginProcessing">
-              <mat-spinner color="accent" [diameter]="20"></mat-spinner>
-            </mat-icon>
-            <span [hidden]="loginProcessing">Submit</span>
-          </button>
-        </div>
-      </form>
-    </div>
+      <div class="login-page__form-action">
+        <button mat-raised-button color="primary" type="submit" (click)="!loginProcessing && login()">
+          <mat-icon [hidden]="!loginProcessing">
+            <mat-spinner color="accent" [diameter]="20"></mat-spinner>
+          </mat-icon>
+          <span [hidden]="loginProcessing">Submit</span>
+        </button>
+      </div>
+    </form>
   </div>
 </div>
