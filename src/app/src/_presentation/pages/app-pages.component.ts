@@ -15,7 +15,7 @@ import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
   templateUrl: './app-pages.component.html',
 })
 export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
-  public productItems: Product[];
+  public productItems: Product[] = [];
 
   constructor(
     private router: Router,

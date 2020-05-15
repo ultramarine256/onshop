@@ -1,24 +1,31 @@
 <div class="d-flex flex-column search-input-container">
-  <input #autoComplete (keyup)="inputChanged.emit(autoComplete.value)" type="text"
-         class="form-control search-results-input search-field product-search-field"
-         name="s" placeholder="Search for Products" autocomplete="off">
-  <div *ngIf="searchResults.length>0 && autoComplete.value" class="search-list">
+  <input
+    #autoComplete
+    (keyup)="inputChanged.emit(autoComplete.value)"
+    type="text"
+    class="form-control search-results-input search-field product-search-field"
+    name="s"
+    placeholder="Search for Products"
+    autocomplete="off"
+  />
+  <div *ngIf="searchResults.length && autoComplete.value" class="search-list">
     <ul class="list-unstyled search-list-result">
-      <li *ngFor="let item of searchResults" class="search-results text-muted"
-          (click)="productChosen.emit(item.slug);autoComplete.value=null">
+      <li
+        *ngFor="let item of searchResults"
+        class="search-results text-muted"
+        (click)="productChosen.emit(item.slug); autoComplete.value = null"
+      >
         <div class="d-flex align-items-center">
-          <img *ngIf="item.firstImage!=0"
-               src='{{item.firstImage}}'
-               style="width: 30px; height: 30px">
-          <div *ngIf="item.firstImage==0" class="alt-photo">
+          <img *ngIf="item.firstImage != 0" src="{{ item.firstImage }}" style="width: 30px; height: 30px;" />
+          <div *ngIf="item.firstImage == 0" class="alt-photo">
             <i class="nav-link material-icons text-light small">
               photo_camera
-            </i></div>
-          <span class="ml-1">{{item.name}}</span>
+            </i>
+          </div>
+          <span class="ml-1">{{ item.name }}</span>
         </div>
-        <span>{{item.price | currency}}</span>
+        <span>{{ item.price | currency }}</span>
       </li>
     </ul>
   </div>
 </div>
-
