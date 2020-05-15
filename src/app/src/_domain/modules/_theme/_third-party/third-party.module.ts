@@ -13,6 +13,7 @@ import {
   MatSelectModule,
   MatSnackBarModule,
   MatStepperModule,
+  MatTableModule,
 } from '@angular/material';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -35,6 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatRadioModule,
     MatIconModule,
     NgxPaginationModule,
+    MatTableModule,
   ],
   exports: [
     // dev-extreme
@@ -53,6 +55,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatRadioModule,
     MatIconModule,
     NgxPaginationModule,
+    MatTableModule,
   ],
 })
 export class ThirdPartyModule {}

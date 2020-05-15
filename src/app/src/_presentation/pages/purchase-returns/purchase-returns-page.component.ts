@@ -1,42 +1,100 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UserModel, UserRepository} from '../../../_data/repository/user';
-import {OrderRepository, OrderResponse} from '../../../_data/repository/order';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { finalize, takeUntil, tap } from 'rxjs/operators';
+import { SelectionModel } from '@angular/cdk/collections';
+import * as moment from 'moment';
+
+import { ProductItem, UserRepository } from '@data/repository';
+import { OrderRepository, OrderResponse } from '../../../_data/repository/order';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
   selector: 'app-purchase-returns-page',
   styleUrls: ['./purchase-returns-page.component.scss'],
-  templateUrl: './purchase-returns-page.component.html'
+  templateUrl: './purchase-returns-page.component.html',
 })
-export class PurchaseReturnsPageComponent implements OnInit {
-  public didLoaded = false;
-  public orderInfo: OrderResponse;
+export class PurchaseReturnsPageComponent extends UnsubscribeMixin() implements OnInit {
+  public order: OrderResponse;
   public orderId: number;
-  public note = '';
-  serializedDate = new FormControl((new Date()).toISOString());
-  public minDate: Date;
+  public filteredProducts: ProductItem[];
+  public deliveryInfo: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private userRepository: UserRepository, private orderRepository: OrderRepository, private route: ActivatedRoute) {
-    this.minDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 3);
+  public minDate: Date;
+  public selection = new SelectionModel<any>(true, []);
+
+  public isLoading: boolean;
+  public isSubmitInProgress: boolean;
+  public sent: boolean;
+
+  constructor(
+    private fb: FormBuilder,
+    private userRepository: UserRepository,
+    private orderRepository: OrderRepository,
+    private route: ActivatedRoute
+  ) {
+    super();
   }
 
   ngOnInit() {
-    this.orderId = Number(this.route.snapshot.paramMap.get('id'));
-    this.orderRepository.getOrder(this.orderId).subscribe(resp => {
-      this.orderInfo = resp;
-      this.didLoaded = true;
-    });
+    this.orderId = +this.route.snapshot.params.id;
+
+    this.isLoading = true;
+    this.orderRepository
+      .getOrder(this.orderId)
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((order) => {
+        this.order = order;
+        this.filteredProducts = order.productItems.filter((product) => product.hasRent);
+
+        this.deliveryInfo = this.fb.group({
+          address: [order.shipping.address1, Validators.required],
+          deliveryDate: [order.deliveryDate, Validators.required],
+        });
+        this.minDate = moment().add(3, 'days').toDate();
+
+        this.masterToggle(); // select all products
+      });
   }
 
-  public EndDateChange(date) {
-    this.note = 'Ready to return! Date:(' +
-      date.toDateString();
+  public masterToggle() {
+    this.isAllSelected() ? this.selection.clear() : this.filteredProducts.forEach((row) => this.selection.select(row));
   }
 
-  public createNote() {
-    this.note += `)Adress:(${this.orderInfo.shipping.address_1})`;
-    this.orderRepository.postNote(this.note, this.orderId).subscribe(() => alert('done'));
-    console.log(this.note);
+  public toggle(product: ProductItem) {
+    this.selection.toggle(product);
+  }
+
+  public isAllSelected(): boolean {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.filteredProducts.length;
+    return numSelected === numRows;
+  }
+
+  public isFormIsValid(): boolean {
+    return this.deliveryInfo.invalid || !this.selection.selected.length;
+  }
+
+  public submit() {
+    this.isSubmitInProgress = true;
+    this.orderRepository
+      .saveNote(this.getFormattedNote(), this.orderId)
+      .pipe(
+        tap(() => (this.sent = true)),
+        finalize(() => (this.isSubmitInProgress = false)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  private getFormattedNote(): string {
+    return `Order #${this.order.id}, address: ${this.deliveryInfo.get('address').value}, date: ${moment(
+      this.deliveryInfo.get('deliveryDate').value
+    ).format('lll')}, products: ${this.selection.selected
+      .map((product) => `#${product.id} - ${product.name}`)
+      .join('; ')}`;
   }
 }

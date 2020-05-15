@@ -5,6 +5,6 @@
 </ng-template>
 
 <ng-container *ngIf="orders$ | async as orders; else loader">
-  <h3>Orders</h3>
-  <app-orders-component [items]="orders"></app-orders-component>
+  <h3 class="col-12">Orders</h3>
+  <app-orders-component [orders]="orders"></app-orders-component>
 </ng-container>

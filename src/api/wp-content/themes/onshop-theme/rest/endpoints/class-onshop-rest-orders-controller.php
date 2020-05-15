@@ -41,6 +41,21 @@ class ONSHOP_REST_Orders_Controller extends WC_REST_Orders_Controller {
 				}
 			]
 		);
+        register_rest_route(
+            $this->namespace,
+            'user/order/note',
+            [
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => function ( WP_REST_Request $request ) {
+                    $order = wc_get_order($request->get_param('id'));
+                    $order->add_order_note($request->get_param('note'), true);
+                    return $order->get_data();
+                },
+                'permission_callback' => function () {
+                    return ONSHOP_AUTH::verify_auth();
+                }
+            ]
+        );
 		register_rest_route(
 			$this->namespace,
 			'user/orders',

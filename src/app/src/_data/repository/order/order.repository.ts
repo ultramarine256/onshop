@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BaseRepository } from '../base.repository';
-import { OrderCreateModel, OrderNoteModel, OrderResponse } from './model/index';
+import { OrderCreateModel, OrderResponse } from './model/index';
 
 @Injectable()
 export class OrderRepository extends BaseRepository {
@@ -48,8 +48,7 @@ export class OrderRepository extends BaseRepository {
     );
   }
 
-  public postNote(noteWo: string, id: number) {
-    const woocommerceNote = new OrderNoteModel(noteWo);
-    return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v1/orders/${id}/notes`, woocommerceNote);
+  public saveNote(note: string, id: number) {
+    return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/order/note`, { note, id });
   }
 }

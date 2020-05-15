@@ -1,27 +1,16 @@
-.list-item {
-  display: flex;
-  align-items: center;
-  padding: 0.6rem 0rem;
-  text-decoration: none;
-  border-bottom: 1px solid #eceeef;
+.profile-page__menu {
+  .profile-page__menu-item {
+    display: block;
+    border-bottom: 1px solid #eceeef;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
 
-  i {
-    width: 20px;
-    text-align: center;
-  }
+    i {
+      width: 20px;
+    }
 
-  &.active {
-    color: #333e48;
-  }
-
-}
-
-@media screen and (max-width: 600px){
-  .description-text{
-    display: none;
-  }
-  .list-item{
-    border-bottom:0;
-    margin-bottom: 5px;
+    &.active {
+      color: #333e48;
+    }
   }
 }
