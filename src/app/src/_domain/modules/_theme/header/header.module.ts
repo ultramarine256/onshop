@@ -4,6 +4,7 @@ import {CommonModule} from '@angular/common';
 import {HeaderComponent} from './header.component';
 import {ProductSearchModule} from '../products-search';
 import {RouterModule} from '@angular/router';
+import {MatBadgeModule, MatIconModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,9 @@ import {RouterModule} from '@angular/router';
     RouterModule,
 
     /// theme
-    ProductSearchModule
+    ProductSearchModule,
+    MatIconModule,
+    MatBadgeModule
   ],
   exports: [
     HeaderComponent
