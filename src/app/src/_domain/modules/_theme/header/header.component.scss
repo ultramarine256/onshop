@@ -118,7 +118,7 @@
 
     .searchbar__input-group {
       display: flex;
-      height: 41px;
+      min-height: 45px;
       width: 100%;
       .input-search-field {
         width: 100%;
@@ -159,8 +159,4 @@
     }
   }
 }
-
-
-
-
 

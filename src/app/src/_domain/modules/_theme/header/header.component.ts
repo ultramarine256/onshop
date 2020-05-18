@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CategoryModel} from '../../../../_data';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CategoryModel } from '../../../../_data';
 
 @Component({
   selector: 'app-header-component',
   styleUrls: ['./header.component.scss'],
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
 })
 export class HeaderComponent {
   /// binding
@@ -20,14 +20,5 @@ export class HeaderComponent {
   @Input() profilePageUrl: string;
   @Input() loginPageUrl: string;
 
-
-  @Input() searchResults: Array<any> = [];
-  @Output() inputChanged = new EventEmitter<string>();
-  @Output() productChosen = new EventEmitter<string>();
-
-  /// constructor
-  constructor() {
-  }
+  constructor() {}
 }
-
-

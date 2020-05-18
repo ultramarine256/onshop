@@ -7,10 +7,10 @@
     [isAuthorized]="authService.isAuthorized"
     [loginPageUrl]="'/login'"
     [profilePageUrl]="'/profile'"
-    [userName]="authService.identity.firstName + ' ' + authService.identity.lastName"
-    (inputChanged)="inputChanged($event)"
-    (productChosen)="productRedirect($event)"
-    [searchResults]="productItems">
+    [userName]="authService.identity.firstName + ' ' + authService.identity.lastName">
+<!--    (inputChanged)="inputChanged($event)"-->
+<!--    (productChosen)="productRedirect($event)"-->
+<!--    [searchResults]="productItems">-->
   </app-header-component>
   <div class="app-content">
     <router-outlet></router-outlet>

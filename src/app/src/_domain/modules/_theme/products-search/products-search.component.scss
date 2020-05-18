@@ -1,82 +1,39 @@
-.search-input-container {
-  position: relative;
+.alt-photo {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(134, 151, 145, 0.61);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.input-search-field {
-  width: 90%;
-
-  input {
-    height: 100%;
-    border: none;
-    border-radius: 20px 0px 0px 20px;
-    padding: .3em 2.134em;
-  }
+.example-form {
+  width: 100%;
 }
 
-.search-results-input {
-  height: 41px;
-  border: none;
-  border-radius: 5px 0px 0px 5px;
-  padding: .3em 2.134em;
+.example-full-width {
+  width: 100%;
 }
 
-.search-list {
-  position: absolute;
-  z-index: 2;
-  height: auto;
-  width: 100.5%;
-  max-height: 200px;
-  font-size: 0.9em;
-  top: 45px;
-  overflow-y: scroll;
-  border-radius: 0px 0px 5px 5px;
-  padding-top: 10px;
+.mat-form-field-flex {
+  background: white;
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+  padding: 0.5em 0 !important;
+  border: 0;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: white;
-  border: 1px solid lightgray;
-  border-top: 0;
-  color: black;
-
-  &::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: silver;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #5a5a5a;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-  .search-results {
-    display: flex;
-    width: 100%;
-    font-size: 1em;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 5px;
-
-    &:hover {
-      cursor: pointer;
-      background-color: rgba(44, 152, 240, 0.51);
-    }
-
-    .alt-photo {
-      width: 30px;
-      height: 30px;
-      background-color: rgba(134, 151, 145, 0.61);
-      display: flex;
-      align-items: center;
-      justify-content: center
-    }
-  }
+  border-radius: 5px;
 }
 
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: silver;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding:0;
+}
 
