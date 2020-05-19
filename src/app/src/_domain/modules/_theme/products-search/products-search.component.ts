@@ -31,7 +31,6 @@ export class ProductSearchComponent extends UnsubscribeMixin() implements OnInit
             .pipe(tap(() => (this.isLoading = false)))
         )
       )
-      .pipe(finalize(() => (this.isLoading = false)))
       .pipe(takeUntil(this.destroy$))
       .subscribe((res) => (this.searchResults = res.items));
   }
