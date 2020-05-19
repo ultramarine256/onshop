@@ -11,6 +11,7 @@ import {
   OrderCreateModel,
   OrderRepository,
   OrderResponse,
+  OrderStatus,
   Payment,
   ProjectRepository,
   ProjectResponse,
@@ -106,6 +107,15 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
 
   public submit() {
     const form = this.checkoutForm;
+    const products = this.cartService.items.map(
+      (cartItem) =>
+        new LineItemModel({
+          productId: cartItem.id,
+          quantity: cartItem.count,
+          rentalDuration: cartItem.duration,
+          total: cartItem.price,
+        })
+    );
     const order = new OrderCreateModel({
       customerId: this.authService.identity.id,
       paymentMethod: Payment.Bacs,
@@ -130,17 +140,10 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       deliveryDate: this.deliveryDate.value,
       deliveryInstructions: this.deliveryInstructions.value,
       deliveryTime: this.deliveryTime.value,
+      status: products.some((product) => product.rentalDuration) ? OrderStatus.InRent : OrderStatus.Pending,
     });
 
-    order.products = this.cartService.items.map(
-      (cartItem) =>
-        new LineItemModel({
-          productId: cartItem.id,
-          quantity: cartItem.count,
-          rentalDuration: cartItem.duration,
-          total: cartItem.price,
-        })
-    );
+    order.products = products;
 
     this.isSubmitInProgress = true;
     this.orderRepository

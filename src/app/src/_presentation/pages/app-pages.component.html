@@ -8,15 +8,12 @@
     [loginPageUrl]="'/login'"
     [profilePageUrl]="'/profile'"
     [userName]="authService.identity.firstName + ' ' + authService.identity.lastName">
-<!--    (inputChanged)="inputChanged($event)"-->
-<!--    (productChosen)="productRedirect($event)"-->
-<!--    [searchResults]="productItems">-->
   </app-header-component>
   <div class="app-content">
     <router-outlet></router-outlet>
   </div>
   <app-footer-component
 
-    [phone]="infoService.appInfo.phone">
+  <app-footer-component [isAuthorized]="authService.isAuthorized" [phone]="infoService.appInfo.phone">
   </app-footer-component>
 </div>

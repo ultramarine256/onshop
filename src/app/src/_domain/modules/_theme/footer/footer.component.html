@@ -1,50 +1,68 @@
-<div class="footer-newsletter d-flex">
-  <div class="container text-center py-2">
-    <span class="text-white">Shop By Department</span>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row py-4 my-md-4">
-    <div class="col-12 col-md-5">
-      <div class="mr-1">
+<footer class="footer" [ngClass]="{ 'footer--guest': !isAuthorized }">
+  <ng-container *ngIf="!isAuthorized">
+    <div class="footer__info container">
+      <div class="footer__info-logo">
         <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" style="height: 40px;" />
       </div>
-      <div class="my-2 d-flex flex-column">
-        <small>Got Questions ? Call us 24/7!</small>
-        <span style="font-size: 130%;">{{ phone }}</span>
+      <div>
+        <div>
+          <div>Got Questions ? Call us 24/7!</div>
+          <div class="footer__phone">
+            {{ phone }}
+          </div>
+        </div>
       </div>
-      <small class="d-block text-muted">© 2019-2020</small>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isAuthorized">
+    <div class="footer-newsletter d-flex">
+      <div class="container text-center py-2">
+        <span class="text-white">Shop By Department</span>
+      </div>
     </div>
 
-    <div class="col-6 col-md d-none d-md-block"></div>
-    <div class="col-6 col-md d-none d-md-block">
-      <h5 class="font-weight-500">Find It Fast</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted text-decoration-none" routerLink="/">Home</a></li>
-        <li><a class="text-muted text-decoration-none" routerLink="/categories">Categories</a></li>
-      </ul>
-    </div>
-    <div class="col-6 col-md d-none d-md-block">
-      <h5 class="font-weight-500">Customer Care</h5>
-      <ul class="list-unstyled text-small">
-        <li><a class="text-muted text-decoration-none" routerLink="/profile" href="">My Account</a></li>
-        <li><a class="text-muted text-decoration-none" href="javascript:void(0)">Product Support</a></li>
-        <li><a class="text-muted text-decoration-none" href="javascript:void(0)">FAQs</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+    <div class="container">
+      <div class="row py-4 my-md-4">
+        <div class="col-12 col-md-5">
+          <div class="mr-1">
+            <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" style="height: 40px;" />
+          </div>
+          <div class="my-2 d-flex flex-column">
+            <small>Got Questions ? Call us 24/7!</small>
+            <span style="font-size: 130%;">{{ phone }}</span>
+          </div>
+          <small class="d-block text-muted">© 2019-2020</small>
+        </div>
 
-<div class="copyright-bar d-flex">
-  <div class="container">
-    <div class="d-flex justify-content-between my-2">
-      <div class="d-flex align-items-center" style="font-size: 90%;">
-        © <span class="font-weight-500">OnShop</span> - All Rights Reserved
-      </div>
-      <div class="d-none d-md-flex">
-        <!--        <img src="https://demo2.madrasthemes.com/electro-wide/wp-content/uploads/2017/02/patment-icon.png"/>-->
+        <div class="col-6 col-md d-none d-md-block"></div>
+        <div class="col-6 col-md d-none d-md-block">
+          <h5 class="font-weight-500">Find It Fast</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted text-decoration-none" routerLink="/">Home</a></li>
+            <li><a class="text-muted text-decoration-none" routerLink="/categories">Categories</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md d-none d-md-block">
+          <h5 class="font-weight-500">Customer Care</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted text-decoration-none" routerLink="/profile" href="">My Account</a></li>
+            <li><a class="text-muted text-decoration-none" href="javascript:void(0)">Product Support</a></li>
+            <li><a class="text-muted text-decoration-none" href="javascript:void(0)">FAQs</a></li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+
+    <div class="copyright-bar d-flex">
+      <div class="container">
+        <div class="d-flex justify-content-between my-2">
+          <div class="d-flex align-items-center" style="font-size: 90%;">
+            © <span class="font-weight-500">OnShop</span> - All Rights Reserved
+          </div>
+          <div class="d-none d-md-flex"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</footer>

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { AuthService, UserToken, IdentityResponse, LoginResponse } from '@domain/index';
 import { ProductRepository, UserRepository } from '@data/index';
-import { MatSnackBar } from '@angular/material';
+import { FormsService } from '@shared/services/forms.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,22 +15,17 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
-  /// fields
-  public errorMessage = '';
-
-  /// validation
   public loginForm: FormGroup;
 
-  /// spinners
   public loginProcessing = false;
 
-  /// constructor
   constructor(
     private snackBar: MatSnackBar,
     private userRepository: UserRepository,
     private productRepository: ProductRepository,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private formService: FormsService
   ) {
     super();
   }
@@ -38,11 +34,15 @@ export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
     this.loginForm = this.createLoginForm();
   }
 
-  /// methods
   public login() {
-    this.loginProcessing = true;
+    if (!this.formService.validate(this.loginForm)) {
+      return false;
+    }
+
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
+
+    this.loginProcessing = true;
     this.authService
       .login(email, password)
       .pipe(takeUntil(this.destroy$))
@@ -67,7 +67,6 @@ export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
       );
   }
 
-  /// validation
   public createLoginForm(): FormGroup {
     return new FormGroup({
       email: new FormControl(null, [Validators.required]),
