@@ -1,16 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
-import {finalize, map} from 'rxjs/operators';
-import {ProductFilter, ProductRepository, ProductModel} from '../../../_data';
-import {AppMapper} from '../../_mapper';
-import {AuthService, CartService, OWL_CAROUSEL} from '../../../_domain';
-
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { finalize, map } from 'rxjs/operators';
+import { ProductFilter, ProductRepository, ProductModel } from '../../../_data';
+import { AppMapper } from '../../_mapper';
+import { AuthService, CartService, OWL_CAROUSEL } from '../../../_domain';
 
 @Component({
   selector: 'app-product-details-page',
   styleUrls: ['./product-details-page.component.scss'],
-  templateUrl: './product-details-page.component.html'
+  templateUrl: './product-details-page.component.html',
 })
 export class ProductDetailsPageComponent implements OnInit {
   /// fields
@@ -27,21 +26,28 @@ export class ProductDetailsPageComponent implements OnInit {
   public finalePrice: number;
 
   /// lifecycle
-  constructor(private productRepository: ProductRepository,
-              private route: ActivatedRoute,
-              private cartService: CartService,
-              public authService: AuthService,
-              private location: Location) {
+  constructor(
+    private productRepository: ProductRepository,
+    private route: ActivatedRoute,
+    private cartService: CartService,
+    public authService: AuthService,
+    private location: Location
+  ) {
     this.product = new ProductModel();
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params =>
-      this.productRepository.getProducts(new ProductFilter({slug: params.slug}))
-        .pipe(finalize(() => this.isLoaded = true))
-        .pipe(finalize(() => setTimeout(() => (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES), 200)))
-        .pipe(map(x => x.items[0]))
-        .subscribe(item => {
+    this.route.params.subscribe((params) =>
+      this.productRepository
+        .getProducts(new ProductFilter({ slug: params.slug }))
+        .pipe(finalize(() => (this.isLoaded = true)))
+        .pipe(
+          finalize(() =>
+            setTimeout(() => (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES), 200)
+          )
+        )
+        .pipe(map((x) => x.items[0]))
+        .subscribe((item) => {
           this.product = item;
           const productProperties = Object.keys(this.product);
           for (const element of productProperties) {
@@ -63,11 +69,17 @@ export class ProductDetailsPageComponent implements OnInit {
                 break;
             }
           }
-          this.productRepository.getProducts(new ProductFilter({include: this.product.relatedIds.join(',')}))
-            .pipe(finalize(() => this.relatedIsLoaded = true))
-            .pipe(finalize(() => setTimeout(() => (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS), 200)))
-            .subscribe(result => this.relatedProducts = result.items);
-        }));
+          this.productRepository
+            .getProducts(new ProductFilter({ include: this.product.relatedIds.join(',') }))
+            .pipe(finalize(() => (this.relatedIsLoaded = true)))
+            .pipe(
+              finalize(() =>
+                setTimeout(() => (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS), 200)
+              )
+            )
+            .subscribe((result) => (this.relatedProducts = result.items));
+        })
+    );
   }
 
   /// methods
@@ -76,7 +88,7 @@ export class ProductDetailsPageComponent implements OnInit {
     this.addedToCard = true;
     const mapedItem = AppMapper.toCartItem(item);
     if (!this.checkPrice) {
-      this.rentalOptions.map(x => {
+      this.rentalOptions.map((x) => {
         if (x.checked) {
           if (this.rentalDuration < 1) {
             this.rentalDuration = 1;
@@ -91,6 +103,7 @@ export class ProductDetailsPageComponent implements OnInit {
       mapedItem.price = Number(this.product.price);
       this.finalePrice = mapedItem.price;
     }
+    mapedItem.count = 1;
     this.cartService.addItem(mapedItem);
     setTimeout(() => {
       this.addedToCard = false;
@@ -102,7 +115,7 @@ export class ProductDetailsPageComponent implements OnInit {
     if (rent === 'price') {
       this.checkPrice = !this.checkPrice;
     }
-    this.rentalOptions.map(x => {
+    this.rentalOptions.map((x) => {
       if (x.name === rent) {
         x.checked = !x.checked;
         if (this.checkPrice) {

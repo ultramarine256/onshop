@@ -32,12 +32,7 @@
       </span>
     </div>
   </div>
-  <button
-    class="btn btn-primary d-flex justify-content-center align-items-center border-none"
-    style="border: none;"
-    [routerLink]="baseUrl + '/' + item.slug"
-  >
+  <button mat-raised-button color="primary" [routerLink]="baseUrl + '/' + item.slug">
     <span>View More</span>
-    <span class="material-icons-outlined">double_arrow</span>
   </button>
 </div>
