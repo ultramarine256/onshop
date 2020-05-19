@@ -1,6 +1,5 @@
 <div class="app-container">
   <app-header-component
-    *ngIf="authService.isAuthorized"
     [productsCount]="cartService.itemsCount"
     [productsPrice]="cartService.totalPrice"
     [email]="infoService.appInfo.email"
@@ -8,17 +7,11 @@
     [isAuthorized]="authService.isAuthorized"
     [loginPageUrl]="'/login'"
     [profilePageUrl]="'/profile'"
-    [userName]="authService.identity.firstName + ' ' + authService.identity.lastName"
-    (inputChanged)="inputChanged($event)"
-    (productChosen)="productRedirect($event)"
-    [searchResults]="productItems"
-  >
+    [userName]="authService.identity.firstName + ' ' + authService.identity.lastName">
   </app-header-component>
-
   <div class="app-content">
     <router-outlet></router-outlet>
   </div>
-
   <app-footer-component [isAuthorized]="authService.isAuthorized" [phone]="infoService.appInfo.phone">
   </app-footer-component>
 </div>

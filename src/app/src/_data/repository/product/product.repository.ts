@@ -14,7 +14,10 @@ export class ProductRepository extends BaseRepository {
   }
 
   /// methods
-  public getProducts(wpFilter: ProductFilter = new ProductFilter(), customFilters: string = null): Observable<ProductSearchResult> {
+  public getProducts(
+    wpFilter: ProductFilter = new ProductFilter(),
+    customFilters: string = null
+  ): Observable<ProductSearchResult> {
     let url = `${this.apiBaseUrl}/wp-json/onshop/v1/product?${wpFilter.asQueryString()}`;
     if (customFilters) {
       url += `&filter={${customFilters}`;
