@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import * as moment from 'moment';
 
-import { OrderResponse } from '@data/repository';
+import {OrderResponse} from '@data/repository';
 
 @Component({
   selector: 'app-orders-component',

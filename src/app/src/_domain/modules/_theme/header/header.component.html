@@ -1,4 +1,4 @@
-<div class="pos-f-t mobile-header d-block d-md-none ">
+<div class="pos-f-t mobile-header d-block d-md-none">
   <div class="collapse" id="navbarToggleExternalContent">
     <div class="p-3 d-flex justify-content-evenly">
       <a routerLink="/" class="font-weight-500 text-decoration-none">Home</a>
@@ -8,20 +8,34 @@
     </div>
   </div>
   <nav class="navbar navbar-light border-bottom">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarToggleExternalContent"
+      aria-controls="navbarToggleExternalContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="d-flex flex-grow-1 justify-content-between align-items-center">
       <div class="logo ml-3">
         <a routerLink="/" class="d-flex">
-          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo">
+          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
         </a>
       </div>
       <div class="d-flex">
         <!--<a href="javascript:void(0)" class="d-flex text-decoration-none"><i class="material-icons-outlined mr-2">search</i></a>-->
-        <a routerLink="/cart" class="d-flex text-decoration-none"><i
-          class="material-icons-outlined mr-2">shopping_cart</i></a>
+        <a routerLink="/cart" class="d-flex text-decoration-none mr-2">
+          <mat-icon
+            matBadge="{{ productsCount }}"
+            class="material-icons-outlined"
+            matBadgeSize="small"
+            matBadgeColor="warn"
+            >shopping_cart</mat-icon
+          >
+        </a>
         <a [routerLink]="profilePageUrl" class="d-flex text-decoration-none" *ngIf="isAuthorized">
           <i class="material-icons-outlined">account_circle</i>
         </a>
@@ -52,7 +66,7 @@
           <li>
             <a [routerLink]="profilePageUrl" *ngIf="isAuthorized">
               <!--<i class="material-icons">account_circle</i>-->
-              {{userName ? userName : 'profile'}}
+              {{ userName ? userName : 'profile' }}
             </a>
             <a [routerLink]="loginPageUrl" *ngIf="!isAuthorized">
               <!--<i class="material-icons">account_circle</i>-->
@@ -69,7 +83,7 @@
   <div class="container">
     <div class="masthead d-flex align-items-center my-3">
       <a routerLink="/" class="logo">
-        <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo">
+        <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
       </a>
       <div class="menu flex-grow-1">
         <ul class="menu-main-menu">
@@ -86,10 +100,10 @@
       </div>
       <div class="support">
         <div class="support__container d-flex align-items-center">
-          <img class="support__image mr-3" [src]="'/assets/img/header/support.svg'">
+          <img class="support__image mr-3" [src]="'/assets/img/header/support.svg'" />
           <div class="support__text">
-            <b>Support</b> {{phone}}<br>
-            Email: {{email}}
+            <b>Support</b> {{ phone }}<br />
+            Email: {{ email }}
           </div>
         </div>
       </div>
@@ -102,32 +116,18 @@
     <div class="row justify-content-center">
       <div class="col-md-9">
         <div class="searchbar__inner">
-          <!--          <div class="searchbar__space"></div>-->
-          <div class="searchbar__input-group my-1">
-            <div class="input-search-field">
-              <app-products-search
-                (inputChanged)="inputChanged.emit($event)"
-                (productChosen)="productChosen.emit($event)"
-                [searchResults]="searchResults">
-              </app-products-search>
-            </div>
-            <div class="d-none d-md-block search-categories">
-              <select name="product_cat" class="custom-select" style="width: 143px;">
-                <option value="0" selected="selected">All Categories</option>
-                <option class="level-0" [value]="item.slug" *ngFor="let item of categories">{{item.name}}</option>
-              </select>
-            </div>
-            <div class="input-group-btn">
-              <button type="submit" class="btn btn-secondary" [disabled]="true">
-                <i class="material-icons-outlined align-middle">search</i>
-              </button>
-            </div>
-          </div>
+          <app-products-search class="w-100"></app-products-search>
           <div class="d-none d-md-block searchbar__icons pl-4">
-            <a class="icon-item text-decoration-none text-dark position-relative" routerLink="/cart">
-              <i class="icon material-icons-outlined">shopping_cart</i>
-              <span class="cart-items-count" *ngIf="productsCount">{{productsCount}}</span>
-              <span class="font-weight-500 ml-3">{{(!productsPrice ? '0.00' : productsPrice) | currency }}</span>
+            <a class="icon-item text-decoration-none text-light font-weight-bold position-relative" routerLink="/cart">
+              <mat-icon
+                matBadge="{{ productsCount }}"
+                class="material-icons-outlined"
+                matBadgeSize="small"
+                matBadgeColor="warn"
+              >
+                shopping_cart
+              </mat-icon>
+              <span class="font-weight-500 ml-3">{{ (!productsPrice ? '0.00' : productsPrice) | currency }}</span>
             </a>
           </div>
         </div>
@@ -135,4 +135,3 @@
     </div>
   </div>
 </div>
-
