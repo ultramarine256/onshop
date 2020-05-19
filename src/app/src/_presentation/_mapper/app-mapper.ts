@@ -1,15 +1,9 @@
-import {CarouselItemModel, CartItemEntity, Product} from '../../_domain';
-import {CategoryModel, ProductModel} from '../../_data';
+import { CartItemEntity, Product } from '../../_domain';
+import { ProductModel } from '../../_data';
 
 export class AppMapper {
   public static toCartItem(entity: ProductModel): CartItemEntity {
-    const result = new CartItemEntity();
-    result.id = entity.id;
-    result.slug = entity.slug;
-    result.imageUrl = entity.firstImage;
-    result.title = entity.name;
-    result.price = Number(entity.price);
-    return result;
+    return new CartItemEntity(entity);
   }
 
   public static ToProducts(entities: Array<ProductModel>): Array<Product> {

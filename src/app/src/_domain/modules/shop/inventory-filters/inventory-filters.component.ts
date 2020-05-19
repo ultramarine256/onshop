@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { SelectionModel } from '@angular/cdk/collections';
 
 import { SearchResultFilters } from '@data/repository';
 
@@ -6,91 +8,32 @@ import { SearchResultFilters } from '@data/repository';
   selector: 'app-inventory-filters',
   styleUrls: ['./inventory-filters.component.scss'],
   templateUrl: './inventory-filters.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryFiltersComponent {
   @Input() showCategory: boolean;
-
-  @Input() set setFilterString(value: string) {
-    this.filtersItems = value;
-  }
-
   @Input() filter: SearchResultFilters;
+
   @Output() filterChanged = new EventEmitter<string>();
-  public filtersArray: Array<FiltersProperties> = [];
-  private filtersItems = '';
-  public check = false;
 
+  public selection = new SelectionModel<any>(true, []);
 
-  public chosenFilter(filterName, itemName) {
-    const completeFilter = new FilterToSet(filterName, itemName);
-    this._setFilters(completeFilter);
+  public toggleFilter(category: string, filter: any) {
+    this.selection.toggle(JSON.stringify({ category, filter }));
+    this.filterChanged.emit(this.getSerializedFilters(this.selection.selected));
   }
 
-  public _setFilters(event) {
-    const newFilter = new FiltersProperties(event.name, event.property);
-    let controll = false;
-    this.filtersArray.forEach((x) => {
-      if (x.name === newFilter.name) {
-        const i = this.filtersArray.indexOf(x);
-        controll = true;
-        if (this.filtersArray[i].properties.includes(event.property)) {
-          const j = this.filtersArray[i].properties.indexOf(event.property);
-          this.filtersArray[i].properties.splice(j, 1);
-          if (this.filtersArray[i].properties.length === 0) {
-            this.filtersArray.splice(i, 1);
-          }
-        } else {
-          this.filtersArray[i].properties.push(event.property);
+  private getSerializedFilters(selectedData: any): string {
+    const data = selectedData
+      .map((selection) => JSON.parse(selection))
+      .reduce((acc, item) => {
+        if (!acc[item.category]) {
+          acc[item.category] = [];
         }
-      }
-    });
-    if (!controll) {
-      this.filtersArray.push(newFilter);
-    }
-    this.filtersItems = '';
-    this.filtersArray.forEach((x) => {
-      const a = this.setQuery(x.properties);
-      this.filtersItems +=
-        (this.filtersArray.indexOf(x) !== 0 ? ',' : '') +
-        '"' +
-        x.name +
-        '":[' +
-        a +
-        ']' +
-        (this.filtersArray.indexOf(x) === this.filtersArray.length - 1 ? '}' : '');
-    });
-    this.filterChanged.emit(this.filtersItems);
-  }
+        acc[item.category] = acc[item.category].concat(item.filter.name);
+        return acc;
+      }, {});
 
-  public setQuery(items: Array<string>) {
-    let query = '';
-    items.map((x) => {
-      if (items.indexOf(x) === items.length - 1) {
-        query += `"${x}"`;
-      } else {
-        query += `"${x}",`;
-      }
-    });
-    return query;
-  }
-}
-
-class FilterToSet {
-  name: string;
-  property: string;
-
-  constructor(name, property) {
-    this.name = name;
-    this.property = property;
-  }
-}
-
-class FiltersProperties {
-  name: string;
-  properties: Array<string> = [];
-
-  constructor(name, property) {
-    this.name = name;
-    this.properties.push(property);
+    return Object.values(data).length ? JSON.stringify(data).slice(1) : '';
   }
 }

@@ -37,6 +37,7 @@
     "stream": "0.0.2",
     "toastr": "^2.1.4",
     "tslib": "^1.10.0",
+    "uuid": "^8.0.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
