@@ -21,8 +21,8 @@
               }}</span>
           </div>
           <div class="w-30 text-right">
-            <span *ngIf="option.isRentable"><b>for Rent</b></span>
-            <span *ngIf="!option.isRentable">for sale</span>
+            <span *ngIf="option.isRentable">for rent</span>
+            <span class="text-secondary"  *ngIf="!option.isRentable">for sale</span>
           </div>
         </div>
       </mat-option>
