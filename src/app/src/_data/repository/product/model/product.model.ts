@@ -1,4 +1,4 @@
-import {environment} from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 export class ProductModel {
   /// fields
@@ -36,7 +36,7 @@ export class ProductModel {
     return this.categories.length > 0 ? this.categories[0] : null;
   }
 
-  get isRentable(): boolean {
+  get availableForRent(): boolean {
     return !!this.rentPerDayPrice || !!this.rentPerWeekPrice || !!this.rentPerMonthPrice;
   }
 
@@ -191,5 +191,5 @@ export class ProductAttribute {
 export const PRODUCT_ATTRIBUTE_NAMES = {
   RENT_PRICE_DAY: 'rent__per-day',
   RENT_PRICE_WEEK: 'rent__per-week',
-  RENT_PRICE_MONTH: 'rent__per-month'
+  RENT_PRICE_MONTH: 'rent__per-month',
 };

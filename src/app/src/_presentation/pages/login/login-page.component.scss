@@ -1,6 +1,6 @@
 .login-page {
   display: flex;
-  height: 90vh;
+  height: calc(100vh - 100px);
 
   .login-page__abstract {
     height: 100vh;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { AuthService, UserToken, IdentityResponse, LoginResponse } from '@domain/index';

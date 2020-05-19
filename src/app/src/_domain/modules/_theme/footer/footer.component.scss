@@ -1,6 +1,11 @@
+:host {
+  height: 100px;
+}
+
 .footer {
   &.footer--guest {
     background-color: #eaeaea;
+    height: 100%;
   }
 
   .footer__info {
