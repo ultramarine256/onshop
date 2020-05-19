@@ -17,6 +17,7 @@ export class OrderCreateModel {
   public projectName: string;
   public projectNumber: string;
   public discountTotal: number;
+  public status: OrderStatus;
 
   /// constructor
   constructor(init?: Partial<OrderCreateModel>) {
@@ -38,6 +39,7 @@ export class OrderCreateModel {
     json.payment_method_title = this.paymentMethodTitle;
     json.set_paid = this.setPaid;
     json.discount_total = this.discountTotal;
+    json.status = this.status;
 
     if (this.billing && this.billing.phone) {
       json.billing = this.billing.asWooObject();
@@ -197,4 +199,13 @@ export class LineItemModel {
     }
     return result;
   }
+}
+
+export enum OrderStatus {
+  Pending = 'pending',
+  Processing = 'processing',
+  WaitingForReturn = 'waiting-for-return',
+  InRent = 'in-rent',
+  Completed = 'completed',
+  Cancelled = 'cancelled',
 }

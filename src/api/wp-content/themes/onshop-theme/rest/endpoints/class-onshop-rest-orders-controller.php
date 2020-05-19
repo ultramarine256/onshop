@@ -45,10 +45,12 @@ class ONSHOP_REST_Orders_Controller extends WC_REST_Orders_Controller {
             $this->namespace,
             'user/order/note',
             [
-                'methods'             => WP_REST_Server::CREATABLE,
-                'callback'            => function ( WP_REST_Request $request ) {
+                'methods' => WP_REST_Server::CREATABLE,
+                'callback' => function ( WP_REST_Request $request ) {
                     $order = wc_get_order($request->get_param('id'));
                     $order->add_order_note($request->get_param('note'), true);
+                    $order->set_status('waiting');
+                    $order->save();
                     return $order->get_data();
                 },
                 'permission_callback' => function () {

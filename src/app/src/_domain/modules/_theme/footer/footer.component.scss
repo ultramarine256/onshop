@@ -1,3 +1,36 @@
+.footer {
+  &.footer--guest {
+    background-color: #eaeaea;
+  }
+
+  .footer__info {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 20px;
+
+    @media only screen and (max-width: 600px) {
+      justify-content: center;
+    }
+  }
+
+  .footer__info-logo {
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .footer__phone {
+    text-align: right;
+    font-weight: bold;
+    font-size: 20px;
+
+    @media only screen and (max-width: 600px) {
+      text-align: center;
+    }
+  }
+}
+
 .footer-newsletter {
   background-color: #2c98f0;
 }

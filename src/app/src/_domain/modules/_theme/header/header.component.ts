@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CategoryModel } from '../../../../_data';
+
+import { CategoryModel } from '@data/repository';
 
 @Component({
   selector: 'app-header-component',
@@ -15,10 +16,15 @@ export class HeaderComponent {
   @Input() email: string;
   @Input() phone: string;
 
-  @Input() isAuthorized: string;
+  @Input() isAuthorized: boolean;
   @Input() userName: string;
   @Input() profilePageUrl: string;
   @Input() loginPageUrl: string;
 
+  @Input() searchResults: Array<any> = [];
+  @Output() inputChanged = new EventEmitter<string>();
+  @Output() productChosen = new EventEmitter<string>();
+
+  /// constructor
   constructor() {}
 }
