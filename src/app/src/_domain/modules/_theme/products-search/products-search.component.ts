@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { FormControl } from '@angular/forms';
+
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { debounceTime, finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { ProductFilter, ProductModel, ProductRepository } from '@data/repository';
 
@@ -12,7 +13,7 @@ import { ProductFilter, ProductModel, ProductRepository } from '@data/repository
 export class ProductSearchComponent extends UnsubscribeMixin() implements OnInit {
   public searchResults: Array<ProductModel> = [];
   public products: ProductModel[];
-  public myControl = new FormControl();
+  public searchBar = new FormControl();
   public isLoading = false;
 
   constructor(private productRepository: ProductRepository) {
@@ -20,7 +21,7 @@ export class ProductSearchComponent extends UnsubscribeMixin() implements OnInit
   }
 
   ngOnInit() {
-    this.myControl.valueChanges
+    this.searchBar.valueChanges
       .pipe(
         debounceTime(500),
         tap(() => (this.isLoading = true)),

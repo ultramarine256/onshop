@@ -1,13 +1,13 @@
 <!--<div class="d-flex flex-column search-input-container">-->
-<form class="example-form">
-  <mat-form-field class="example-full-width" appearance="outline">
-    <input placeholder="Search" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+<form class="search-form">
+  <mat-form-field class="form-full-width" appearance="outline">
+    <input placeholder="Search" matInput [formControl]="searchBar" [matAutocomplete]="auto" />
     <mat-icon *ngIf="!isLoading" class="text-muted pt-1" matSuffix>search</mat-icon>
     <div *ngIf="isLoading" class="spinner-grow text-secondary" role="status" matSuffix>
       <span class="sr-only" style="width: 6px; height: 6px;">Loading...</span>
     </div>
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of searchResults" routerLink="/product/{{ option.slug }}">
+      <mat-option *ngFor="let option of searchResults" [routerLink]="['/product/', option.slug]">
         <div *ngIf="searchResults.length" class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center">
             <img *ngIf="option.firstImage != 0" src="{{ option.firstImage }}" style="width: 30px; height: 30px;" />
