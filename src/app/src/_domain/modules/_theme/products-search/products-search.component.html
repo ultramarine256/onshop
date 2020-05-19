@@ -1,7 +1,7 @@
 <!--<div class="d-flex flex-column search-input-container">-->
 <form class="search-form">
   <mat-form-field class="form-full-width" appearance="outline">
-    <input placeholder="Search" matInput [formControl]="searchBar" [matAutocomplete]="auto" />
+    <input placeholder="Search" matInput [formControl]="searchBar" [matAutocomplete]="auto"/>
     <mat-icon *ngIf="!isLoading" class="text-muted pt-1" matSuffix>search</mat-icon>
     <div *ngIf="isLoading" class="spinner-grow text-secondary" role="status" matSuffix>
       <span class="sr-only" style="width: 6px; height: 6px;">Loading...</span>
@@ -10,7 +10,7 @@
       <mat-option *ngFor="let option of searchResults" [routerLink]="['/product/', option.slug]">
         <div *ngIf="searchResults.length" class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center">
-            <img *ngIf="option.firstImage != 0" src="{{ option.firstImage }}" style="width: 30px; height: 30px;" />
+            <img *ngIf="option.firstImage != 0" src="{{ option.firstImage }}" style="width: 30px; height: 30px;"/>
             <div *ngIf="option.firstImage == 0" class="alt-photo">
               <i class="nav-link material-icons text-light small">
                 photo_camera
@@ -18,19 +18,11 @@
             </div>
             <span class="ml-3 w-55 text-left">{{
               option.name.length > 25 ? (option.name | slice: 0:25) + '...' : option.name
-            }}</span>
+              }}</span>
           </div>
           <div class="w-30 text-right">
-            <span *ngIf="option.rentPerDayPrice">{{ option.rentPerDayPrice | currency }}/day</span>
-            <span *ngIf="option.rentPerWeekPrice && !option.rentPerDayPrice"
-              >{{ option.rentPerWeekPrice | currency }} /week</span
-            >
-            <span *ngIf="option.rentPerMonthPrice && !option.rentPerDayPrice && !option.rentPerWeekPrice">
-              {{ option.rentPerMonthPrice | currency }} /month</span
-            >
-            <span *ngIf="!option.rentPerMonthPrice && !option.rentPerDayPrice && !option.rentPerWeekPrice"
-              ><b>for sale</b></span
-            >
+            <span *ngIf="option.isRentable"><b>for Rent</b></span>
+            <span *ngIf="!option.isRentable">for sale</span>
           </div>
         </div>
       </mat-option>
