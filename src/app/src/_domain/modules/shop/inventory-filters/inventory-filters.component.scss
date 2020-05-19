@@ -1,11 +1,13 @@
-.filters__content {
-  .filters-scope__title {
-    font-weight: 700;
-    font-size: 1em;
-    color: #575560;
-    border: none;
-    padding: 0;
-    margin-bottom: .5em;
+.inventory-filters {
+  .inventory-filters__filter-title {
+    cursor: pointer;
+    display: flex;
+    padding: 5px;
+    margin-bottom: 5px;
+    justify-content: space-between;
+  }
+
+  .inventory-filters__filters {
+    padding: 0 10px;
   }
 }
-

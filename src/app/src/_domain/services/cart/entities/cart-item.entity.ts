@@ -1,10 +1,21 @@
-export class CartItemEntity {
-  id: number;
-  slug: string;
-  imageUrl: string;
-  title: string;
-  price: number;
-  count: number;
+import { v1 as uuidv1 } from 'uuid';
 
-  duration: number; // days
+export class CartItemEntity {
+  public uid: string;
+  public id: number;
+  public slug: string;
+  public imageUrl: string;
+  public title: string;
+  public price: number;
+  public count: number;
+  public duration: number;
+
+  constructor(entity?: any) {
+    this.uid = uuidv1();
+    this.id = entity.id;
+    this.slug = entity.slug;
+    this.imageUrl = entity.firstImage;
+    this.title = entity.name;
+    this.price = Number(entity.price);
+  }
 }
