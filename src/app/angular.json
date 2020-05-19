@@ -22,7 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -58,7 +58,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -76,6 +75,12 @@
               ]
             },
             "serve-prod": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -86,6 +91,12 @@
               "optimization": false
             },
             "serve-local": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -163,5 +174,8 @@
       }
     }
   },
-  "defaultProject": "onshop-app"
+  "defaultProject": "onshop-app",
+  "cli": {
+    "analytics": "2f3ba154-5846-4b49-bb9d-feb6de890416"
+  }
 }

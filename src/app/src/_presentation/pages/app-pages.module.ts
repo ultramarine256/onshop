@@ -2,8 +2,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
-import { MatDatepickerModule } from '@angular/material';
-import { MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { HomePageComponent } from './home';
 import { AppPagesRouting } from './app-pages.routing';
