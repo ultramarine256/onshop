@@ -1,32 +1,14 @@
-import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CommonModule} from '@angular/common';
-import {MatAutocompleteModule, MatFormFieldModule} from '@angular/material';
-import {ProductSearchComponent} from './products-search.component';
-import {ThirdPartyModule} from '../../../modules/_theme/_third-party';
-import {RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { ProductSearchComponent } from './products-search.component';
+import { ThirdPartyModule } from '@domain/modules/_theme/_third-party';
 
 @NgModule({
-  declarations: [
-    ProductSearchComponent
-  ],
-  imports: [
-    ThirdPartyModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatAutocompleteModule,
-    RouterModule
-  ],
-  exports: [
-    ProductSearchComponent
-  ]
+  declarations: [ProductSearchComponent],
+  imports: [ThirdPartyModule, FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
+  exports: [ProductSearchComponent],
 })
-export class ProductSearchModule {
-}
-
-
-
-
-
+export class ProductSearchModule {}

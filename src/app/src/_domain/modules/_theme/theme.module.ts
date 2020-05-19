@@ -1,12 +1,11 @@
-import {NgModule} from '@angular/core';
-import {FooterModule} from './footer';
-import {BreadcrumbsModule} from './breadcrumbs';
-import {ProductSearchModule} from './products-search/products-search.module';
-import {HeaderModule} from './header';
-import {ThirdPartyModule} from './_third-party';
-import {ContactFormModule} from './contact-form';
-import {ItemsCarouselModule} from './items-carousel';
+import { NgModule } from '@angular/core';
 
+import { FooterModule } from './footer';
+import { BreadcrumbsModule } from './breadcrumbs';
+import { ThirdPartyModule } from './_third-party';
+import { ContactFormModule } from './contact-form';
+import { ItemsCarouselModule } from './items-carousel';
+import { ProductSearchModule } from './products-search/products-search.module';
 
 @NgModule({
   declarations: [],
@@ -15,19 +14,16 @@ import {ItemsCarouselModule} from './items-carousel';
     BreadcrumbsModule,
     ContactFormModule,
     FooterModule,
-    HeaderModule,
     ProductSearchModule,
-    ItemsCarouselModule
+    ItemsCarouselModule,
   ],
   exports: [
     ThirdPartyModule,
     BreadcrumbsModule,
     ContactFormModule,
     FooterModule,
-    HeaderModule,
     ProductSearchModule,
-    ItemsCarouselModule
-  ]
+    ItemsCarouselModule,
+  ],
 })
-export class ThemeModule {
-}
+export class ThemeModule {}

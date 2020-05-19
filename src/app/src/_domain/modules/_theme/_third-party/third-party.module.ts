@@ -1,9 +1,8 @@
 import { DxSchedulerModule } from 'devextreme-angular';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { A11yModule } from '@angular/cdk/a11y';
 import { CdkStepperModule } from '@angular/cdk/stepper';

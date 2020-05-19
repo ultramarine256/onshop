@@ -89,24 +89,20 @@
       <div class="row justify-content-center">
         <div class="col-md-9">
           <div class="searchbar__inner">
-            <div class="searchbar__input-group my-1">
-              <div class="input-search-field">
-                <app-products-search
-                  (inputChanged)="inputChanged.emit($event)"
-                  (productChosen)="productChosen.emit($event)"
-                >
-                </app-products-search>
-              </div>
-              <div class="input-group-btn">
-                <button type="submit" class="btn btn-secondary" [disabled]="true">
-                  <i class="material-icons-outlined align-middle">search</i>
-                </button>
-              </div>
-            </div>
+            <app-products-search class="w-100"></app-products-search>
             <div class="d-none d-md-block searchbar__icons pl-4">
-              <a class="icon-item text-decoration-none text-dark position-relative" routerLink="/cart">
-                <i class="icon material-icons-outlined">shopping_cart</i>
-                <span class="cart-items-count" *ngIf="cartService.itemsCount">{{ cartService.itemsCount }}</span>
+              <a
+                class="icon-item text-decoration-none text-light font-weight-bold position-relative"
+                routerLink="/cart"
+              >
+                <mat-icon
+                  matBadge="{{ cartService.itemsCount }}"
+                  class="material-icons-outlined"
+                  matBadgeSize="small"
+                  matBadgeColor="warn"
+                >
+                  shopping_cart
+                </mat-icon>
                 <span class="font-weight-500 ml-3">{{
                   (!cartService.totalPrice ? '0.00' : cartService.totalPrice) | currency
                 }}</span>
