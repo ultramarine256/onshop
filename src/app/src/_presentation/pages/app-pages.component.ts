@@ -1,31 +1,20 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { takeUntil } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
-import { AppRepository, ProductRepository } from '@data/repository';
+import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository } from '@data/repository';
 import { AppInfo, AuthService, CartService, InfoService } from '@domain/services';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { forkJoin } from 'rxjs';
 
 export class CategoryMenuModel {
-  id: string;
-  title: string;
-  subCategories: ProductModel[];
-
-  constructor(props?: any) {
-    this.id = props.id;
-    this.title = props.title;
-    this.subCategories = props.subCategories.map((subCategory) => new ProductModel(subCategory));
-  }
-}
-
-export class ProductModel {
-  slug: string;
+  id: number;
   title: string;
 
-  constructor(props?: any) {
-    this.slug = props.slug;
-    this.title = props.title;
+  constructor(id: number, title: string) {
+    this.id = id;
+    this.title = title;
   }
 }
 
@@ -39,9 +28,10 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   @Output() productChosen = new EventEmitter<string>();
 
   public userName: string;
-  public navigationMenu: CategoryMenuModel[];
+  public navigationMenu: CategoryMenuModel[] = [];
   public panelOpenState: boolean;
-  public showCategories: boolean;
+  public isLoading: boolean;
+  public itemsIsLoading: boolean;
 
   constructor(
     private router: Router,
@@ -49,30 +39,27 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
     public infoService: InfoService,
     public authService: AuthService,
     private productRepository: ProductRepository,
-    private appRepository: AppRepository
+    private appRepository: AppRepository,
+    private categoryRepository: CategoryRepository
   ) {
     super();
   }
 
   ngOnInit() {
     this.userName = this.authService.identity.firstName + ' ' + this.authService.identity.lastName;
-    this.appRepository
-      .appInfo()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data) => {
-        this.infoService.setAppInfo(new AppInfo({ address: data.address, email: data.email, phone: data.phone }));
+    this.itemsIsLoading = false;
+    forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
+      .pipe(
+        map(([appInfoModel, categories]) => {
+          return [appInfoModel, categories.map((category) => new CategoryMenuModel(category.id, category.name))];
+        }),
+        tap(() => (this.itemsIsLoading = true))
+      )
+      .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
+        this.infoService.setAppInfo(
+          new AppInfo({ address: appInfoModel.address, email: appInfoModel.email, phone: appInfoModel.phone })
+        );
+        this.navigationMenu = categories;
       });
-
-    this.navigationMenu = [
-      {
-        id: 'all',
-        title: 'All',
-        subCategories: [],
-      },
-    ].map((menu) => new CategoryMenuModel(menu));
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
   }
 }

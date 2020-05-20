@@ -19,14 +19,23 @@
     <!-- Mobile navigation -->
     <div class="toolbar__content" fxHide.gt-xs fxLayoutAlign="space-between center">
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-icon-button (click)="mobileMenu.toggle()"><mat-icon>menu</mat-icon></button>
+        <button mat-icon-button (click)="mobileMenu.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
         <a routerLink="/" class="toolbar__logo">
-          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
+          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo"/>
         </a>
       </div>
 
-      <div class="toolbar__icons">
-        <a routerLink="/cart"><i class="material-icons-outlined mr-2">shopping_cart</i></a>
+      <div class="toolbar__icons text-primary">
+        <mat-icon
+          matBadge="{{ cartService.itemsCount }}"
+          class="material-icons-outlined mr-2"
+          matBadgeSize="small"
+          matBadgeColor="warn"
+        >
+          shopping_cart
+        </mat-icon>
         <a [routerLink]="'/profile'">
           <i class="material-icons-outlined">account_circle</i>
         </a>
@@ -37,42 +46,27 @@
     <div fxHide.lt-sm fxLayoutAlign="space-between" class="container">
       <div fxLayout="row">
         <a routerLink="/" class="toolbar__logo">
-          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
+          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo"/>
         </a>
         <div class="categories">
           <a class="link" mat-button routerLink="/">Home</a>
           <a class="link" mat-button [matMenuTriggerFor]="categories">Categories</a>
 
-          <mat-menu class="categories-menu" #categories="matMenu">
+          <mat-menu class="categories-menu" #categories="matMenu" style="height: 250px;">
             <ng-container *ngFor="let category of navigationMenu; let i = index">
               <a
-                *ngIf="!navigationMenu[i].subCategories.length"
+                *ngIf="itemsIsLoading"
                 class="link"
                 mat-menu-item
-                [routerLink]="'/inventory/' + category.id"
-                >{{ category.title }}</a
-              >
-              <a
-                *ngIf="navigationMenu[i].subCategories.length"
-                class="link"
-                mat-menu-item
-                [matMenuTriggerFor]="subcategories"
-                >{{ category.title }}</a
-              >
-
-              <mat-menu #subcategories="matMenu">
-                <div class="categories-menu__products" *ngFor="let product of category.subCategories">
-                  <a [routerLink]="['/inventory/', product.slug]" class="link categories-menu__products-item">{{
-                    product.title
-                  }}</a>
-                </div>
-              </mat-menu>
+                [routerLink]="['/inventory/', category.id]"
+                [innerHTML]="category.title"
+              ></a>
             </ng-container>
           </mat-menu>
         </div>
       </div>
       <div fxLayout="row" class="support">
-        <img class="support__image" [src]="'/assets/img/header/support.svg'" />
+        <img class="support__image" [src]="'/assets/img/header/support.svg'"/>
         <div class="support__text">
           <div><b>Support</b> 000-000-000</div>
           <div>
@@ -105,7 +99,7 @@
                 </mat-icon>
                 <span class="font-weight-500 ml-3">{{
                   (!cartService.totalPrice ? '0.00' : cartService.totalPrice) | currency
-                }}</span>
+                  }}</span>
               </a>
             </div>
           </div>
@@ -119,42 +113,29 @@
   <!-- Mobile menu -->
   <mat-sidenav class="sidenav" #mobileMenu [mode]="'over'" fixedTopGap="56">
     <mat-nav-list class="sidenav__content">
-      <ng-container *ngIf="!showCategories">
+      <ng-container *ngIf="!isLoading">
         <a mat-list-item routerLink="/">Home</a>
-        <a mat-list-item (click)="showCategories = true">Categories</a>
+        <a mat-list-item (click)="isLoading = true">Categories</a>
       </ng-container>
 
-      <ng-container *ngIf="showCategories">
+      <ng-container *ngIf="isLoading">
         <div class="sidenav__move-back">
-          <button (click)="showCategories = false" mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+          <button (click)="isLoading = false" mat-icon-button>
+            <mat-icon>arrow_back</mat-icon>
+          </button>
         </div>
         <mat-accordion>
           <mat-expansion-panel
             class="sidenav__panel"
-            [hideToggle]="!category.subCategories.length"
             *ngFor="let category of navigationMenu"
             (opened)="panelOpenState = true"
             (closed)="panelOpenState = false"
           >
             <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px" class="sidenav__panel-header">
-              <a
-                class="sidenav__panel-link"
-                [routerLink]="!category.subCategories.length && '/inventory/' + category.id"
-                (click)="!category.subCategories.length && mobileMenu.close()"
-              >
-                <mat-panel-title>{{ category.title }} </mat-panel-title></a
-              >
+              <a class="sidenav__panel-link" [routerLink]="'/inventory/' + category.id" (click)="mobileMenu.close()">
+                <mat-panel-title [innerHTML]="category.title"></mat-panel-title>
+              </a>
             </mat-expansion-panel-header>
-
-            <div *ngIf="category.subCategories.length" class="sidenav__products">
-              <a
-                class="sidenav__products-item"
-                *ngFor="let product of category.subCategories"
-                [routerLink]="'/inventory/' + product.slug"
-                (click)="showCategories = false; mobileMenu.close()"
-                >{{ product.title }}</a
-              >
-            </div>
           </mat-expansion-panel>
         </mat-accordion>
       </ng-container>

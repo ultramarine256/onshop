@@ -175,3 +175,6 @@
 ::ng-deep .mat-menu-panel {
   min-height: 0 !important;
 }
+::ng-deep .mat-menu-content {
+  max-height: 300px;
+}
