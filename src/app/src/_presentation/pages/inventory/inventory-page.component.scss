@@ -1,4 +1,10 @@
 .inventory-page {
+  padding-top: 20px;
+
+  .inventory-page__content {
+    width: 100%;
+  }
+
   .category-title {
     font-size: 1.786em;
     line-height: 1.6em;
@@ -12,5 +18,21 @@
 
   .inventory-page__products {
     margin-bottom: 20px;
+  }
+
+  .inventory-page__spinner {
+    height: 300px;
+  }
+
+  .inventory-page__content {
+    padding-top: 30px;
+  }
+
+  .inventory-page__actions {
+    padding: 0 14px;
+
+    .inventory-page__sorting-bar {
+      display: inline-block;
+    }
   }
 }

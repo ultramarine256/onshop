@@ -166,6 +166,13 @@
       }
     }
   }
+
+  .footer {
+    &.footer-is-guest {
+      height: 100px;
+      display: block;
+    }
+  }
 }
 
 ::ng-deep .mat-expansion-panel-body {
@@ -174,4 +181,8 @@
 
 ::ng-deep .mat-menu-panel {
   min-height: 0 !important;
+}
+
+mat-sidenav-content {
+  display: initial;
 }

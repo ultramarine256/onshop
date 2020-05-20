@@ -167,7 +167,12 @@
         <router-outlet></router-outlet>
       </div>
 
-      <app-footer-component [isAuthorized]="authService.isAuthorized" [phone]="infoService.appInfo.phone">
+      <app-footer-component
+        class="footer"
+        [ngClass]="{ 'footer-is-guest': !authService.isAuthorized }"
+        [isAuthorized]="authService.isAuthorized"
+        [phone]="infoService.appInfo.phone"
+      >
       </app-footer-component>
     </div>
   </mat-sidenav-content>

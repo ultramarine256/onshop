@@ -1,87 +1,81 @@
 <div class="inventory-page">
   <div class="container">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb my-2 px-0 bg-white">
-        <li class="breadcrumb-item"><a [routerLink]="'/'" class="text-decoration-none">Home</a></li>
-        <li class="breadcrumb-item"><a [routerLink]="'/categories'" class="text-decoration-none">Categories</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
-      </ol>
-    </nav>
-  </div>
-  <div class="container mb-4">
-    <div class="row">
-      <!-- filters -->
-      <div class="col-12 col-md-4 d-none d-md-block">
-        <h4 class="inventory-page__filter-title content-title mb-2">Filters</h4>
-        <app-inventory-filters
-          *ngIf="filter"
-          [filter]="filter"
-          [showCategory]="showCategories"
-          (filterChanged)="onFilterChanged($event)"
-        >
-        </app-inventory-filters>
+    <ng-container *ngIf="isLoading">
+      <div fxFlex="row" fxLayoutAlign="center center" class="inventory-page__spinner">
+        <mat-spinner></mat-spinner>
       </div>
+    </ng-container>
 
-      <!-- inventory -->
-      <div class="col-12 col-md-8">
-        <div class="row">
-          <div class="col-12 mb-2">
+    <ng-container *ngIf="!isLoading">
+      <div class="inventory-page__content" fxLayout="row" fxLayoutGap="10px">
+        <div fxHide.sm>
+          <h4 class="inventory-page__filter-title content-title mb-2">Filters</h4>
+          <app-inventory-filters
+            *ngIf="filter"
+            [filter]="filter"
+            [showCategory]="showCategories"
+            (filterChanged)="onFilterChanged($event)"
+          >
+          </app-inventory-filters>
+        </div>
+
+        <div fxFlex.sm="100" fxFlex="70">
+          <div fxLayoutAlign="end" class="inventory-page__actions">
             <app-sorting-bar
+              class="inventory-page__sorting-bar"
               id="scrollView"
-              class="w-100 h-100"
               (sortTypeChanged)="onSortTypeChanged($event)"
             ></app-sorting-bar>
           </div>
-        </div>
-        <!-- load-indicator -->
-        <div class="d-flex justify-content-center align-items-center h-300" *ngIf="isLoading">
-          <div class="spinner-grow text-primary" role="status"></div>
-        </div>
 
-        <!-- no-products-msg -->
-        <div
-          class="d-flex justify-content-center align-items-center text-center"
-          style="height: 300px;"
-          *ngIf="searchResult.items.length == 0 && !isLoading"
-        >
-          <h4>0 products</h4>
-        </div>
+          <div class="text-center" style="height: 300px;" *ngIf="searchResult.items.length == 0">
+            <h4>0 products</h4>
+          </div>
 
-        <!-- products -->
-        <div class="inventory-page__products row">
-          <div
-            class="col-6 p-0"
-            *ngFor="
-              let item of searchResult.items
-                | paginate
-                  : { itemsPerPage: paginationConfig.itemsPerPage, currentPage: currentPage, totalItems: totalResults }
-            "
-          >
-            <app-product-item
-              *ngIf="!isLoading"
-              [item]="item"
-              [baseUrl]="'/product'"
-              [allowPurchase]="authService.isAuthorized"
-              (addedToCart)="onAddedToCart($event)"
+          <div class="inventory-page__products" fxLayout="row wrap">
+            <div
+              fxFlex.xl="25"
+              fxFlex.lg="33"
+              fxFlex.md="50"
+              fxFlex.sm="50"
+              fxFlex.xs="100"
+              *ngFor="
+                let item of searchResult.items
+                  | paginate
+                    : {
+                        itemsPerPage: paginationConfig.itemsPerPage,
+                        currentPage: currentPage,
+                        totalItems: totalResults
+                      }
+              "
             >
-            </app-product-item>
+              <app-product-item
+                [item]="item"
+                [baseUrl]="'/product'"
+                [allowPurchase]="authService.isAuthorized"
+                (addedToCart)="onAddedToCart($event)"
+              >
+              </app-product-item>
+            </div>
+          </div>
+
+          <div
+            fxLayoutAlign="center center"
+            class="inventory-page__pagination"
+            *ngIf="totalResults > paginationConfig.itemsPerPage"
+          >
+            <pagination-controls
+              (pageChange)="onPageChanged($event)"
+              (pageBoundsCorrection)="onPageChanged($event)"
+              maxSize="9"
+              directionLinks="true"
+              responsive="true"
+              previousLabel="Previous"
+              nextLabel="Next"
+            ></pagination-controls>
           </div>
         </div>
-        <div
-          class="d-flex justify-content-center row"
-          *ngIf="!isLoading && totalResults > paginationConfig.itemsPerPage"
-        >
-          <pagination-controls
-            (pageChange)="onPageChanged($event)"
-            (pageBoundsCorrection)="onPageChanged($event)"
-            maxSize="9"
-            directionLinks="true"
-            responsive="true"
-            previousLabel="Previous"
-            nextLabel="Next"
-          ></pagination-controls>
-        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>

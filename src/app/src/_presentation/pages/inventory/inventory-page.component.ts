@@ -57,7 +57,9 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
 
   ngOnInit(): void {
     const page = this.activatedRoute.snapshot.queryParams.page ? +this.activatedRoute.snapshot.queryParams.page : 1;
-    const category = this.activatedRoute.snapshot.params.categoryId ? +this.activatedRoute.snapshot.params.categoryId : null;
+    const category = this.activatedRoute.snapshot.params.categoryId
+      ? +this.activatedRoute.snapshot.params.categoryId
+      : null;
 
     // Initiate state for filters
     this.filterState = {
@@ -128,6 +130,9 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
   }
 
   private scrollToView() {
+    if (!document.getElementById('scrollView')) {
+      return;
+    }
     this.element = document.getElementById('scrollView') as HTMLElement;
     this.element.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
