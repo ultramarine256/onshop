@@ -1,30 +1,64 @@
-<div class="inventory-filters filters-scope" *ngFor="let filter of filter.filterItems">
-  <ng-container
-    *ngIf="
-      filter.name &&
-      ((!filter.name.includes('rent_') && filter.name !== 'category') ||
-        (showCategory && !filter.name.includes('rent_')))
-    "
-  >
-    <div
-      #usageFilter
-      class="inventory-filters__filter-title"
-      [class.text-primary]="filter.name === 'category'"
-      (click)="usageFilter.isVisible = !usageFilter.isVisible"
-    >
-      <b>{{ filter.name }}</b>
-      <div class="d-flex align-items-center">
-        <i *ngIf="usageFilter.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
-        <i *ngIf="!usageFilter.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
-      </div>
-    </div>
+<form [formGroup]="filterForm" class="inventory-filters">
+  <div class="inventory-filters__item">
+    <h6 class="inventory-filters__title">Price</h6>
 
-    <ng-container *ngIf="!usageFilter.isVisible">
-      <div class="inventory-filters__filters" *ngFor="let filters of filter.items">
-        <mat-checkbox (click)="toggleFilter(filter.name, filters)" [checked]="filters.isChecked"
-          >{{ filters.name }} ({{ filters.count }})</mat-checkbox
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field class="inventory-filters__form-field">
+        <mat-label>Min</mat-label>
+        <input matInput type="number" [formControl]="minPrice" />
+      </mat-form-field>
+      <mat-form-field class="inventory-filters__form-field">
+        <mat-label>Max</mat-label>
+        <input matInput type="number" [formControl]="maxPrice" />
+      </mat-form-field>
+    </div>
+    <dx-range-slider
+      [min]="filters.minPrice"
+      [max]="filters.maxPrice"
+      [start]="filters.minPrice"
+      [end]="filters.maxPrice"
+      formControlName="price"
+      (valueChange)="onPriceChange($event)"
+    ></dx-range-slider>
+  </div>
+
+  <div class="inventory-filters__item">
+    <h6 class="inventory-filters__title">Type</h6>
+    <div>
+      <mat-checkbox formControlName="forRent">For rent</mat-checkbox>
+    </div>
+    <mat-checkbox formControlName="forSale">For sale</mat-checkbox>
+  </div>
+
+  <div class="inventory-filters__item">
+    <mat-form-field class="inventory-filters__stock-status-field">
+      <mat-label>Stock status</mat-label>
+      <mat-select formControlName="stockStatus">
+        <mat-option
+          *ngFor="
+            let status of [
+              { title: 'Instock', value: stockStatus.Instock },
+              { title: 'Out of stock', value: stockStatus.OutOfStock },
+              { title: 'On back order', value: stockStatus.OnBackOrder }
+            ]
+          "
+          [value]="status.value"
         >
-      </div>
-    </ng-container>
-  </ng-container>
-</div>
+          {{ status.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="inventory-filters__item">
+    <h6 class="inventory-filters__title">Tags</h6>
+    <mat-chip-list aria-label="Tags">
+      <mat-chip
+        [selected]="selectedTag && selectedTag.id === tag.id"
+        (click)="selectTag(tag)"
+        *ngFor="let tag of tags"
+        >{{ tag.name }}</mat-chip
+      >
+    </mat-chip-list>
+  </div>
+</form>

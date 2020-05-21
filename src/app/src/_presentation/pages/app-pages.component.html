@@ -117,7 +117,7 @@
 
 <mat-sidenav-container>
   <!-- Mobile menu -->
-  <mat-sidenav class="sidenav" #mobileMenu [mode]="'over'" fixedTopGap="56">
+  <mat-sidenav (closed)="onMenuClose()" class="sidenav" #mobileMenu [mode]="'over'" fixedTopGap="56">
     <mat-nav-list class="sidenav__content">
       <ng-container *ngIf="!showCategories">
         <a mat-list-item routerLink="/">Home</a>
@@ -167,7 +167,12 @@
         <router-outlet></router-outlet>
       </div>
 
-      <app-footer-component [isAuthorized]="authService.isAuthorized" [phone]="infoService.appInfo.phone">
+      <app-footer-component
+        class="footer"
+        [ngClass]="{ 'footer-is-guest': !authService.isAuthorized }"
+        [isAuthorized]="authService.isAuthorized"
+        [phone]="infoService.appInfo.phone"
+      >
       </app-footer-component>
     </div>
   </mat-sidenav-content>

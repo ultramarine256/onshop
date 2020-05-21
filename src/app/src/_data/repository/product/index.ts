@@ -1,3 +1,3 @@
 export * from './filter';
-export * from './model';
+export * from './models';
 export * from './product.repository';

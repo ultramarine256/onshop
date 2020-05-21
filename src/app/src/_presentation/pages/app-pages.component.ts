@@ -75,4 +75,8 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   ngOnDestroy() {
     super.ngOnDestroy();
   }
+
+  onMenuClose() {
+    this.showCategories = false;
+  }
 }

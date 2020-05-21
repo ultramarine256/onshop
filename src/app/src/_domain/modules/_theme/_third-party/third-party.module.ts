@@ -1,4 +1,4 @@
-import { DxSchedulerModule } from 'devextreme-angular';
+import { DxRangeSliderModule, DxSchedulerModule } from 'devextreme-angular';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -50,6 +50,7 @@ import { MatTreeModule } from '@angular/material/tree';
 @NgModule({
   imports: [
     DxSchedulerModule,
+    DxRangeSliderModule,
     NgxPaginationModule,
     FlexLayoutModule,
 
@@ -99,6 +100,8 @@ import { MatTreeModule } from '@angular/material/tree';
   ],
   exports: [
     DxSchedulerModule,
+    DxRangeSliderModule,
+
     NgxPaginationModule,
     FlexLayoutModule,
 
