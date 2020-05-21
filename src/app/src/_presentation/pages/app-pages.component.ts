@@ -60,4 +60,8 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
         this.navigationMenu = categories;
       });
   }
+
+  onMenuClose() {
+    this.showCategories = false;
+  }
 }

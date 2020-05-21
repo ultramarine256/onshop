@@ -1,9 +1,5 @@
-<div class="sorting-bar show h-100">
-  <div class="form-group w-100 h-100 d-flex align-items-center justify-content-end">
-    <select [formControl]="sortControl" class="form-control w-25 rounded form-control-sm">
-      <option *ngFor="let item of sortingOptions" [disabled]="!item.visible" [selected]="item.title === selectedFilter">{{
-        item.title
-      }}</option>
-    </select>
-  </div>
-</div>
+<select [formControl]="sortControl" class="form-control">
+  <option *ngFor="let item of sortingOptions" [disabled]="!item.visible" [selected]="item.title === selectedFilter">{{
+    item.title
+  }}</option>
+</select>
