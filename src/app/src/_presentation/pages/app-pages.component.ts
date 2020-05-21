@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+
 import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository } from '@data/repository';
 import { AppInfo, AuthService, CartService, InfoService } from '@domain/services';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
-import { forkJoin } from 'rxjs';
 
 export class CategoryMenuModel {
   id: number;
@@ -28,8 +29,9 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   public userName: string;
   public navigationMenu: CategoryMenuModel[] = [];
   public panelOpenState: boolean;
+  public showCategories: boolean;
   public isLoading: boolean;
-  public itemsIsLoading: boolean;
+  public showSidenav: boolean;
 
   constructor(
     private router: Router,
@@ -45,13 +47,14 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
 
   ngOnInit() {
     this.userName = this.authService.identity.firstName + ' ' + this.authService.identity.lastName;
-    this.itemsIsLoading = false;
+    this.isLoading = false;
     forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
       .pipe(
+        tap(() => console.log('load')),
         map(([appInfoModel, categories]) => {
           return [appInfoModel, categories.map((category) => new CategoryMenuModel(category.id, category.name))];
         }),
-        tap(() => (this.itemsIsLoading = true))
+        tap(() => (this.isLoading = true))
       )
       .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
         this.infoService.setAppInfo(
@@ -61,7 +64,13 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
       });
   }
 
-  onMenuClose() {
+  public onMenuClose() {
     this.showCategories = false;
+    this.showSidenav = false;
+  }
+
+  public onMenuOpened() {
+    this.showCategories = false;
+    this.showSidenav = true;
   }
 }

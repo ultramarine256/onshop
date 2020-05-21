@@ -66,7 +66,7 @@ export class OrderResponse {
   }
 
   // Get max days of rental duration for current order
-  public getRentalDuration(): number {
+  public get rentalDuration(): number {
     return Math.max(...this.productItems.map((productItem) => productItem.maxRentalDuration));
   }
 }

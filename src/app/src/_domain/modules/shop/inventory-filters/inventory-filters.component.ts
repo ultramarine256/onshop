@@ -47,16 +47,20 @@ export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnI
     this.tagChanged.pipe(takeUntil(this.destroy$)).subscribe(() => this.filterChanged.next(this.getFilterData()));
   }
 
-  private getFilterData(): FilterFormData {
+  public getFilterData(): FilterFormData {
     return {
       ...this.filterForm.value,
       tag: this.selectedTag?.id,
     };
   }
 
-  onPriceChange([minPrice, maxPrice]: [number, number]) {
+  public onPriceChange([minPrice, maxPrice]: [number, number]) {
     this.minPrice.setValue(minPrice);
     this.maxPrice.setValue(maxPrice);
+  }
+
+  public onMinMaxPriceChange(minPrice: number, maxPrice: number) {
+    this.filterForm.get('price').setValue([minPrice, maxPrice]);
   }
 
   public selectTag(tag: TagModel) {

@@ -1,10 +1,7 @@
 <div class="hero d-flex bg-light">
-  <h2 class="hero__title">
-    Welcome to <span class="text-primary">OnShop</span>
-  </h2>
+  <h2 class="hero__title">Welcome to <span class="text-primary">OnShop</span></h2>
   <p>
-    100+ product items, in in 4+ categories.
-    Discover and schedule delivery today.
+    100+ product items, in in 4+ categories. Discover and schedule delivery today.
   </p>
 </div>
 
@@ -47,27 +44,34 @@
 </div>
 
 <div class="container">
-  <div class="d-flex flex-column text-center bg-light p-3 justify-content-center align-items-center" style="height: 300px">
+  <div
+    class="d-flex flex-column text-center bg-light p-3 justify-content-center align-items-center"
+    style="height: 300px;"
+  >
     <h3>Company Info</h3>
     <p style="max-width: 600px;">
-      In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content
+      In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form
+      of a document or a typeface without relying on meaningful content
     </p>
   </div>
 </div>
 
 <div class="container mt-5">
   <h2 class="content-title mb-2">New Arrivals</h2>
-  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!didLoaded">
+  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="productsInLoading">
     <div class="spinner-grow text-primary" role="status"></div>
   </div>
-  <div class="products-carousel owl-carousel owl-theme" *ngIf="didLoaded">
+  <div class="products-carousel owl-carousel owl-theme" *ngIf="!productsInLoading">
     <div class="item" *ngFor="let item of products">
       <a class="text-decoration-none carousel-item" [routerLink]="'/product/' + item.slug">
         <div class="img-wrap">
           <img
-            [src]="item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+            [src]="
+              item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'
+            "
+          />
         </div>
-        <h6 class="mt-1">{{item.name}}</h6>
+        <h6 class="mt-1">{{ item.name }}</h6>
       </a>
     </div>
   </div>
@@ -75,17 +79,20 @@
 
 <div class="container mb-5 mt-5">
   <h2 class="content-title mb-2">Categories</h2>
-  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!didLoaded">
+  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="categoriesInLoading">
     <div class="spinner-grow text-primary" role="status"></div>
   </div>
-  <div class="categories-carousel owl-carousel owl-theme" *ngIf="didLoaded">
+  <div class="categories-carousel owl-carousel owl-theme" *ngIf="!categoriesInLoading">
     <div class="item" *ngFor="let item of categories">
       <a class="text-decoration-none carousel-item" [routerLink]="'/inventory/' + item.slug">
         <div class="img-wrap">
           <img
-            [src]="item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'">
+            [src]="
+              item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'
+            "
+          />
         </div>
-        <h6 class="mt-1">{{item.name}}</h6>
+        <h6 class="mt-1">{{ item.name }}</h6>
       </a>
     </div>
   </div>

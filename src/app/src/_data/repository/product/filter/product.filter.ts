@@ -14,6 +14,7 @@ export class ProductFilter extends FilterEntity {
   stock_status: string;
   status: string;
   on_sale: boolean;
+  attribute: string;
   attribute_term: string;
   tag: string;
 

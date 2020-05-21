@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, finalize, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, finalize, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 
 import {
@@ -16,9 +16,9 @@ import {
   TagModel,
 } from '@data/index';
 import { AppMapper } from '@presentation/_mapper/app-mapper';
-import { AuthService, CartService, FilterFormData, InventoryFiltersComponent, SortingOption } from '@domain/index';
-
+import { AuthService, CartService, FilterFormData, SortingOption } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { FilterDialogComponent } from '@presentation/pages/inventory/filter-dialog/filter-dialog.component';
 
 interface FilterState {
   productFilter: ProductFilter;
@@ -60,19 +60,17 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
   }
 
   ngOnInit(): void {
-    const page = this.activatedRoute.snapshot.queryParams.page ? +this.activatedRoute.snapshot.queryParams.page : 1;
-    const category = this.activatedRoute.snapshot.params.categoryId
-      ? +this.activatedRoute.snapshot.params.categoryId
-      : null;
-
-    // Initiate state for filters
-    this.filterState = {
-      productFilter: new ProductFilter({
-        page,
-        category,
-        per_page: this.paginationConfig.itemsPerPage,
-      }),
-    };
+    this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      // Initiate state for filters
+      this.filterState = {
+        productFilter: new ProductFilter({
+          page: this.activatedRoute.snapshot.queryParams?.page || 1,
+          category: params.categoryId === 'all' ? '' : params.categoryId,
+          per_page: this.paginationConfig.itemsPerPage,
+        }),
+      };
+      this.filterUpdated$.next(this.filterState);
+    });
 
     this.productRepository
       .getTags()
@@ -101,12 +99,9 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
         takeUntil(this.destroy$)
       )
       .subscribe((data) => {
-        const prices = data.items.map((item) => item.price);
-        // TODO: Load min & max price from server
-        const minPrice = Math.round(Math.min(...prices)) || 0;
-        const maxPrice = Math.round(Math.max(...prices)) || 9999;
+        const minPrice = 0;
+        const maxPrice = 5000;
         this.filters = { minPrice, maxPrice };
-        console.log(data);
         this.searchResult = data;
       });
   }
@@ -131,7 +126,12 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     filterState.productFilter.stock_status = $event.stockStatus;
     filterState.productFilter.tag = $event.tag;
     filterState.productFilter.on_sale = $event.forSale;
-    filterState.productFilter.attribute_term = $event.forRent ? RentOption.Day : null;
+
+    if ($event.forRent) {
+      filterState.productFilter.attribute = 'rent__is-rentable';
+      filterState.productFilter.attribute_term = 'true';
+    }
+
     this.filterUpdated$.next(filterState);
   }
 
@@ -164,16 +164,22 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     return this.searchResult.totalCount;
   }
 
-  // TODO: Implement
   public openFilters() {
-    const dialogRef = this.dialog.open(InventoryFiltersComponent, {
-      width: '500px',
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      width: '300px',
     });
+    dialogRef.componentInstance.filters = this.filters;
+    dialogRef.componentInstance.tags = this.tags;
 
     dialogRef
       .afterClosed()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filters) => {});
+      .pipe(
+        filter((data) => data),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((filters: FilterFormData) => {
+        this.onFilterChanged(filters);
+      });
   }
 }
 

@@ -1,16 +1,17 @@
-.profile-page__menu {
-  .profile-page__menu-item {
-    display: block;
-    border-bottom: 1px solid #eceeef;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
+.profile-page {
+  .profile-page__menu {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 
-    i {
-      width: 20px;
-    }
+  .profile-page__content {
+    width: 100%;
+  }
 
-    &.active {
-      color: #333e48;
+  .profile-page__logout-button {
+    &:hover {
+      cursor: pointer;
+      color: #2c98f0;
     }
   }
 }
