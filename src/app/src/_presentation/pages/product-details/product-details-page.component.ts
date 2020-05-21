@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { finalize, map } from 'rxjs/operators';
-import { ProductFilter, ProductRepository, ProductModel } from '../../../_data';
-import { AppMapper } from '../../_mapper';
-import { AuthService, CartService, OWL_CAROUSEL } from '../../../_domain';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
+import {finalize, map, tap} from 'rxjs/operators';
+import {ProductFilter, ProductRepository, ProductModel} from '../../../_data';
+import {AppMapper} from '../../_mapper';
+import {AuthService, CartService, OWL_CAROUSEL} from '../../../_domain';
 
 @Component({
   selector: 'app-product-details-page',
@@ -19,6 +19,7 @@ export class ProductDetailsPageComponent implements OnInit {
   /// predicates
   public isLoaded = false;
   public relatedIsLoaded = false;
+  public mainSliderLoaded = false;
   public rentalDuration = 1;
   public checkPrice = true;
   public addedToCard = false;
@@ -37,13 +38,17 @@ export class ProductDetailsPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mainSliderLoaded = false;
     this.route.params.subscribe((params) =>
       this.productRepository
-        .getProducts(new ProductFilter({ slug: params.slug }))
+        .getProducts(new ProductFilter({slug: params.slug}))
         .pipe(finalize(() => (this.isLoaded = true)))
         .pipe(
-          finalize(() =>
-            setTimeout(() => (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES), 200)
+          tap(() =>
+            setTimeout(() => {
+              (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES);
+              this.mainSliderLoaded = true;
+            }, 300)
           )
         )
         .pipe(map((x) => x.items[0]))
@@ -70,7 +75,7 @@ export class ProductDetailsPageComponent implements OnInit {
             }
           }
           this.productRepository
-            .getProducts(new ProductFilter({ include: this.product.relatedIds.join(',') }))
+            .getProducts(new ProductFilter({include: this.product.relatedIds.join(',')}))
             .pipe(finalize(() => (this.relatedIsLoaded = true)))
             .pipe(
               finalize(() =>

@@ -1,15 +1,19 @@
 <form class="products-search">
   <mat-form-field class="products-search__form-field" appearance="outline">
-    <input placeholder="Search" matInput [formControl]="searchBar" [matAutocomplete]="auto" />
-    <mat-icon *ngIf="!isLoading" class="text-muted pt-1" matSuffix>search</mat-icon>
-    <div *ngIf="isLoading" class="spinner-grow text-secondary" role="status" matSuffix>
-      <span class="sr-only" style="width: 6px; height: 6px;">Loading...</span>
+    <div class="d-flex align-items-center justify-content-between">
+      <input placeholder="Search" class="pt-1" matInput [formControl]="searchBar" [matAutocomplete]="auto"/>
+      <mat-icon *ngIf="!isLoading" class="text-muted" matSuffix>search</mat-icon>
+      <mat-spinner
+        *ngIf="isLoading"
+        matSuffix
+        [diameter]="24"
+      ></mat-spinner>
     </div>
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let option of searchResults" [routerLink]="['/product/', option.slug]">
         <div *ngIf="searchResults.length" class="d-flex align-items-center justify-content-between">
           <div class="d-flex align-items-center">
-            <img *ngIf="option.firstImage != 0" src="{{ option.firstImage }}" style="width: 30px; height: 30px;" />
+            <img *ngIf="option.firstImage != 0" src="{{ option.firstImage }}" style="width: 30px; height: 30px;"/>
             <div *ngIf="option.firstImage == 0" class="alt-photo">
               <i class="nav-link material-icons text-light small">
                 photo_camera
@@ -17,7 +21,7 @@
             </div>
             <span class="ml-3 w-55 text-left">{{
               option.name.length > 25 ? (option.name | slice: 0:25) + '...' : option.name
-            }}</span>
+              }}</span>
           </div>
           <div class="w-30 text-right">
             <span *ngIf="option.availableForRent">For rent</span>
