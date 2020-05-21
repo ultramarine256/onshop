@@ -1,8 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { map, tap } from 'rxjs/operators';
-
 import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository } from '@data/repository';
 import { AppInfo, AuthService, CartService, InfoService } from '@domain/services';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';

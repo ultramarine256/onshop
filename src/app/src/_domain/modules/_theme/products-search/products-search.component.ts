@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { debounceTime, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
-
-import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
-import { ProductFilter, ProductModel, ProductRepository } from '@data/repository';
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {UnsubscribeMixin} from '@shared/utils/unsubscribe-mixin';
+import {ProductFilter, ProductModel, ProductRepository} from '@data/repository';
 
 @Component({
   selector: 'app-products-search',
@@ -26,7 +25,7 @@ export class ProductSearchComponent extends UnsubscribeMixin() implements OnInit
         debounceTime(300),
         tap(() => (this.isLoading = true)),
         switchMap((search) =>
-          this.productRepository.getProducts(new ProductFilter({ search })).pipe(tap(() => (this.isLoading = false)))
+          this.productRepository.getProducts(new ProductFilter({search})).pipe(tap(() => (this.isLoading = false)))
         )
       )
       .pipe(takeUntil(this.destroy$))

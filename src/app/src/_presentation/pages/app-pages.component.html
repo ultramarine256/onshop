@@ -23,7 +23,7 @@
           <mat-icon>menu</mat-icon>
         </button>
         <a routerLink="/" class="toolbar__logo">
-          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo"/>
+          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
         </a>
       </div>
 
@@ -46,7 +46,7 @@
     <div fxHide.lt-sm fxLayoutAlign="space-between" class="container">
       <div fxLayout="row">
         <a routerLink="/" class="toolbar__logo">
-          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo"/>
+          <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
         </a>
         <div class="categories">
           <a class="link" mat-button routerLink="/">Home</a>
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div fxLayout="row" class="support">
-        <img class="support__image" [src]="'/assets/img/header/support.svg'"/>
+        <img class="support__image" [src]="'/assets/img/header/support.svg'" />
         <div class="support__text">
           <div><b>Support</b> 000-000-000</div>
           <div>
@@ -99,7 +99,7 @@
                 </mat-icon>
                 <span class="font-weight-500 ml-3">{{
                   (!cartService.totalPrice ? '0.00' : cartService.totalPrice) | currency
-                  }}</span>
+                }}</span>
               </a>
             </div>
           </div>
@@ -132,7 +132,7 @@
             (closed)="panelOpenState = false"
           >
             <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px" class="sidenav__panel-header">
-              <a class="sidenav__panel-link" [routerLink]="'/inventory/' + category.id" (click)="mobileMenu.close()">
+              <a class="sidenav__panel-link" [routerLink]="['/inventory/', category.id]" (click)="mobileMenu.close()">
                 <mat-panel-title [innerHTML]="category.title"></mat-panel-title>
               </a>
             </mat-expansion-panel-header>
