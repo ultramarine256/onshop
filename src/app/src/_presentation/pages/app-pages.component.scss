@@ -113,6 +113,7 @@
     margin-right: 10px;
   }
 }
+
 .searchbar {
   background-color: #2c98f0;
   display: flex;
@@ -121,6 +122,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+
     .searchbar__space {
       width: 10%;
       height: 20px;
@@ -130,8 +132,10 @@
       display: flex;
       height: 41px;
       width: 100%;
+
       .input-search-field {
         width: 100%;
+
         input {
           height: 100%;
           border: none;
@@ -175,6 +179,11 @@
 ::ng-deep .mat-menu-panel {
   min-height: 0 !important;
 }
+
+mat-sidenav-content {
+  display: initial;
+}
+
 ::ng-deep .mat-menu-content {
   max-height: 300px;
 }
