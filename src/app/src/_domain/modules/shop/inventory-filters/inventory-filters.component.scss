@@ -1,4 +1,11 @@
 .inventory-filters {
+  .inventory-filters__title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dadada;
+  }
+
   .inventory-filters__filter-title {
     cursor: pointer;
     display: flex;
@@ -7,7 +14,15 @@
     justify-content: space-between;
   }
 
-  .inventory-filters__filters {
-    padding: 0 10px;
+  .inventory-filters__item {
+    margin-bottom: 20px;
+  }
+
+  .inventory-filters__form-field {
+    width: 40%;
+  }
+
+  .inventory-filters__stock-status-field {
+    width: 100%;
   }
 }

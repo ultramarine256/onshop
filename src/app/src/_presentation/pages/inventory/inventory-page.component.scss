@@ -1,5 +1,13 @@
 .inventory-page {
   padding-top: 20px;
+  position: relative;
+
+  .inventory-page__progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 
   .inventory-page__content {
     width: 100%;
@@ -14,10 +22,25 @@
 
   .inventory-page__filter-title {
     font-size: 1.286em;
+    margin-bottom: 20px !important;
   }
 
   .inventory-page__products {
     margin-bottom: 20px;
+    position: relative;
+
+    &.inventory-page__products--loading {
+      opacity: 0.5;
+      &:before {
+        z-index: 999;
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
   }
 
   .inventory-page__spinner {
@@ -29,10 +52,25 @@
   }
 
   .inventory-page__actions {
-    padding: 0 14px;
+    padding: 0 5px;
 
     .inventory-page__sorting-bar {
       display: inline-block;
+    }
+  }
+
+  .inventory-page__pagination {
+    &.inventory-page__pagination--loading {
+      opacity: 0.5;
+      &:before {
+        z-index: 999;
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
     }
   }
 }

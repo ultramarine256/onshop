@@ -3,19 +3,19 @@ import { FilterEntity } from '../../_abstraction';
 export class ProductFilter extends FilterEntity {
   slug: string;
   search: string;
-
   include: string; // array of ints
   category: number;
-
   page: number;
   per_page: number;
   order: string;
   orderby: string;
-
   min_price: number;
   max_price: number;
   stock_status: string;
   status: string;
+  on_sale: boolean;
+  attribute_term: string;
+  tag: string;
 
   constructor(init?: Partial<ProductFilter>) {
     super();

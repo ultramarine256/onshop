@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { SelectionModel } from '@angular/cdk/collections';
-
-import { SearchResultFilters } from '@data/repository';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { StockStatus, TagModel } from '@data/repository';
 
 @Component({
   selector: 'app-inventory-filters',
@@ -10,30 +12,66 @@ import { SearchResultFilters } from '@data/repository';
   templateUrl: './inventory-filters.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryFiltersComponent {
-  @Input() showCategory: boolean;
-  @Input() filter: SearchResultFilters;
+export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnInit, AfterViewInit {
+  @Input() filters: { minPrice: number; maxPrice: number };
+  @Input() tags: TagModel[];
 
-  @Output() filterChanged = new EventEmitter<string>();
+  @Output() filterChanged = new EventEmitter();
 
-  public selection = new SelectionModel<any>(true, []);
+  public filterForm: FormGroup;
+  public minPrice = new FormControl();
+  public maxPrice = new FormControl();
+  public stockStatus = StockStatus;
+  public selectedTag: TagModel;
 
-  public toggleFilter(category: string, filter: any) {
-    this.selection.toggle(JSON.stringify({ category, filter }));
-    this.filterChanged.emit(this.getSerializedFilters(this.selection.selected));
+  public tagChanged = new Subject();
+
+  constructor(private fb: FormBuilder) {
+    super();
   }
 
-  private getSerializedFilters(selectedData: any): string {
-    const data = selectedData
-      .map((selection) => JSON.parse(selection))
-      .reduce((acc, item) => {
-        if (!acc[item.category]) {
-          acc[item.category] = [];
-        }
-        acc[item.category] = acc[item.category].concat(item.filter.name);
-        return acc;
-      }, {});
-
-    return Object.values(data).length ? JSON.stringify(data).slice(1) : '';
+  ngOnInit() {
+    this.filterForm = this.fb.group({
+      price: [null],
+      forRent: [null],
+      forSale: [null],
+      stockStatus: [null],
+    });
   }
+
+  ngAfterViewInit() {
+    this.filterForm.valueChanges
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe(() => this.filterChanged.next(this.getFilterData()));
+
+    this.tagChanged.pipe(takeUntil(this.destroy$)).subscribe(() => this.filterChanged.next(this.getFilterData()));
+  }
+
+  private getFilterData(): FilterFormData {
+    return {
+      ...this.filterForm.value,
+      tag: this.selectedTag?.id,
+    };
+  }
+
+  onPriceChange([minPrice, maxPrice]: [number, number]) {
+    this.minPrice.setValue(minPrice);
+    this.maxPrice.setValue(maxPrice);
+  }
+
+  public selectTag(tag: TagModel) {
+    if (this.selectedTag === tag) {
+      this.selectedTag = null;
+    }
+    this.selectedTag = tag;
+    this.tagChanged.next(tag);
+  }
+}
+
+export interface FilterFormData {
+  price: number[];
+  forRent: boolean;
+  forSale: boolean;
+  stockStatus: StockStatus;
+  tag: string;
 }

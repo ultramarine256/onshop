@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
-import { startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, finalize, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 
 import {
   CategoryModel,
@@ -12,15 +13,15 @@ import {
   ProductSearchResult,
   CategoryRepository,
   SearchResultFilters,
+  TagModel,
 } from '@data/index';
 import { AppMapper } from '@presentation/_mapper/app-mapper';
-import { AuthService, CartService, SortingOption } from '@domain/index';
+import { AuthService, CartService, FilterFormData, InventoryFiltersComponent, SortingOption } from '@domain/index';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 interface FilterState {
   productFilter: ProductFilter;
-  dynamicFilter: string;
 }
 
 @Component({
@@ -29,22 +30,25 @@ interface FilterState {
   templateUrl: './inventory-page.component.html',
 })
 export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit {
-  public filterUpdated$ = new Subject<{ productFilter: ProductFilter; dynamicFilter: string }>();
+  public filterUpdated$ = new Subject<{ productFilter: ProductFilter }>();
 
   public searchResult = new ProductSearchResult();
-  public products: ProductModel[];
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
+  public filters: { minPrice: number; maxPrice: number };
+  public tags: TagModel[];
+  public isInProgress: boolean;
+
   public readonly paginationConfig = { itemsPerPage: 12 };
 
-  public showCategories: boolean;
-  public isLoading = true;
+  public isFirstLoading = true;
 
   private element: HTMLElement;
   private filterState: FilterState;
 
   constructor(
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private router: Router,
     private productRepository: ProductRepository,
     private categoryRepository: CategoryRepository,
@@ -68,30 +72,41 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
         category,
         per_page: this.paginationConfig.itemsPerPage,
       }),
-      dynamicFilter: '',
     };
+
+    this.productRepository
+      .getTags()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((tags) => {
+        this.tags = tags;
+      });
 
     // Stream which is responsible for filtering products on the page based on filters
     this.filterUpdated$
       .pipe(
         startWith(this.filterState),
-        tap(() => {
-          this.scrollToView();
-          this.isLoading = true;
-        }),
+        tap(() => (this.isInProgress = true)),
         switchMap((filterState: FilterState) =>
-          this.productRepository.getProducts(filterState.productFilter, filterState.dynamicFilter).pipe(
+          this.productRepository.getProducts(filterState.productFilter).pipe(
             tap(() => {
-              this.isLoading = false;
+              this.isFirstLoading = false;
+              this.isInProgress = false;
               this.filterState = filterState;
               this.updateUrl(filterState);
-            })
+            }),
+            finalize(() => this.scrollToView())
           )
         ),
+        distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
       .subscribe((data) => {
-        this.filter = data.filters;
+        const prices = data.items.map((item) => item.price);
+        // TODO: Load min & max price from server
+        const minPrice = Math.round(Math.min(...prices)) || 0;
+        const maxPrice = Math.round(Math.max(...prices)) || 9999;
+        this.filters = { minPrice, maxPrice };
+        console.log(data);
         this.searchResult = data;
       });
   }
@@ -109,10 +124,14 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     this.filterUpdated$.next(filterState);
   }
 
-  public onFilterChanged(dynamicFilter: string) {
+  public onFilterChanged($event: FilterFormData) {
     const filterState = { ...this.filterState };
-    filterState.productFilter.page = 1;
-    filterState.dynamicFilter = dynamicFilter;
+    filterState.productFilter.min_price = $event.price[0];
+    filterState.productFilter.max_price = $event.price[1];
+    filterState.productFilter.stock_status = $event.stockStatus;
+    filterState.productFilter.tag = $event.tag;
+    filterState.productFilter.on_sale = $event.forSale;
+    filterState.productFilter.attribute_term = $event.forRent ? RentOption.Day : null;
     this.filterUpdated$.next(filterState);
   }
 
@@ -144,4 +163,22 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
   public get totalResults(): number {
     return this.searchResult.totalCount;
   }
+
+  // TODO: Implement
+  public openFilters() {
+    const dialogRef = this.dialog.open(InventoryFiltersComponent, {
+      width: '500px',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filters) => {});
+  }
+}
+
+export enum RentOption {
+  Day = '4',
+  Week = '5',
+  Month = '6',
 }

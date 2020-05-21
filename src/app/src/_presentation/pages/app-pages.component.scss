@@ -116,6 +116,7 @@
 .searchbar {
   background-color: #2c98f0;
   display: flex;
+  height: 46px;
 
   .searchbar__inner {
     display: flex;
@@ -173,6 +174,10 @@
       display: block;
     }
   }
+}
+
+.mat-sidenav-container.mat-drawer-container-has-open {
+  height: calc(100vh - 102px);
 }
 
 ::ng-deep .mat-expansion-panel-body {

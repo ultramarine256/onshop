@@ -1,38 +1,48 @@
 <div class="inventory-page">
+  <a id="scrollView"></a>
+  <mat-progress-bar
+    class="inventory-page__progress-bar"
+    *ngIf="isInProgress && !isFirstLoading"
+    mode="query"
+  ></mat-progress-bar>
+
   <div class="container">
-    <ng-container *ngIf="isLoading">
+    <ng-container *ngIf="isFirstLoading">
       <div fxFlex="row" fxLayoutAlign="center center" class="inventory-page__spinner">
         <mat-spinner></mat-spinner>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="!isLoading">
-      <div class="inventory-page__content" fxLayout="row" fxLayoutGap="10px">
-        <div fxHide.sm>
-          <h4 class="inventory-page__filter-title content-title mb-2">Filters</h4>
-          <app-inventory-filters
-            *ngIf="filter"
-            [filter]="filter"
-            [showCategory]="showCategories"
-            (filterChanged)="onFilterChanged($event)"
-          >
+    <ng-container *ngIf="!isFirstLoading">
+      <div class="inventory-page__content" fxLayout="row" fxLayoutGap="20px">
+        <div fxHide.lt-sm fxFlex.lt-md="30" fxFlex="20">
+          <app-inventory-filters [tags]="tags" [filters]="filters" (filterChanged)="onFilterChanged($event)">
           </app-inventory-filters>
         </div>
 
-        <div fxFlex.sm="100" fxFlex="70">
-          <div fxLayoutAlign="end" class="inventory-page__actions">
+        <div fxFlex.lt-sm="100" fxFlex.lt-md="70" fxFlex="80">
+          <div
+            *ngIf="searchResult.items.length"
+            fxLayoutAlign.gt-xs="end"
+            fxLayoutAlign.xs="space-between"
+            class="inventory-page__actions"
+          >
+            <!--<button fxHide.gt-xs color="primary" mat-raised-button (click)="openFilters()">Filters</button>-->
             <app-sorting-bar
               class="inventory-page__sorting-bar"
-              id="scrollView"
               (sortTypeChanged)="onSortTypeChanged($event)"
             ></app-sorting-bar>
           </div>
 
-          <div class="text-center" style="height: 300px;" *ngIf="searchResult.items.length == 0">
+          <div *ngIf="!searchResult.items.length">
             <h4>0 products</h4>
           </div>
 
-          <div class="inventory-page__products" fxLayout="row wrap">
+          <div
+            class="inventory-page__products"
+            [ngClass]="{ 'inventory-page__products--loading': isInProgress }"
+            fxLayout="row wrap"
+          >
             <div
               fxFlex.xl="25"
               fxFlex.lg="33"
@@ -62,6 +72,7 @@
           <div
             fxLayoutAlign="center center"
             class="inventory-page__pagination"
+            [ngClass]="{ 'inventory-page__pagination--loading': isInProgress }"
             *ngIf="totalResults > paginationConfig.itemsPerPage"
           >
             <pagination-controls
