@@ -1,27 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { CategoryModel } from './model';
 import { BaseRepository } from '../base.repository';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CategoryRepository extends BaseRepository {
+  public categoriesSubject = new ReplaySubject<CategoryModel[]>(1);
+  public categories$ = this.categoriesSubject.asObservable();
+
   /// constructor
   constructor(private httpClient: HttpClient) {
     super();
-  }
-
-  /// methods
-  public getCategory(id: number): Observable<CategoryModel> {
-    return this.httpClient.get<Array<CategoryModel>>(`${this.apiBaseUrl}/wp-json/onshop/v1/categories/${id}`).pipe(
-      map((response) => {
-        const result = new CategoryModel();
-        result.mapFromDto(response);
-        return result;
-      })
-    );
   }
 
   public getCategories(): Observable<CategoryModel[]> {
@@ -52,7 +46,8 @@ export class CategoryRepository extends BaseRepository {
 
             return categoryModel;
           });
-      })
+      }),
+      tap((categories) => this.categoriesSubject.next(categories))
     );
   }
 }

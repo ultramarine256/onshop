@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="orders__item-column orders__item-column--action">
-          <ng-container *ngIf="getDurationEndDate(order)">
+          <ng-container *ngIf="order.rentalDuration">
             <a [routerLink]="['/return-product', order.id]" color="primary" mat-raised-button>{{
               getDurationEndDateMessage(order)
             }}</a></ng-container

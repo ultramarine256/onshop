@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../../_domain';
+import { AuthService } from '@domain/services';
 
 @Component({
   selector: 'app-profile-page',

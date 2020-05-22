@@ -21,14 +21,10 @@
         </div>
 
         <div fxFlex.lt-sm="100" fxFlex.lt-md="70" fxFlex="80">
-          <div
-            *ngIf="searchResult.items.length"
-            fxLayoutAlign.gt-xs="end"
-            fxLayoutAlign.xs="space-between"
-            class="inventory-page__actions"
-          >
-            <!--<button fxHide.gt-xs color="primary" mat-raised-button (click)="openFilters()">Filters</button>-->
+          <div fxLayoutAlign.gt-xs="end" fxLayoutAlign.xs="space-between" class="inventory-page__actions">
+            <button fxHide.gt-xs color="primary" mat-raised-button (click)="openFilters()">Filters</button>
             <app-sorting-bar
+              *ngIf="searchResult.items.length"
               class="inventory-page__sorting-bar"
               (sortTypeChanged)="onSortTypeChanged($event)"
             ></app-sorting-bar>

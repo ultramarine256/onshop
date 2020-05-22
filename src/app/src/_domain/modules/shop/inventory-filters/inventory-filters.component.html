@@ -5,11 +5,21 @@
     <div fxLayout="row" fxLayoutAlign="space-between">
       <mat-form-field class="inventory-filters__form-field">
         <mat-label>Min</mat-label>
-        <input matInput type="number" [formControl]="minPrice" />
+        <input
+          matInput
+          type="number"
+          [formControl]="minPrice"
+          (change)="onMinMaxPriceChange(minPrice.value, maxPrice.value)"
+        />
       </mat-form-field>
       <mat-form-field class="inventory-filters__form-field">
         <mat-label>Max</mat-label>
-        <input matInput type="number" [formControl]="maxPrice" />
+        <input
+          matInput
+          type="number"
+          [formControl]="maxPrice"
+          (change)="onMinMaxPriceChange(minPrice.value, maxPrice.value)"
+        />
       </mat-form-field>
     </div>
     <dx-range-slider

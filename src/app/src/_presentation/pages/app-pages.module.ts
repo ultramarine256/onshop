@@ -27,6 +27,7 @@ import {
 import { RepositoryModule } from '../../_data';
 import { AuthModule, CartModule, InfoModule, ProfileModule, ShopModule, ThemeModule } from '../../_domain';
 import { PurchaseReturnsPageComponent } from './purchase-returns';
+import { FilterDialogComponent } from './inventory/filter-dialog/filter-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { PurchaseReturnsPageComponent } from './purchase-returns';
     AccountEditPageComponent,
     AccountPageComponent,
     OrdersPageComponent,
+    FilterDialogComponent,
   ],
   imports: [
     /// angular

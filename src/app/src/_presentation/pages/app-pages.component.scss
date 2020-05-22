@@ -28,6 +28,15 @@
 
   .toolbar__icons {
     line-height: 0;
+
+    .toolbar__icons-item {
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.87);
+
+      &:hover {
+        color: #2c98f0;
+      }
+    }
   }
 }
 
@@ -180,8 +189,12 @@
   }
 }
 
-.mat-sidenav-container.mat-drawer-container-has-open {
+.sidenav-container.sidenav-container--is-open {
   height: calc(100vh - 102px);
+}
+
+.sidenav-content {
+  display: initial;
 }
 
 ::ng-deep .mat-expansion-panel-body {
@@ -190,10 +203,6 @@
 
 ::ng-deep .mat-menu-panel {
   min-height: 0 !important;
-}
-
-mat-sidenav-content {
-  display: initial;
 }
 
 ::ng-deep .mat-menu-content {
