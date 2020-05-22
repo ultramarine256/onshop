@@ -1,85 +1,71 @@
 <form [formGroup]="profileForm" class="mb-3">
-  <mat-horizontal-stepper labelPosition="bottom" #stepper>
-    <!-- Project Info -->
-    <mat-step>
-      <ng-template matStepLabel>User</ng-template>
-      <h5>User Info</h5>
-      <div class="d-flex flex-column">
-        <label>
-          First name:
-          <input class="form-control form-control-sm" type="text" formControlName="firstName">
-        </label>
-        <label>
-          Last name:
-          <input class="form-control form-control-sm" type="text" formControlName="lastName">
-        </label>
-        <label>
-          Username:
-          <input class="form-control form-control-sm" type="text" formControlName="username">
-        </label>
-      </div>
-      <button class="btn btn-primary" matStepperNext>
-        Continue to billing
-      </button>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Billing</ng-template>
-      <div formGroupName="billing" class="d-flex flex-column">
-        <h5>Billing</h5>
-        <label>
-          First name:
-          <input class="form-control form-control-sm" type="text" formControlName="firstName">
-        </label>
-        <label>
-          Last name:
-          <input class="form-control form-control-sm" type="text" formControlName="lastName">
-        </label>
-        <label>
-          City:
-          <input class="form-control form-control-sm" type="text" formControlName="city">
-        </label>
-        <label>
-          State:
-          <input class="form-control form-control-sm" type="text" formControlName="state">
-        </label>
-        <label>
-          Post Code:
-          <input class="form-control form-control-sm" type="text" formControlName="postcode">
-        </label>
-        <label>
-          Email:
-          <input class="form-control form-control-sm" type="text" formControlName="email">
-        </label><label>
-        Phone:
-        <input class="form-control form-control-sm" type="text" formControlName="phone">
-      </label>
-      </div>
-      <button class="btn btn-primary " matStepperNext>Continue to
-        shipping
-      </button>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>shipping</ng-template>
-      <div formGroupName="shipping" class="d-flex flex-column">
-        <h5>Shipping</h5>
-        <label>
-          First name:
-          <input class="form-control form-control-sm" type="text" formControlName="firstName">
-        </label>
-        <label>
-          Last name:
-          <input class="form-control form-control-sm" type="text" formControlName="lastName">
-        </label>
-        <label>
-          City:
-          <input class="form-control form-control-sm" type="text" formControlName="city">
-        </label>
-        <label>
-          Postcode:
-          <input class="form-control form-control-sm" type="text" formControlName="postcode">
-        </label>
-      </div>
-      <button type="submit" [disabled]="!profileForm.valid" class="btn btn-success" (click)="onSubmit()"> Done</button>
-    </mat-step>
-  </mat-horizontal-stepper>
+  <!-- Project Info -->
+  <h5>User Info</h5>
+  <div class="d-flex flex-column">
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>First name:</mat-label>
+      <input matInput placeholder="John" formControlName="firstName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Last name:</mat-label>
+      <input matInput placeholder="Doe" formControlName="lastName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Username:</mat-label>
+      <input matInput placeholder="User1" formControlName="username" />
+    </mat-form-field>
+  </div>
+  <div formGroupName="billing" class="d-flex flex-column">
+    <h5>Billing</h5>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>First name:</mat-label>
+      <input matInput placeholder="John" formControlName="firstName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Last name:</mat-label>
+      <input matInput placeholder="Doe" formControlName="lastName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>City:</mat-label>
+      <input matInput placeholder="User1" formControlName="city" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>State:</mat-label>
+      <input matInput placeholder="User1" formControlName="state" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Post Code:</mat-label>
+      <input matInput placeholder="User1" formControlName="postcode" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Email:</mat-label>
+      <input matInput placeholder="User1" formControlName="email" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Phone:</mat-label>
+      <input matInput placeholder="User1" formControlName="phone" />
+    </mat-form-field>
+  </div>
+  <div formGroupName="shipping" class="d-flex flex-column">
+    <h5>Shipping</h5>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>First name:</mat-label>
+      <input matInput placeholder="User1" formControlName="firstName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Last name:</mat-label>
+      <input matInput placeholder="User1" formControlName="lastName" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>City:</mat-label>
+      <input matInput placeholder="User1" formControlName="city" />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Postcode:</mat-label>
+      <input matInput placeholder="User1" formControlName="postcode" />
+    </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid" (click)="onSubmit()">
+    Done
+  </button>
 </form>
