@@ -90,7 +90,6 @@ export class ProductDetailsPageComponent implements OnInit {
   /// methods
 
   public addToCart(item: ProductModel, rentDuration: number = 0) {
-
     this.addedToCard = true;
     const mapedItem = AppMapper.toCartItem(item);
     if (!this.checkPrice) {

@@ -50,7 +50,6 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
     this.isLoading = false;
     forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
       .pipe(
-        tap(() => console.log('load')),
         map(([appInfoModel, categories]) => {
           return [appInfoModel, categories.map((category) => new CategoryMenuModel(category.id, category.name))];
         }),

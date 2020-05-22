@@ -59,7 +59,7 @@
           </mat-card>
         </div>
         <div *ngIf="edit" class="col-md-7">
-          <app-account-edit-page [userProperties]="user"></app-account-edit-page>
+          <app-account-edit-page [userProperties]="user" (finaleEdit)="closeEditForm($event)"></app-account-edit-page>
         </div>
       </div>
     </div>

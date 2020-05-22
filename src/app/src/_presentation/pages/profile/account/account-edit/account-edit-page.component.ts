@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {UserModel, UserRepository} from '../../../../../_data';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormsService} from '@shared/services/forms.service';
 
 @Component({
   selector: 'app-account-edit-page',
@@ -32,14 +33,19 @@ export class AccountEditPageComponent {
     });
   };
 
+  @Output() finaleEdit = new EventEmitter<boolean>();
+
   public profileForm: FormGroup;
   public setResult: UserModel;
   public password: string;
 
-  constructor(public userRepository: UserRepository) {
+  constructor(public userRepository: UserRepository, private formService: FormsService) {
   }
 
   onSubmit() {
+    if (!this.formService.validate(this.profileForm)) {
+      return false;
+    }
     this.setResult.firstName = this.profileForm.get('firstName').value;
     this.setResult.lastName = this.profileForm.get('lastName').value;
     this.setResult.username = this.profileForm.get('username').value;
@@ -52,6 +58,7 @@ export class AccountEditPageComponent {
     this.userRepository.editUser(user).subscribe((response) => {
       (window as any).toastr.options.positionClass = 'toast-top-center';
       (window as any).toastr.success('Done!');
+      this.finaleEdit.emit(false);
     });
   }
 }
