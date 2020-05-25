@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {UserModel, UserRepository} from '../../../../../_data';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {FormsService} from '@shared/services/forms.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UserModel, UserRepository } from '../../../../../_data';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormsService } from '@shared/services/forms.service';
 
 @Component({
   selector: 'app-account-edit-page',
-  templateUrl: './account-edit-page.component.html'
+  templateUrl: './account-edit-page.component.html',
 })
 export class AccountEditPageComponent {
   @Input() set userProperties(value: UserModel) {
@@ -22,25 +22,25 @@ export class AccountEditPageComponent {
         city: new FormControl(value.billing.city),
         state: new FormControl(value.billing.state),
         email: new FormControl(value.billing.email, Validators.required),
-
       }),
       shipping: new FormGroup({
         firstName: new FormControl(value.shipping.firstName),
         lastName: new FormControl(value.shipping.lastName),
         city: new FormControl(value.shipping.city),
-        postcode: new FormControl(value.shipping.postcode)
-      })
+        postcode: new FormControl(value.shipping.postcode),
+      }),
     });
-  };
+    this.scrollToEdit();
+  }
 
   @Output() finaleEdit = new EventEmitter<boolean>();
 
   public profileForm: FormGroup;
   public setResult: UserModel;
   public password: string;
+  public element: HTMLElement;
 
-  constructor(public userRepository: UserRepository, private formService: FormsService) {
-  }
+  constructor(public userRepository: UserRepository, private formService: FormsService) {}
 
   onSubmit() {
     if (!this.formService.validate(this.profileForm)) {
@@ -60,5 +60,10 @@ export class AccountEditPageComponent {
       (window as any).toastr.success('Done!');
       this.finaleEdit.emit(false);
     });
+  }
+
+  scrollToEdit() {
+    this.element = document.getElementById('scrollView') as HTMLElement;
+    this.element.scrollIntoView({ block: 'center', behavior: 'smooth' });
   }
 }

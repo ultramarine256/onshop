@@ -9,7 +9,7 @@
         First name is<strong>required</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="fill">
+    <mat-form-field id="scrollView" appearance="fill">
       <mat-label>Last name:</mat-label>
       <input matInput formControlName="lastName" />
       <mat-error *ngIf="profileForm.get('lastName').hasError('required')">
