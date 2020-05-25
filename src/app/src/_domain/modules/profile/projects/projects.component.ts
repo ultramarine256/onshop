@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ProjectResponse } from '../../../../_data/repository/project/model';
+import { ProjectResponse } from '@data/repository';
 
 @Component({
   selector: 'app-projects-component',

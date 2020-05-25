@@ -9,6 +9,7 @@ import { UserModel, UserRepository } from '@data/repository';
 })
 export class AccountPageComponent implements OnInit {
   public edit: boolean;
+  public element: HTMLElement;
 
   public user$: Observable<UserModel>;
 
@@ -16,5 +17,9 @@ export class AccountPageComponent implements OnInit {
 
   ngOnInit() {
     this.user$ = this.userRepository.getUser();
+  }
+
+  closeEditForm(value) {
+    this.edit = value;
   }
 }

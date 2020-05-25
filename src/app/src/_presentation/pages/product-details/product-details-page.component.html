@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-12 col-md-4">
       <div *ngIf="mainSliderLoaded" class="product-images owl-carousel owl-theme">
-        <div class="item" *ngFor="let item of product.images">
+        <div class="item" *ngFor="let item of product.images; let last = last">
           <a class="text-decoration-none carousel-item-product" [routerLink]="'/product/' + item.slug">
             <div class="img-wrap">
               <img [src]="item.src ? item.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'" />
@@ -80,16 +80,23 @@
         </div>
       </div>
       <div class="d-flex align-items-center">
-        <button class="btn btn-primary" (click)="addToCart(product)" *ngIf="authService.isAuthorized">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="addedToCard"
+          (click)="addToCart(product)"
+          *ngIf="authService.isAuthorized"
+        >
           Add to Cart
         </button>
-        <div *ngIf="addedToCard" class="d-flex align-items-center text-success ml-2">
-          <i class="material-icons ml-1">
-            check_circle
-          </i>
-          <b>{{ finalePrice | currency }}</b>
-        </div>
-        <button *ngIf="toSearch" class="btn btn-primary ml-3 d-flex align-items-center" (click)="backToSearch()">
+        <mat-spinner *ngIf="addedToCard" matSuffix class="ml-2" [diameter]="24"></mat-spinner>
+        <button
+          *ngIf="toSearch"
+          mat-button
+          color="primary"
+          class="ml-3 d-flex align-items-center"
+          (click)="backToSearch()"
+        >
           back to search
           <i class="material-icons">
             keyboard_return

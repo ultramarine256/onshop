@@ -37,11 +37,7 @@
         </div>
       </div>
 
-      <div
-        class="col-12 d-flex flex-column"
-        [class.d-none]="!orderDetails.isVisible"
-        [class.d-flex]="orderDetails.isVisible"
-      >
+      <div class="col-12 flex-column" [class.d-none]="!orderDetails.isVisible" [class.d-flex]="orderDetails.isVisible">
         <!-- products to show -->
         <div class="row w-100">
           <div class="col-12 mt-2 d-flex">
@@ -65,16 +61,20 @@
         <!-- delivery properties -->
         <div class="row w-100">
           <div class="col-md-6 d-flex small py-2">
-            <div class="hide-element" style="width: 38px;"></div>
             <div class="row">
-              <div class="col-12">
+              <div class="col-12 d-flex">
+                <i class="material-icons mx-2" style="visibility: hidden;">keyboard_arrow_down</i>
                 <h6 class="text-muted">Billing</h6>
               </div>
-              <div class="col-3 d-flex flex-column">
-                <b>Name:</b>
-                <b>Email:</b>
-                <b>Phone:</b>
+              <div class="d-flex col-3">
+                <i class="material-icons mx-2" style="visibility: hidden;">keyboard_arrow_down</i>
+                <div class="d-flex flex-column">
+                  <b>Name:</b>
+                  <b>Email:</b>
+                  <b>Phone:</b>
+                </div>
               </div>
+
               <div class="col-9 d-flex flex-column">
                 <div>{{ order.billing.fistName }} {{ order.billing.lastName }}</div>
                 <div>
@@ -87,7 +87,6 @@
             </div>
           </div>
           <div class="col-md-6 d-flex py-2">
-            <div class="hide-element" style="width: 38px;"></div>
             <div class="row small">
               <div class="col-12">
                 <h6 class="text-muted">Shipping</h6>

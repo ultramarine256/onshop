@@ -111,9 +111,11 @@ export class ProductDetailsPageComponent implements OnInit {
     mapedItem.count = 1;
     this.cartService.addItem(mapedItem);
     setTimeout(() => {
+      (window as any).toastr.options.positionClass = 'toast-bottom-center';
+      (window as any).toastr.success('Added! $' + this.finalePrice);
       this.addedToCard = false;
       this.toSearch = true;
-    }, 5000);
+    }, 3000);
   }
 
   public choseRent(rent) {

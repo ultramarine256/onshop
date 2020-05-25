@@ -5,64 +5,58 @@
 </ng-template>
 
 <ng-container *ngIf="user$ | async as user; else loader">
-  <div class="row">
-    <div class="col-12">
-      <h3 class="col-12">Profile</h3>
-
-      <div class="row m-0">
-        <div class="col-md-3 d-flex flex-column">
+  <div class="row align-items-center flex-column">
+    <div class="col-md-6 mt-2 text-dark">
+      <mat-card>
+        <div class="d-flex justify-content-between align-items-center my-2">
           <div>
             <img [src]="user.avatar" />
           </div>
-
-          <div class="mt-3">
-            <button
-              class="btn btn-sm d-flex align-items-center"
-              [class.btn-primary]="!edit"
-              [class.btn-success]="edit"
-              (click)="edit = !edit"
-            >
-              edit<i class="material-icons">
-                settings
-              </i>
-            </button>
-          </div>
+          <button mat-raised-button color="primary" class="py-0 d-flex align-items-center mb-2" (click)="edit = !edit">
+            <ng-container *ngIf="!edit">edit</ng-container>
+            <ng-container *ngIf="edit">close</ng-container>
+            <mat-icon style="font-size: 1.2em;" aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+          </button>
         </div>
-        <div *ngIf="!edit" class="col-md-5 mt-2 text-dark">
-          <div class="d-flex justify-content-between align-items-center my-2">
-            <div class="font-weight-bold d-flex align-items-center">
-              <i class="material-icons mr-md-2"> account_circle </i>Name:
-            </div>
-            <span>{{ user.firstName + ' ' + user.lastName }}</span>
-          </div>
-          <div class="d-flex justify-content-between align-items-center my-2">
-            <div class="font-weight-bold d-flex align-items-center">
-              <i class="material-icons mr-md-2"> email </i>Email:
-            </div>
-            <span>{{ user.email }}</span>
-          </div>
-          <div class="d-flex justify-content-between align-items-center my-2">
-            <div class="font-weight-bold d-flex align-items-center">
-              <i class="material-icons mr-md-2">
-                group_work
-              </i>
-              Role:
-            </div>
-            <span>{{ user.role }}</span>
-          </div>
-          <div class="d-flex justify-content-between align-items-center my-2">
-            <span class="font-weight-bold">Username:</span>
-            <span>{{ user.username }}</span>
-          </div>
-          <div class="d-flex justify-content-between align-items-center my-2">
-            <span class="font-weight-bold">Date created:</span>
-            <span>{{ user.dateCreated | date }}</span>
-          </div>
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="d-flex justify-content-between align-items-center pt-2">
+          <span class="font-weight-bold">
+            Name:
+          </span>
+          <span>{{ user.firstName + ' ' + user.lastName }}</span>
         </div>
-        <div *ngIf="edit" class="col-md-6">
-          <app-account-edit-page [userProperties]="user"></app-account-edit-page>
+        <div class="d-flex justify-content-between align-items-center my-2">
+          <span class="font-weight-bold">
+            Email:
+          </span>
+          <span>{{ user.email }}</span>
         </div>
-      </div>
+        <div class="d-flex justify-content-between align-items-center my-2">
+          <span class="font-weight-bold">
+            Role:
+          </span>
+          <span>{{ user.role }}</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center my-2">
+          <div class="font-weight-bold">
+            Username:
+          </div>
+          <span>{{ user.username }}</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center my-2">
+          <div class="font-weight-bold">
+            Date created:
+          </div>
+          <span>{{ user.dateCreated | date }}</span>
+        </div>
+      </mat-card>
+    </div>
+    <div *ngIf="edit" class="col-md-6">
+      <app-account-edit-page
+        id="scrollView"
+        [userProperties]="user"
+        (finaleEdit)="closeEditForm($event)"
+      ></app-account-edit-page>
     </div>
   </div>
 </ng-container>
