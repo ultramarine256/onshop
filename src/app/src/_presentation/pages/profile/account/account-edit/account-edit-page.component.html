@@ -1,66 +1,78 @@
-<form [formGroup]="profileForm" class="mb-3">
+<form [formGroup]="profileForm" class="mb-3 mt-3">
   <!-- Project Info -->
   <h5>User Info</h5>
   <div class="d-flex flex-column">
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>First name:</mat-label>
       <input matInput formControlName="firstName" />
+      <mat-error *ngIf="profileForm.get('firstName').hasError('required')">
+        First name is<strong>required</strong>
+      </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Last name:</mat-label>
       <input matInput formControlName="lastName" />
+      <mat-error *ngIf="profileForm.get('lastName').hasError('required')">
+        Last name is<strong>required</strong>
+      </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Username:</mat-label>
       <input matInput formControlName="username" />
+      <mat-error *ngIf="profileForm.get('username').hasError('required')">
+        Username is<strong>required</strong>
+      </mat-error>
     </mat-form-field>
   </div>
   <div formGroupName="billing" class="d-flex flex-column">
     <h5>Billing</h5>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>First name:</mat-label>
       <input matInput formControlName="firstName" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Last name:</mat-label>
       <input matInput formControlName="lastName" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>City:</mat-label>
       <input matInput formControlName="city" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>State:</mat-label>
       <input matInput formControlName="state" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Post Code:</mat-label>
       <input matInput formControlName="postcode" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Email:</mat-label>
-      <input matInput  formControlName="email" />
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="profileForm.get('email').hasError('required')">
+        Email is<strong>required</strong>
+      </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Phone:</mat-label>
-      <input matInput  formControlName="phone" />
+      <input matInput formControlName="phone" />
     </mat-form-field>
   </div>
   <div formGroupName="shipping" class="d-flex flex-column">
     <h5>Shipping</h5>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>First name:</mat-label>
       <input matInput formControlName="firstName" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Last name:</mat-label>
       <input matInput formControlName="lastName" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>City:</mat-label>
       <input matInput formControlName="city" />
     </mat-form-field>
-    <mat-form-field appearance="fill" >
+    <mat-form-field appearance="fill">
       <mat-label>Postcode:</mat-label>
       <input matInput formControlName="postcode" />
     </mat-form-field>

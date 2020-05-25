@@ -15,11 +15,11 @@ export class AccountEditPageComponent {
       lastName: new FormControl(value.lastName, Validators.required),
       username: new FormControl(value.username, Validators.required),
       billing: new FormGroup({
-        firstName: new FormControl(value.billing.firstName, Validators.required),
-        lastName: new FormControl(value.billing.lastName, Validators.required),
+        firstName: new FormControl(value.billing.firstName),
+        lastName: new FormControl(value.billing.lastName),
         phone: new FormControl(value.billing.phone),
-        postcode: new FormControl(value.billing.postcode, Validators.required),
-        city: new FormControl(value.billing.city, Validators.required),
+        postcode: new FormControl(value.billing.postcode),
+        city: new FormControl(value.billing.city),
         state: new FormControl(value.billing.state),
         email: new FormControl(value.billing.email, Validators.required),
 
