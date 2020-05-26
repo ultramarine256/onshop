@@ -18,20 +18,20 @@ steps:
 - script: |
     npm install -g @angular/cli
     npm install
-    ng build --prod
+    ng build -c=build-prod
   displayName: 'npm install and build'
 
 - powershell: |
    $indexHtml = "index.html"
    $buildId = $(Build.BuildId)
    (Get-Content $indexHtml).replace("-build.counter-", $buildId) | Set-Content $indexHtml
-  workingDirectory: 'src/app/dist/vipdrive-app'
+  workingDirectory: 'src/app/dist/onshop-app'
   displayName: 'PowerShell Script'
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'
   inputs:
-    rootFolderOrFile: 'src/app/dist/vipdrive-app'
+    rootFolderOrFile: 'src/app/dist/onshop-app'
     includeRootFolder: false
 
 - task: PublishBuildArtifacts@1
