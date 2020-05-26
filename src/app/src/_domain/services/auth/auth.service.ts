@@ -40,13 +40,13 @@ export class AuthService {
   /// methods
   public login(username: string, password: string): Observable<LoginResponse> {
     return this.httpClient
-      .post<LoginResponse>(`${environment.apiBaseUrl}/wp-json/onshop/v1/user/login`, { username, password })
+      .post<LoginResponse>(`${environment.apiBaseUrl}/wp-json/onshop/v3/user/login`, { username, password })
       .pipe(map((x) => new LoginResponse({ jwt: x.jwt })));
   }
 
   public getUserIdentityInfo(token: string): Observable<IdentityResponse> {
     return this.httpClient
-      .get<IdentityResponse>(`${environment.apiBaseUrl}/wp-json/onshop/v1/user`, {
+      .get<IdentityResponse>(`${environment.apiBaseUrl}/wp-json/onshop/v3/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

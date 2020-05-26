@@ -205,9 +205,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 			 * @param boolean         $creating  True when creating object, false when updating.
 			 */
 			do_action( "woocommerce_rest_insert_{$this->post_type}_object", $object, $request, true );
-            // after saving, we must notify user and manager
-			$this->sendMail($object->get_id());
-        } catch ( WC_Data_Exception $e ) {
+		} catch ( WC_Data_Exception $e ) {
 			$object->delete();
 			return new WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getErrorData() );
 		} catch ( WC_REST_Exception $e ) {
@@ -264,97 +262,6 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 		$response = $this->prepare_object_for_response( $object, $request );
 		return rest_ensure_response( $response );
 	}
-
-    function sendMail($orderId) {
-        $TEMPLATE_ID = 'd-bd53b0a6026549b6a12e16ecd491f5cf';
-
-        $orderData = $this->getOrderDataById($orderId);
-
-        $clientEmail = $orderData['email'];
-        $managerEmail = app_info()['email-manager'];
-        $senderEmail = app_info()['email-sender'];
-
-        try {
-            $email = new SendGrid\Mail\Mail();
-            $email->setSubject('Order receipt #' . $orderId);
-            $email->setFrom($senderEmail);
-            $email->addTos([
-                $clientEmail => 'Client',
-                $managerEmail => 'Manager'
-            ]);
-            $email->setTemplateId($TEMPLATE_ID);
-            $email->addDynamicTemplateDatas($orderData);
-
-            $sendGrid = new SendGrid($_ENV['SEND_GRID_API_KEY']);
-            $sendGrid->send($email);
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "";
-        }
-    }
-    /**
-     * @param $orderId int
-     * @return array
-     */
-    function getOrderDataById($orderId)
-    {
-        $orderData = wc_get_order($orderId)->get_data();
-        // we do not have separate field for total items and total fee, so we need to calculate it manually
-        $itemsTotal = number_format(array_reduce($orderData['line_items'], function($acc, $item) {
-            return $acc += $item->get_data()['total'];
-        }, 0), 2);
-        $feeTotal = number_format(array_reduce($orderData['fee_lines'], function($acc, $item) {
-            return $acc += $item->get_data()['total'];
-        }, 0), 2);
-
-        $shippingTotal = number_format($orderData['shipping_total'], 2);
-        $total = number_format($orderData['total'], 2);
-
-        $metaData = array_map(function($meta) {
-            return $meta->get_data();
-        }, $orderData['meta_data']);
-        $metaFormattedData = $this->getMetaData($metaData);
-
-        return [
-            'orderId' => $orderId,
-            'itemsTotal' => $itemsTotal,
-            'feeTotal' => $feeTotal,
-            'shippingTotal' => $shippingTotal,
-            'total' => $total,
-            'email' => $orderData['billing']['email'],
-            'name' => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
-            'address01' => $orderData['shipping']['address_1'],
-            'address02' => $orderData['shipping']['address_2'],
-            'city' => $orderData['shipping']['city'],
-            'state' => $orderData['shipping']['state'],
-            'zip' => $orderData['shipping']['postcode'],
-            'phone' => $orderData['billing']['phone'],
-            'project' => $metaFormattedData['project-number'],
-            'deliveryDate' => $metaFormattedData['delivery-date'],
-            'deliveryInstructions' => $metaFormattedData['delivery-instructions'],
-            'deliveryTime' => $metaFormattedData['delivery-time'],
-            'items' => array_map(function($orderItem) {
-                $orderItemData = $orderItem->get_data();
-                return (object)[
-                    'text' => $orderItemData['name'],
-                    'count' => $orderItemData['quantity'],
-                    'price' => number_format($orderItemData['total'], 2),
-                ];
-            }, $orderData['line_items'])
-        ];
-    }
-
-    /**
-     * @param $data
-     * @return array
-     */
-    function getMetaData($data)
-    {
-        $metaInfo = [];
-        foreach ($data as $item) {
-            $metaInfo[$item['key']] = $item['value'];
-        }
-        return $metaInfo;
-    }
 
 	/**
 	 * Prepare objects query.
@@ -430,7 +337,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 		}
 
 		return array(
-			'objects' => array_map( array( $this, 'get_object' ), $result ),
+			'objects' => array_filter( array_map( array( $this, 'get_object' ), $result ) ),
 			'total'   => (int) $total_posts,
 			'pages'   => (int) ceil( $total_posts / (int) $query->query_vars['posts_per_page'] ),
 		);
