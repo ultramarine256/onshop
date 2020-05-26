@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { CategoryModel } from '@data/index';
 
@@ -7,14 +7,10 @@ import { CategoryModel } from '@data/index';
   styleUrls: ['./category-item.component.scss'],
   templateUrl: './category-item.component.html',
 })
-export class CategoryItemComponent {
+export class CategoryItemComponent implements OnInit {
   @Input() category: CategoryModel;
 
   constructor() {}
 
-  // TODO: delete this method after the paginator will work through the router
-  public clearStorage() {
-    localStorage.removeItem('pageForPagination');
-    localStorage.removeItem('amountForPagination');
-  }
+  ngOnInit() {}
 }

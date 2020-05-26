@@ -15,6 +15,7 @@ import { AccountPageComponent, OrdersPageComponent, ProfilePageComponent, Projec
 import { PurchaseReturnsPageComponent } from './purchase-returns';
 import { AuthGuard } from '@domain/services/auth/guards/auth.guard';
 import { NoAuthGuard } from '@domain/services/auth/guards/no-auth.guard';
+import { SubCategoriesComponent } from '@presentation/pages/sub-categories';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,11 @@ export const routes: Routes = [
         path: 'categories',
         canActivate: [AuthGuard],
         component: CategoriesPageComponent,
+      },
+      {
+        path: 'categories/:categorySlug',
+        canActivate: [AuthGuard],
+        component: SubCategoriesComponent,
       },
       {
         path: 'inventory/:categoryId',

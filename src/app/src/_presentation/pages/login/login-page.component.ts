@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
@@ -51,11 +51,14 @@ export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
           this.authService.setToken(new UserToken({ token: item.jwt }));
           this.authService
             .getUserIdentityInfo(item.jwt)
-            .pipe(takeUntil(this.destroy$))
+            .pipe(
+              finalize(() => (this.loginProcessing = false)),
+              takeUntil(this.destroy$)
+            )
             .subscribe((response: IdentityResponse) => {
               this.authService.setIdentity(response);
               this.loginProcessing = false;
-              this.router.navigate(['/profile']).then();
+              this.router.navigate(['/profile']);
             });
         },
         () => {

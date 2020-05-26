@@ -41,26 +41,6 @@
   </div>
 
   <div class="inventory-filters__item">
-    <mat-form-field class="inventory-filters__stock-status-field">
-      <mat-label>Stock status</mat-label>
-      <mat-select formControlName="stockStatus">
-        <mat-option
-          *ngFor="
-            let status of [
-              { title: 'Instock', value: stockStatus.Instock },
-              { title: 'Out of stock', value: stockStatus.OutOfStock },
-              { title: 'On back order', value: stockStatus.OnBackOrder }
-            ]
-          "
-          [value]="status.value"
-        >
-          {{ status.title }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="inventory-filters__item">
     <h6 class="inventory-filters__title">Tags</h6>
     <mat-chip-list aria-label="Tags">
       <mat-chip

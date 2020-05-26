@@ -1,0 +1,30 @@
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <div class="spinner-grow text-primary"></div>
+  </div>
+</ng-template>
+
+<div class="categories-page" *ngIf="category$ | async as category; else loader">
+  <div class="container mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb my-2 bg-white">
+        <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <a routerLink="/categories" class="text-decoration-none">Categories</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ category.name }}
+        </li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="container pb-4 pb-sm-5">
+    <h3 class="text-center mb-4">{{ category.name }}</h3>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 mb-3" *ngFor="let category of category.subCategories">
+        <app-category-item class="category" [category]="category"></app-category-item>
+      </div>
+    </div>
+  </div>
+</div>

@@ -47,7 +47,19 @@ export class CategoryRepository extends BaseRepository {
             return categoryModel;
           });
       }),
-      tap((categories) => this.categoriesSubject.next(categories))
+      tap((categories) => {
+        const categoryAll = new CategoryModel();
+        categoryAll.mapFromDto({
+          id: null,
+          name: 'All',
+          image: {
+            externalPath: true,
+            src: 'https://ndwesti.ru/wp-content/uploads/2019/03/pochemu-vygodno-brat-instrument-v-prokat-1.jpg',
+          },
+        });
+        categories.unshift(categoryAll);
+        this.categoriesSubject.next(categories);
+      })
     );
   }
 }

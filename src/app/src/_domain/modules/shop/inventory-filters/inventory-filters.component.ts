@@ -21,7 +21,6 @@ export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnI
   public filterForm: FormGroup;
   public minPrice = new FormControl();
   public maxPrice = new FormControl();
-  public stockStatus = StockStatus;
   public selectedTag: TagModel;
 
   public tagChanged = new Subject();
@@ -35,7 +34,6 @@ export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnI
       price: [null],
       forRent: [null],
       forSale: [null],
-      stockStatus: [null],
     });
   }
 
@@ -76,6 +74,5 @@ export interface FilterFormData {
   price: number[];
   forRent: boolean;
   forSale: boolean;
-  stockStatus: StockStatus;
   tag: string;
 }

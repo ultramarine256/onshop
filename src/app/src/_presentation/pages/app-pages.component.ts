@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
 import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository } from '@data/repository';
@@ -8,12 +8,18 @@ import { AppInfo, AuthService, CartService, InfoService } from '@domain/services
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 export class CategoryMenuModel {
-  id: number;
+  id: string;
   title: string;
+  slug: string;
+  subCategories: CategoryMenuModel[] = [];
 
-  constructor(id: number, title: string) {
-    this.id = id;
-    this.title = title;
+  constructor(props?: any) {
+    this.id = props.id;
+    this.title = props.name;
+    this.slug = props.slug;
+    this.subCategories = props.subCategories
+      ? props.subCategories.map((subCategory) => new CategoryMenuModel(subCategory))
+      : [];
   }
 }
 
@@ -26,12 +32,11 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   @Output() inputChanged = new EventEmitter<string>();
   @Output() productChosen = new EventEmitter<string>();
 
-  public userName: string;
   public navigationMenu: CategoryMenuModel[] = [];
   public panelOpenState: boolean;
   public showCategories: boolean;
-  public isLoading: boolean;
   public showSidenav: boolean;
+  public isLoading: boolean;
 
   constructor(
     private router: Router,
@@ -46,14 +51,19 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   }
 
   ngOnInit() {
-    this.userName = this.authService.identity.firstName + ' ' + this.authService.identity.lastName;
-    this.isLoading = false;
+    // if (!this.authService.isAuthorized) {
+    //   return;
+    // }
+    this.isLoading = true;
     forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
       .pipe(
         map(([appInfoModel, categories]) => {
-          return [appInfoModel, categories.map((category) => new CategoryMenuModel(category.id, category.name))];
+          return [appInfoModel, categories.map((category) => new CategoryMenuModel(category))];
         }),
-        tap(() => (this.isLoading = true))
+        tap(() => {
+          this.isLoading = false;
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
         this.infoService.setAppInfo(

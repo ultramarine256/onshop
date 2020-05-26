@@ -65,7 +65,7 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
       this.filterState = {
         productFilter: new ProductFilter({
           page: this.activatedRoute.snapshot.queryParams?.page || 1,
-          category: params.categoryId === 'all' ? '' : params.categoryId,
+          category: !params.categoryId ? '' : params.categoryId,
           per_page: this.paginationConfig.itemsPerPage,
         }),
       };

@@ -36,11 +36,12 @@ export class CategoryImage {
   id: number;
   name: string;
   src: string;
+  externalPath: boolean;
 
   /// mappers
   mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;
-    this.src = `${environment.apiBaseUrl}/${dto.src}`;
+    this.src = dto.externalPath ? `${dto.src}` : `${environment.apiBaseUrl}/${dto.src}`;
   }
 }
