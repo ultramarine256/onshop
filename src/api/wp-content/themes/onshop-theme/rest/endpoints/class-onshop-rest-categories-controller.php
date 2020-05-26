@@ -52,5 +52,3 @@ class ONSHOP_REST_Categories_Controller extends WC_REST_Product_Categories_Contr
 		);
 	}
 }
-
-// Snow Removal 176
