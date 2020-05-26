@@ -6,8 +6,6 @@
  * @package WooCommerce/Classes
  */
 
-use Automattic\Jetpack\Constants;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -70,7 +68,7 @@ class WC_Twenty_Twenty {
 	 * Set background color to white if it's default, otherwise don't touch it.
 	 */
 	public static function set_white_background() {
-		$background         = sanitize_hex_color_no_hash( get_theme_mod( 'background_color' ) );
+		$background = sanitize_hex_color_no_hash( get_theme_mod( 'background_color' ) );
 		$background_default = 'f5efe0';
 
 		// Don't change user's choice of background color.
@@ -94,7 +92,7 @@ class WC_Twenty_Twenty {
 		$styles['woocommerce-general'] = array(
 			'src'     => str_replace( array( 'http:', 'https:' ), '', WC()->plugin_url() ) . '/assets/css/twenty-twenty.css',
 			'deps'    => '',
-			'version' => Constants::get_constant( 'WC_VERSION' ),
+			'version' => WC_VERSION,
 			'media'   => 'all',
 			'has_rtl' => true,
 		);

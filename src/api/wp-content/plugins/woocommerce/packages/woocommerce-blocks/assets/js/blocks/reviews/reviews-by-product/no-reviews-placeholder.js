@@ -4,13 +4,17 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { Placeholder, Spinner } from '@wordpress/components';
 import PropTypes from 'prop-types';
-import ErrorPlaceholder from '@woocommerce/block-components/error-placeholder';
-import { IconReviewsByProduct } from '@woocommerce/block-components/icons';
-import { withProduct } from '@woocommerce/block-hocs';
+
+/**
+ * Internal dependencies
+ */
+import ApiErrorPlaceholder from '../../../components/api-error-placeholder';
+import { IconReviewsByProduct } from '../../../components/icons';
+import { withProduct } from '../../../hocs';
 
 const NoReviewsPlaceholder = ( { error, getProduct, isLoading, product } ) => {
 	const renderApiError = () => (
-		<ErrorPlaceholder
+		<ApiErrorPlaceholder
 			className="wc-block-featured-product-error"
 			error={ error }
 			isLoading={ isLoading }
@@ -22,25 +26,20 @@ const NoReviewsPlaceholder = ( { error, getProduct, isLoading, product } ) => {
 		return renderApiError();
 	}
 
-	const content =
-		! product || isLoading ? (
-			<Spinner />
-		) : (
-			sprintf(
-				__(
-					"This block lists reviews for a selected product. %s doesn't have any reviews yet, but they will show up here when it does.",
-					'woocommerce'
-				),
-				product.name
-			)
+	const content = ( ! product || isLoading ) ?
+		<Spinner /> :
+		sprintf(
+			__(
+				"This block lists reviews for a selected product. %s doesn't have any reviews yet, but they will show up here when it does.",
+				'woocommerce'
+			),
+			product.name
 		);
 
 	return (
 		<Placeholder
 			className="wc-block-reviews-by-product"
-			icon={
-				<IconReviewsByProduct className="block-editor-block-icon" />
-			}
+			icon={ <IconReviewsByProduct className="block-editor-block-icon" /> }
 			label={ __( 'Reviews by Product', 'woocommerce' ) }
 		>
 			{ content }

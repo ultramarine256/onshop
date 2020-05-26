@@ -14,13 +14,13 @@ export class UserRepository extends BaseRepository {
 
   public getUser() {
     return this.httpClient
-      .get<UserModel>(`${environment.apiBaseUrl}/wp-json/onshop/v3/user`)
+      .get<UserModel>(`${environment.apiBaseUrl}/wp-json/onshop/v1/user`)
       .pipe(map((userModel) => new UserModel(userModel)));
   }
 
   public editUser(userData) {
     return this.httpClient.post<UserModel>(
-      `${environment.apiBaseUrl}/wp-json/onshop/v3/user?first_name=${userData.firstName}`,
+      `${environment.apiBaseUrl}/wp-json/onshop/v1/user?first_name=${userData.firstName}`,
       userData
     );
   }

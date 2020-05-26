@@ -17,11 +17,14 @@ import {
 } from '@wordpress/components';
 import { Component, Fragment } from '@wordpress/element';
 import PropTypes from 'prop-types';
-import GridContentControl from '@woocommerce/block-components/grid-content-control';
-import GridLayoutControl from '@woocommerce/block-components/grid-layout-control';
-import ProductCategoryControl from '@woocommerce/block-components/product-category-control';
-import ProductOrderbyControl from '@woocommerce/block-components/product-orderby-control';
-import { gridBlockPreview } from '@woocommerce/resource-previews';
+
+/**
+ * Internal dependencies
+ */
+import GridContentControl from '../../components/grid-content-control';
+import GridLayoutControl from '../../components/grid-layout-control';
+import ProductCategoryControl from '../../components/product-category-control';
+import ProductOrderbyControl from '../../components/product-orderby-control';
 
 /**
  * Component to handle edit mode of "Products by Category".
@@ -43,12 +46,12 @@ class ProductByCategoryBlock extends Component {
 
 		// from withSpokenMessages
 		debouncedSpeak: PropTypes.func.isRequired,
-	};
+	}
 
 	state = {
 		changedAttributes: {},
 		isEditing: false,
-	};
+	}
 
 	componentDidMount() {
 		const { attributes } = this.props;
@@ -64,25 +67,20 @@ class ProductByCategoryBlock extends Component {
 			isEditing: true,
 			changedAttributes: {},
 		} );
-	};
+	}
 
 	stopEditing = () => {
 		this.setState( {
 			isEditing: false,
 			changedAttributes: {},
 		} );
-	};
+	}
 
 	setChangedAttributes = ( attributes ) => {
 		this.setState( ( prevState ) => {
-			return {
-				changedAttributes: {
-					...prevState.changedAttributes,
-					...attributes,
-				},
-			};
+			return { changedAttributes: { ...prevState.changedAttributes, ...attributes } };
 		} );
-	};
+	}
 
 	save = () => {
 		const { changedAttributes } = this.state;
@@ -90,7 +88,7 @@ class ProductByCategoryBlock extends Component {
 
 		setAttributes( changedAttributes );
 		this.stopEditing();
-	};
+	}
 
 	getInspectorControls() {
 		const { attributes, setAttributes } = this.props;
@@ -107,13 +105,8 @@ class ProductByCategoryBlock extends Component {
 		return (
 			<InspectorControls key="inspector">
 				<PanelBody
-					title={ __(
-						'Product Category',
-						'woocommerce'
-					) }
-					initialOpen={
-						! attributes.categories.length && ! isEditing
-					}
+					title={ __( 'Product Category', 'woocommerce' ) }
+					initialOpen={ ! attributes.categories.length && ! isEditing }
 				>
 					<ProductCategoryControl
 						selected={ attributes.categories }
@@ -150,9 +143,7 @@ class ProductByCategoryBlock extends Component {
 				>
 					<GridContentControl
 						settings={ contentVisibility }
-						onChange={ ( value ) =>
-							setAttributes( { contentVisibility: value } )
-						}
+						onChange={ ( value ) => setAttributes( { contentVisibility: value } ) }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -194,10 +185,7 @@ class ProductByCategoryBlock extends Component {
 		return (
 			<Placeholder
 				icon="category"
-				label={ __(
-					'Products by Category',
-					'woocommerce'
-				) }
+				label={ __( 'Products by Category', 'woocommerce' ) }
 				className="wc-block-products-grid wc-block-products-category"
 			>
 				{ __(
@@ -238,25 +226,7 @@ class ProductByCategoryBlock extends Component {
 		return (
 			<Disabled>
 				{ hasCategories ? (
-					<ServerSideRender
-						block={ name }
-						attributes={ attributes }
-						EmptyResponsePlaceholder={ () => (
-							<Placeholder
-								icon="category"
-								label={ __(
-									'Products by Category',
-									'woocommerce'
-								) }
-								className="wc-block-products-grid wc-block-products-category"
-							>
-								{ __(
-									'No products were found that matched your selection.',
-									'woocommerce'
-								) }
-							</Placeholder>
-						) }
-					/>
+					<ServerSideRender block={ name } attributes={ attributes } />
 				) : (
 					__(
 						'Select at least one category to display its products.',
@@ -269,11 +239,6 @@ class ProductByCategoryBlock extends Component {
 
 	render() {
 		const { isEditing } = this.state;
-		const { attributes } = this.props;
-
-		if ( attributes.isPreview ) {
-			return gridBlockPreview;
-		}
 
 		return (
 			<Fragment>
@@ -283,17 +248,18 @@ class ProductByCategoryBlock extends Component {
 							{
 								icon: 'edit',
 								title: __( 'Edit' ),
-								onClick: () =>
-									isEditing
-										? this.stopEditing()
-										: this.startEditing(),
+								onClick: () => isEditing ? this.stopEditing() : this.startEditing(),
 								isActive: isEditing,
 							},
 						] }
 					/>
 				</BlockControls>
 				{ this.getInspectorControls() }
-				{ isEditing ? this.renderEditMode() : this.renderViewMode() }
+				{ isEditing ? (
+					this.renderEditMode()
+				) : (
+					this.renderViewMode()
+				) }
 			</Fragment>
 		);
 	}

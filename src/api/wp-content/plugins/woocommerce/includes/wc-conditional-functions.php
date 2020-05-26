@@ -8,8 +8,6 @@
  * @version     2.3.0
  */
 
-use Automattic\Jetpack\Constants;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -95,7 +93,7 @@ if ( ! function_exists( 'is_cart' ) ) {
 	function is_cart() {
 		$page_id = wc_get_page_id( 'cart' );
 
-		return ( $page_id && is_page( $page_id ) ) || Constants::is_defined( 'WOOCOMMERCE_CART' ) || wc_post_content_has_shortcode( 'woocommerce_cart' );
+		return ( $page_id && is_page( $page_id ) ) || defined( 'WOOCOMMERCE_CART' ) || wc_post_content_has_shortcode( 'woocommerce_cart' );
 	}
 }
 
@@ -109,7 +107,7 @@ if ( ! function_exists( 'is_checkout' ) ) {
 	function is_checkout() {
 		$page_id = wc_get_page_id( 'checkout' );
 
-		return ( $page_id && is_page( $page_id ) ) || wc_post_content_has_shortcode( 'woocommerce_checkout' ) || apply_filters( 'woocommerce_is_checkout', false ) || Constants::is_defined( 'WOOCOMMERCE_CHECKOUT' );
+		return ( $page_id && is_page( $page_id ) ) || wc_post_content_has_shortcode( 'woocommerce_checkout' ) || apply_filters( 'woocommerce_is_checkout', false ) || defined( 'WOOCOMMERCE_CHECKOUT' );
 	}
 }
 
@@ -264,7 +262,7 @@ if ( ! function_exists( 'is_ajax' ) ) {
 	 * @return bool
 	 */
 	function is_ajax() {
-		return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : Constants::is_defined( 'DOING_AJAX' );
+		return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : defined( 'DOING_AJAX' );
 	}
 }
 

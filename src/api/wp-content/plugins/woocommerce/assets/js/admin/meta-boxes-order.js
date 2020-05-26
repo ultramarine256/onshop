@@ -383,12 +383,10 @@ jQuery( function ( $ ) {
 				var unit_total_tax     = accounting.unformat( $line_total_tax.attr( 'data-total_tax' ), woocommerce_admin.mon_decimal_point ) / o_qty;
 				var $line_subtotal_tax = $( 'input.line_subtotal_tax[data-tax_id="' + tax_id + '"]', $row );
 				var unit_subtotal_tax  = accounting.unformat( $line_subtotal_tax.attr( 'data-subtotal_tax' ), woocommerce_admin.mon_decimal_point ) / o_qty;
-				var round_at_subtotal  = 'yes' === woocommerce_admin_meta_boxes.round_at_subtotal;
-				var precision          = woocommerce_admin_meta_boxes[ round_at_subtotal ? 'rounding_precision' : 'currency_format_num_decimals' ];
 
 				if ( 0 < unit_total_tax ) {
 					$line_total_tax.val(
-						parseFloat( accounting.formatNumber( unit_total_tax * qty, precision, '' ) )
+						parseFloat( accounting.formatNumber( unit_total_tax * qty, woocommerce_admin_meta_boxes.rounding_precision, '' ) )
 							.toString()
 							.replace( '.', woocommerce_admin.mon_decimal_point )
 					);
@@ -396,7 +394,7 @@ jQuery( function ( $ ) {
 
 				if ( 0 < unit_subtotal_tax ) {
 					$line_subtotal_tax.val(
-						parseFloat( accounting.formatNumber( unit_subtotal_tax * qty, precision, '' ) )
+						parseFloat( accounting.formatNumber( unit_subtotal_tax * qty, woocommerce_admin_meta_boxes.rounding_precision, '' ) )
 							.toString()
 							.replace( '.', woocommerce_admin.mon_decimal_point )
 					);
@@ -1021,11 +1019,8 @@ jQuery( function ( $ ) {
 					var unit_total_tax         = accounting.unformat( line_total_tax.data( 'total_tax' ), woocommerce_admin.mon_decimal_point ) / qty;
 
 					if ( 0 < unit_total_tax ) {
-						var round_at_subtotal = 'yes' === woocommerce_admin_meta_boxes.round_at_subtotal;
-						var precision         = woocommerce_admin_meta_boxes[ round_at_subtotal ? 'rounding_precision' : 'currency_format_num_decimals' ];
-
 						$refund_line_total_tax.val(
-							parseFloat( accounting.formatNumber( unit_total_tax * refund_qty, precision, '' ) )
+							parseFloat( accounting.formatNumber( unit_total_tax * refund_qty, woocommerce_admin_meta_boxes.rounding_precision, '' ) )
 								.toString()
 								.replace( '.', woocommerce_admin.mon_decimal_point )
 						).change();

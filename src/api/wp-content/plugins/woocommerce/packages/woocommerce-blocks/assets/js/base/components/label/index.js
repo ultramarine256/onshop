@@ -10,25 +10,21 @@ import classNames from 'classnames';
  * screenReaderLabel. The wrapper element and wrapper props can also be
  * specified via props.
  */
-const Label = ( {
-	label,
-	screenReaderLabel,
-	wrapperElement,
-	wrapperProps,
-} ) => {
+const Label = ( { label, screenReaderLabel, wrapperElement, wrapperProps } ) => {
 	let Wrapper;
 
 	if ( ! label && screenReaderLabel ) {
 		Wrapper = wrapperElement || 'span';
 		wrapperProps = {
 			...wrapperProps,
-			className: classNames(
-				wrapperProps.className,
-				'screen-reader-text'
-			),
+			className: classNames( wrapperProps.className, 'screen-reader-text' ),
 		};
 
-		return <Wrapper { ...wrapperProps }>{ screenReaderLabel }</Wrapper>;
+		return (
+			<Wrapper { ...wrapperProps }>
+				{ screenReaderLabel }
+			</Wrapper>
+		);
 	}
 
 	Wrapper = wrapperElement || Fragment;
@@ -36,7 +32,9 @@ const Label = ( {
 	if ( label && screenReaderLabel && label !== screenReaderLabel ) {
 		return (
 			<Wrapper { ...wrapperProps }>
-				<span aria-hidden="true">{ label }</span>
+				<span aria-hidden>
+					{ label }
+				</span>
 				<span className="screen-reader-text">
 					{ screenReaderLabel }
 				</span>
@@ -44,7 +42,11 @@ const Label = ( {
 		);
 	}
 
-	return <Wrapper { ...wrapperProps }>{ label }</Wrapper>;
+	return (
+		<Wrapper { ...wrapperProps }>
+			{ label }
+		</Wrapper>
+	);
 };
 
 Label.propTypes = {

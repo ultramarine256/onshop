@@ -60,8 +60,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			 */
 			do_action( 'woocommerce_review_comment_text', $comment );
 
-			do_action( 'woocommerce_review_after_comment_text', $comment );
-			?>
+			do_action( 'woocommerce_review_after_comment_text', $comment ); ?>
 
 		</div>
 	</div>

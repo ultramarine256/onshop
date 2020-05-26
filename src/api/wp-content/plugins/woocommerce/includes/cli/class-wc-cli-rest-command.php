@@ -5,8 +5,6 @@
  * @package WooCommerce\Cli
  */
 
-use Automattic\Jetpack\Constants;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -288,11 +286,11 @@ class WC_CLI_REST_Command {
 				$request->set_param( $key, $value );
 			}
 		}
-		if ( Constants::is_true( 'SAVEQUERIES' ) ) {
+		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
 			$original_queries = is_array( $GLOBALS['wpdb']->queries ) ? array_keys( $GLOBALS['wpdb']->queries ) : array();
 		}
 		$response = rest_do_request( $request );
-		if ( Constants::is_true( 'SAVEQUERIES' ) ) {
+		if ( defined( 'SAVEQUERIES' ) && SAVEQUERIES ) {
 			$performed_queries = array();
 			foreach ( (array) $GLOBALS['wpdb']->queries as $key => $query ) {
 				if ( in_array( $key, $original_queries, true ) ) {
@@ -301,8 +299,7 @@ class WC_CLI_REST_Command {
 				$performed_queries[] = $query;
 			}
 			usort(
-				$performed_queries,
-				function( $a, $b ) {
+				$performed_queries, function( $a, $b ) {
 					if ( $a[1] === $b[1] ) {
 						return 0;
 					}

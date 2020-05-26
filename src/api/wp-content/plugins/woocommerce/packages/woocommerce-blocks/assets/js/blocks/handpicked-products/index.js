@@ -4,7 +4,6 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { DEFAULT_COLUMNS } from '@woocommerce/block-settings';
-import { IconWidgets } from '@woocommerce/block-components/icons';
 
 /**
  * Internal dependencies
@@ -12,6 +11,7 @@ import { IconWidgets } from '@woocommerce/block-components/icons';
 import './editor.scss';
 import Block from './block';
 import { deprecatedConvertToShortcode } from '../../utils/deprecations';
+import { IconWidgets } from '../../components/icons';
 
 registerBlockType( 'woocommerce/handpicked-products', {
 	title: __( 'Hand-picked Products', 'woocommerce' ),
@@ -28,11 +28,6 @@ registerBlockType( 'woocommerce/handpicked-products', {
 	supports: {
 		align: [ 'wide', 'full' ],
 		html: false,
-	},
-	example: {
-		attributes: {
-			isPreview: true,
-		},
 	},
 	attributes: {
 		/**
@@ -94,14 +89,6 @@ registerBlockType( 'woocommerce/handpicked-products', {
 			type: 'boolean',
 			default: false,
 		},
-
-		/**
-		 * Are we previewing?
-		 */
-		isPreview: {
-			type: 'boolean',
-			default: false,
-		},
 	},
 
 	deprecated: [
@@ -137,9 +124,7 @@ registerBlockType( 'woocommerce/handpicked-products', {
 					default: [],
 				},
 			},
-			save: deprecatedConvertToShortcode(
-				'woocommerce/handpicked-products'
-			),
+			save: deprecatedConvertToShortcode( 'woocommerce/handpicked-products' ),
 		},
 	],
 

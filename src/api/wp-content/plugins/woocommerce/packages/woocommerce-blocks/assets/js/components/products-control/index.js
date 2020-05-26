@@ -4,8 +4,11 @@
 import { __, _n, sprintf } from '@wordpress/i18n';
 import { SearchListControl } from '@woocommerce/components';
 import PropTypes from 'prop-types';
-import { withSearchedProducts } from '@woocommerce/block-hocs';
-import ErrorMessage from '@woocommerce/block-components/error-placeholder/error-message.js';
+
+/**
+ * Internal dependencies
+ */
+import { withSearchedProducts } from '../../hocs';
 
 /**
  * The products control exposes a custom selector for searching and selecting
@@ -21,7 +24,6 @@ import ErrorMessage from '@woocommerce/block-components/error-placeholder/error-
  * @return {Function} A functional component.
  */
 const ProductsControl = ( {
-	error,
 	onChange,
 	onSearch,
 	selected,
@@ -54,19 +56,12 @@ const ProductsControl = ( {
 			'woocommerce'
 		),
 	};
-
-	if ( error ) {
-		return <ErrorMessage error={ error } />;
-	}
-
 	return (
 		<SearchListControl
 			className="woocommerce-products"
 			list={ products }
 			isLoading={ isLoading }
-			selected={ products.filter( ( { id } ) =>
-				selected.includes( id )
-			) }
+			selected={ selected }
 			onSearch={ onSearch }
 			onChange={ onChange }
 			messages={ messages }

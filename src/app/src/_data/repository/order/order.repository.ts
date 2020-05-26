@@ -15,7 +15,7 @@ export class OrderRepository extends BaseRepository {
 
   /// methods
   public placeOrder(woocommerceOrder: {}): Observable<OrderResponse> {
-    return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v3/order`, woocommerceOrder).pipe(
+    return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v1/order`, woocommerceOrder).pipe(
       map((dto) => {
         const model = new OrderResponse();
         model.mapFromDto(dto);
@@ -25,7 +25,7 @@ export class OrderRepository extends BaseRepository {
   }
 
   public getOrders(): Observable<Array<OrderResponse>> {
-    return this.httpClient.get<Array<any>>(`${this.apiBaseUrl}/wp-json/onshop/v3/user/orders`).pipe(
+    return this.httpClient.get<Array<any>>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/orders`).pipe(
       map((dtos) => {
         const result = [];
         for (const item of dtos) {
@@ -39,7 +39,7 @@ export class OrderRepository extends BaseRepository {
   }
 
   public getOrder(id: number) {
-    return this.httpClient.get<OrderResponse>(`${this.apiBaseUrl}/wp-json/onshop/v3/user/orders/` + id).pipe(
+    return this.httpClient.get<OrderResponse>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/orders/` + id).pipe(
       map((resp) => {
         const model = new OrderResponse();
         model.mapFromDto(resp);
@@ -49,6 +49,6 @@ export class OrderRepository extends BaseRepository {
   }
 
   public saveNote(note: string, id: number) {
-    return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v3/user/order/note`, { note, id });
+    return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v1/user/order/note`, { note, id });
   }
 }

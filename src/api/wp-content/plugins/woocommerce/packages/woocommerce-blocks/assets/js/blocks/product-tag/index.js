@@ -4,7 +4,6 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
-import { IconProductTag } from '@woocommerce/block-components/icons';
 
 /**
  * Internal dependencies
@@ -18,7 +17,7 @@ import Block from './block';
 registerBlockType( 'woocommerce/product-tag', {
 	title: __( 'Products by Tag', 'woocommerce' ),
 	icon: {
-		src: <IconProductTag />,
+		src: 'tag',
 		foreground: '#96588a',
 	},
 	category: 'woocommerce',
@@ -30,11 +29,6 @@ registerBlockType( 'woocommerce/product-tag', {
 	supports: {
 		align: [ 'wide', 'full' ],
 		html: false,
-	},
-	example: {
-		attributes: {
-			isPreview: true,
-		},
 	},
 	attributes: {
 		/**
@@ -96,14 +90,6 @@ registerBlockType( 'woocommerce/product-tag', {
 		orderby: {
 			type: 'string',
 			default: 'date',
-		},
-
-		/**
-		 * Are we previewing?
-		 */
-		isPreview: {
-			type: 'boolean',
-			default: false,
 		},
 	},
 

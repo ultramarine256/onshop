@@ -1135,6 +1135,14 @@ p.demo_store,
 		.button {
 			white-space: nowrap;
 		}
+
+		.order-actions {
+			text-align: right;
+
+			.button {
+				margin: 0.125em 0 0.125em 0.25em;
+			}
+		}
 	}
 
 	table.woocommerce-MyAccount-downloads {

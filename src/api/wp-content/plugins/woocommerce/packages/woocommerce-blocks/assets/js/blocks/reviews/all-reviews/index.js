@@ -3,16 +3,15 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { IconAllReviews } from '@woocommerce/block-components/icons';
 
 /**
  * Internal dependencies
  */
 import '../editor.scss';
 import Editor from './edit';
+import { IconAllReviews } from '../../../components/icons';
 import sharedAttributes from '../attributes';
 import save from '../save.js';
-import { example } from '../example';
 
 /**
  * Register and run the "All Reviews" block.
@@ -20,7 +19,7 @@ import { example } from '../example';
 registerBlockType( 'woocommerce/all-reviews', {
 	title: __( 'All Reviews', 'woocommerce' ),
 	icon: {
-		src: <IconAllReviews />,
+		src: <IconAllReviews fillColor="#96588a" />,
 		foreground: '#96588a',
 	},
 	category: 'woocommerce',
@@ -29,18 +28,11 @@ registerBlockType( 'woocommerce/all-reviews', {
 		'Shows a list of all product reviews.',
 		'woocommerce'
 	),
-	example: {
-		...example,
-		attributes: {
-			...example.attributes,
-			showProductName: true,
-		},
-	},
 	attributes: {
 		...sharedAttributes,
 		/**
-		 * Show the product name.
-		 */
+		* Show the product name.
+		*/
 		showProductName: {
 			type: 'boolean',
 			default: true,

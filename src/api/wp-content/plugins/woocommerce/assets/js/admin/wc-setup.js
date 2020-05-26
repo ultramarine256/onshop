@@ -168,10 +168,7 @@ jQuery( function( $ ) {
 
 	$( '.wc-wizard-services' ).on( 'change', '.wc-wizard-shipping-method-enable', function() {
 		var checked = $( this ).is( ':checked' );
-		var selectedMethod = $( this )
-			.closest( '.wc-wizard-service-item' )
-			.find( '.wc-wizard-shipping-method-select .method' )
-			.val();
+		var selectedMethod = $( '.wc-wizard-shipping-method-select .method' ).val();
 
 		$( this )
 			.closest( '.wc-wizard-service-item' )
@@ -217,11 +214,6 @@ jQuery( function( $ ) {
 
 		e.preventDefault();
 		waitForJetpackInstall();
-	} );
-
-	$( '.activate-new-onboarding' ).on( 'click', '.button-primary', function() {
-		// Show pending spinner while activate happens.
-		blockWizardUI();
 	} );
 
 	$( '.wc-wizard-services' ).on( 'change', 'input#stripe_create_account, input#ppec_paypal_reroute_requests', function() {

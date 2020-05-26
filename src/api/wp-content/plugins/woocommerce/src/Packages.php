@@ -26,11 +26,10 @@ class Packages {
 	 *
 	 * @var array Key is the package name/directory, value is the main package class which handles init.
 	 */
-	protected static $packages = array(
+	protected static $packages = [
 		'woocommerce-blocks'   => '\\Automattic\\WooCommerce\\Blocks\\Package',
 		'woocommerce-rest-api' => '\\Automattic\\WooCommerce\\RestApi\\Package',
-		'woocommerce-admin'    => '\\Automattic\\WooCommerce\\Admin\\Composer\\Package',
-	);
+	];
 
 	/**
 	 * Init the package loader.
@@ -69,7 +68,7 @@ class Packages {
 				self::missing_package( $package_name );
 				continue;
 			}
-			call_user_func( array( $package_class, 'init' ) );
+			call_user_func( [ $package_class, 'init' ] );
 		}
 	}
 

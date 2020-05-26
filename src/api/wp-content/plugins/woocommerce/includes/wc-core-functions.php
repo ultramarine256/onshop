@@ -8,8 +8,6 @@
  * @version 3.3.0
  */
 
-use Automattic\Jetpack\Constants;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -159,7 +157,7 @@ function wc_update_order( $args ) {
  * @param string $name Template name (default: '').
  */
 function wc_get_template_part( $slug, $name = '' ) {
-	$cache_key = sanitize_key( implode( '-', array( 'template-part', $slug, $name, Constants::get_constant( 'WC_VERSION' ) ) ) );
+	$cache_key = sanitize_key( implode( '-', array( 'template-part', $slug, $name, WC_VERSION ) ) );
 	$template  = (string) wp_cache_get( $cache_key, 'woocommerce' );
 
 	if ( ! $template ) {
@@ -207,7 +205,7 @@ function wc_get_template_part( $slug, $name = '' ) {
  * @param string $default_path  Default path. (default: '').
  */
 function wc_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
-	$cache_key = sanitize_key( implode( '-', array( 'template', $template_name, $template_path, $default_path, Constants::get_constant( 'WC_VERSION' ) ) ) );
+	$cache_key = sanitize_key( implode( '-', array( 'template', $template_name, $template_path, $default_path, WC_VERSION ) ) );
 	$template  = (string) wp_cache_get( $cache_key, 'woocommerce' );
 
 	if ( ! $template ) {
@@ -322,7 +320,7 @@ function get_woocommerce_currency() {
 /**
  * Get full list of currency codes.
  *
- * Currency symbols and names should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
+ * Currency Symbols and mames should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
  *
  * @return array
  */
@@ -505,17 +503,21 @@ function get_woocommerce_currencies() {
 	return $currencies;
 }
 
-/**
- * Get all available Currency symbols.
- *
- * Currency symbols and names should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
- *
- * @since 4.1.0
- * @return array
- */
-function get_woocommerce_currency_symbols() {
 
-	$symbols = apply_filters(
+/**
+ * Get Currency symbol.
+ *
+ * Currency Symbols and mames should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
+ *
+ * @param string $currency Currency. (default: '').
+ * @return string
+ */
+function get_woocommerce_currency_symbol( $currency = '' ) {
+	if ( ! $currency ) {
+		$currency = get_woocommerce_currency();
+	}
+
+	$symbols         = apply_filters(
 		'woocommerce_currency_symbols',
 		array(
 			'AED' => '&#x62f;.&#x625;',
@@ -600,7 +602,7 @@ function get_woocommerce_currency_symbols() {
 			'KRW' => '&#8361;',
 			'KWD' => '&#x62f;.&#x643;',
 			'KYD' => '&#36;',
-			'KZT' => '&#8376;',
+			'KZT' => 'KZT',
 			'LAK' => '&#8365;',
 			'LBP' => '&#x644;.&#x644;',
 			'LKR' => '&#xdbb;&#xdd4;',
@@ -639,7 +641,7 @@ function get_woocommerce_currency_symbols() {
 			'QAR' => '&#x631;.&#x642;',
 			'RMB' => '&yen;',
 			'RON' => 'lei',
-			'RSD' => '&#1088;&#1089;&#1076;',
+			'RSD' => '&#x434;&#x438;&#x43d;.',
 			'RUB' => '&#8381;',
 			'RWF' => 'Fr',
 			'SAR' => '&#x631;.&#x633;',
@@ -684,25 +686,6 @@ function get_woocommerce_currency_symbols() {
 			'ZMW' => 'ZK',
 		)
 	);
-
-	return $symbols;
-}
-
-/**
- * Get Currency symbol.
- *
- * Currency symbols and names should follow the Unicode CLDR recommendation (http://cldr.unicode.org/translation/currency-names)
- *
- * @param string $currency Currency. (default: '').
- * @return string
- */
-function get_woocommerce_currency_symbol( $currency = '' ) {
-	if ( ! $currency ) {
-		$currency = get_woocommerce_currency();
-	}
-
-	$symbols = get_woocommerce_currency_symbols();
-
 	$currency_symbol = isset( $symbols[ $currency ] ) ? $symbols[ $currency ] : '';
 
 	return apply_filters( 'woocommerce_currency_symbol', $currency_symbol, $currency );
@@ -904,7 +887,7 @@ function wc_print_js() {
 function wc_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = false ) {
 	if ( ! headers_sent() ) {
 		setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure, apply_filters( 'woocommerce_cookie_httponly', $httponly, $name, $value, $expire, $secure ) );
-	} elseif ( Constants::is_true( 'WP_DEBUG' ) ) {
+	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		headers_sent( $file, $line );
 		trigger_error( "{$name} cookie cannot be set - headers already sent by {$file} on line {$line}", E_USER_NOTICE ); // @codingStandardsIgnoreLine
 	}
@@ -918,11 +901,7 @@ function wc_setcookie( $name, $value, $expire = 0, $secure = false, $httponly = 
  * @return string the URL.
  */
 function get_woocommerce_api_url( $path ) {
-	if ( Constants::is_defined( 'WC_API_REQUEST_VERSION' ) ) {
-		$version = Constants::get_constant( 'WC_API_REQUEST_VERSION' );
-	} else {
-		$version = substr( WC_API::VERSION, 0, 1 );
-	}
+	$version = defined( 'WC_API_REQUEST_VERSION' ) ? WC_API_REQUEST_VERSION : substr( WC_API::VERSION, 0, 1 );
 
 	$url = get_home_url( null, "wc-api/v{$version}/", is_ssl() ? 'https' : 'http' );
 
@@ -1139,7 +1118,7 @@ function wc_get_base_location() {
  * @return array
  */
 function wc_get_customer_default_location() {
-	$set_default_location_to = get_option( 'woocommerce_default_customer_address', 'base' );
+	$set_default_location_to = get_option( 'woocommerce_default_customer_address', 'geolocation' );
 	$default_location        = '' === $set_default_location_to ? '' : get_option( 'woocommerce_default_country', '' );
 	$location                = wc_format_country_state_string( apply_filters( 'woocommerce_customer_default_location', $default_location ) );
 
@@ -1161,7 +1140,7 @@ function wc_get_customer_default_location() {
 	$allowed_country_codes = WC()->countries->get_allowed_countries();
 
 	if ( ! empty( $location['country'] ) && ! array_key_exists( $location['country'], $allowed_country_codes ) ) {
-		$location['country'] = current( array_keys( $allowed_country_codes ) );
+		$location['country'] = current( $allowed_country_codes );
 		$location['state']   = '';
 	}
 
@@ -1177,6 +1156,36 @@ function wc_get_customer_default_location() {
 function wc_get_user_agent() {
 	return isset( $_SERVER['HTTP_USER_AGENT'] ) ? wc_clean( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : ''; // @codingStandardsIgnoreLine
 }
+
+// This function can be removed when WP 3.9.2 or greater is required.
+if ( ! function_exists( 'hash_equals' ) ) :
+	/**
+	 * Compare two strings in constant time.
+	 *
+	 * This function was added in PHP 5.6.
+	 * It can leak the length of a string.
+	 *
+	 * @since 3.9.2
+	 *
+	 * @param string $a Expected string.
+	 * @param string $b Actual string.
+	 * @return bool Whether strings are equal.
+	 */
+	function hash_equals( $a, $b ) {
+		$a_length = strlen( $a );
+		if ( strlen( $b ) !== $a_length ) {
+			return false;
+		}
+		$result = 0;
+
+		// Do not attempt to "optimize" this.
+		for ( $i = 0; $i < $a_length; $i++ ) {
+			$result |= ord( $a[ $i ] ) ^ ord( $b[ $i ] );
+		}
+
+		return 0 === $result;
+	}
+endif;
 
 /**
  * Generate a rand hash.
@@ -1283,7 +1292,7 @@ function wc_transaction_query( $type = 'start', $force = false ) {
 
 	wc_maybe_define_constant( 'WC_USE_TRANSACTIONS', true );
 
-	if ( Constants::is_true( 'WC_USE_TRANSACTIONS' ) || $force ) {
+	if ( WC_USE_TRANSACTIONS || $force ) {
 		switch ( $type ) {
 			case 'commit':
 				$wpdb->query( 'COMMIT' );
@@ -1817,7 +1826,7 @@ function wc_print_r( $expression, $return = false ) {
 
 	foreach ( $alternatives as $alternative ) {
 		if ( function_exists( $alternative['func'] ) ) {
-			$res = $alternative['func']( ...$alternative['args'] );
+			$res = call_user_func_array( $alternative['func'], $alternative['args'] );
 			if ( $return ) {
 				return $res;
 			}
@@ -1838,12 +1847,14 @@ function wc_print_r( $expression, $return = false ) {
  * @return array
  */
 function wc_register_default_log_handler( $handlers ) {
-	$handler_class = Constants::get_constant( 'WC_LOG_HANDLER' );
-	if ( ! class_exists( $handler_class ) ) {
-		$handler_class = WC_Log_Handler_File::class;
+	if ( defined( 'WC_LOG_HANDLER' ) && class_exists( WC_LOG_HANDLER ) ) {
+		$handler_class   = WC_LOG_HANDLER;
+		$default_handler = new $handler_class();
+	} else {
+		$default_handler = new WC_Log_Handler_File();
 	}
 
-	array_push( $handlers, new $handler_class() );
+	array_push( $handlers, $default_handler );
 
 	return $handlers;
 }
@@ -2133,28 +2144,6 @@ function wc_is_active_theme( $theme ) {
 }
 
 /**
- * Is the site using a default WP theme?
- *
- * @return boolean
- */
-function wc_is_wp_default_theme_active() {
-	return wc_is_active_theme(
-		array(
-			'twentytwenty',
-			'twentynineteen',
-			'twentyseventeen',
-			'twentysixteen',
-			'twentyfifteen',
-			'twentyfourteen',
-			'twentythirteen',
-			'twentyeleven',
-			'twentytwelve',
-			'twentyten',
-		)
-	);
-}
-
-/**
  * Cleans up session data - cron callback.
  *
  * @since 3.3.0
@@ -2287,14 +2276,4 @@ function wc_load_cart() {
 
 	WC()->initialize_session();
 	WC()->initialize_cart();
-}
-
-/**
- * Test whether the context of execution comes from async action scheduler.
- *
- * @since 4.0.0
- * @return bool
- */
-function wc_is_running_from_async_action_scheduler() {
-	return isset( $_REQUEST['action'] ) && 'as_async_request_queue_runner' === $_REQUEST['action'];
 }

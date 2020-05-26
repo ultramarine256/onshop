@@ -27,29 +27,29 @@ export default function getQuery( blockAttributes, name ) {
 
 	if ( categories && categories.length ) {
 		query.category = categories.join( ',' );
-		if ( catOperator && catOperator === 'all' ) {
+		if ( catOperator && 'all' === catOperator ) {
 			query.category_operator = 'and';
 		}
 	}
 
 	if ( tags && tags.length > 0 ) {
 		query.tag = tags.join( ',' );
-		if ( tagOperator && tagOperator === 'all' ) {
+		if ( tagOperator && 'all' === tagOperator ) {
 			query.tag_operator = 'and';
 		}
 	}
 
 	if ( orderby ) {
-		if ( orderby === 'price_desc' ) {
+		if ( 'price_desc' === orderby ) {
 			query.orderby = 'price';
 			query.order = 'desc';
-		} else if ( orderby === 'price_asc' ) {
+		} else if ( 'price_asc' === orderby ) {
 			query.orderby = 'price';
 			query.order = 'asc';
-		} else if ( orderby === 'title' ) {
+		} else if ( 'title' === orderby ) {
 			query.orderby = 'title';
 			query.order = 'asc';
-		} else if ( orderby === 'menu_order' ) {
+		} else if ( 'menu_order' === orderby ) {
 			query.orderby = 'menu_order';
 			query.order = 'asc';
 		} else {
@@ -62,7 +62,7 @@ export default function getQuery( blockAttributes, name ) {
 		query.attribute = attributes[ 0 ].attr_slug;
 
 		if ( attrOperator ) {
-			query.attribute_operator = attrOperator === 'all' ? 'and' : 'in';
+			query.attribute_operator = 'all' === attrOperator ? 'and' : 'in';
 		}
 	}
 

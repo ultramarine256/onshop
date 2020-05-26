@@ -188,8 +188,7 @@ class WC_Helper_Compat {
 			array(
 				'page'    => 'wc-addons',
 				'section' => 'helper',
-			),
-			admin_url( 'admin.php' )
+			), admin_url( 'admin.php' )
 		);
 		include WC_Helper::get_view_filename( 'html-helper-compat.php' );
 	}

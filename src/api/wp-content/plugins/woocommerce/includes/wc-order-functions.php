@@ -94,11 +94,10 @@ function wc_get_order_statuses() {
 	$order_statuses = array(
 		'wc-pending'    => _x( 'Pending payment', 'Order status', 'woocommerce' ),
 		'wc-processing' => _x( 'Processing', 'Order status', 'woocommerce' ),
-		'wc-on-hold'    => _x( 'On hold', 'Order status', 'woocommerce' ),
 		'wc-completed'  => _x( 'Completed', 'Order status', 'woocommerce' ),
 		'wc-cancelled'  => _x( 'Cancelled', 'Order status', 'woocommerce' ),
-		'wc-refunded'   => _x( 'Refunded', 'Order status', 'woocommerce' ),
-		'wc-failed'     => _x( 'Failed', 'Order status', 'woocommerce' ),
+        'wc-waiting'  => _x( 'Waiting for return', 'Order status', 'woocommerce' ),
+        'wc-in-rent'  => _x( 'In rent', 'Order status', 'woocommerce' ),
 	);
 	return apply_filters( 'wc_order_statuses', $order_statuses );
 }
@@ -375,7 +374,7 @@ function wc_downloadable_file_permission( $download_id, $product, $order, $qty =
 	$download->set_user_email( $order->get_billing_email() );
 	$download->set_order_key( $order->get_order_key() );
 	$download->set_downloads_remaining( 0 > $product->get_download_limit() ? '' : $product->get_download_limit() * $qty );
-	$download->set_access_granted( time() );
+	$download->set_access_granted( current_time( 'timestamp', true ) );
 	$download->set_download_count( 0 );
 
 	$expiry = $product->get_download_expiry();
@@ -464,7 +463,7 @@ function wc_delete_shop_order_transients( $order = 0 ) {
 	WC_Cache_Helper::get_transient_version( 'orders', true );
 
 	// Do the same for regular cache.
-	WC_Cache_Helper::invalidate_cache_group( 'orders' );
+	WC_Cache_Helper::incr_cache_prefix( 'orders' );
 
 	do_action( 'woocommerce_delete_shop_order_transients', $order_id );
 }
@@ -683,10 +682,6 @@ function wc_refund_payment( $order, $amount, $reason = '' ) {
  * @param array    $refunded_line_items Refunded items list.
  */
 function wc_restock_refunded_items( $order, $refunded_line_items ) {
-	if ( ! apply_filters( 'woocommerce_can_restock_refunded_items', true, $order, $refunded_line_items ) ) {
-		return;
-	}
-
 	$line_items = $order->get_items();
 
 	foreach ( $line_items as $item_id => $item ) {
@@ -878,11 +873,10 @@ function wc_update_coupon_usage_counts( $order_id ) {
 					$coupon->decrease_usage_count( $used_by );
 					break;
 				case 'increase':
-					$coupon->increase_usage_count( $used_by, $order );
+					$coupon->increase_usage_count( $used_by );
 					break;
 			}
 		}
-		$order->get_data_store()->release_held_coupons( $order, true );
 	}
 }
 add_action( 'woocommerce_order_status_pending', 'wc_update_coupon_usage_counts' );

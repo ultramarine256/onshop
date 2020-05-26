@@ -1,11 +1,4 @@
 <?php
-/**
- * The update helper for WooCommerce.com plugins.
- *
- * @class WC_Helper_Updater
- * @package WooCommerce/Admin.
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -25,7 +18,6 @@ class WC_Helper_Updater {
 		add_action( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'transient_update_plugins' ), 21, 1 );
 		add_action( 'pre_set_site_transient_update_themes', array( __CLASS__, 'transient_update_themes' ), 21, 1 );
 		add_action( 'upgrader_process_complete', array( __CLASS__, 'upgrader_process_complete' ) );
-		add_action( 'upgrader_pre_download', array( __CLASS__, 'block_expired_updates' ), 10, 2 );
 	}
 
 	/**
@@ -53,15 +45,12 @@ class WC_Helper_Updater {
 				'plugin'         => $filename,
 				'new_version'    => $data['version'],
 				'url'            => $data['url'],
-				'package'        => $data['package'],
+				'package'        => '',
 				'upgrade_notice' => $data['upgrade_notice'],
 			);
 
-			// We don't want to deliver a valid upgrade package when their subscription has expired.
-			// To avoid the generic "no_package" error that empty strings give, we will store an
-			// indication of expiration for the `upgrader_pre_download` filter to error on.
-			if ( ! self::_has_active_subscription( $plugin['_product_id'] ) ) {
-				$item['package'] = 'woocommerce-com-expired-' . $plugin['_product_id'];
+			if ( self::_has_active_subscription( $plugin['_product_id'] ) ) {
+				$item['package'] = $data['package'];
 			}
 
 			if ( version_compare( $plugin['Version'], $data['version'], '<' ) ) {
@@ -148,7 +137,7 @@ class WC_Helper_Updater {
 			$payload[ $data['_product_id'] ]['file_id'] = $data['_file_id'];
 		}
 
-		// Scan local themes.
+		// Scan local themes
 		foreach ( WC_Helper::get_local_woo_themes() as $data ) {
 			if ( ! isset( $payload[ $data['_product_id'] ] ) ) {
 				$payload[ $data['_product_id'] ] = array(
@@ -168,7 +157,6 @@ class WC_Helper_Updater {
 	 * The call is cached based on the payload (product ids, file ids). If
 	 * the payload changes, the cache is going to miss.
 	 *
-	 * @param array $payload Information about the plugin to update.
 	 * @return array Update data for each requested product.
 	 */
 	private static function _update_check( $payload ) {
@@ -176,8 +164,7 @@ class WC_Helper_Updater {
 		$hash = md5( wp_json_encode( $payload ) );
 
 		$cache_key = '_woocommerce_helper_updates';
-		$data      = get_transient( $cache_key );
-		if ( false !== $data ) {
+		if ( false !== ( $data = get_transient( $cache_key ) ) ) {
 			if ( hash_equals( $hash, $data['hash'] ) ) {
 				return $data['products'];
 			}
@@ -191,8 +178,7 @@ class WC_Helper_Updater {
 		);
 
 		$request = WC_Helper_API::post(
-			'update-check',
-			array(
+			'update-check', array(
 				'body'          => wp_json_encode( array( 'products' => $payload ) ),
 				'authenticated' => true,
 			)
@@ -253,8 +239,7 @@ class WC_Helper_Updater {
 	 */
 	public static function get_updates_count() {
 		$cache_key = '_woocommerce_helper_updates_count';
-		$count     = get_transient( $cache_key );
-		if ( false !== $count ) {
+		if ( false !== ( $count = get_transient( $cache_key ) ) ) {
 			return $count;
 		}
 
@@ -331,37 +316,6 @@ class WC_Helper_Updater {
 	 */
 	public static function upgrader_process_complete() {
 		delete_transient( '_woocommerce_helper_updates_count' );
-	}
-
-	/**
-	 * Hooked into the upgrader_pre_download filter in order to better handle error messaging around expired
-	 * plugin updates. Initially we were using an empty string, but the error message that no_package
-	 * results in does not fit the cause.
-	 *
-	 * @since 4.1.0
-	 * @param bool   $reply Holds the current filtered response.
-	 * @param string $package The path to the package file for the update.
-	 * @return false|WP_Error False to proceed with the update as normal, anything else to be returned instead of updating.
-	 */
-	public static function block_expired_updates( $reply, $package ) {
-		// Don't override a reply that was set already.
-		if ( false !== $reply ) {
-			return $reply;
-		}
-
-		// Only for packages with expired subscriptions.
-		if ( 0 !== strpos( $package, 'woocommerce-com-expired-' ) ) {
-			return false;
-		}
-
-		return new WP_Error(
-			'woocommerce_subscription_expired',
-			sprintf(
-				// translators: %s: URL of WooCommerce.com subscriptions tab.
-				__( 'Please visit the <a href="%s" target="_blank">subscriptions page</a> and renew to continue receiving updates.', 'woocommerce' ),
-				esc_url( admin_url( 'admin.php?page=wc-addons&section=helper' ) )
-			)
-		);
 	}
 }
 

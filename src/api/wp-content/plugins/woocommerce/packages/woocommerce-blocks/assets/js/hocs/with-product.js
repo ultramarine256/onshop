@@ -3,76 +3,74 @@
  */
 import { Component } from '@wordpress/element';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { getProduct } from '@woocommerce/block-components/utils';
 
 /**
  * Internal dependencies
  */
-import { formatError } from '../base/utils/errors.js';
+import { getProduct } from '../components/utils';
 
-const withProduct = createHigherOrderComponent( ( OriginalComponent ) => {
-	return class WrappedComponent extends Component {
-		state = {
-			error: null,
-			loading: false,
-			product:
-				this.props.attributes.productId === 'preview'
-					? this.props.attributes.previewProduct
-					: null,
-		};
+const withProduct = createHigherOrderComponent(
+	( OriginalComponent ) => {
+		return class WrappedComponent extends Component {
+			constructor() {
+				super( ...arguments );
+				this.state = {
+					error: null,
+					loading: false,
+					product: null,
+				};
+				this.loadProduct = this.loadProduct.bind( this );
+			}
 
-		componentDidMount() {
-			this.loadProduct();
-		}
-
-		componentDidUpdate( prevProps ) {
-			if (
-				prevProps.attributes.productId !==
-				this.props.attributes.productId
-			) {
+			componentDidMount() {
 				this.loadProduct();
 			}
-		}
 
-		loadProduct = () => {
-			const { productId } = this.props.attributes;
-
-			if ( productId === 'preview' ) {
-				return;
+			componentDidUpdate( prevProps ) {
+				if ( prevProps.attributes.productId !== this.props.attributes.productId ) {
+					this.loadProduct();
+				}
 			}
 
-			if ( ! productId ) {
-				this.setState( { product: null, loading: false, error: null } );
-				return;
-			}
+			loadProduct() {
+				const { productId } = this.props.attributes;
 
-			this.setState( { loading: true } );
+				if ( ! productId ) {
+					this.setState( { product: null, loading: false, error: null } );
+					return;
+				}
 
-			getProduct( productId )
-				.then( ( product ) => {
+				this.setState( { loading: true } );
+
+				getProduct( productId ).then( ( product ) => {
 					this.setState( { product, loading: false, error: null } );
-				} )
-				.catch( async ( e ) => {
-					const error = await formatError( e );
+				} ).catch( ( apiError ) => {
+					const error = typeof apiError === 'object' && apiError.hasOwnProperty( 'message' ) ? {
+						apiMessage: apiError.message,
+					} : {
+						// If we can't get any message from the API, set it to null and
+						// let <ApiErrorPlaceholder /> handle the message to display.
+						apiMessage: null,
+					};
 
 					this.setState( { product: null, loading: false, error } );
 				} );
-		};
+			}
 
-		render() {
-			const { error, loading, product } = this.state;
+			render() {
+				const { error, loading, product } = this.state;
 
-			return (
-				<OriginalComponent
+				return <OriginalComponent
 					{ ...this.props }
 					error={ error }
 					getProduct={ this.loadProduct }
 					isLoading={ loading }
 					product={ product }
-				/>
-			);
-		}
-	};
-}, 'withProduct' );
+				/>;
+			}
+		};
+	},
+	'withProduct'
+);
 
 export default withProduct;

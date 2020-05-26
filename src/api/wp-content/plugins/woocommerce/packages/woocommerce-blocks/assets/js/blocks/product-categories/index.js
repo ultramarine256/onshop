@@ -3,14 +3,14 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { IconFolder } from '@woocommerce/block-components/icons';
 
 /**
  * Internal dependencies
  */
 import './editor.scss';
 import './style.scss';
-import Block from './block.js';
+import edit from './edit.js';
+import { IconFolder } from '../../components/icons';
 
 registerBlockType( 'woocommerce/product-categories', {
 	title: __( 'Product Categories List', 'woocommerce' ),
@@ -27,11 +27,7 @@ registerBlockType( 'woocommerce/product-categories', {
 	supports: {
 		align: [ 'wide', 'full' ],
 	},
-	example: {
-		attributes: {
-			hasCount: true,
-		},
-	},
+
 	attributes: {
 		/**
 		 * Whether to show the product count in each category.
@@ -39,6 +35,9 @@ registerBlockType( 'woocommerce/product-categories', {
 		hasCount: {
 			type: 'boolean',
 			default: true,
+			source: 'attribute',
+			selector: 'div',
+			attribute: 'data-has-count',
 		},
 
 		/**
@@ -47,6 +46,9 @@ registerBlockType( 'woocommerce/product-categories', {
 		hasEmpty: {
 			type: 'boolean',
 			default: false,
+			source: 'attribute',
+			selector: 'div',
+			attribute: 'data-has-empty',
 		},
 
 		/**
@@ -55,6 +57,9 @@ registerBlockType( 'woocommerce/product-categories', {
 		isDropdown: {
 			type: 'boolean',
 			default: false,
+			source: 'attribute',
+			selector: 'div',
+			attribute: 'data-is-dropdown',
 		},
 
 		/**
@@ -63,102 +68,44 @@ registerBlockType( 'woocommerce/product-categories', {
 		isHierarchical: {
 			type: 'boolean',
 			default: true,
+			source: 'attribute',
+			selector: 'div',
+			attribute: 'data-is-hierarchical',
 		},
 	},
 
-	deprecated: [
-		{
-			// Deprecate HTML save method in favor of dynamic rendering.
-			attributes: {
-				hasCount: {
-					type: 'boolean',
-					default: true,
-					source: 'attribute',
-					selector: 'div',
-					attribute: 'data-has-count',
-				},
-				hasEmpty: {
-					type: 'boolean',
-					default: false,
-					source: 'attribute',
-					selector: 'div',
-					attribute: 'data-has-empty',
-				},
-				isDropdown: {
-					type: 'boolean',
-					default: false,
-					source: 'attribute',
-					selector: 'div',
-					attribute: 'data-is-dropdown',
-				},
-				isHierarchical: {
-					type: 'boolean',
-					default: true,
-					source: 'attribute',
-					selector: 'div',
-					attribute: 'data-is-hierarchical',
-				},
-			},
-			migrate( attributes ) {
-				return attributes;
-			},
-			save( props ) {
-				const {
-					hasCount,
-					hasEmpty,
-					isDropdown,
-					isHierarchical,
-				} = props.attributes;
-				const data = {};
-				if ( hasCount ) {
-					data[ 'data-has-count' ] = true;
-				}
-				if ( hasEmpty ) {
-					data[ 'data-has-empty' ] = true;
-				}
-				if ( isDropdown ) {
-					data[ 'data-is-dropdown' ] = true;
-				}
-				if ( isHierarchical ) {
-					data[ 'data-is-hierarchical' ] = true;
-				}
-				return (
-					<div className="is-loading" { ...data }>
-						{ isDropdown ? (
-							<span
-								aria-hidden
-								className="wc-block-product-categories__placeholder"
-							/>
-						) : (
-							<ul aria-hidden>
-								<li>
-									<span className="wc-block-product-categories__placeholder" />
-								</li>
-								<li>
-									<span className="wc-block-product-categories__placeholder" />
-								</li>
-								<li>
-									<span className="wc-block-product-categories__placeholder" />
-								</li>
-							</ul>
-						) }
-					</div>
-				);
-			},
-		},
-	],
+	edit,
 
 	/**
-	 * Renders and manages the block.
+	 * Save the props to post content.
 	 */
-	edit( props ) {
-		return <Block { ...props } />;
-	},
-
-	/**
-	 * Save nothing; rendered by server.
-	 */
-	save() {
-		return null;
+	save( { attributes } ) {
+		const { hasCount, hasEmpty, isDropdown, isHierarchical } = attributes;
+		const data = {};
+		if ( hasCount ) {
+			data[ 'data-has-count' ] = true;
+		}
+		if ( hasEmpty ) {
+			data[ 'data-has-empty' ] = true;
+		}
+		if ( isDropdown ) {
+			data[ 'data-is-dropdown' ] = true;
+		}
+		if ( isHierarchical ) {
+			data[ 'data-is-hierarchical' ] = true;
+		}
+		return (
+			<div className="is-loading" { ...data }>
+				{ isDropdown ? (
+					<span aria-hidden className="wc-block-product-categories__placeholder" />
+				) : (
+					<ul aria-hidden>
+						<li><span className="wc-block-product-categories__placeholder" /></li>
+						<li><span className="wc-block-product-categories__placeholder" /></li>
+						<li><span className="wc-block-product-categories__placeholder" /></li>
+					</ul>
+				) }
+			</div>
+		);
 	},
 } );

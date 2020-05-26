@@ -19,7 +19,7 @@ export class CategoryRepository extends BaseRepository {
   }
 
   public getCategories(): Observable<CategoryModel[]> {
-    return this.httpClient.get<Array<CategoryModel>>(`${this.apiBaseUrl}/wp-json/onshop/v3/categories`).pipe(
+    return this.httpClient.get<Array<CategoryModel>>(`${this.apiBaseUrl}/wp-json/onshop/v1/categories`).pipe(
       map((response) => {
         // associate categories with their parent categoryId
         const nestedCategories = response

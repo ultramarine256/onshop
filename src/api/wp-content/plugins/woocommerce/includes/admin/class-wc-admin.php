@@ -72,8 +72,8 @@ class WC_Admin {
 		}
 
 		// Setup/welcome.
-		if ( ! empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			switch ( $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
+			switch ( $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification
 				case 'wc-setup':
 					include_once dirname( __FILE__ ) . '/class-wc-admin-setup-wizard.php';
 					break;
@@ -127,13 +127,7 @@ class WC_Admin {
 	 * For setup wizard, transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
 	 */
 	public function admin_redirects() {
-		// Don't run this fn from Action Scheduler requests, as it would clear _wc_activation_redirect transient.
-		// That means OBW would never be shown.
-		if ( wc_is_running_from_async_action_scheduler() ) {
-			return;
-		}
-
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification
 		// Nonced plugin install redirects (whitelisted).
 		if ( ! empty( $_GET['wc-install-plugin-redirect'] ) ) {
 			$plugin_slug = wc_clean( wp_unslash( $_GET['wc-install-plugin-redirect'] ) );
@@ -171,7 +165,7 @@ class WC_Admin {
 				exit;
 			}
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+		// phpcs:enable WordPress.Security.NonceVerification.NoNonceVerification
 	}
 
 	/**

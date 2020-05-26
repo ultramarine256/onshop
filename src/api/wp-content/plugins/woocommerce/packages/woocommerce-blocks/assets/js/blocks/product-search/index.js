@@ -3,7 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { IconProductSearch } from '@woocommerce/block-components/icons';
+import { InspectorControls } from '@wordpress/editor';
+import { PanelBody, ToggleControl } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -11,12 +13,11 @@ import { IconProductSearch } from '@woocommerce/block-components/icons';
 import './style.scss';
 import './editor.scss';
 import Block from './block.js';
-import edit from './edit.js';
 
 registerBlockType( 'woocommerce/product-search', {
 	title: __( 'Product Search', 'woocommerce' ),
 	icon: {
-		src: <IconProductSearch />,
+		src: 'search',
 		foreground: '#96588a',
 	},
 	category: 'woocommerce',
@@ -28,11 +29,7 @@ registerBlockType( 'woocommerce/product-search', {
 	supports: {
 		align: [ 'wide', 'full' ],
 	},
-	example: {
-		attributes: {
-			hasLabel: true,
-		},
-	},
+
 	attributes: {
 		/**
 		 * Whether to show the field label.
@@ -72,7 +69,36 @@ registerBlockType( 'woocommerce/product-search', {
 		},
 	},
 
-	edit,
+	/**
+	 * Renders and manages the block.
+	 */
+	edit( props ) {
+		const { attributes, setAttributes } = props;
+		const { hasLabel } = attributes;
+		return (
+			<Fragment>
+				<InspectorControls key="inspector">
+					<PanelBody
+						title={ __( 'Content', 'woocommerce' ) }
+						initialOpen
+					>
+
+						<ToggleControl
+							label={ __( 'Show search field label', 'woocommerce' ) }
+							help={
+								hasLabel ?
+									__( 'Label is visible.', 'woocommerce' ) :
+									__( 'Label is hidden.', 'woocommerce' )
+							}
+							checked={ hasLabel }
+							onChange={ () => setAttributes( { hasLabel: ! hasLabel } ) }
+						/>
+					</PanelBody>
+				</InspectorControls>
+				<Block { ...props } isPreview />
+			</Fragment>
+		);
+	},
 
 	/**
 	 * Save the props to post content.

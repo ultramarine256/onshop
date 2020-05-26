@@ -4,21 +4,9 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd
+class ComposerStaticInit899d2d45fa9fa156e6125fbb4a21f2c0
 {
     public static $prefixLengthsPsr4 = array (
-        'S' => 
-        array (
-            'Symfony\\Component\\CssSelector\\' => 30,
-        ),
-        'P' => 
-        array (
-            'Pelago\\' => 7,
-        ),
-        'M' => 
-        array (
-            'MaxMind\\Db\\' => 11,
-        ),
         'C' => 
         array (
             'Composer\\Installers\\' => 20,
@@ -27,25 +15,12 @@ class ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd
         array (
             'Automattic\\WooCommerce\\RestApi\\' => 31,
             'Automattic\\WooCommerce\\Blocks\\' => 30,
-            'Automattic\\WooCommerce\\Admin\\' => 29,
             'Automattic\\WooCommerce\\' => 23,
             'Automattic\\Jetpack\\Autoloader\\' => 30,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Component\\CssSelector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/css-selector',
-        ),
-        'Pelago\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/pelago/emogrifier/src',
-        ),
-        'MaxMind\\Db\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
-        ),
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
@@ -58,10 +33,6 @@ class ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd
         array (
             0 => __DIR__ . '/../..' . '/packages/woocommerce-blocks/src',
         ),
-        'Automattic\\WooCommerce\\Admin\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/packages/woocommerce-admin/src',
-        ),
         'Automattic\\WooCommerce\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
@@ -73,7 +44,6 @@ class ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd
     );
 
     public static $classMap = array (
-        'Automattic\\Jetpack\\Constants' => __DIR__ . '/..' . '/automattic/jetpack-constants/src/class-constants.php',
         'WC_REST_CRUD_Controller' => __DIR__ . '/../..' . '/packages/woocommerce-rest-api/src/Controllers/Version3/class-wc-rest-crud-controller.php',
         'WC_REST_Controller' => __DIR__ . '/../..' . '/packages/woocommerce-rest-api/src/Controllers/Version3/class-wc-rest-controller.php',
         'WC_REST_Coupons_Controller' => __DIR__ . '/../..' . '/packages/woocommerce-rest-api/src/Controllers/Version3/class-wc-rest-coupons-controller.php',
@@ -174,9 +144,9 @@ class ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3cf39464c390fc33d5ed8eaa58fba5dd::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit899d2d45fa9fa156e6125fbb4a21f2c0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit899d2d45fa9fa156e6125fbb4a21f2c0::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit899d2d45fa9fa156e6125fbb4a21f2c0::$classMap;
 
         }, null, ClassLoader::class);
     }

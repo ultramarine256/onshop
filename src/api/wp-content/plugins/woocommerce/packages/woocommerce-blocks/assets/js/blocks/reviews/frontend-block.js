@@ -5,46 +5,43 @@ import { __ } from '@wordpress/i18n';
 import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { ENABLE_REVIEW_RATING } from '@woocommerce/block-settings';
-import LoadMoreButton from '@woocommerce/base-components/load-more-button';
-import ReviewSortSelect from '@woocommerce/base-components/review-sort-select';
-import ReviewList from '@woocommerce/base-components/review-list';
-import withReviews from '@woocommerce/base-hocs/with-reviews';
+
+/**
+ * Internal dependencies
+ */
+import LoadMoreButton from '../../base/components/load-more-button';
+import ReviewOrderSelect from '../../base/components/review-order-select';
+import ReviewList from '../../base/components/review-list';
+import withReviews from '../../base/hocs/with-reviews';
 
 /**
  * Block rendered in the frontend.
  */
-const FrontendBlock = ( {
-	attributes,
-	onAppendReviews,
-	onChangeOrderby,
-	reviews,
-	totalReviews,
-} ) => {
+const FrontendBlock = ( { attributes, onAppendReviews, onChangeOrderby, reviews, totalReviews } ) => {
 	const { orderby } = attributes;
 
-	if ( reviews.length === 0 ) {
+	if ( 0 === reviews.length ) {
 		return null;
 	}
 
 	return (
 		<Fragment>
-			{ attributes.showOrderby !== 'false' && ENABLE_REVIEW_RATING && (
-				<ReviewSortSelect
+			{ ( attributes.showOrderby !== 'false' && ENABLE_REVIEW_RATING ) && (
+				<ReviewOrderSelect
 					defaultValue={ orderby }
 					onChange={ onChangeOrderby }
 				/>
 			) }
-			<ReviewList attributes={ attributes } reviews={ reviews } />
-			{ attributes.showLoadMore !== 'false' &&
-				totalReviews > reviews.length && (
-					<LoadMoreButton
-						onClick={ onAppendReviews }
-						screenReaderLabel={ __(
-							'Load more reviews',
-							'woocommerce'
-						) }
-					/>
-				) }
+			<ReviewList
+				attributes={ attributes }
+				reviews={ reviews }
+			/>
+			{ ( attributes.showLoadMore !== 'false' && totalReviews > reviews.length ) && (
+				<LoadMoreButton
+					onClick={ onAppendReviews }
+					screenReaderLabel={ __( 'Load more reviews', 'woocommerce' ) }
+				/>
+			) }
 		</Fragment>
 	);
 };

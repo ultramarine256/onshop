@@ -6,8 +6,6 @@
  * @version     2.6.0
  */
 
-use Automattic\Jetpack\Constants;
-
 defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'WC_Settings_Shipping', false ) ) {
@@ -51,7 +49,7 @@ class WC_Settings_Shipping extends WC_Settings_Page {
 			'classes' => __( 'Shipping classes', 'woocommerce' ),
 		);
 
-		if ( ! Constants::is_defined( 'WC_INSTALLING' ) ) {
+		if ( ! defined( 'WC_INSTALLING' ) ) {
 			// Load shipping methods so we can show any global options they may have.
 			$shipping_methods = WC()->shipping()->load_shipping_methods();
 

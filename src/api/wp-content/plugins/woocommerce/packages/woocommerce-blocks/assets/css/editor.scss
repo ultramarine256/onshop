@@ -18,14 +18,10 @@
 	.wc-block-grid {
 		.wc-block-grid__products {
 			list-style: none;
-			margin: 0 (-$gap/2) $gap;
+			margin: 0;
 
 			.wp-block-button__link {
 				color: inherit;
-			}
-
-			.wc-block-grid__product {
-				margin: 0 0 $gap-large 0;
 			}
 		}
 
@@ -40,3 +36,16 @@
 	}
 }
 
+.wc-block-api-error {
+	.components-placeholder__fieldset {
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+	.wc-block-error__message {
+		margin-bottom: 16px;
+	}
+	.components-spinner {
+		float: none;
+	}
+}

@@ -52,6 +52,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 *
 	 * @hooked woocommerce_template_loop_category_link_close - 10
 	 */
-	do_action( 'woocommerce_after_subcategory', $category );
-	?>
+	do_action( 'woocommerce_after_subcategory', $category ); ?>
 </li>

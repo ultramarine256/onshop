@@ -8,8 +8,6 @@
  * @package WooCommerce/Classes/Shipping
  */
 
-use Automattic\Jetpack\Constants;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -165,7 +163,7 @@ class WC_Shipping {
 			$matched_zone_notice = sprintf( __( 'Customer matched zone "%s"', 'woocommerce' ), $shipping_zone->get_zone_name() );
 
 			// Debug output.
-			if ( $debug_mode && ! Constants::is_defined( 'WOOCOMMERCE_CHECKOUT' ) && ! Constants::is_defined( 'WC_DOING_AJAX' ) && ! wc_has_notice( $matched_zone_notice ) ) {
+			if ( $debug_mode && ! defined( 'WOOCOMMERCE_CHECKOUT' ) && ! defined( 'WC_DOING_AJAX' ) && ! wc_has_notice( $matched_zone_notice ) ) {
 				wc_add_notice( $matched_zone_notice );
 			}
 		} else {
@@ -284,7 +282,8 @@ class WC_Shipping {
 	 * @param  array $package Package of cart items.
 	 * @return bool
 	 */
-	public function is_package_shippable( $package ) {
+	protected function is_package_shippable( $package ) {
+
 		// Packages are shippable until proven otherwise.
 		if ( empty( $package['destination']['country'] ) ) {
 			return true;

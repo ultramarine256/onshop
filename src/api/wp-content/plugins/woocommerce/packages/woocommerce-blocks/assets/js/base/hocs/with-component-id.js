@@ -1,31 +1,35 @@
-/**
- * External dependencies
- */
 import { Component } from 'react';
+
+const ids = [];
 
 /**
  * HOC that gives a component a unique ID.
  *
- * This is an alternative for withInstanceId from @wordpress/compose to avoid
- * using that dependency on the frontend.
+ * This is an alternative for withInstanceId from @wordpress/compose to avoid using that dependency on the frontend.
  */
 const withComponentId = ( OriginalComponent ) => {
-	let instances = 0;
+	return class WrappedComponent extends Component {
+		generateUniqueID() {
+			const group = WrappedComponent.name;
 
-	class WrappedComponent extends Component {
-		instanceId = instances++;
+			if ( ! ids[ group ] ) {
+				ids[ group ] = 0;
+			}
+
+			ids[ group ]++;
+
+			return ids[ group ];
+		}
 
 		render() {
-			return (
-				<OriginalComponent
-					{ ...this.props }
-					componentId={ this.instanceId }
-				/>
-			);
+			const componentId = this.generateUniqueID();
+
+			return <OriginalComponent
+				{ ...this.props }
+				componentId={ componentId }
+			/>;
 		}
-	}
-	WrappedComponent.displayName = 'withComponentId';
-	return WrappedComponent;
+	};
 };
 
 export default withComponentId;

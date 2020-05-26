@@ -11,7 +11,6 @@ import { DEFAULT_HEIGHT } from '@woocommerce/block-settings';
  */
 import './style.scss';
 import './editor.scss';
-import { example } from './example';
 import Block from './block';
 
 /**
@@ -33,7 +32,6 @@ registerBlockType( 'woocommerce/featured-product', {
 		align: [ 'wide', 'full' ],
 		html: false,
 	},
-	example,
 	attributes: {
 		/**
 		 * Alignment of content inside block.
@@ -133,14 +131,6 @@ registerBlockType( 'woocommerce/featured-product', {
 		showPrice: {
 			type: 'boolean',
 			default: true,
-		},
-
-		/**
-		 * Product preview.
-		 */
-		previewProduct: {
-			type: 'object',
-			default: null,
 		},
 	},
 

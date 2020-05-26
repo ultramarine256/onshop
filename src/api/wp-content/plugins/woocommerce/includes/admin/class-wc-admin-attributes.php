@@ -16,13 +16,6 @@ defined( 'ABSPATH' ) || exit;
 class WC_Admin_Attributes {
 
 	/**
-	 * Edited attribute ID.
-	 *
-	 * @var int
-	 */
-	private static $edited_attribute_id;
-
-	/**
 	 * Handles output of the attributes page in admin.
 	 *
 	 * Shows the created attributes and lets you add new ones or edit existing ones.
@@ -142,7 +135,7 @@ class WC_Admin_Attributes {
 			return $id;
 		}
 
-		self::$edited_attribute_id = $id;
+		echo '<div class="updated"><p>' . esc_html__( 'Attribute updated successfully', 'woocommerce' ) . '</p><p><a href="' . esc_url( admin_url( 'edit.php?post_type=product&amp;page=product_attributes' ) ) . '">' . esc_html__( 'Back to Attributes', 'woocommerce' ) . '</a></p></div>';
 
 		return true;
 	}
@@ -187,10 +180,6 @@ class WC_Admin_Attributes {
 			if ( ! $attribute_to_edit ) {
 				echo '<div id="woocommerce_errors" class="error"><p>' . esc_html__( 'Error: non-existing attribute ID.', 'woocommerce' ) . '</p></div>';
 			} else {
-				if ( self::$edited_attribute_id > 0 ) {
-					echo '<div id="message" class="updated"><p>' . esc_html__( 'Attribute updated successfully', 'woocommerce' ) . '</p><p><a href="' . esc_url( admin_url( 'edit.php?post_type=product&amp;page=product_attributes' ) ) . '">' . esc_html__( 'Back to Attributes', 'woocommerce' ) . '</a></p></div>';
-					self::$edited_attribute_id = null;
-				}
 				$att_type    = $attribute_to_edit->attribute_type;
 				$att_label   = format_to_edit( $attribute_to_edit->attribute_label );
 				$att_name    = $attribute_to_edit->attribute_name;

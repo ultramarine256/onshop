@@ -5,8 +5,6 @@
  * @package WooCommerce\Tracks
  */
 
-use Automattic\Jetpack\Constants;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -54,7 +52,10 @@ class WC_Tracks_Event {
 	 * @return bool Always returns true.
 	 */
 	public function record() {
-		if ( wp_doing_ajax() || Constants::is_true( 'REST_REQUEST' ) ) {
+		if (
+			wp_doing_ajax() ||
+			( defined( 'REST_REQUEST' ) && REST_REQUEST )
+		) {
 			return WC_Tracks_Client::record_event( $this );
 		}
 

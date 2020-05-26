@@ -55,7 +55,6 @@ class ProductTag extends AbstractProductGrid {
 				'type'    => 'string',
 				'default' => 'any',
 			),
-			'isPreview'         => $this->get_schema_boolean( false ),
 		);
 	}
 }

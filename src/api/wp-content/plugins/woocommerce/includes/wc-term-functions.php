@@ -253,10 +253,11 @@ function wc_product_dropdown_categories( $args = array() ) {
  *
  * Previously used by wc_product_dropdown_categories, but wp_dropdown_categories has been fixed in core.
  *
- * @param mixed ...$args Variable number of parameters to be passed to the walker.
  * @return mixed
  */
-function wc_walk_category_dropdown_tree( ...$args ) {
+function wc_walk_category_dropdown_tree() {
+	$args = func_get_args();
+
 	if ( ! class_exists( 'WC_Product_Cat_Dropdown_Walker', false ) ) {
 		include_once WC()->plugin_path() . '/includes/walkers/class-wc-product-cat-dropdown-walker.php';
 	}
@@ -268,7 +269,7 @@ function wc_walk_category_dropdown_tree( ...$args ) {
 		$walker = $args[2]['walker'];
 	}
 
-	return $walker->walk( ...$args );
+	return call_user_func_array( array( &$walker, 'walk' ), $args );
 }
 
 /**

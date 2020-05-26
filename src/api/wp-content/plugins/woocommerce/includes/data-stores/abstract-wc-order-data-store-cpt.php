@@ -5,8 +5,6 @@
  * @package WooCommerce/Classes
  */
 
-use Automattic\Jetpack\Constants;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -56,8 +54,8 @@ abstract class Abstract_WC_Order_Data_Store_CPT extends WC_Data_Store_WP impleme
 	 * @param WC_Order $order Order object.
 	 */
 	public function create( &$order ) {
-		$order->set_version( Constants::get_constant( 'WC_VERSION' ) );
-		$order->set_date_created( time() );
+		$order->set_version( WC_VERSION );
+		$order->set_date_created( current_time( 'timestamp', true ) );
 		$order->set_currency( $order->get_currency() ? $order->get_currency() : get_woocommerce_currency() );
 
 		$id = wp_insert_post(
@@ -133,10 +131,10 @@ abstract class Abstract_WC_Order_Data_Store_CPT extends WC_Data_Store_WP impleme
 	 */
 	public function update( &$order ) {
 		$order->save_meta_data();
-		$order->set_version( Constants::get_constant( 'WC_VERSION' ) );
+		$order->set_version( WC_VERSION );
 
 		if ( null === $order->get_date_created( 'edit' ) ) {
-			$order->set_date_created( time() );
+			$order->set_date_created( current_time( 'timestamp', true ) );
 		}
 
 		$changes = $order->get_changes();

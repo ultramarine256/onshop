@@ -88,18 +88,6 @@
 			event.data.variationForm.$form.find( '.single_add_to_cart_button' ).removeClass( 'wc-variation-selection-needed' ).addClass( 'disabled wc-variation-is-unavailable' );
 			event.data.variationForm.$form.find( '.woocommerce-variation-add-to-cart' ).removeClass( 'woocommerce-variation-add-to-cart-enabled' ).addClass( 'woocommerce-variation-add-to-cart-disabled' );
 		}
-
-		// If present, the media element library needs initialized on the variation description.
-		if ( wp.mediaelement ) {
-			event.data.variationForm.$form.find( '.wp-audio-shortcode, .wp-video-shortcode' )
-				.not( '.mejs-container' )
-				.filter(
-					function () {
-						return ! $( this ).parent().hasClass( 'mejs-mediaelement' );
-					}
-				)
-				.mediaelementplayer( wp.mediaelement.settings );
-		}
 	};
 
 	/**
@@ -253,10 +241,10 @@
 
 		// Hide or show qty input
 		if ( variation.is_sold_individually === 'yes' ) {
-			$qty.find( 'input.qty' ).val( '1' ).attr( 'min', '1' ).attr( 'max', '' ).change();
+			$qty.find( 'input.qty' ).val( '1' ).attr( 'min', '1' ).attr( 'max', '' );
 			$qty.hide();
 		} else {
-			$qty.find( 'input.qty' ).attr( 'min', variation.min_qty ).attr( 'max', variation.max_qty ).val( variation.min_qty ).change();
+			$qty.find( 'input.qty' ).attr( 'min', variation.min_qty ).attr( 'max', variation.max_qty );
 			$qty.show();
 		}
 

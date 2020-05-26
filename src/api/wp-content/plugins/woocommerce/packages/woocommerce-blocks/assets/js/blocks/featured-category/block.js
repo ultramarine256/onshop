@@ -11,7 +11,6 @@ import {
 	MediaUploadCheck,
 	PanelColorSettings,
 	withColors,
-	RichText,
 } from '@wordpress/editor';
 import {
 	Button,
@@ -31,13 +30,13 @@ import { Fragment } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import PropTypes from 'prop-types';
 import { MIN_HEIGHT } from '@woocommerce/block-settings';
-import { IconFolderStar } from '@woocommerce/block-components/icons';
-import ProductCategoryControl from '@woocommerce/block-components/product-category-control';
-import ErrorPlaceholder from '@woocommerce/block-components/error-placeholder';
 
 /**
  * Internal dependencies
  */
+import { IconFolderStar } from '../../components/icons';
+import ProductCategoryControl from '../../components/product-category-control';
+import ApiErrorPlaceholder from '../../components/api-error-placeholder';
 import {
 	dimRatioToClass,
 	getBackgroundImageStyles,
@@ -49,20 +48,9 @@ import { withCategory } from '../../hocs';
 /**
  * Component to handle edit mode of "Featured Category".
  */
-const FeaturedCategory = ( {
-	attributes,
-	isSelected,
-	setAttributes,
-	error,
-	getCategory,
-	isLoading,
-	category,
-	overlayColor,
-	setOverlayColor,
-	debouncedSpeak,
-} ) => {
+const FeaturedCategory = ( { attributes, isSelected, setAttributes, error, getCategory, isLoading, category, overlayColor, setOverlayColor, debouncedSpeak } ) => {
 	const renderApiError = () => (
-		<ErrorPlaceholder
+		<ApiErrorPlaceholder
 			className="wc-block-featured-category-error"
 			error={ error }
 			isLoading={ isLoading }
@@ -86,10 +74,7 @@ const FeaturedCategory = ( {
 					<Toolbar>
 						<MediaUpload
 							onSelect={ ( media ) => {
-								setAttributes( {
-									mediaId: media.id,
-									mediaSrc: media.url,
-								} );
+								setAttributes( { mediaId: media.id, mediaSrc: media.url } );
 							} }
 							allowedTypes={ [ 'image' ] }
 							value={ mediaId }
@@ -110,7 +95,8 @@ const FeaturedCategory = ( {
 	};
 
 	const getInspectorControls = () => {
-		const url = attributes.mediaSrc || getCategoryImageSrc( category );
+		const url =
+			attributes.mediaSrc || getCategoryImageSrc( category );
 		const { focalPoint = { x: 0.5, y: 0.5 } } = attributes;
 		// FocalPointPicker was introduced in Gutenberg 5.0 (WordPress 5.2),
 		// so we need to check if it exists before using it.
@@ -118,18 +104,11 @@ const FeaturedCategory = ( {
 
 		return (
 			<InspectorControls key="inspector">
-				<PanelBody
-					title={ __( 'Content', 'woocommerce' ) }
-				>
+				<PanelBody title={ __( 'Content', 'woocommerce' ) }>
 					<ToggleControl
-						label={ __(
-							'Show description',
-							'woocommerce'
-						) }
+						label={ __( 'Show description', 'woocommerce' ) }
 						checked={ attributes.showDesc }
-						onChange={ () =>
-							setAttributes( { showDesc: ! attributes.showDesc } )
-						}
+						onChange={ () => setAttributes( { showDesc: ! attributes.showDesc } ) }
 					/>
 				</PanelBody>
 				<PanelColorSettings
@@ -138,38 +117,28 @@ const FeaturedCategory = ( {
 						{
 							value: overlayColor.color,
 							onChange: setOverlayColor,
-							label: __(
-								'Overlay Color',
-								'woocommerce'
-							),
+							label: __( 'Overlay Color', 'woocommerce' ),
 						},
 					] }
 				>
 					{ !! url && (
 						<Fragment>
 							<RangeControl
-								label={ __(
-									'Background Opacity',
-									'woocommerce'
-								) }
+								label={ __( 'Background Opacity', 'woocommerce' ) }
 								value={ attributes.dimRatio }
-								onChange={ ( ratio ) =>
-									setAttributes( { dimRatio: ratio } )
-								}
+								onChange={ ( ratio ) => setAttributes( { dimRatio: ratio } ) }
 								min={ 0 }
 								max={ 100 }
 								step={ 10 }
 							/>
-							{ focalPointPickerExists && (
+							{ focalPointPickerExists &&
 								<FocalPointPicker
 									label={ __( 'Focal Point Picker' ) }
 									url={ url }
 									value={ focalPoint }
-									onChange={ ( value ) =>
-										setAttributes( { focalPoint: value } )
-									}
+									onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
 								/>
-							) }
+							}
 						</Fragment>
 					) }
 				</PanelColorSettings>
@@ -191,10 +160,7 @@ const FeaturedCategory = ( {
 		return (
 			<Placeholder
 				icon={ <IconFolderStar /> }
-				label={ __(
-					'Featured Category',
-					'woocommerce'
-				) }
+				label={ __( 'Featured Category', 'woocommerce' ) }
 				className="wc-block-featured-category"
 			>
 				{ __(
@@ -206,11 +172,7 @@ const FeaturedCategory = ( {
 						selected={ [ attributes.categoryId ] }
 						onChange={ ( value = [] ) => {
 							const id = value[ 0 ] ? value[ 0 ].id : 0;
-							setAttributes( {
-								categoryId: id,
-								mediaId: 0,
-								mediaSrc: '',
-							} );
+							setAttributes( { categoryId: id, mediaId: 0, mediaSrc: '' } );
 						} }
 						isSingle
 					/>
@@ -219,50 +181,6 @@ const FeaturedCategory = ( {
 					</Button>
 				</div>
 			</Placeholder>
-		);
-	};
-
-	const renderButton = () => {
-		const buttonClasses = classnames(
-			'wp-block-button__link',
-			'is-style-fill'
-		);
-		const buttonStyle = {
-			backgroundColor: 'vivid-green-cyan',
-			borderRadius: '5px',
-		};
-		const wrapperStyle = {
-			width: '100%',
-		};
-		return attributes.categoryId === 'preview' ? (
-			<div className="wp-block-button aligncenter" style={ wrapperStyle }>
-				<RichText.Content
-					tagName="a"
-					className={ buttonClasses }
-					href={ category.permalink }
-					title={ attributes.linkText }
-					style={ buttonStyle }
-					value={ attributes.linkText }
-					target={ category.permalink }
-				/>
-			</div>
-		) : (
-			<InnerBlocks
-				template={ [
-					[
-						'core/button',
-						{
-							text: __(
-								'Shop now',
-								'woocommerce'
-							),
-							url: category.permalink,
-							align: 'center',
-						},
-					],
-				] }
-				templateLock="all"
-			/>
 		);
 	};
 
@@ -278,24 +196,25 @@ const FeaturedCategory = ( {
 		const classes = classnames(
 			'wc-block-featured-category',
 			{
-				'is-selected': isSelected && attributes.productId !== 'preview',
+				'is-selected': isSelected,
 				'is-loading': ! category && isLoading,
 				'is-not-found': ! category && ! isLoading,
 				'has-background-dim': dimRatio !== 0,
 			},
 			dimRatioToClass( dimRatio ),
 			contentAlign !== 'center' && `has-${ contentAlign }-content`,
-			className
+			className,
 		);
 		const mediaSrc = attributes.mediaSrc || getCategoryImageSrc( category );
-		const style = !! category ? getBackgroundImageStyles( mediaSrc ) : {};
+		const style = !! category ?
+			getBackgroundImageStyles( mediaSrc ) :
+			{};
 		if ( overlayColor.color ) {
 			style.backgroundColor = overlayColor.color;
 		}
 		if ( focalPoint ) {
-			const bgPosX = focalPoint.x * 100;
-			const bgPosY = focalPoint.y * 100;
-			style.backgroundPosition = `${ bgPosX }% ${ bgPosY }%`;
+			style.backgroundPosition = `${ focalPoint.x * 100 }% ${ focalPoint.y *
+				100 }%`;
 		}
 
 		const onResizeStop = ( event, direction, elt ) => {
@@ -327,7 +246,22 @@ const FeaturedCategory = ( {
 						/>
 					) }
 					<div className="wc-block-featured-category__link">
-						{ renderButton() }
+						<InnerBlocks
+							template={ [
+								[
+									'core/button',
+									{
+										text: __(
+											'Shop now',
+											'woocommerce'
+										),
+										url: category.permalink,
+										align: 'center',
+									},
+								],
+							] }
+							templateLock="all"
+						/>
 					</div>
 				</div>
 			</ResizableBox>
@@ -343,10 +277,7 @@ const FeaturedCategory = ( {
 			{ isLoading ? (
 				<Spinner />
 			) : (
-				__(
-					'No product category is selected.',
-					'woocommerce'
-				)
+				__( 'No product category is selected.', 'woocommerce' )
 			) }
 		</Placeholder>
 	);
@@ -365,7 +296,11 @@ const FeaturedCategory = ( {
 		<Fragment>
 			{ getBlockControls() }
 			{ getInspectorControls() }
-			{ category ? renderCategory() : renderNoCategory() }
+			{ category ? (
+				renderCategory()
+			) : (
+				renderNoCategory()
+			) }
 		</Fragment>
 	);
 };

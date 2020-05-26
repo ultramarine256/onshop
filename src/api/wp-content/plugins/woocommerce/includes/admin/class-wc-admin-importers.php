@@ -5,8 +5,6 @@
  * @package WooCommerce/Admin
  */
 
-use Automattic\Jetpack\Constants;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -83,9 +81,8 @@ class WC_Admin_Importers {
 	 * Register importer scripts.
 	 */
 	public function admin_scripts() {
-		$suffix  = Constants::is_true( 'SCRIPT_DEBUG' ) ? '' : '.min';
-		$version = Constants::get_constant( 'WC_VERSION' );
-		wp_register_script( 'wc-product-import', WC()->plugin_url() . '/assets/js/admin/wc-product-import' . $suffix . '.js', array( 'jquery' ), $version, true );
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		wp_register_script( 'wc-product-import', WC()->plugin_url() . '/assets/js/admin/wc-product-import' . $suffix . '.js', array( 'jquery' ), WC_VERSION, true );
 	}
 
 	/**
@@ -95,7 +92,7 @@ class WC_Admin_Importers {
 	 * If we're on that screen, redirect to the custom one.
 	 */
 	public function product_importer() {
-		if ( Constants::is_defined( 'WP_LOAD_IMPORTERS' ) ) {
+		if ( defined( 'WP_LOAD_IMPORTERS' ) ) {
 			wp_safe_redirect( admin_url( 'edit.php?post_type=product&page=product_importer' ) );
 			exit;
 		}
@@ -111,7 +108,7 @@ class WC_Admin_Importers {
 	 * Register WordPress based importers.
 	 */
 	public function register_importers() {
-		if ( Constants::is_defined( 'WP_LOAD_IMPORTERS' ) ) {
+		if ( defined( 'WP_LOAD_IMPORTERS' ) ) {
 			add_action( 'import_start', array( $this, 'post_importer_compatibility' ) );
 			register_importer( 'woocommerce_product_csv', __( 'WooCommerce products (CSV)', 'woocommerce' ), __( 'Import <strong>products</strong> to your store via a csv file.', 'woocommerce' ), array( $this, 'product_importer' ) );
 			register_importer( 'woocommerce_tax_rate_csv', __( 'WooCommerce tax rates (CSV)', 'woocommerce' ), __( 'Import <strong>tax rates</strong> to your store via a csv file.', 'woocommerce' ), array( $this, 'tax_rates_importer' ) );

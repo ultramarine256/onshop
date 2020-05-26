@@ -11,7 +11,6 @@ import {
 	MediaUploadCheck,
 	PanelColorSettings,
 	withColors,
-	RichText,
 } from '@wordpress/editor';
 import {
 	Button,
@@ -32,36 +31,28 @@ import { compose } from '@wordpress/compose';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { MIN_HEIGHT } from '@woocommerce/block-settings';
-import ProductControl from '@woocommerce/block-components/product-control';
-import ErrorPlaceholder from '@woocommerce/block-components/error-placeholder';
-import { withProduct } from '@woocommerce/block-hocs';
 
 /**
  * Internal dependencies
  */
-import { dimRatioToClass, getBackgroundImageStyles } from './utils';
+import ProductControl from '../../components/product-control';
+import ApiErrorPlaceholder from '../../components/api-error-placeholder';
+import {
+	dimRatioToClass,
+	getBackgroundImageStyles,
+} from './utils';
 import {
 	getImageSrcFromProduct,
 	getImageIdFromProduct,
 } from '../../utils/products';
+import { withProduct } from '../../hocs';
 
 /**
  * Component to handle edit mode of "Featured Product".
  */
-const FeaturedProduct = ( {
-	attributes,
-	debouncedSpeak,
-	error,
-	getProduct,
-	isLoading,
-	isSelected,
-	overlayColor,
-	product,
-	setAttributes,
-	setOverlayColor,
-} ) => {
+const FeaturedProduct = ( { attributes, debouncedSpeak, error, getProduct, isLoading, isSelected, overlayColor, product, setAttributes, setOverlayColor } ) => {
 	const renderApiError = () => (
-		<ErrorPlaceholder
+		<ApiErrorPlaceholder
 			className="wc-block-featured-product-error"
 			error={ error }
 			isLoading={ isLoading }
@@ -85,10 +76,7 @@ const FeaturedProduct = ( {
 				{ getBlockControls() }
 				<Placeholder
 					icon="star-filled"
-					label={ __(
-						'Featured Product',
-						'woocommerce'
-					) }
+					label={ __( 'Featured Product', 'woocommerce' ) }
 					className="wc-block-featured-product"
 				>
 					{ __(
@@ -98,14 +86,9 @@ const FeaturedProduct = ( {
 					<div className="wc-block-featured-product__selection">
 						<ProductControl
 							selected={ attributes.productId || 0 }
-							showVariations
 							onChange={ ( value = [] ) => {
 								const id = value[ 0 ] ? value[ 0 ].id : 0;
-								setAttributes( {
-									productId: id,
-									mediaId: 0,
-									mediaSrc: '',
-								} );
+								setAttributes( { productId: id, mediaId: 0, mediaSrc: '' } );
 							} }
 						/>
 						<Button isDefault onClick={ onDone }>
@@ -133,10 +116,7 @@ const FeaturedProduct = ( {
 					<Toolbar>
 						<MediaUpload
 							onSelect={ ( media ) => {
-								setAttributes( {
-									mediaId: media.id,
-									mediaSrc: media.url,
-								} );
+								setAttributes( { mediaId: media.id, mediaSrc: media.url } );
 							} }
 							allowedTypes={ [ 'image' ] }
 							value={ mediaId }
@@ -157,8 +137,7 @@ const FeaturedProduct = ( {
 						{
 							icon: 'edit',
 							title: __( 'Edit' ),
-							onClick: () =>
-								setAttributes( { editMode: ! editMode } ),
+							onClick: () => setAttributes( { editMode: ! editMode } ),
 							isActive: editMode,
 						},
 					] }
@@ -176,30 +155,16 @@ const FeaturedProduct = ( {
 
 		return (
 			<InspectorControls key="inspector">
-				<PanelBody
-					title={ __( 'Content', 'woocommerce' ) }
-				>
+				<PanelBody title={ __( 'Content', 'woocommerce' ) }>
 					<ToggleControl
-						label={ __(
-							'Show description',
-							'woocommerce'
-						) }
+						label={ __( 'Show description', 'woocommerce' ) }
 						checked={ attributes.showDesc }
-						onChange={
-							// prettier-ignore
-							() => setAttributes( { showDesc: ! attributes.showDesc } )
-						}
+						onChange={ () => setAttributes( { showDesc: ! attributes.showDesc } ) }
 					/>
 					<ToggleControl
-						label={ __(
-							'Show price',
-							'woocommerce'
-						) }
+						label={ __( 'Show price', 'woocommerce' ) }
 						checked={ attributes.showPrice }
-						onChange={
-							// prettier-ignore
-							() => setAttributes( { showPrice: ! attributes.showPrice } )
-						}
+						onChange={ () => setAttributes( { showPrice: ! attributes.showPrice } ) }
 					/>
 				</PanelBody>
 				<PanelColorSettings
@@ -208,38 +173,28 @@ const FeaturedProduct = ( {
 						{
 							value: overlayColor.color,
 							onChange: setOverlayColor,
-							label: __(
-								'Overlay Color',
-								'woocommerce'
-							),
+							label: __( 'Overlay Color', 'woocommerce' ),
 						},
 					] }
 				>
 					{ !! url && (
 						<Fragment>
 							<RangeControl
-								label={ __(
-									'Background Opacity',
-									'woocommerce'
-								) }
+								label={ __( 'Background Opacity', 'woocommerce' ) }
 								value={ attributes.dimRatio }
-								onChange={ ( ratio ) =>
-									setAttributes( { dimRatio: ratio } )
-								}
+								onChange={ ( ratio ) => setAttributes( { dimRatio: ratio } ) }
 								min={ 0 }
 								max={ 100 }
 								step={ 10 }
 							/>
-							{ focalPointPickerExists && (
+							{ focalPointPickerExists &&
 								<FocalPointPicker
 									label={ __( 'Focal Point Picker' ) }
 									url={ url }
 									value={ focalPoint }
-									onChange={ ( value ) =>
-										setAttributes( { focalPoint: value } )
-									}
+									onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
 								/>
-							) }
+							}
 						</Fragment>
 					) }
 				</PanelColorSettings>
@@ -260,27 +215,24 @@ const FeaturedProduct = ( {
 		const classes = classnames(
 			'wc-block-featured-product',
 			{
-				'is-selected': isSelected && attributes.productId !== 'preview',
+				'is-selected': isSelected,
 				'is-loading': ! product && isLoading,
 				'is-not-found': ! product && ! isLoading,
 				'has-background-dim': dimRatio !== 0,
 			},
 			dimRatioToClass( dimRatio ),
 			contentAlign !== 'center' && `has-${ contentAlign }-content`,
-			className
+			className,
 		);
 
-		const style = getBackgroundImageStyles(
-			attributes.mediaSrc || product
-		);
+		const style = getBackgroundImageStyles( attributes.mediaSrc || product );
 
 		if ( overlayColor.color ) {
 			style.backgroundColor = overlayColor.color;
 		}
 		if ( focalPoint ) {
-			const bgPosX = focalPoint.x * 100;
-			const bgPosY = focalPoint.y * 100;
-			style.backgroundPosition = `${ bgPosX }% ${ bgPosY }%`;
+			style.backgroundPosition = `${ focalPoint.x * 100 }% ${ focalPoint.y *
+				100 }%`;
 		}
 
 		const onResizeStop = ( event, direction, elt ) => {
@@ -322,60 +274,29 @@ const FeaturedProduct = ( {
 					{ showPrice && (
 						<div
 							className="wc-block-featured-product__price"
-							dangerouslySetInnerHTML={ {
-								__html: product.price_html,
-							} }
+							dangerouslySetInnerHTML={ { __html: product.price_html } }
 						/>
 					) }
 					<div className="wc-block-featured-product__link">
-						{ renderButton() }
+						<InnerBlocks
+							template={ [
+								[
+									'core/button',
+									{
+										text: __(
+											'Shop now',
+											'woocommerce'
+										),
+										url: product.permalink,
+										align: 'center',
+									},
+								],
+							] }
+							templateLock="all"
+						/>
 					</div>
 				</div>
 			</ResizableBox>
-		);
-	};
-
-	const renderButton = () => {
-		const buttonClasses = classnames(
-			'wp-block-button__link',
-			'is-style-fill'
-		);
-		const buttonStyle = {
-			backgroundColor: 'vivid-green-cyan',
-			borderRadius: '5px',
-		};
-		const wrapperStyle = {
-			width: '100%',
-		};
-		return attributes.productId === 'preview' ? (
-			<div className="wp-block-button aligncenter" style={ wrapperStyle }>
-				<RichText.Content
-					tagName="a"
-					className={ buttonClasses }
-					href={ product.url }
-					title={ attributes.linkText }
-					style={ buttonStyle }
-					value={ attributes.linkText }
-					target={ product.url }
-				/>
-			</div>
-		) : (
-			<InnerBlocks
-				template={ [
-					[
-						'core/button',
-						{
-							text: __(
-								'Shop now',
-								'woocommerce'
-							),
-							url: product.permalink,
-							align: 'center',
-						},
-					],
-				] }
-				templateLock="all"
-			/>
 		);
 	};
 
@@ -407,7 +328,11 @@ const FeaturedProduct = ( {
 		<Fragment>
 			{ getBlockControls() }
 			{ getInspectorControls() }
-			{ product ? renderProduct() : renderNoProduct() }
+			{ product ? (
+				renderProduct()
+			) : (
+				renderNoProduct()
+			) }
 		</Fragment>
 	);
 };

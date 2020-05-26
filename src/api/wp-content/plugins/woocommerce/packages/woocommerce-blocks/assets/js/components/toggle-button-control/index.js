@@ -4,6 +4,10 @@
 import { isFunction } from 'lodash';
 import classnames from 'classnames';
 import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
+
+/**
+ * WordPress dependencies
+ */
 import { Component } from '@wordpress/element';
 import { withInstanceId } from '@wordpress/compose';
 
@@ -26,15 +30,7 @@ class ToggleButtonControl extends Component {
 	}
 
 	render() {
-		const {
-			label,
-			checked,
-			instanceId,
-			className,
-			help,
-			options,
-			value,
-		} = this.props;
+		const { label, checked, instanceId, className, help, options, value } = this.props;
 		const id = `inspector-toggle-button-control-${ instanceId }`;
 
 		let helpLabel;
@@ -47,10 +43,7 @@ class ToggleButtonControl extends Component {
 			<BaseControl
 				id={ id }
 				help={ helpLabel }
-				className={ classnames(
-					'components-toggle-button-control',
-					className
-				) }
+				className={ classnames( 'components-toggle-button-control', className ) }
 			>
 				<label
 					id={ id + '__label' }
@@ -59,7 +52,9 @@ class ToggleButtonControl extends Component {
 				>
 					{ label }
 				</label>
-				<ButtonGroup aria-labelledby={ id + '__label' }>
+				<ButtonGroup
+					aria-labelledby={ id + '__label' }
+				>
 					{ options.map( ( option, index ) => {
 						const buttonArgs = {};
 
@@ -74,9 +69,7 @@ class ToggleButtonControl extends Component {
 
 						return (
 							<Button
-								key={ `${ option.label }-${
-									option.value
-								}-${ index }` }
+								key={ `${ option.label }-${ option.value }-${ index }` }
 								value={ option.value }
 								onClick={ this.onClick }
 								aria-label={ label + ': ' + option.label }

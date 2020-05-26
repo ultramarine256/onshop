@@ -6,11 +6,15 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Disabled } from '@wordpress/components';
 import { ENABLE_REVIEW_RATING } from '@woocommerce/block-settings';
-import ErrorPlaceholder from '@woocommerce/block-components/error-placeholder';
-import LoadMoreButton from '@woocommerce/base-components/load-more-button';
-import ReviewList from '@woocommerce/base-components/review-list';
-import ReviewSortSelect from '@woocommerce/base-components/review-sort-select';
-import withReviews from '@woocommerce/base-hocs/with-reviews';
+
+/**
+ * Internal dependencies
+ */
+import ApiErrorPlaceholder from '../../components/api-error-placeholder';
+import LoadMoreButton from '../../base/components/load-more-button';
+import ReviewList from '../../base/components/review-list';
+import ReviewOrderSelect from '../../base/components/review-order-select';
+import withReviews from '../../base/hocs/with-reviews';
 
 /**
  * Block rendered in the editor.
@@ -24,21 +28,14 @@ class EditorBlock extends Component {
 		// from withReviews
 		reviews: PropTypes.array,
 		totalReviews: PropTypes.number,
-	};
+	}
 
 	render() {
-		const {
-			attributes,
-			error,
-			isLoading,
-			noReviewsPlaceholder: NoReviewsPlaceholder,
-			reviews,
-			totalReviews,
-		} = this.props;
+		const { attributes, error, isLoading, noReviewsPlaceholder: NoReviewsPlaceholder, reviews, totalReviews } = this.props;
 
 		if ( error ) {
 			return (
-				<ErrorPlaceholder
+				<ApiErrorPlaceholder
 					className="wc-block-featured-product-error"
 					error={ error }
 					isLoading={ isLoading }
@@ -46,22 +43,25 @@ class EditorBlock extends Component {
 			);
 		}
 
-		if ( reviews.length === 0 && ! isLoading ) {
+		if ( 0 === reviews.length && ! isLoading ) {
 			return <NoReviewsPlaceholder attributes={ attributes } />;
 		}
 
 		return (
 			<Disabled>
-				{ attributes.showOrderby && ENABLE_REVIEW_RATING && (
-					<ReviewSortSelect readOnly value={ attributes.orderby } />
+				{ ( attributes.showOrderby && ENABLE_REVIEW_RATING ) && (
+					<ReviewOrderSelect
+						readOnly
+						value={ attributes.orderby }
+					/>
 				) }
-				<ReviewList attributes={ attributes } reviews={ reviews } />
-				{ attributes.showLoadMore && totalReviews > reviews.length && (
+				<ReviewList
+					attributes={ attributes }
+					reviews={ reviews }
+				/>
+				{ ( attributes.showLoadMore && totalReviews > reviews.length ) && (
 					<LoadMoreButton
-						screenReaderLabel={ __(
-							'Load more reviews',
-							'woocommerce'
-						) }
+						screenReaderLabel={ __( 'Load more reviews', 'woocommerce' ) }
 					/>
 				) }
 			</Disabled>
