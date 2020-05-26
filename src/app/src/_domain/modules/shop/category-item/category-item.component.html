@@ -1,31 +1,21 @@
-<div class="category-item shadow-sm">
-  <div class="category-item__image-container rounded-lg mb-2" [routerLink]="'/inventory' + '/' + category.id" (click)="clearStorage()">
+<div
+  class="category-item shadow-sm"
+  [routerLink]="
+    category.subCategories && category.subCategories.length
+      ? ['/categories/', category.slug]
+      : ['/inventory/', category.id ? category.id : '']
+  "
+>
+  <div class="category-item__image-container">
     <img
       class="image"
-      [src]="category.image.src ? category.image.src : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + category.name"
-      alt="Clothing"
+      [src]="
+        category.image && category.image.src
+          ? category.image.src
+          : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + category.name
+      "
+      [alt]="category.description"
     />
   </div>
-  <div class="card-body">
-    <div class="category-item__title border-top">
-      <h5 class="h5 font-weight-bold">{{ category.name }}</h5>
-    </div>
-    <ul class="list-unstyled font-size-sm mb-0">
-      <li *ngFor="let subItem of category.subCategories">
-        <div *ngIf="category.subCategories" class="d-flex align-items-center justify-content-between">
-          <a class="nav-link-style text-decoration-none" [routerLink]="'/inventory' + '/' + subItem.id">
-            {{ subItem.name }}
-          </a>
-          <span class="font-size-ms text-muted"> {{ subItem.count }}</span>
-        </div>
-      </li>
-    </ul>
-    <hr *ngIf="category.subCategories.length > 0" />
-    <div class="category-item__total align-items-center justify-content-between">
-      <a class="nav-link-style font-weight-500 text-decoration-none" [routerLink]="'/inventory' + '/' + category.id">
-        Total
-      </a>
-      <span class="text-muted font-weight-500"> {{ category.count }}</span>
-    </div>
-  </div>
+  <div class="category-item__title">{{ category.name }}</div>
 </div>

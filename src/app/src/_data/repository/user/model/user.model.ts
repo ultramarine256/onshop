@@ -1,70 +1,107 @@
 export class UserModel {
-    public id: number;
-    public firstName: string;
-    public lastName: string;
-    public role: string;
-    public username: string;
-    public dateCreated: Date;
-    public email: string;
-    public phone: string;
-    public avatar: string;
-    public billing: Billing;
-    public shipping: Shipping;
+  public id: number;
+  public firstName: string;
+  public lastName: string;
+  public role: string;
+  public username: string;
+  public dateCreated: Date;
+  public email: string;
+  public phone: string;
+  public avatar: string;
+  public billing: Billing;
+  public shipping: Shipping;
 
-    // constructor
-    constructor(init?: Partial<UserModel>) {
-        this.billing = new Billing();
-        this.shipping = new Shipping();
-        Object.assign(this as any, init);
+  constructor(props?: any) {
+    if (props) {
+      this.id = props.id;
+      this.firstName = props.first_name;
+      this.lastName = props.last_name;
+      this.role = props.role;
+      this.username = props.username;
+      this.dateCreated = new Date(props.date_created);
+      this.email = props.email;
+      this.phone = props.phone;
+      this.avatar = props.avatar_url;
+      this.billing = new Billing(props.billing);
+      this.shipping = new Shipping(props.shipping);
     }
+  }
 
-    mapFromResponse(dto: any) {
-        this.id = dto.id;
-        this.firstName = dto.first_name;
-        this.lastName = dto.last_name;
-        this.role = dto.role;
-        this.username = dto.username;
-        this.dateCreated = new Date(dto.date_created);
-        this.email = dto.email;
-        this.phone = dto.phone;
-        this.avatar = dto.avatar_url;
-        this.billing.mapFromResponse(dto.billing);
-        this.shipping.mapFromResponse(dto.shipping);
-    }
+  public toJson() {
+    return {
+      id: this.id,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      role: this.role,
+      username: this.username,
+      date_created: this.dateCreated,
+      email: this.email,
+      phone: this.phone,
+      avatar: this.avatar,
+      billing: this.billing.getJson(),
+      shipping: this.shipping.getJson(),
+    };
+  }
 }
 
 class Billing {
-    public firstName: string;
-    public lastName: string;
-    public city: string;
-    public state: string;
-    public postcode: string;
-    public email: string;
-    public phone: string;
+  public firstName: string;
+  public lastName: string;
+  public city: string;
+  public state: string;
+  public postcode: string;
+  public email: string;
+  public phone: string;
 
-    mapFromResponse(dto: any) {
-        this.firstName = dto.first_name;
-        this.lastName = dto.last_name;
-        this.city = dto.city;
-        this.state = dto.state;
-        this.postcode = dto.postcode;
-        this.email = dto.email;
-        this.phone = dto.phone;
+  constructor(props?: any) {
+    if (props) {
+      this.firstName = props.first_name;
+      this.lastName = props.last_name;
+      this.city = props.city;
+      this.state = props.state;
+      this.postcode = props.postcode;
+      this.email = props.email;
+      this.phone = props.phone;
     }
+  }
+
+  getJson() {
+    return {
+      first_name: this.firstName,
+      last_name: this.lastName,
+      city: this.city,
+      state: this.state,
+      postcode: this.postcode,
+      email: this.email,
+      phone: this.phone,
+    };
+  }
 }
 
 class Shipping {
-    public firstName: string;
-    public lastName: string;
-    public address: string;
-    public city: string;
-    public postcode: string;
+  public firstName: string;
+  public lastName: string;
+  public address: string;
+  public city: string;
+  public postcode: string;
 
-    mapFromResponse(dto: any) {
-        this.firstName = dto.first_name;
-        this.lastName = dto.last_name;
-        this.address = dto.address_1;
-        this.city = dto.city;
-        this.postcode = dto.postcode;
+  constructor(props?: any) {
+    if (props) {
+      this.firstName = props.first_name;
+      this.lastName = props.last_name;
+      this.address = props.address_1;
+      this.city = props.city;
+      this.postcode = props.postcode;
     }
+  }
+
+  public getJson() {
+    return {
+      first_name: this.firstName,
+      last_name: this.lastName,
+      address_1: this.address,
+      city: this.city,
+      postcode: this.postcode,
+    };
+  }
 }

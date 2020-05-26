@@ -9,6 +9,7 @@ import { HomePageComponent } from './home';
 import { AppPagesRouting } from './app-pages.routing';
 import { AppPagesComponent } from './app-pages.component';
 import { CategoriesPageComponent } from './categories';
+import { SubCategoriesComponent } from './sub-categories';
 import { InventoryPageComponent } from './inventory';
 import { ContactUsPageComponent } from './contact-us';
 import { ProductDetailsPageComponent } from './product-details';
@@ -17,13 +18,7 @@ import { CartPageComponent } from './cart';
 import { SearchResultPageComponent } from './search-result';
 import { CheckoutPageComponent } from './checkout';
 import { LoginPageComponent } from './login';
-import {
-  AccountEditPageComponent,
-  AccountPageComponent,
-  OrdersPageComponent,
-  ProfilePageComponent,
-  ProjectsPageComponent,
-} from './profile';
+import { AccountPageComponent, OrdersPageComponent, ProfilePageComponent, ProjectsPageComponent } from './profile';
 import { RepositoryModule } from '../../_data';
 import { AuthModule, CartModule, InfoModule, ProfileModule, ShopModule, ThemeModule } from '../../_domain';
 import { PurchaseReturnsPageComponent } from './purchase-returns';
@@ -36,6 +31,7 @@ import { FilterDialogComponent } from './inventory/filter-dialog/filter-dialog.c
     PurchaseReturnsPageComponent,
     CartPageComponent,
     CategoriesPageComponent,
+    SubCategoriesComponent,
     CheckoutPageComponent,
     ContactUsPageComponent,
     HomePageComponent,
@@ -46,7 +42,6 @@ import { FilterDialogComponent } from './inventory/filter-dialog/filter-dialog.c
     ProjectsPageComponent,
     SearchResultPageComponent,
     TrackOrderPageComponent,
-    AccountEditPageComponent,
     AccountPageComponent,
     OrdersPageComponent,
     FilterDialogComponent,

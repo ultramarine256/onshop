@@ -1,23 +1,28 @@
 .category-item {
-  height: calc(100%);
-  border: none;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2) !important;
+  }
 
   .category-item__image-container {
     display: flex;
     height: 200px;
     overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
     cursor: pointer;
 
     img {
-      max-height: 190px;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
   .category-item__title {
-    padding-top: 10px;
+    padding: 10px;
+    text-align: center;
   }
 
   .category-item__total {

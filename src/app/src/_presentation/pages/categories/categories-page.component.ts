@@ -14,6 +14,6 @@ export class CategoriesPageComponent implements OnInit {
   constructor(private categoryRepository: CategoryRepository) {}
 
   ngOnInit(): void {
-    this.categories$ = this.categoryRepository.getCategories();
+    this.categories$ = this.categoryRepository.categories$;
   }
 }

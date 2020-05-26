@@ -11,14 +11,14 @@ import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { AuthConstants } from '../auth.service';
+import { AuthConstants, AuthService } from '../auth.service';
 import { UserToken } from '../entities';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizationInterceptorService implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   /// methods
 
@@ -44,10 +44,8 @@ export class AuthorizationInterceptorService implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401 || err.status === 403) {
-          this.router.navigate(['/login']).then(() => {
-            localStorage.removeItem(AuthConstants.UserToken);
-            localStorage.removeItem(AuthConstants.UserIdentity);
-          });
+          this.authService.logout();
+          this.router.navigate(['/login']);
         }
         return new Observable<HttpEvent<any>>();
       })
