@@ -5,6 +5,5 @@
 </ng-template>
 
 <ng-container *ngIf="projects$ | async as projects; else loader">
-  <h3 class="col-12">Projects</h3>
   <app-projects-component [items]="projects"></app-projects-component>
 </ng-container>
