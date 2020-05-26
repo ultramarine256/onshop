@@ -1,8 +1,8 @@
 {
-  "dbhost": "172.18.0.2",
+  "dbhost": "mysql-usa.elrondsoft.com",
   "dbname": "prod_blue-shop",
   "dbusername": "root",
-  "dbpassword": "YOUR_ROOT_PASSWORD",
+  "dbpassword": "WgAaXsdb6dgTtwDg",
   "use-debug": true,
   "admin-url": "http://admin.xolutionz.com",
 
@@ -12,6 +12,6 @@
     "issuer-claim": "YOUR_ISSUER_CLAIM",
     "audience-claim": "THE_AUDIENCE",
     "token-validation-delay-sec": 0,
-    "token-expiration-interval-sec": 18000
+    "token-expiration-interval-sec": 180000
   }
 }

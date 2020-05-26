@@ -532,24 +532,24 @@ class WC_Post_Types {
 					/* translators: %s: number of orders */
 					'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'woocommerce' ),
 				),
-                'wc-waiting'  => array(
-                    'label'                     => _x( 'Waiting for return', 'Order status', 'woocommerce' ),
-                    'public'                    => true,
-                    'exclude_from_search'       => false,
-                    'show_in_admin_all_list'    => true,
-                    'show_in_admin_status_list' => true,
-                    /* translators: %s: number of orders */
-                    'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'woocommerce' ),
-                ),
-                'wc-in-rent'  => array(
-                    'label'                     => _x( 'In rent', 'Order status', 'woocommerce' ),
-                    'public'                    => true,
-                    'exclude_from_search'       => false,
-                    'show_in_admin_all_list'    => true,
-                    'show_in_admin_status_list' => true,
-                    /* translators: %s: number of orders */
-                    'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'woocommerce' ),
-                ),
+				'wc-refunded'   => array(
+					'label'                     => _x( 'Refunded', 'Order status', 'woocommerce' ),
+					'public'                    => false,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					/* translators: %s: number of orders */
+					'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'woocommerce' ),
+				),
+				'wc-failed'     => array(
+					'label'                     => _x( 'Failed', 'Order status', 'woocommerce' ),
+					'public'                    => false,
+					'exclude_from_search'       => false,
+					'show_in_admin_all_list'    => true,
+					'show_in_admin_status_list' => true,
+					/* translators: %s: number of orders */
+					'label_count'               => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'woocommerce' ),
+				),
 			)
 		);
 
