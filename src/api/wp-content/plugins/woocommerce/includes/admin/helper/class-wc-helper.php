@@ -6,6 +6,8 @@
  * @package  WooCommerce/Admin
  */
 
+use Automattic\Jetpack\Constants;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -468,7 +470,7 @@ class WC_Helper {
 		$wc_screen_id = sanitize_title( __( 'WooCommerce', 'woocommerce' ) );
 
 		if ( $wc_screen_id . '_page_wc-addons' === $screen_id && isset( $_GET['section'] ) && 'helper' === $_GET['section'] ) {
-			wp_enqueue_style( 'woocommerce-helper', WC()->plugin_url() . '/assets/css/helper.css', array(), WC_VERSION );
+			wp_enqueue_style( 'woocommerce-helper', WC()->plugin_url() . '/assets/css/helper.css', array(), Constants::get_constant( 'WC_VERSION' ) );
 		}
 	}
 
@@ -1147,7 +1149,18 @@ class WC_Helper {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		$plugins     = get_plugins();
+		$plugins = get_plugins();
+
+		/**
+		 * Check if plugins have WC headers, if not then clear cache and fetch again.
+		 * WC Headers will not be present if `wc_enable_wc_plugin_headers` hook was added after a `get_plugins` call -- for example when WC is activated/updated.
+		 * Also, get_plugins call is expensive so we should clear this cache very conservatively.
+		 */
+		if ( ! empty( $plugins ) && ! array_key_exists( 'Woo', current( $plugins ) ) ) {
+			wp_clean_plugins_cache( false );
+			$plugins = get_plugins();
+		}
+
 		$woo_plugins = array();
 
 		// Backwards compatibility for woothemes_queue_update().
@@ -1582,7 +1595,7 @@ class WC_Helper {
 		}
 
 		$data = $updates->response['woocommerce/woocommerce.php'];
-		if ( version_compare( WC_VERSION, $data->new_version, '>=' ) ) {
+		if ( version_compare( Constants::get_constant( 'WC_VERSION' ), $data->new_version, '>=' ) ) {
 			return false;
 		}
 
@@ -1665,7 +1678,7 @@ class WC_Helper {
 	 * @param string $level Optional, defaults to info, valid levels: emergency|alert|critical|error|warning|notice|info|debug.
 	 */
 	public static function log( $message, $level = 'info' ) {
-		if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		if ( ! Constants::is_true( 'WP_DEBUG' ) ) {
 			return;
 		}
 

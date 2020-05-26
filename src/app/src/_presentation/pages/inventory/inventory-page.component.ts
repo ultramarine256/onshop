@@ -123,7 +123,6 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     const filterState = { ...this.filterState };
     filterState.productFilter.min_price = $event.price[0];
     filterState.productFilter.max_price = $event.price[1];
-    filterState.productFilter.stock_status = $event.stockStatus;
     filterState.productFilter.tag = $event.tag;
     filterState.productFilter.on_sale = $event.forSale;
 
