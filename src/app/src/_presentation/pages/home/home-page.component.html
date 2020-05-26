@@ -59,7 +59,7 @@
 <div class="container mt-5">
   <h2 class="content-title mb-2">New Arrivals</h2>
   <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="productsInLoading">
-    <div class="spinner-grow text-primary" role="status"></div>
+    <mat-spinner></mat-spinner>
   </div>
   <div class="products-carousel owl-carousel owl-theme" *ngIf="!productsInLoading">
     <div class="item" *ngFor="let item of products">
@@ -79,10 +79,7 @@
 
 <div class="container mb-5 mt-5">
   <h2 class="content-title mb-2">Categories</h2>
-  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="categoriesInLoading">
-    <div class="spinner-grow text-primary" role="status"></div>
-  </div>
-  <div class="categories-carousel owl-carousel owl-theme" *ngIf="!categoriesInLoading">
+  <div class="categories-carousel owl-carousel owl-theme">
     <div class="item" *ngFor="let item of categories">
       <a class="text-decoration-none carousel-item" [routerLink]="'/inventory/' + item.slug">
         <div class="img-wrap">

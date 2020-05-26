@@ -17,7 +17,6 @@ export class HomePageComponent extends UnsubscribeMixin() implements AfterConten
 
   /// predicate
   public productsInLoading: boolean;
-  public categoriesInLoading: boolean;
 
   /// constructor
   constructor(private productRepository: ProductRepository, private categoryRepository: CategoryRepository) {
@@ -41,14 +40,8 @@ export class HomePageComponent extends UnsubscribeMixin() implements AfterConten
         }, 200);
       });
 
-    this.categoriesInLoading = true;
-    this.categoryRepository.categories$
-      .pipe(
-        tap(() => (this.categoriesInLoading = false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((categories) => {
-        this.categories = categories;
-      });
+    this.categoryRepository.categories$.pipe(takeUntil(this.destroy$)).subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 }
