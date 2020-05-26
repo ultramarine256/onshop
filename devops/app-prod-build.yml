@@ -19,6 +19,7 @@ steps:
     npm install -g @angular/cli
     npm install
     ng build -c=build-prod
+  workingDirectory: 'src/app'
   displayName: 'npm install and build'
 
 - powershell: |
