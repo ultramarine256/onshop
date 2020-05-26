@@ -20,3 +20,4 @@ class ActionScheduler_ActionClaim {
 		return $this->action_ids;
 	}
 }
+ 

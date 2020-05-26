@@ -13,3 +13,4 @@ class ActionScheduler_FinishedAction extends ActionScheduler_Action {
 		return TRUE;
 	}
 }
+ 

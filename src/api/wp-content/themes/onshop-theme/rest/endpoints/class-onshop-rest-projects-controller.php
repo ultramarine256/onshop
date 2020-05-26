@@ -13,7 +13,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'onshop/v3/';
+	protected $namespace = 'onshop/v1/';
 
 	/**
 	 * Route registration

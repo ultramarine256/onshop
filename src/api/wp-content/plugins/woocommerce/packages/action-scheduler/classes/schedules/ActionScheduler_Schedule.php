@@ -15,3 +15,4 @@ interface ActionScheduler_Schedule {
 	 */
 	public function is_recurring();
 }
+ 

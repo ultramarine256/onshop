@@ -59,3 +59,4 @@ class ActionScheduler_Versions {
 		call_user_func($self->latest_version_callback());
 	}
 }
+ 
