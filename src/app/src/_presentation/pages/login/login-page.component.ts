@@ -16,7 +16,6 @@ import { FormsService } from '@shared/services/forms.service';
 })
 export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
   public loginForm: FormGroup;
-
   public loginProcessing = false;
 
   constructor(

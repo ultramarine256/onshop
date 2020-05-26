@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel, UserRepository } from '@data/repository';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil, tap } from 'rxjs/operators';
 
 import { FormsService } from '@shared/services/forms.service';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-account-page',
@@ -16,8 +16,8 @@ export class AccountPageComponent extends UnsubscribeMixin() implements OnInit {
   public edit: boolean;
 
   public isLoading: boolean;
-  public settingsForm: FormGroup;
   public isInProgress: boolean;
+  public settingsForm: FormGroup;
   public password: string;
 
   public user: UserModel;

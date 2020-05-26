@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
-import { CategoryModel, CategoryRepository } from '@data/repository';
+import { map, takeUntil } from 'rxjs/operators';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+
+import { CategoryModel, CategoryRepository } from '@data/repository';
 
 @Component({
   selector: 'app-sub-categories',
@@ -23,9 +24,6 @@ export class SubCategoriesComponent extends UnsubscribeMixin() implements OnInit
       this.category$ = this.categoryRepository.categories$.pipe(
         map((categories) => categories.find((category) => category.slug === categorySlug))
       );
-      this.category$.subscribe((data) => {
-        console.log(data);
-      });
     });
   }
 }
