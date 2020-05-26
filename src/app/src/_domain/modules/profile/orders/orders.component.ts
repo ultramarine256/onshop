@@ -12,6 +12,8 @@ import { OrderResponse } from '@data/repository';
 export class OrdersComponent {
   @Input() orders: OrderResponse[];
 
+  panelOpenState: boolean;
+
   public getDurationEndDateMessage(order: OrderResponse) {
     const daysLeft = this.getDaysLeft(order);
     return daysLeft === 1 ? '1 day left' : `${daysLeft} days left`;
