@@ -1,111 +1,120 @@
-<div class="container mb-3">
-  <h3>Orders</h3>
-  <div *ngFor="let item of items" class="border-bottom p-2">
-    <div class="row">
-      <!-- preview -->
-      <div #orderDetails class="col-12 d-flex justify-content-between order-details"
-           (click)="orderDetails.isVisible =! orderDetails.isVisible">
-        <div class="d-flex align-items-center">
-          <i *ngIf="!orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
-          <i *ngIf="orderDetails.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
-          <div class="d-flex flex-column p-0">
-            <span class="font-less">{{item.projectNumber}}(Order #{{item.id}})</span>
-            <div class="d-flex small text-muted">
-              <small> {{item.dateCreated|date}}</small>
-            </div>
-          </div>
-        </div>
-        <div class="font-less text-secondary"
-             [ngClass]="{'text-warning':item.status==='processing',
-                         'text-secondary':item.status==='pending',
-                         'text-success':item.status==='completed'}">
-          {{item.status}}
-        </div>
-        <div class="d-flex flex-column align-items-end font-less">
-          <b>{{item.total}}$</b>
-          <div class="d-flex small text-muted">
-            <small>Delivery: {{item.deliveryDate|date}}</small>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 d-flex flex-column" [class.d-none]="!orderDetails.isVisible"
-           [class.d-flex]="orderDetails.isVisible">
-        <!-- products to show -->
-        <div class="row w-100">
-          <div class="col-12 mt-2 d-flex">
-            <div class="hide-element" style="width: 38px;"></div>
-            <h6 class="text-muted ">Product</h6>
-          </div>
-        </div>
-        <div *ngFor="let product of item.productItems" class="row w-100">
-          <div class="col-md-8 col-12 small d-flex justify-content-between my-2 product-box ">
-            <div class="d-flex">
-              <div class="hide-element" style="width: 38px;"></div>
+<div class="orders">
+  <ng-container>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let order of orders">
+        <mat-expansion-panel-header expandedHeight="80px" collapsedHeight="80px">
+          <mat-panel-title fxLayoutAlign="flex-start center">
+            <div>
+              <span>{{ order.projectNumber }} (Order #{{ order.id }})</span>
               <div>
-                <b>{{product.name}}</b>
+                <small> {{ order.dateCreated | date }}</small>
               </div>
             </div>
-            <div class="font-weight-bold">
-              {{product.price}}$
+          </mat-panel-title>
+          <mat-panel-description fxLayout="row" fxLayoutAlign="space-between center">
+            <div
+              class="orders__status"
+              [ngClass]="{
+                'text-warning': order.status === 'processing',
+                'text-secondary': order.status === 'pending',
+                'text-success': order.status === 'completed'
+              }"
+            >
+              {{ order.status }}
+            </div>
+
+            <div class="orders__info" fxLayout.lt-sm="row" fxLayoutAlign.lt-sm="center center">
+              <b class="orders__total">{{ order.total | currency }}</b>
+              <div>
+                <small>Delivery: {{ order.deliveryDate | date }}</small>
+              </div>
+            </div>
+
+            <div fxHide.lt-sm>
+              <ng-container *ngIf="order.rentalDuration">
+                <a [routerLink]="['/return-product', order.id]" color="primary" mat-raised-button>{{
+                  getDurationEndDateMessage(order)
+                }}</a></ng-container
+              >
+            </div>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="orders__data">
+          <table class="orders__table">
+            <tr>
+              <th colspan="2">Product</th>
+            </tr>
+            <tr *ngFor="let product of order.productItems">
+              <td>{{ product.name }}</td>
+              <td>{{ product.price | currency }}</td>
+            </tr>
+          </table>
+
+          <table class="orders__table">
+            <tr>
+              <th colspan="2">Billing</th>
+            </tr>
+            <tr>
+              <td>
+                Name
+              </td>
+              <td>{{ order.billing.fistName }} {{ order.billing.lastName }}</td>
+            </tr>
+            <tr>
+              <td>
+                Email
+              </td>
+              <td>{{ order.billing.email }}</td>
+            </tr>
+            <tr>
+              <td>
+                Phone
+              </td>
+              <td>{{ order.billing.phone }}</td>
+            </tr>
+          </table>
+
+          <table class="orders__table">
+            <tr>
+              <th colspan="2">Shipping</th>
+            </tr>
+            <tr>
+              <td>
+                Name:
+              </td>
+              <td>{{ order.shipping.fistName }} {{ order.shipping.lastName }}</td>
+            </tr>
+            <tr>
+              <td>
+                City:
+              </td>
+              <td>{{ order.shipping.city }} ({{ order.shipping.state }})</td>
+            </tr>
+            <tr>
+              <td>
+                Address:
+              </td>
+              <td>{{ order.shipping.address1 }}</td>
+            </tr>
+            <tr>
+              <td>
+                Zip:
+              </td>
+              <td>{{ order.shipping.postcode }}</td>
+            </tr>
+          </table>
+          <div class="orders__action" fxLayoutAlign="center center">
+            <div>
+              <ng-container *ngIf="order.rentalDuration">
+                <a [routerLink]="['/return-product', order.id]" color="primary" mat-raised-button>{{
+                  getDurationEndDateMessage(order)
+                }}</a></ng-container
+              >
             </div>
           </div>
         </div>
-        <!-- delivery properties -->
-        <div class="row w-100">
-          <div class="col-md-6 d-flex small py-2">
-            <div class="hide-element" style="width: 38px"></div>
-            <div class="row">
-              <div class="col-12">
-                <h6 class="text-muted">Billing</h6>
-              </div>
-              <div class="col-3 d-flex flex-column">
-                <b>Name:</b>
-                <b>Email:</b>
-                <b>Phone:</b>
-              </div>
-              <div class="col-9 d-flex flex-column">
-                <div>
-                  {{item.billing.first_name}}  {{item.billing.last_name}}
-                </div>
-                <div>
-                  {{item.billing.email}}
-                </div>
-                <div>
-                  {{item.billing.phone}}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 d-flex  py-2">
-            <div class="hide-element" style="width: 38px"></div>
-            <div class="row small">
-              <div class="col-12">
-                <h6 class="text-muted">Shipping</h6>
-              </div>
-              <div class="col-3 d-flex flex-column">
-                <b>Name:</b>
-                <b>City:</b>
-                <b>Adress:</b>
-                <b>Zip:</b>
-              </div>
-              <div class="col-9 d-flex flex-column">
-                <div>
-                  {{item.shipping.first_name}}  {{item.shipping.last_name}}
-                </div>
-                <div>
-                  {{item.shipping.city}} ({{item.shipping.state}})
-                </div>
-                <div>
-                  {{item.shipping.address_1}}
-                </div>
-                <div>
-                  {{item.shipping.postcode}}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
 </div>

@@ -1,0 +1,64 @@
+.purchase-returns-page {
+  .purchase-returns-page__success-message {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .purchase-returns-page__content {
+    padding-top: 20px;
+    min-width: 300px;
+    max-width: 400px;
+  }
+
+  .purchase-returns-page__form {
+    margin: auto auto 20px;
+
+    .purchase-returns-page__form-item {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .purchase-returns-page__title {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .purchase-returns-page__products-title {
+    text-align: center;
+  }
+
+  .purchase-returns-page__empty-products {
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .purchase-returns-page__action {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    button {
+      width: 100px;
+      height: 40px;
+      justify-content: center;
+      display: flex;
+    }
+  }
+
+  .purchase-returns-page__products {
+    width: 100%;
+    margin: auto auto 20px;
+
+    td,
+    th {
+      text-align: center;
+      padding: 5px 10px;
+    }
+
+    .purchase-returns-page__rental-cell {
+      width: 60px;
+    }
+  }
+}

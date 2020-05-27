@@ -1,16 +1,16 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from '../../../_domain';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '@domain/services';
 
 @Component({
   selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss'],
-  templateUrl: './profile-page.component.html'
 })
 export class ProfilePageComponent {
-  constructor(public authService: AuthService,
-              private router: Router) {
-  }
+  constructor(public authService: AuthService, private router: Router) {}
+
   public logout() {
     this.authService.logout();
     this.router.navigate(['/login']).then();

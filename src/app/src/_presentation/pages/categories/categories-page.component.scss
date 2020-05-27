@@ -1,41 +1,28 @@
-.categories-items {
-  display: flex;
-  flex-wrap: wrap;
+.categories-page {
+  .categories-page__card {
+    height: calc(100%);
+    border: none;
 
-  .item {
-    height: calc(100% - 15px);
-  }
+    .categories-page__card-image-container {
+      display: flex;
+      height: 200px;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5rem;
+      cursor: pointer;
 
-}
-.card {
-  height: calc(100%);
-  border: none;
-
-  .category-image__wrap {
-    display: flex;
-    height: 200px;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-    cursor: pointer;
-
-    .image {
-      max-height: 190px;
+      img {
+        max-height: 190px;
+      }
     }
 
-  }
-  .title-content {
-    height: 50px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
+    .categories-page__card-title {
+      padding-top: 10px;
+    }
 
-  }
-  .view-all-item {
-    display: flex;
-    margin-top: auto;
+    .categories-page__card-total {
+      display: flex;
+    }
   }
 }

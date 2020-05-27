@@ -1,9 +1,8 @@
-import {ProductModel} from '../model';
+import { ProductModel } from '../models';
 
 export class ProductSearchResult {
   /// fields
-  items: Array<ProductModel>;
-  filters: SearchResultFilters;
+  items: ProductModel[];
   totalCount: number;
   page: number;
   totalPages: number;
@@ -11,7 +10,6 @@ export class ProductSearchResult {
   /// constructor
   constructor(init?: Partial<ProductSearchResult>) {
     this.items = [];
-    this.filters = new SearchResultFilters();
     Object.assign(this as any, init);
   }
 }

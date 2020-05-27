@@ -1,4 +1,9 @@
-<div *ngIf="!didLoaded" class="d-flex justify-content-center align-items-center" style="height: 300px;" >
-  <div class="spinner-grow text-primary" role="status"></div>
-</div>
-<app-orders-component *ngIf="didLoaded" [items]="items"></app-orders-component>
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="orders$ | async as orders; else loader">
+  <app-orders-component [orders]="orders"></app-orders-component>
+</ng-container>

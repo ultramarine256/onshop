@@ -1,1 +1,24 @@
-i{cursor: pointer}
+.projects {
+  margin-bottom: 20px;
+  .projects__content {
+    padding-bottom: 20px;
+  }
+
+  .projects__order {
+    display: flex;
+    padding: 10px 10px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .projects__order-item {
+      padding: 0 10px;
+    }
+  }
+}

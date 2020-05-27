@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
@@ -118,7 +119,9 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+            ],
             "scripts": []
           }
         },
@@ -150,5 +153,8 @@
       }
     }
   },
-  "defaultProject": "onshop-admin"
+  "defaultProject": "onshop-admin",
+  "cli": {
+    "analytics": false
+  }
 }

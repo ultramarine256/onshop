@@ -1,6 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, filter, finalize, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+
 import {
   CategoryModel,
   ProductModel,
@@ -8,193 +12,178 @@ import {
   ProductRepository,
   ProductSearchResult,
   CategoryRepository,
-  SearchResultFilters
-} from '../../../_data';
-import {AppMapper} from '../../_mapper';
-import {AuthService, CartService, FilterAttribute, FilterCategory, InventoryFilter, PriceRange} from '../../../_domain';
+  SearchResultFilters,
+  TagModel,
+} from '@data/index';
+import { AppMapper } from '@presentation/_mapper/app-mapper';
+import { AuthService, CartService, FilterFormData, SortingOption } from '@domain/index';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { FilterDialogComponent } from '@presentation/pages/inventory/filter-dialog/filter-dialog.component';
+
+interface FilterState {
+  productFilter: ProductFilter;
+}
 
 @Component({
   selector: 'app-inventory-page',
   styleUrls: ['./inventory-page.component.scss'],
-  templateUrl: './inventory-page.component.html'
+  templateUrl: './inventory-page.component.html',
 })
-export class InventoryPageComponent implements OnInit {
-  /// fields
-  public items: Array<ProductModel> = [];
+export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit {
+  public filterUpdated$ = new Subject<{ productFilter: ProductFilter }>();
+
+  public searchResult = new ProductSearchResult();
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
-  public pagination = {setPage: 1, setAmount: 12};
-  public sorting = {name: '', property: ''};
-  public dynamicFilterSave = '';
-  public sortingSave: any;
-  public searchResult: ProductSearchResult;
-  public itemFilters: any;
-  public categoryId: number;
-  public showCategories: true;
-  public element: HTMLElement;
-  public sortChanged: number;
-  /// predicates
-  public isLoading = true;
+  public filters: { minPrice: number; maxPrice: number };
+  public tags: TagModel[];
+  public isInProgress: boolean;
 
-  /// events
-  public filtersChanged(dynamicFilter: string, page: any, sorting: any) {
-    this.isLoading = true;
+  public readonly paginationConfig = { itemsPerPage: 12 };
 
-    this.scrollToView();
-    if (page && this.pagination !== page) {
-      this.pagination.setPage = page.setPage;
-      this.pagination.setAmount = page.setAmount;
-    } else if (this.dynamicFilterSave !== dynamicFilter) {
-      this.sortChanged = 1;
-      this.pagination.setPage = 1;
-    }
-    const a = new ProductFilter({
-      page: this.pagination.setPage,
-      per_page: this.pagination.setAmount,
-      category: this.category.id
-    });
-    if (sorting && this.sorting !== sorting) {
-      this.sorting.name = sorting.name;
-      this.sorting.property = sorting.property;
-      if (this.sorting.name !== 'all') {
-        a.order = this.sorting.property;
-        a.orderby = this.sorting.name;
-      }
+  public isFirstLoading = true;
 
-      a.page = 1;
-    } else {
-      a.order = this.sorting.property;
-      a.orderby = this.sorting.name;
-    }
+  private element: HTMLElement;
+  private filterState: FilterState;
 
-    this.productRepository.getProducts(a, dynamicFilter)
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe(result => {
-        localStorage.setItem('pageForPagination', this.pagination.setPage.toString());
-        localStorage.setItem('amountForPagination', this.pagination.setAmount.toString());
-        this.filter = result.filters;
-        this.searchResult = result;
-        this.dynamicFilterSave = dynamicFilter;
-      });
-  }
-
-  /// constructor
-  constructor(private productRepository: ProductRepository,
-              private categoryRepository: CategoryRepository,
-              private cartService: CartService,
-              public authService: AuthService,
-              private route: ActivatedRoute,
-              private router: Router) {
-    // this.filter = DefaultFilters.Get();
-    this.searchResult = new ProductSearchResult();
+  constructor(
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private router: Router,
+    private productRepository: ProductRepository,
+    private categoryRepository: CategoryRepository,
+    private cartService: CartService,
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
+  ) {
+    super();
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('pageForPagination')) {
-      this.pagination.setPage = Number(localStorage.getItem('pageForPagination'));
-      this.pagination.setAmount = Number(localStorage.getItem('amountForPagination'));
-      localStorage.removeItem('pageForPagination');
-      localStorage.removeItem('amountForPagination');
+    this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      // Initiate state for filters
+      this.filterState = {
+        productFilter: new ProductFilter({
+          page: this.activatedRoute.snapshot.queryParams?.page || 1,
+          category: !params.categoryId ? '' : params.categoryId,
+          per_page: this.paginationConfig.itemsPerPage,
+        }),
+      };
+      this.filterUpdated$.next(this.filterState);
+    });
+
+    this.productRepository
+      .getTags()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((tags) => {
+        this.tags = tags;
+      });
+
+    // Stream which is responsible for filtering products on the page based on filters
+    this.filterUpdated$
+      .pipe(
+        startWith(this.filterState),
+        tap(() => (this.isInProgress = true)),
+        switchMap((filterState: FilterState) =>
+          this.productRepository.getProducts(filterState.productFilter).pipe(
+            tap(() => {
+              this.isFirstLoading = false;
+              this.isInProgress = false;
+              this.filterState = filterState;
+              this.updateUrl(filterState);
+            }),
+            finalize(() => this.scrollToView())
+          )
+        ),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((data) => {
+        const minPrice = 0;
+        const maxPrice = 5000;
+        this.filters = { minPrice, maxPrice };
+        this.searchResult = data;
+      });
+  }
+
+  public onPageChanged(page: number) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.page = page;
+    this.filterUpdated$.next(filterState);
+  }
+
+  public onSortTypeChanged($event: SortingOption) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.order = $event.property;
+    filterState.productFilter.orderby = $event.name;
+    this.filterUpdated$.next(filterState);
+  }
+
+  public onFilterChanged($event: FilterFormData) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.min_price = $event.price[0];
+    filterState.productFilter.max_price = $event.price[1];
+    filterState.productFilter.tag = $event.tag;
+    filterState.productFilter.on_sale = $event.forSale;
+
+    if ($event.forRent) {
+      filterState.productFilter.attribute = 'rent__is-rentable';
+      filterState.productFilter.attribute_term = 'true';
     }
 
-    this.route.params.subscribe(params => {
-      this.productRepository.getFiltersProduct(0).subscribe(res => {
-        this.itemFilters = res;
-      });
-      this.categoryId = params.cacategoryId;
-      this.categoryRepository.getCategory(params.categoryId).subscribe(item => {
-        this.category = item;
-      });
-      if (params.categoryId.toString() === 'all') {
-        this.showCategories = true;
-        this.productRepository.getProducts(new ProductFilter({per_page: this.pagination.setAmount, page: this.pagination.setPage}),
-          null)
-          .pipe(finalize(() => this.isLoading = false))
-          .subscribe(result => {
-            const filterResult = result.filters.filterItems;
-            for (let i = 0; i < filterResult.length; i++) {
-              if (filterResult[i].name === 'category') {
-                const temp = filterResult[0];
-                filterResult[0] = filterResult[i];
-                filterResult[i] = temp;
-              }
-            }
-            this.filter = result.filters;
-            this.searchResult = result;
-            this.sortChanged = this.pagination.setPage;
-          });
-      } else {
-        this.productRepository.getProducts(new ProductFilter({
-          per_page: this.pagination.setAmount,
-          page: this.pagination.setPage,
-          category: params.categoryId
-        }), null)
-          .pipe(finalize(() => this.isLoading = false))
-          .subscribe(result => {
-            this.filter = result.filters;
-            this.searchResult = result;
-            this.sortChanged = this.pagination.setPage;
-          });
-      }
+    this.filterUpdated$.next(filterState);
+  }
+
+  public onAddedToCart(product: ProductModel) {
+    if (!product) {
+      this.router.navigate(['/login']);
+    }
+    this.cartService.addItem(AppMapper.toCartItem(product));
+  }
+
+  private updateUrl(productFilter: FilterState) {
+    this.router.navigate([], {
+      queryParams: { page: productFilter.productFilter.page },
     });
   }
 
-  /// methods
-  public productClick(slug: string, event: any) {
-    const classList = event.target.classList as DOMTokenList;
-    if (classList.contains('add-to-cart') || classList.contains('material-icons-outlined')) {
+  private scrollToView() {
+    if (!document.getElementById('scrollView')) {
       return;
     }
-    this.router.navigate([`product/${slug}`]).then();
-  }
-
-  public addToCart(item: ProductModel) {
-    if (!item) {
-      (window as any).toastr.options.positionClass = 'toast-bottom-right';
-      (window as any).toastr.info('Login to make shopping');
-    } else {
-      this.cartService.addItem(AppMapper.toCartItem(item));
-    }
-  }
-
-  public scrollToView() {
     this.element = document.getElementById('scrollView') as HTMLElement;
-    this.element.scrollIntoView({block: 'start', behavior: 'smooth'});
+    this.element.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
-  public savePages() {
+  public get currentPage(): number {
+    return this.filterState.productFilter.page;
+  }
 
+  public get totalResults(): number {
+    return this.searchResult.totalCount;
+  }
 
+  public openFilters() {
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      width: '300px',
+    });
+    dialogRef.componentInstance.filters = this.filters;
+    dialogRef.componentInstance.tags = this.tags;
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((data) => data),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((filters: FilterFormData) => {
+        this.onFilterChanged(filters);
+      });
   }
 }
 
-export class DefaultFilters {
-  public static Get(): InventoryFilter {
-    const result = new InventoryFilter({
-      priceRange: new PriceRange({
-        min: 0,
-        max: 1000,
-        start: 0,
-        end: 1000
-      }),
-      categories: [
-        new FilterCategory({
-          title: 'Available for Rent',
-          attributes: [
-            new FilterAttribute({name: 'Yes', isChecked: true, isDisabled: true}),
-            new FilterAttribute({name: 'No', isChecked: true, isDisabled: true})
-          ]
-        }),
-        new FilterCategory({
-          title: 'Stock Status',
-          attributes: [
-            new FilterAttribute({name: 'In Stock', isChecked: true, isDisabled: true}),
-            new FilterAttribute({name: 'Out of Stock', isChecked: false, isDisabled: true}),
-            new FilterAttribute({name: 'On Backorder', isChecked: false, isDisabled: true})
-          ]
-        })
-      ]
-    });
-    return result;
-  }
+export enum RentOption {
+  Day = '4',
+  Week = '5',
+  Month = '6',
 }

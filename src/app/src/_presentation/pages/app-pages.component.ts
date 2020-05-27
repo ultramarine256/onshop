@@ -1,40 +1,85 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {AppRepository, ProductFilter, ProductRepository} from '../../_data';
-import {AppInfo, AuthService, CartService, InfoService, Product} from '../../_domain';
-import {AppMapper} from '../_mapper';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
+
+import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository } from '@data/repository';
+import { AppInfo, AuthService, CartService, InfoService } from '@domain/services';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+
+export class CategoryMenuModel {
+  id: string;
+  title: string;
+  slug: string;
+  subCategories: CategoryMenuModel[] = [];
+
+  constructor(props?: any) {
+    this.id = props.id;
+    this.title = props.name;
+    this.slug = props.slug;
+    this.subCategories = props.subCategories
+      ? props.subCategories.map((subCategory) => new CategoryMenuModel(subCategory))
+      : [];
+  }
+}
 
 @Component({
   selector: 'app-pages-component',
   styleUrls: ['./app-pages.component.scss'],
   templateUrl: './app-pages.component.html',
 })
-export class AppPagesComponent {
-  /// fields
-  public productItems: Array<Product> = [];
+export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnDestroy {
+  @Output() inputChanged = new EventEmitter<string>();
+  @Output() productChosen = new EventEmitter<string>();
 
-  /// constructor
-  constructor(public cartService: CartService,
-              public infoService: InfoService,
-              private productRepository: ProductRepository,
-              private appRepository: AppRepository,
-              public authService: AuthService,
-              private router: Router) {
-    this.appRepository.appInfo()
-      .subscribe(data =>
-        this.infoService.setAppInfo(new AppInfo({address: data.address, email: data.email, phone: data.phone})));
+  public navigationMenu: CategoryMenuModel[] = [];
+  public panelOpenState: boolean;
+  public showCategories: boolean;
+  public showSidenav: boolean;
+  public isLoading: boolean;
+
+  constructor(
+    private router: Router,
+    public cartService: CartService,
+    public infoService: InfoService,
+    public authService: AuthService,
+    private productRepository: ProductRepository,
+    private appRepository: AppRepository,
+    private categoryRepository: CategoryRepository
+  ) {
+    super();
   }
 
-  /// methods
-  public inputChanged(input: string) {
-    this.productRepository.getProducts(new ProductFilter({search: input}))
-      .subscribe(result => this.productItems = AppMapper.ToProducts(result.items));
+  ngOnInit() {
+    // if (!this.authService.isAuthorized) {
+    //   return;
+    // }
+    this.isLoading = true;
+    forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
+      .pipe(
+        map(([appInfoModel, categories]) => {
+          return [appInfoModel, categories.map((category) => new CategoryMenuModel(category))];
+        }),
+        tap(() => {
+          this.isLoading = false;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
+        this.infoService.setAppInfo(
+          new AppInfo({ address: appInfoModel.address, email: appInfoModel.email, phone: appInfoModel.phone })
+        );
+        this.navigationMenu = categories;
+      });
   }
 
-  public productRedirect(slug: string) {
-    this.router.navigate([`product/${slug}`]).then();
+  public onMenuClose() {
+    this.showCategories = false;
+    this.showSidenav = false;
+  }
+
+  public onMenuOpened() {
+    this.showCategories = false;
+    this.showSidenav = true;
   }
 }
-
-
-

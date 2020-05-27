@@ -4,5 +4,6 @@ export class Product {
   slug: string;
   price: number;
   firstImage: string;
+
 }
 

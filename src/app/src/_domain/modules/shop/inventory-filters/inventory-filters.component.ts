@@ -1,86 +1,78 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {SearchResultFilters} from '../../../../_data/repository/product/filter';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { StockStatus, TagModel } from '@data/repository';
 
 @Component({
   selector: 'app-inventory-filters',
   styleUrls: ['./inventory-filters.component.scss'],
-  templateUrl: './inventory-filters.component.html'
+  templateUrl: './inventory-filters.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryFiltersComponent {
-  /// binding
-  @Input() showCategory: boolean;
-  @Input() filter: SearchResultFilters;
-  @Output() setFilter = new EventEmitter<string>();
-  public filtersArray: Array<FiltersProperties> = [];
-  private filtersItems = '';
-  public check = false;
+export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnInit, AfterViewInit {
+  @Input() filters: { minPrice: number; maxPrice: number };
+  @Input() tags: TagModel[];
 
-  public chosenFilter(filterName, itemName) {
-    const completeFilter = new FilterToSet(filterName, itemName);
-    this._setFilters(completeFilter);
+  @Output() filterChanged = new EventEmitter();
+
+  public filterForm: FormGroup;
+  public minPrice = new FormControl();
+  public maxPrice = new FormControl();
+  public selectedTag: TagModel;
+
+  public tagChanged = new Subject();
+
+  constructor(private fb: FormBuilder) {
+    super();
   }
 
-  public _setFilters(event) {
-    const newFilter = new FiltersProperties(event.name, event.property);
-    let controll = false;
-    this.filtersArray.forEach(x => {
-      if (x.name === newFilter.name) {
-        const i = this.filtersArray.indexOf(x);
-        controll = true;
-        if (this.filtersArray[i].properties.includes(event.property)) {
-          const j = this.filtersArray[i].properties.indexOf(event.property);
-          this.filtersArray[i].properties.splice(j, 1);
-          if (this.filtersArray[i].properties.length === 0) {
-            this.filtersArray.splice(i, 1);
-          }
-        } else {
-          this.filtersArray[i].properties.push(event.property);
-        }
-      }
+  ngOnInit() {
+    this.filterForm = this.fb.group({
+      price: [null],
+      forRent: [null],
+      forSale: [null],
     });
-    if (!controll) {
-      this.filtersArray.push(newFilter);
+  }
+
+  ngAfterViewInit() {
+    this.filterForm.valueChanges
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe(() => this.filterChanged.next(this.getFilterData()));
+
+    this.tagChanged.pipe(takeUntil(this.destroy$)).subscribe(() => this.filterChanged.next(this.getFilterData()));
+  }
+
+  public getFilterData(): FilterFormData {
+    return {
+      ...this.filterForm.value,
+      tag: this.selectedTag?.id,
+    };
+  }
+
+  public onPriceChange([minPrice, maxPrice]: [number, number]) {
+    this.minPrice.setValue(minPrice);
+    this.maxPrice.setValue(maxPrice);
+  }
+
+  public onMinMaxPriceChange(minPrice: number, maxPrice: number) {
+    this.filterForm.get('price').setValue([minPrice, maxPrice]);
+  }
+
+  public selectTag(tag: TagModel) {
+    if (this.selectedTag === tag) {
+      this.selectedTag = null;
     }
-    this.filtersItems = '';
-    this.filtersArray.forEach(x => {
-      const a = this.setQuery(x.properties);
-      this.filtersItems += (this.filtersArray.indexOf(x) !== 0 ? ',' : '') + '"' + x.name + '":[' + a + ']' +
-        (this.filtersArray.indexOf(x) === this.filtersArray.length - 1 ? '}' : '');
-    });
-    this.setFilter.emit(this.filtersItems);
-  }
-
-  public setQuery(items: Array<string>) {
-    let query = '';
-    items.map(x => {
-      if (items.indexOf(x) === items.length - 1) {
-        query += `"${x}"`;
-      } else {
-        query += `"${x}",`;
-      }
-    });
-    return query;
+    this.selectedTag = tag;
+    this.tagChanged.next(tag);
   }
 }
 
-class FilterToSet {
-  name: string;
-  property: string;
-  checked: boolean;
-
-  constructor(name, property) {
-    this.name = name;
-    this.property = property;
-
-  }
-}
-
-class FiltersProperties {
-  name: string;
-  properties: Array<string> = [];
-
-  constructor(name, property) {
-    this.name = name;
-    this.properties.push(property);
-  }
+export interface FilterFormData {
+  price: number[];
+  forRent: boolean;
+  forSale: boolean;
+  tag: string;
 }

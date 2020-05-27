@@ -1,30 +1,50 @@
-import {Component} from '@angular/core';
-import {finalize} from 'rxjs/operators';
-import {ProjectRepository, ProjectEntity} from '../../../_data';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { filter, finalize, takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+
+import { ProjectRepository, ProjectEntity } from '@data/index';
+import { ProjectCreatePopupComponent } from '@domain/modules/projects/project-create-popup/project-create-popup.component';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
   selector: 'app-project-page',
-  templateUrl: './project-page.component.html'
+  templateUrl: './project-page.component.html',
+  styleUrls: ['./project-page.component.scss'],
 })
-export class ProjectPageComponent {
-  public didLoaded: boolean;
-  public showProject: boolean;
-  public projects: Array<ProjectEntity> = [];
+export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
+  isLoading: boolean;
 
-  constructor(private projectRepository: ProjectRepository,
-              private router: Router) {
-    this.projectRepository.getProjects()
-      .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((items: Array<ProjectEntity>) => this.projects = items);
+  projects: ProjectEntity[];
+
+  constructor(private dialog: MatDialog, private router: Router, private projectRepository: ProjectRepository) {
+    super();
   }
 
-  public getFormResponse(event) {
-    this.projects.push(event);
-    window.location.reload();
+  ngOnInit() {
+    this.isLoading = true;
+    this.projectRepository
+      .getProjects()
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((items) => (this.projects = items));
   }
 
-  showProj(id: number) {
-    this.router.navigate([`project/${id}`]).then();
+  openProjectCreatePopup() {
+    const dialogRef = this.dialog.open(ProjectCreatePopupComponent, {
+      width: '500px',
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((data) => data),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((project: ProjectEntity) => {
+        this.projects = this.projects.concat(project);
+      });
   }
 }

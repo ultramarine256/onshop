@@ -1,79 +1,86 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
+
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+
+export interface SortingOption {
+  name: string;
+  property: string;
+  title: string;
+  visible: boolean;
+}
 
 @Component({
   selector: 'app-sorting-bar',
   styleUrls: ['./sorting-bar.component.scss'],
-  templateUrl: './sorting-bar.component.html'
+  templateUrl: './sorting-bar.component.html',
 })
-export class SortingBarComponent {
-  @Output() sortQuery = new EventEmitter<SortItem>();
-  public sortItemsArray: SortItem[] = [];
+export class SortingBarComponent extends UnsubscribeMixin() implements OnInit {
+  public sortControl: FormControl;
+  public sortingOptions: SortingOption[] = [];
+  public selectedFilter: string;
+
+  @Input() set setCurrentFilter(value) {
+    this.selectedFilter = value;
+  }
+
+  @Output() sortTypeChanged = new EventEmitter<SortingOption>();
 
   constructor() {
-    this.sortItemsArray = [
+    super();
+  }
+
+  ngOnInit() {
+    this.sortControl = new FormControl('default');
+    this.sortControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      const option = this.sortingOptions.find((sortingOption) => sortingOption.title === value);
+      this.sortTypeChanged.emit(option);
+    });
+
+    this.sortingOptions = [
       {
-        name: 'all',
-        property: 'all',
-        title: 'All',
-        visible: true
+        name: 'default',
+        property: 'default',
+        title: 'Default',
+        visible: true,
       },
       {
         name: 'price',
         property: 'desc',
         title: 'price desc',
-        visible: true
+        visible: true,
       },
       {
         name: 'price',
         property: 'asc',
         title: 'price asc',
-        visible: true
+        visible: true,
       },
       {
         name: 'date',
         property: 'desc',
         title: 'date desc',
-        visible: true
+        visible: true,
       },
       {
         name: 'date',
         property: 'asc',
         title: 'date asc',
-        visible: true
+        visible: true,
       },
       {
         name: 'rent',
         property: 'asc',
         title: 'rent price asc',
-        visible: false
+        visible: false,
       },
       {
         name: 'rent',
         property: 'asc',
         title: 'rent price asc',
-        visible: false
-      }];
-  }
-
-  public change(value) {
-    this.sortItemsArray.forEach(x => {
-      if (x.title === value) {
-        return this.sortQuery.emit(x);
-      }
-    });
-  }
-}
-
-class SortItem {
-  name: string;
-  property: string;
-  title: string;
-  visible: boolean;
-
-  constructor(name: string, property: string, title: string, visible: boolean) {
-    this.name = name;
-    this.property = property;
-    this.title = title;
-    this.visible = visible;
+        visible: false,
+      },
+    ];
   }
 }

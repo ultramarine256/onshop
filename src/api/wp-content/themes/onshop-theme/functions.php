@@ -186,3 +186,4 @@ add_action( 'rest_api_init', function () {
 	$projects_Controller = new ONSHOP_REST_Projects_Controller();
 	$projects_Controller->register_routes();
 } );
+

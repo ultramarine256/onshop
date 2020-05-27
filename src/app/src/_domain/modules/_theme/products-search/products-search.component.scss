@@ -1,82 +1,61 @@
-.search-input-container {
-  position: relative;
-}
+.products-search {
+  width: 100%;
 
-.input-search-field {
-  width: 90%;
+  .products-search__search {
+    position: relative;
 
-  input {
-    height: 100%;
-    border: none;
-    border-radius: 20px 0px 0px 20px;
-    padding: .3em 2.134em;
-  }
-}
+    .products-search__search-input {
+      position: relative;
+      top: 2px;
+    }
 
-.search-results-input {
-  height: 41px;
-  border: none;
-  border-radius: 5px 0px 0px 5px;
-  padding: .3em 2.134em;
-}
+    .products-search__search-button {
+      position: absolute;
+      right: -12px;
+      top: -7px;
 
-.search-list {
-  position: absolute;
-  z-index: 2;
-  height: auto;
-  width: 100.5%;
-  max-height: 200px;
-  font-size: 0.9em;
-  top: 45px;
-  overflow-y: scroll;
-  border-radius: 0px 0px 5px 5px;
-  padding-top: 10px;
-  background-color: white;
-  border: 1px solid lightgray;
-  border-top: 0;
-  color: black;
+      &:hover {
+        mat-icon {
+          color: #2c98f0;
+        }
+      }
+    }
 
-  &::-webkit-scrollbar {
-    width: 3px;
+    .products-search__search-loader {
+      position: absolute;
+      right: -3px;
+      top: 0;
+    }
   }
 
-  &::-webkit-scrollbar-track {
-    background: silver;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #5a5a5a;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-  .search-results {
-    display: flex;
+  .products-search__form-field {
     width: 100%;
-    font-size: 1em;
-    justify-content: space-between;
+  }
+
+  .alt-photo {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(134, 151, 145, 0.61);
+    display: flex;
     align-items: center;
-    margin-top: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 5px;
+    justify-content: center;
+  }
 
-    &:hover {
-      cursor: pointer;
-      background-color: rgba(44, 152, 240, 0.51);
-    }
+  ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+    padding: 0.5em 0 !important;
+    border: 0;
+  }
 
-    .alt-photo {
-      width: 30px;
-      height: 30px;
-      background-color: rgba(134, 151, 145, 0.61);
-      display: flex;
-      align-items: center;
-      justify-content: center
-    }
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: #eee;
+  }
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding: 0;
   }
 }
-
-

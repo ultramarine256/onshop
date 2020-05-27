@@ -1,15 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {ProjectEntity} from './entity';
-import {BaseRepository} from '../base.repository';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ProjectEntity } from './entity';
+import { BaseRepository } from '../base.repository';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectRepository extends BaseRepository {
-
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -18,41 +17,46 @@ export class ProjectRepository extends BaseRepository {
     return this.httpClient
       .get<Array<any>>(`${this.apiBaseUrl}/wp-json/onshop/v1/project`, {
         headers: {
-          Authorization: 'Bearer ' + this.token
-        }
+          Authorization: 'Bearer ' + this.token,
+        },
       })
-      .pipe(map(dtos => {
-        const result = [];
-        for (const item of dtos) {
-          const entity = new ProjectEntity();
-          entity.mapFromDto(item);
-          result.push(entity);
-        }
-        return result;
-      }));
+      .pipe(
+        map((dtos) => {
+          const result = [];
+          for (const item of dtos) {
+            const entity = new ProjectEntity();
+            entity.mapFromDto(item);
+            result.push(entity);
+          }
+          return result;
+        })
+      );
   }
 
   public getProjectById(id: number) {
     return this.httpClient.get<any>(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id, {
       headers: {
-        Authorization: 'Bearer ' + this.token
-      }
+        Authorization: 'Bearer ' + this.token,
+      },
     });
   }
 
-  public addProject(project) {
-    return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v1/project`, project, {
-      headers: {
-        Authorization: 'Bearer ' + this.token
-      }
-    });
+  public addProject(values): Observable<{ id: number }> {
+    const entity = new ProjectEntity(values);
+    return this.httpClient
+      .post(`${this.apiBaseUrl}/wp-json/onshop/v1/project`, entity.toJson(), {
+        headers: {
+          Authorization: 'Bearer ' + this.token,
+        },
+      })
+      .pipe(map((res: any) => ({ id: res.id })));
   }
 
   public deleteProject(id: number) {
     return this.httpClient.delete(`${this.apiBaseUrl}/wp-json/onshop/v1/project/` + id, {
       headers: {
-        Authorization: 'Bearer ' + this.token
-      }
+        Authorization: 'Bearer ' + this.token,
+      },
     });
   }
 }

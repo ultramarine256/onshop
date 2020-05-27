@@ -1,38 +1,47 @@
-import {AfterContentInit, Component} from '@angular/core';
-import {CategoryModel, CategoryRepository, ProductModel, ProductRepository} from '../../../_data';
-import {OWL_CAROUSEL} from '../../../_domain';
-import {forkJoin} from 'rxjs';
-import {finalize} from 'rxjs/operators';
+import { AfterContentInit, Component } from '@angular/core';
+import { takeUntil, tap } from 'rxjs/operators';
+
+import { OWL_CAROUSEL } from '@domain/modules';
+import { CategoryModel, CategoryRepository, ProductModel, ProductRepository } from '../../../_data';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
   selector: 'app-home-page',
   styleUrls: ['./home-page.component.scss'],
-  templateUrl: './home-page.component.html'
+  templateUrl: './home-page.component.html',
 })
-export class HomePageComponent implements AfterContentInit {
+export class HomePageComponent extends UnsubscribeMixin() implements AfterContentInit {
   /// fields
   public products: Array<ProductModel> = [];
   public categories: Array<CategoryModel> = [];
 
   /// predicate
-  public didLoaded = false;
+  public productsInLoading: boolean;
 
   /// constructor
-  constructor(private productRepository: ProductRepository,
-              private categoryRepository: CategoryRepository) {
+  constructor(private productRepository: ProductRepository, private categoryRepository: CategoryRepository) {
+    super();
   }
 
   /// lifecycle
   ngAfterContentInit(): void {
-    forkJoin(this.categoryRepository.getCategories(), this.productRepository.newArrivals())
-      .pipe(finalize(() => this.didLoaded = true))
-      .subscribe((val: [Array<CategoryModel>, Array<ProductModel>]) => {
-        this.categories = val[0];
-        this.products = val[1];
+    this.productsInLoading = true;
+    this.productRepository
+      .newArrivals()
+      .pipe(
+        tap(() => (this.productsInLoading = false)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((products) => {
+        this.products = products;
         setTimeout(() => {
           (window as any).$('.products-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS);
           (window as any).$('.categories-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS);
         }, 200);
       });
+
+    this.categoryRepository.categories$.pipe(takeUntil(this.destroy$)).subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 }

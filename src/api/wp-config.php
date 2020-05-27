@@ -18,6 +18,11 @@
  * @package WordPress
  */
 
+// initialize env variable
+require_once(__DIR__ . '/vendor/autoload.php');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 // default configuration
 $connectstr_dbhost     = 'DEFAULT-DB-HOST';
 $connectstr_dbname     = 'DEFAULT-DB-NAME';
@@ -34,7 +39,7 @@ $token_expiration_interval_sec = 600;
 $wp_debug = false;
 
 // server configuration
-$config = __DIR__ . "/_config_prod.json";
+$config = __DIR__ . "/_config.json";
 if ( file_exists( $config ) ) {
 	$json = json_decode( file_get_contents( $config ) );
 

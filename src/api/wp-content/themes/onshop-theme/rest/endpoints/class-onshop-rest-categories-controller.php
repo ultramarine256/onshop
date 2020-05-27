@@ -12,7 +12,7 @@ class ONSHOP_REST_Categories_Controller extends WC_REST_Product_Categories_Contr
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'onshop/v1/';
+	protected $namespace = 'onshop/v3/';
 
 	/**
 	 * Route registration
@@ -26,6 +26,22 @@ class ONSHOP_REST_Categories_Controller extends WC_REST_Product_Categories_Contr
 				'callback' => [ $this, 'get_items' ],
 			]
 		);
+        register_rest_route(
+            $this->namespace,
+            'categories/products',
+            [
+                'methods'  => WP_REST_Server::READABLE,
+                'callback' => function() {
+                    $categories = get_terms('product_cat');
+                    $products = [];
+                    foreach ($categories as $category) {
+                        $products[$category->slug] = (new WP_Query(array('product_cat' => $category->slug)))->get_posts();
+                    }
+
+                    return $products;
+                },
+            ]
+        );
 		register_rest_route(
 			$this->namespace,
 			'categories/(?P<id>\d+)',
@@ -36,4 +52,3 @@ class ONSHOP_REST_Categories_Controller extends WC_REST_Product_Categories_Contr
 		);
 	}
 }
-

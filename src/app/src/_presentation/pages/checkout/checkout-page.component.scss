@@ -1,44 +1,179 @@
-.checkout-info-title {
-  margin: 20px;
-}
+.checkout-page {
+  .checkout-page__title {
+    margin: 20px;
+  }
 
-::ng-deep .dx-scheduler-date-table-other-month.dx-scheduler-date-table-cell {
-  opacity: 1;
-  color: rgba(0, 0, 0, 0.3);
+  .checkout-page__action {
+    padding: 10px 0;
+    text-align: right;
+    width: 100%;
 
-}
+    button {
+      min-width: 100px;
+    }
+  }
 
-::ng-deep .dx-scheduler-group-header-content, ::ng-deep .dx-scheduler-date-table-cell {
-  position: relative;
-  cursor:pointer;
-}
+  .checkout-page__confirm-action {
+    padding: 10px 0;
 
-::ng-deep .dx-scheduler-date-table-cell .dx-template-wrapper {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-}
+    button {
+      min-width: 150px;
+      min-height: 40px;
+    }
+  }
 
-.weekend {
-  position: relative;
-  background-color: rgba(177, 250, 255, 0.36);
-}
+  .checkout-page__confirm-spinner {
+    display: inline-block;
+  }
 
-.weekend::after {
-  content: "80$";
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-.weekDay{
-  position: relative;
-}
-.weekDay::after {
-  content: "60$";
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-.past-date {
-  background-color: rgba(255, 151, 71, 0.07);
+  .checkout-page__form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .checkout-page__form-field {
+    width: 100%;
+  }
+
+  .checkout-page__scheduler {
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .checkout-page__scheduler-template {
+    height: 100%;
+
+    &.checkout-page__scheduler-template--past-day {
+      background-color: #f6f6f6;
+      opacity: 0.5;
+      &:hover {
+        cursor: pointer;
+        background-color: #f6f6f6;
+      }
+    }
+
+    &.checkout-page__scheduler-template--day-off {
+      background: rgba(177, 250, 255, 0.36);
+    }
+  }
+
+  .checkout-page__scheduler-template-content {
+    height: 100%;
+    position: relative;
+    padding-top: 25px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .checkout-page__scheduler-template-text {
+      text-align: right;
+      position: absolute;
+      padding-top: 0;
+      top: 0;
+      right: 0;
+      margin-bottom: 5px;
+    }
+
+    .checkout-page__scheduler-template-price {
+      text-align: center;
+    }
+
+    .checkout-page__scheduler-template-price-label {
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .checkout-page__scheduler-template-amount {
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  .checkout-page__selected-date {
+    margin-bottom: 20px;
+
+    .checkout-page__selected-date-value {
+      font-size: 20px;
+      color: #983720;
+    }
+  }
+
+  .checkout-page__delivery-time {
+    mat-radio-button {
+      margin-right: 20px;
+    }
+  }
+
+  .checkout-page__review-table {
+    .checkout-page__review-table-label {
+      font-weight: bold;
+    }
+
+    .checkout-page__review-table-value {
+      text-align: right;
+    }
+  }
+
+  .checkout-page__review-form {
+    margin-bottom: 10px;
+  }
+
+  .checkout-page__continue-shopping {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .checkout-page__product-image {
+    height: 50px;
+    width: 50px;
+  }
+
+  .checkout-page__receipt {
+    text-align: center;
+
+    .checkout-page__receipt-content {
+      height: 300px;
+      padding-top: 20px;
+    }
+  }
+
+  .checkout-page__loader {
+    height: 300px;
+  }
+
+  ::ng-deep .dx-scheduler-date-table-current-date {
+    .checkout-page__scheduler-template.checkout-page__scheduler-template--past-day {
+      opacity: 1;
+    }
+  }
+
+  ::ng-deep .dx-scheduler-date-table-cell {
+    padding: 0;
+
+    &.dx-scheduler-date-table-other-month {
+      opacity: 1;
+      color: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  ::ng-deep .dx-scheduler-view-switcher-label {
+    display: none;
+  }
+
+  ::ng-deep .dx-scheduler-view-switcher {
+    display: none;
+  }
+
+  ::ng-deep .dx-scheduler-work-space.dx-scheduler-work-space-month .dx-scheduler-date-table-cell > div {
+    padding: 4px;
+  }
+
+  ::ng-deep .dx-scheduler-work-space {
+    float: none;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-content {
+    padding: 0 10px;
+  }
 }

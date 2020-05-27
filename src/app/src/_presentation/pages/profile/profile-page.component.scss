@@ -1,27 +1,16 @@
-.list-item {
-  display: flex;
-  align-items: center;
-  padding: 0.6rem 0rem;
-  text-decoration: none;
-  border-bottom: 1px solid #eceeef;
-
-  i {
-    width: 20px;
-    text-align: center;
+.profile-page {
+  .profile-page__menu {
+    margin: 20px 10px;
   }
 
-  &.active {
-    color: #333e48;
+  .profile-page__content {
+    width: 100%;
   }
 
-}
-
-@media screen and (max-width: 600px){
-  .description-text{
-    display: none;
-  }
-  .list-item{
-    border-bottom:0;
-    margin-bottom: 5px;
+  .profile-page__logout-button {
+    &:hover {
+      cursor: pointer;
+      color: #2c98f0;
+    }
   }
 }

@@ -13,7 +13,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'onshop/v1/';
+	protected $namespace = 'onshop/v3/';
 
 	/**
 	 * Route registration
@@ -104,6 +104,16 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 				'callback' => [ $this, 'get_item' ],
 			]
 		);
+        register_rest_route(
+            $this->namespace,
+            'products/tags',
+            [
+                'methods'  => WP_REST_Server::READABLE,
+                'callback' => function ( WP_REST_Request $request ) {
+                    return get_terms(['product_tag']);
+                },
+            ]
+        );
 	}
 
 	private function get_tax_query( $filter_labeled ) {

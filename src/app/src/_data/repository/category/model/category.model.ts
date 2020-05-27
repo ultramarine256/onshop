@@ -1,4 +1,4 @@
-import {environment} from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 export class CategoryModel {
   /// fields
@@ -9,6 +9,7 @@ export class CategoryModel {
   image: CategoryImage;
   count: number;
   parent: number;
+  subCategories: CategoryModel[] = [];
 
   /// constructor
   constructor(init?: Partial<CategoryModel>) {
@@ -35,12 +36,12 @@ export class CategoryImage {
   id: number;
   name: string;
   src: string;
+  externalPath: boolean;
 
   /// mappers
   mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;
-    this.src = `${environment.apiBaseUrl}/${dto.src}`;
+    this.src = dto.externalPath ? `${dto.src}` : `${environment.apiBaseUrl}/${dto.src}`;
   }
 }
-
