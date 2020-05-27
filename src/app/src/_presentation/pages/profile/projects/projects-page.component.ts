@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ProjectRepository, ProjectResponse } from '@data/repository';
-import { AuthService } from '@domain/services';
 
 @Component({
   selector: 'app-projects-page',
   templateUrl: './projects-page.component.html',
+  styleUrls: ['./projects-page.component.scss'],
 })
 export class ProjectsPageComponent implements OnInit {
   public projects$: Observable<ProjectResponse[]>;
 
-  constructor(public authService: AuthService, private projectRepository: ProjectRepository) {}
+  constructor(private projectRepository: ProjectRepository) {}
 
   ngOnInit() {
-    this.projects$ = this.projectRepository.getOrders();
+    this.projects$ = this.projectRepository.getProjects();
   }
 }

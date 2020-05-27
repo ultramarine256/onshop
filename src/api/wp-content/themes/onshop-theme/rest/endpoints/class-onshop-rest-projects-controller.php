@@ -164,19 +164,46 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					),
 				),
 				[
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => function () {
-						$user          = wp_get_current_user();
+					'methods' => WP_REST_Server::READABLE,
+					'callback' => function() {
+						$user = wp_get_current_user();
 						$allowed_roles = [ 'administrator' , 'shop_manager'];
-						$result        = [];
+                        $projects = array_intersect( $allowed_roles, $user->roles)
+                            ? ONSHOP_MODEL_Projects::getAll()
+                            : ONSHOP_MODEL_Projects::getByUserId($user->ID);
 
-						if ( array_intersect( $allowed_roles, $user->roles ) ) {
-							$result = ONSHOP_MODEL_Projects::getAll();
-						} else {
-							$result = ONSHOP_MODEL_Projects::getByUserId( $user->ID );
-						}
+                        // get all orders by user email
+                        $query = new WC_Order_Query();
+                        $query->set('customer', $user->data->user_email);
+                        $orders = $query->get_orders();
 
-						return $result;
+                        // modify each project by adding orders
+						foreach ($projects as $project) {
+						     $filteredOrders = array_filter($orders, function($order) use ($project) {
+                                $contain = false;
+                                foreach ($order->meta_data as $metaData) {
+                                    $data = $metaData->get_data();
+                                    if ($data['key'] === 'project-number' && $data['value'] === $project->name) {
+                                        $contain = true;
+                                    }
+                                }
+                                return $contain;
+                            });
+
+						     $ordersData = array_map(function($order) {
+						         $orderData = $order->get_data();
+						         $lineItems = array_map(function($item) {
+						             return $item->get_data();
+                                 }, $orderData['line_items']);
+						         $orderData = $order->get_data();
+						         $orderData['line_items'] = array_values((array)$lineItems);
+						         return $orderData;
+                             }, $filteredOrders);
+
+                            $project->orders = array_values((array)$ordersData);
+                        }
+
+						return $projects;
 					},
 					'permission_callback' => function () {
 						return ONSHOP_AUTH::verify_auth();

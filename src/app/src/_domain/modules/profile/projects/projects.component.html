@@ -1,17 +1,28 @@
 <div class="projects">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let item of items">
+    <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{ item.name }}
+          <b>{{ project.name }}</b>
         </mat-panel-title>
-        <mat-panel-description>
-          {{ item.description }}
-        </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="projects__content">
-        <app-orders-component [orders]="orders"></app-orders-component>
+      <div class="projects__content" *ngIf="project.orders">
+        <div class="projects__order" *ngFor="let order of project.orders">
+          <div class="projects__order-item">{{ order.projectNumber }} (Order #{{ order.id }})</div>
+          <div class="projects__order-item">
+            {{ order.dateCreated | date }}
+          </div>
+          <div class="projects__order-item">
+            {{ order.status }}
+          </div>
+          <div class="projects__order-item">
+            <small>Delivery: {{ order.deliveryDate | date }}</small>
+          </div>
+          <div class="projects__order-item">
+            <b>{{ order.total | currency }}</b>
+          </div>
+        </div>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
