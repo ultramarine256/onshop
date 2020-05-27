@@ -20,7 +20,7 @@ steps:
     npm install -g @angular/cli
     npm install
     ng build -c=build-prod
-  workingDir: src/app
+  workingDirectory: src/app
   displayName: 'npm install and build'
 
 - powershell: |
@@ -38,4 +38,8 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts: drop'
+
+
+
+
 
