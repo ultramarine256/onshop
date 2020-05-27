@@ -5,9 +5,11 @@
 
 trigger:
  branches:
-   include: ['develop', 'master']
+   include:
+    - master
  paths:
-   include: ['src/landing']
+   include: 
+    - src/landing/*
 
 pool:
   vmImage: 'ubuntu-latest'

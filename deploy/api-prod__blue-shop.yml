@@ -5,9 +5,11 @@
 
 trigger:
  branches:
-   include: ['develop', 'master']
+   include:
+    - master
  paths:
-   include: ['src/api']
+   include: 
+    - src/api/*
 
 pool:
   vmImage: 'ubuntu-latest'
