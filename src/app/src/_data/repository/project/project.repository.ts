@@ -8,13 +8,12 @@ import { BaseRepository } from '../base.repository';
 
 @Injectable()
 export class ProjectRepository extends BaseRepository {
-
   constructor(private httpClient: HttpClient) {
     super();
   }
 
   public getProjects(): Observable<ProjectResponse[]> {
-    return this.httpClient.get<Array<any>>(`${this.apiBaseUrl}/wp-json/onshop/v1/project`).pipe(
+    return this.httpClient.get<any[]>(`${this.apiBaseUrl}/wp-json/onshop/v3/project`).pipe(
       map((dtos) => {
         return dtos.map((dto) => {
           const entity = new ProjectResponse();

@@ -2,12 +2,9 @@
   <mat-accordion>
     <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
       <mat-expansion-panel-header>
-        <mat-panel-title class="projects__title">
+        <mat-panel-title>
           <b>{{ project.name }}</b>
         </mat-panel-title>
-        <mat-panel-description>
-          {{ project.description }}
-        </mat-panel-description>
       </mat-expansion-panel-header>
 
       <div class="projects__content" *ngIf="project.orders">
