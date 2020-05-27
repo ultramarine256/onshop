@@ -7,7 +7,7 @@ trigger:
  branches:
    include: ['develop', 'master']
  paths:
-   include: ['src/app']
+   include: ['src/landing']
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -29,13 +29,13 @@ steps:
    $indexHtml = "index.html"
    $buildId = $(Build.BuildId)
    (Get-Content $indexHtml).replace("-build.counter-", $buildId) | Set-Content $indexHtml
-  workingDirectory: 'src/app/dist/onshop-landing'
+  workingDirectory: 'src/landing/dist/onshop-landing'
   displayName: 'PowerShell Script'
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'
   inputs:
-    rootFolderOrFile: 'src/app/dist/onshop-landing'
+    rootFolderOrFile: 'src/landing/dist/onshop-landing'
     includeRootFolder: false
 
 - task: PublishBuildArtifacts@1
