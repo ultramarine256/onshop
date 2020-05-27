@@ -1,28 +1,32 @@
-<div class="container">
-  <div *ngFor="let item of items">
-    <div class="row border-bottom">
-      <div
-        #projectDetails
-        class="col-12 d-flex justify-content-between my-2"
-        (click)="projectDetails.isVisible = !projectDetails.isVisible"
-      >
-        <div class="d-flex align-items-center">
-          <i *ngIf="!projectDetails.isVisible" class="material-icons mx-2">keyboard_arrow_down</i>
-          <i *ngIf="projectDetails.isVisible" class="material-icons mx-2">keyboard_arrow_up</i>
-          <div>{{ item.name }} <span class="text-secondary">(5)</span></div>
+<div class="projects">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="projects__title">
+          <b>{{ project.name }}</b>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ project.description }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="projects__content" *ngIf="project.orders">
+        <div class="projects__order" *ngFor="let order of project.orders">
+          <div class="projects__order-item">{{ order.projectNumber }} (Order #{{ order.id }})</div>
+          <div class="projects__order-item">
+            {{ order.dateCreated | date }}
+          </div>
+          <div class="projects__order-item">
+            {{ order.status }}
+          </div>
+          <div class="projects__order-item">
+            <small>Delivery: {{ order.deliveryDate | date }}</small>
+          </div>
+          <div class="projects__order-item">
+            <b>{{ order.total | currency }}</b>
+          </div>
         </div>
       </div>
-      <div
-        class="col-12 py-2 flex-column"
-        [class.d-none]="!projectDetails.isVisible"
-        [class.d-flex]="projectDetails.isVisible"
-      >
-        <div class="align-content-stretch d-flex">
-          <i class="material-icons mx-2" style="visibility: hidden;">keyboard_arrow_down</i>
-          {{ item.description }}
-        </div>
-        <app-orders-component [orders]="orders"></app-orders-component>
-      </div>
-    </div>
-  </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>

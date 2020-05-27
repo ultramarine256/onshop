@@ -69,7 +69,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
 
   private loadInfo() {
     this.isLoading = true;
-    return zip(this.userRepository.getUser(), this.projectRepository.getOrders())
+    return zip(this.userRepository.getUser(), this.projectRepository.getProjects())
       .pipe(
         finalize(() => (this.isLoading = false)),
         takeUntil(this.destroy$)

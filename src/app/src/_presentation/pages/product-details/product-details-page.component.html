@@ -1,16 +1,18 @@
 <div class="container">
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb my-2 px-0 bg-white">
+    <ol class="breadcrumb my-2 bg-white">
       <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
       <li class="breadcrumb-item"><a routerLink="/categories" class="text-decoration-none">Category</a></li>
       <li class="breadcrumb-item active" aria-current="page">{{ product.slug }}</li>
     </ol>
   </nav>
 </div>
-<div class="d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!isLoaded">
-  <div class="spinner-grow text-primary" role="status"></div>
-</div>
-<div class="container" *ngIf="isLoaded">
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+<div class="container" *ngIf="isLoaded; else loader">
   <div class="row">
     <div class="col-12 col-md-4">
       <div *ngIf="mainSliderLoaded" class="product-images owl-carousel owl-theme">
