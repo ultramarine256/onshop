@@ -5,9 +5,11 @@
 
 trigger:
  branches:
-   include: ['develop', 'master']
+   include:
+    - master
  paths:
-   include: ['src/admin']
+   include: 
+    - src/admin/*   
 
 pool:
   vmImage: 'ubuntu-latest'
