@@ -1,26 +1,44 @@
-import {Component, OnInit} from '@angular/core';
-import {CategoryModel, CategoryRepository} from '../../../_data';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { AuthService, CartService } from '@domain/services';
+import { AppMapper } from '@presentation/_mapper';
+import { ProductFilter, ProductModel, ProductRepository } from '../../../_data';
 
 @Component({
   selector: 'app-search-result-page',
   styleUrls: ['./search-result-page.component.scss'],
-  templateUrl: './search-result-page.component.html'
+  templateUrl: './search-result-page.component.html',
 })
 export class SearchResultPageComponent implements OnInit {
-  /// fields
-  public categories: Array<CategoryModel> = [];
+  public isLoading: boolean;
+  public term: string;
+  public products$: Observable<ProductModel[]>;
 
-  /// predicates
-  public isLoaded = false;
-
-  /// constructor
-  constructor(private productRepository: CategoryRepository) {
-  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private productRepository: ProductRepository,
+    private cartService: CartService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.productRepository.getCategories().subscribe(data => {
-      this.categories = data;
-      this.isLoaded = true;
-    });
+    this.products$ = this.activatedRoute.queryParams.pipe(
+      switchMap((params) => {
+        this.term = params.term;
+        return this.productRepository.getProducts(new ProductFilter({ search: params.term }));
+      }),
+      map((productSearchResult) => productSearchResult.items)
+    );
+  }
+
+  public onAddedToCart(product: ProductModel) {
+    if (!product) {
+      this.router.navigate(['/login']);
+    }
+    this.cartService.addItem(AppMapper.toCartItem(product));
   }
 }

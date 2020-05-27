@@ -8,6 +8,7 @@ import { BaseRepository } from '../base.repository';
 
 @Injectable()
 export class ProjectRepository extends BaseRepository {
+
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -18,7 +19,6 @@ export class ProjectRepository extends BaseRepository {
         return dtos.map((dto) => {
           const entity = new ProjectResponse();
           entity.mapFromDto(dto);
-          console.log(entity);
           return entity;
         });
       })

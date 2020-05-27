@@ -1,6 +1,33 @@
 .products-search {
   width: 100%;
 
+  .products-search__search {
+    position: relative;
+
+    .products-search__search-input {
+      position: relative;
+      top: 2px;
+    }
+
+    .products-search__search-button {
+      position: absolute;
+      right: -12px;
+      top: -7px;
+
+      &:hover {
+        mat-icon {
+          color: #2c98f0;
+        }
+      }
+    }
+
+    .products-search__search-loader {
+      position: absolute;
+      right: -3px;
+      top: 0;
+    }
+  }
+
   .products-search__form-field {
     width: 100%;
   }

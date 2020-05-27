@@ -13,7 +13,7 @@ class ONSHOP_REST_Products_Controller extends WC_REST_Products_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'onshop/v1/';
+	protected $namespace = 'onshop/v3/';
 
 	/**
 	 * Route registration

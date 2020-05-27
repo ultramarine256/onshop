@@ -12,7 +12,7 @@ class ONSHOP_REST_Categories_Controller extends WC_REST_Product_Categories_Contr
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'onshop/v1/';
+	protected $namespace = 'onshop/v3/';
 
 	/**
 	 * Route registration

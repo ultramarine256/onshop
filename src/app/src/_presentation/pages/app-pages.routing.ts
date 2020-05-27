@@ -63,7 +63,7 @@ export const routes: Routes = [
         component: ProductDetailsPageComponent,
       },
       {
-        path: 'search-result',
+        path: 'search',
         canActivate: [AuthGuard],
         component: SearchResultPageComponent,
       },
