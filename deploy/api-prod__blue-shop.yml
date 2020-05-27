@@ -28,3 +28,19 @@ steps:
 - script: composer install --no-interaction --prefer-dist
   workingDirectory: src/api
   displayName: 'composer install'
+
+- powershell: |
+   $indexHtml = "front-page.php"
+   $buildId = $(Build.BuildId)
+   (Get-Content $indexHtml).replace("-build.counter-", $buildId) | Set-Content $indexHtml
+  workingDirectory: 'src/api/wp-content/themes/onshop-theme'
+  displayName: 'PowerShell Script'
+
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+    rootFolderOrFile: 'src/api'
+    includeRootFolder: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts: drop'
