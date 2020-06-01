@@ -19,7 +19,7 @@ import {
   UserModel,
   UserRepository,
 } from '@data/repository';
-import { AuthService, CartService } from '@domain/index';
+import { AuthService, CartItemForRentEntity, CartService } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
@@ -112,7 +112,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
         new LineItemModel({
           productId: cartItem.id,
           quantity: cartItem.count,
-          rentalDuration: cartItem.duration,
+          rentalDuration: (cartItem as CartItemForRentEntity).duration,
           total: cartItem.price,
         })
     );

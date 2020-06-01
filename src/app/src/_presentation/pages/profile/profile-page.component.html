@@ -7,7 +7,9 @@
           <a routerLinkActive="active" [routerLink]="'/profile/orders'" mat-button>Orders</a>
           <a routerLinkActive="active" [routerLink]="'/profile/projects'" mat-button>Projects</a>
         </div>
-        <mat-icon class="profile-page__logout-button" (click)="logout()">exit_to_app</mat-icon>
+        <a mat-button (click)="logout()">
+          Logout
+        </a>
       </mat-toolbar>
 
       <div class="profile-page__content">

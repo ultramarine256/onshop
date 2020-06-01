@@ -8,12 +8,14 @@
 >
   <div class="category-item__image-container">
     <img
+      #img
       class="image"
       [src]="
         category.image && category.image.src
           ? category.image.src
           : 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + category.name
       "
+      (error)="img.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + category.name"
       [alt]="category.description"
     />
   </div>

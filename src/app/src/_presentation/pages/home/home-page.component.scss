@@ -1,51 +1,26 @@
-/**
-* ------------------------------------------------------------------------
-* Hero section
-* ------------------------------------------------------------------------
-*/
+.home {
+  padding-bottom: 20px;
+  padding-top: 20px;
 
-.hero {
-  height: 438px;
-  // background-image: url(/assets/img/home/background.jpg);
-  background-size: cover;
-  background-position: center center;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-}
-
-/**
-* ------------------------------------------------------------------------
-* Features
-* ------------------------------------------------------------------------
-*/
-
-.features__content {
-  .icon-primary {
-    background-color: rgba(0,106,255,.1);
-    color: #006aff!important;
-  }
-
-  .icon-lg {
-    font-size: 1.75rem;
-    width: 4rem;
-    height: 4rem;
-  }
-
-  .icon {
-    border-radius: 50%;
-    display: inline-block;
-    font-size: 1.5rem;
-    position: relative;
+  .home__title {
     text-align: center;
-    transition: background-color .2s ease-in-out;
+    padding: 20px;
+    margin-bottom: 20px;
   }
 
-  .icon-inner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+  .home__items {
+    .home__items-item {
+      background: #eee;
+      height: 250px;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+
+      .home__items-item-title {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+    }
   }
 }

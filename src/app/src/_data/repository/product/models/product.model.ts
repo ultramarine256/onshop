@@ -1,4 +1,5 @@
 import { environment } from '../../../../environments/environment';
+import { RentRates } from '@domain/services';
 
 export class ProductModel {
   /// fields
@@ -18,40 +19,46 @@ export class ProductModel {
   weight: string;
   dimensions: ProductDimensions;
 
-  rentPerDayPrice: number;
-  rentPerWeekPrice: number;
-  rentPerMonthPrice: number;
+  rentRates: RentRates;
 
   relatedIds: Array<number>;
   categories: Array<ProductCategory>;
   images: Array<ProductImage>;
   attributes: Array<ProductAttribute>;
 
-  /// properties
-  get firstImage(): string {
-    return this.images.length > 0 ? this.images[0].src : null;
-  }
-
-  get firstCategory(): ProductCategory {
-    return this.categories.length > 0 ? this.categories[0] : null;
-  }
-
-  get availableForRent(): boolean {
-    return !!this.rentPerDayPrice || !!this.rentPerWeekPrice || !!this.rentPerMonthPrice;
-  }
-
-  /// constructor
   constructor(init?: Partial<ProductModel>) {
     this.relatedIds = [];
     this.dimensions = new ProductDimensions();
     this.categories = [];
     this.images = [];
     this.attributes = [];
+    this.rentRates = new RentRates();
+
     Object.assign(this as any, init);
   }
 
-  /// mappers
-  mapFromDto(dto: any) {
+  public get firstImage(): string {
+    return this.images.length > 0 ? this.images[0].src : null;
+  }
+
+  public get firstCategory(): ProductCategory {
+    return this.categories.length > 0 ? this.categories[0] : null;
+  }
+
+  public get availableForRent(): boolean {
+    return !!this.rentRates.pricePerDay || !!this.rentRates.pricePerWeek || !!this.rentRates.pricePerMonth;
+  }
+
+  public get availableDaysForRentAmount(): number {
+    if (this.rentRates.pricePerDay) {
+      return 1;
+    } else if (this.rentRates.pricePerWeek) {
+      return 7;
+    }
+    return 30;
+  }
+
+  public mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;
     this.slug = dto.slug;
@@ -89,16 +96,18 @@ export class ProductModel {
     }
 
     for (const attribute of this.attributes) {
-      if (attribute.options.length > 0) {
-        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_DAY) {
-          this.rentPerDayPrice = Number(attribute.options[0]);
-        }
-        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_WEEK) {
-          this.rentPerWeekPrice = Number(attribute.options[0]);
-        }
-        if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_MONTH) {
-          this.rentPerMonthPrice = Number(attribute.options[0]);
-        }
+      if (!attribute.options.length) {
+        return;
+      }
+
+      if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_DAY) {
+        this.rentRates.pricePerDay = Number(attribute.options[0]);
+      }
+      if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_WEEK) {
+        this.rentRates.pricePerWeek = Number(attribute.options[0]);
+      }
+      if (attribute.name === PRODUCT_ATTRIBUTE_NAMES.RENT_PRICE_MONTH) {
+        this.rentRates.pricePerMonth = Number(attribute.options[0]);
       }
     }
   }

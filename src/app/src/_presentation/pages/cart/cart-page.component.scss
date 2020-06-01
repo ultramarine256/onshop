@@ -1,0 +1,27 @@
+.cart-page {
+  .cart-page__info {
+    display: flex;
+    align-items: center;
+  }
+
+  .cart-page__info-price {
+    margin-right: 10px;
+  }
+
+  .cart-page__info-input {
+    width: 50px;
+    margin-left: 10px;
+    position: relative;
+    top: 3px;
+    text-align: center;
+  }
+
+  .cart-page__info-duration-placeholder {
+    margin-left: 10px;
+  }
+
+  .cart-page__action {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}

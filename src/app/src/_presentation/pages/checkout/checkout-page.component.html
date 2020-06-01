@@ -14,7 +14,7 @@
   <ng-container *ngIf="!orderCompleted; else receipt">
     <ng-template #loader>
       <div class="checkout-page__loader d-flex justify-content-center align-items-center">
-        <div class="spinner-grow text-primary" role="status"></div>
+        <mat-spinner></mat-spinner>
       </div>
     </ng-template>
 
@@ -37,12 +37,16 @@
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>Last name</mat-label>
                   <input matInput formControlName="lastName" placeholder="Last Name" />
-                  <mat-error *ngIf="checkoutForm.get('lastName').hasError('required')"> Last name is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('lastName').hasError('required')">
+                    Last name is <strong>required</strong>
+                  </mat-error>
                 </mat-form-field>
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>Email</mat-label>
                   <input matInput formControlName="email" placeholder="Email" />
-                  <mat-error *ngIf="checkoutForm.get('email').hasError('required')"> Email is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('email').hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error>
                   <mat-error *ngIf="checkoutForm.get('email').hasError('email')">
                     Please enter a valid email address
                   </mat-error>
@@ -50,7 +54,9 @@
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>Phone</mat-label>
                   <input matInput formControlName="phone" placeholder="Phone" />
-                  <mat-error *ngIf="checkoutForm.get('phone').hasError('required')"> Phone is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('phone').hasError('required')">
+                    Phone is <strong>required</strong>
+                  </mat-error>
                 </mat-form-field>
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>Select project</mat-label>
@@ -71,25 +77,33 @@
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>Address</mat-label>
                   <input matInput formControlName="address" placeholder="Address" />
-                  <mat-error *ngIf="checkoutForm.get('address').hasError('required')"> Address is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('address').hasError('required')">
+                    Address is <strong>required</strong>
+                  </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>City</mat-label>
                   <input matInput formControlName="city" placeholder="City" />
-                  <mat-error *ngIf="checkoutForm.get('city').hasError('required')"> City is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('city').hasError('required')">
+                    City is <strong>required</strong>
+                  </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>State</mat-label>
                   <input matInput formControlName="state" placeholder="State" />
-                  <mat-error *ngIf="checkoutForm.get('state').hasError('required')"> State is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('state').hasError('required')">
+                    State is <strong>required</strong>
+                  </mat-error>
                 </mat-form-field>
 
                 <mat-form-field class="checkout-page__form-field">
                   <mat-label>Zip code</mat-label>
                   <input matInput formControlName="zip" placeholder="Zip code" />
-                  <mat-error *ngIf="checkoutForm.get('zip').hasError('required')"> Zip code is <strong>required</strong> </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('zip').hasError('required')">
+                    Zip code is <strong>required</strong>
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -208,7 +222,9 @@
                       <td class="checkout-page__review-table-label">City</td>
                       <td class="checkout-page__review-table-value">
                         {{ checkoutForm.get('city').value }}
-                        <ng-container *ngIf="checkoutForm.get('state').value">({{ checkoutForm.get('state').value }})</ng-container>
+                        <ng-container *ngIf="checkoutForm.get('state').value"
+                          >({{ checkoutForm.get('state').value }})</ng-container
+                        >
                       </td>
                     </tr>
                     <tr>

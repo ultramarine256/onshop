@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 import {
   CategoryModel,
-  ProductModel,
   ProductFilter,
   ProductRepository,
   ProductSearchResult,
@@ -15,8 +14,7 @@ import {
   SearchResultFilters,
   TagModel,
 } from '@data/index';
-import { AppMapper } from '@presentation/_mapper/app-mapper';
-import { AuthService, CartService, FilterFormData, SortingOption } from '@domain/index';
+import { CartService, FilterFormData, SortingOption } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { FilterDialogComponent } from '@presentation/pages/inventory/filter-dialog/filter-dialog.component';
 
@@ -53,8 +51,7 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     private productRepository: ProductRepository,
     private categoryRepository: CategoryRepository,
     private cartService: CartService,
-    private activatedRoute: ActivatedRoute,
-    public authService: AuthService
+    private activatedRoute: ActivatedRoute
   ) {
     super();
   }
@@ -134,13 +131,6 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     this.filterUpdated$.next(filterState);
   }
 
-  public onAddedToCart(product: ProductModel) {
-    if (!product) {
-      this.router.navigate(['/login']);
-    }
-    this.cartService.addItem(AppMapper.toCartItem(product));
-  }
-
   private updateUrl(productFilter: FilterState) {
     this.router.navigate([], {
       queryParams: { page: productFilter.productFilter.page },
@@ -180,10 +170,4 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
         this.onFilterChanged(filters);
       });
   }
-}
-
-export enum RentOption {
-  Day = '4',
-  Week = '5',
-  Month = '6',
 }

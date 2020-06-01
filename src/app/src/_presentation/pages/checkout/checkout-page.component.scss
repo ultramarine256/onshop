@@ -116,7 +116,9 @@
   }
 
   .checkout-page__review-form {
-    margin-bottom: 10px;
+    max-width: 600px;
+    margin: auto;
+    margin-bottom: 20px;
   }
 
   .checkout-page__continue-shopping {

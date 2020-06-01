@@ -1,129 +1,99 @@
-<div class="container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb my-2 bg-white">
-      <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
-      <li class="breadcrumb-item"><a routerLink="/categories" class="text-decoration-none">Category</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{{ product.slug }}</li>
-    </ol>
-  </nav>
-</div>
-<ng-template #loader>
-  <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
-    <mat-spinner></mat-spinner>
+<div class="product-details">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb my-2 mb-4 bg-white">
+        <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/categories" class="text-decoration-none">Category</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+      </ol>
+    </nav>
   </div>
-</ng-template>
-<div class="container" *ngIf="isLoaded; else loader">
-  <div class="row">
-    <div class="col-12 col-md-4">
-      <div *ngIf="mainSliderLoaded" class="product-images owl-carousel owl-theme">
-        <div class="item" *ngFor="let item of product.images; let last = last">
-          <a class="text-decoration-none carousel-item-product" [routerLink]="'/product/' + item.slug">
-            <div class="img-wrap">
-              <img [src]="item.src ? item.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'" />
-            </div>
-          </a>
-        </div>
-      </div>
+  <ng-template #loader>
+    <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+      <mat-spinner></mat-spinner>
     </div>
-    <div class="col-12 col-md-8">
-      <h3>{{ product.name }}</h3>
-      <small class="text-secondary">{{ product.firstCategory.name }}</small>
-      <p>
-        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual
-        form.
-      </p>
-      <p><b>Stock Quantity:</b> {{ product.stockQuantity }}</p>
-      <p><b>SKU:</b> FW511948218</p>
-      <p><b>Price:</b> {{ product.price | currency }}</p>
-      <div class="d-flex justify-content-between w-100 my-2">
-        <div class="w-50 d-flex flex-column">
-          <h6 class="border-bottom border-secondary py-2"><b>Purchase</b></h6>
-          <div class="custom-control custom-radio d-flex justify-content-between">
-            <input
-              type="checkbox"
-              class="custom-control-input"
-              [checked]="checkPrice"
-              (change)="choseRent('price')"
-              [id]="product.price + 'price'"
-            />
-            <label class="custom-control-label" [for]="product.price + 'price'"
-              ><b>{{ product.price | currency }}</b></label
-            >
-          </div>
-        </div>
-        <div *ngIf="rentalOptions.length !== 0" class="w-50 d-flex flex-column">
-          <h6 class="border-bottom border-secondary py-2"><b>Rental options</b></h6>
-          <div class="d-flex flex-column">
-            <div
-              *ngFor="let rentItem of rentalOptions"
-              class="custom-control custom-radio d-flex my-2 align-items-center"
-            >
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                (change)="choseRent(rentItem.name)"
-                [checked]="rentItem.checked"
-                [id]="rentItem.name"
-              />
-              <label class="custom-control-label" [for]="rentItem.name"
-                ><b>{{ rentItem.price | currency }}</b
-                >/{{ rentItem.shortDesc }}
-              </label>
-              <input
-                type="number"
-                class="mr-0 ml-auto form-control form-control-sm my-0 w-50 border-primary"
-                min="1"
-                placeholder="duration"
-                [(ngModel)]="rentalDuration"
-                [class.d-none]="!rentItem.checked"
-              />
-            </div>
+  </ng-template>
+
+  <div class="container" *ngIf="!isLoading; else loader">
+    <div class="row mb-4">
+      <div class="col-12 col-md-4">
+        <div class="product-images owl-carousel owl-theme">
+          <div class="item" *ngFor="let item of product.images; let last = last">
+            <a class="text-decoration-none carousel-item-product" [routerLink]="'/product/' + product.slug">
+              <div class="img-wrap">
+                <img
+                  #img
+                  [src]="item.src ? item.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'"
+                  (error)="img.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + product.name"
+                />
+              </div>
+            </a>
           </div>
         </div>
       </div>
-      <div class="d-flex align-items-center">
-        <button
-          mat-raised-button
-          color="primary"
-          [disabled]="addedToCard"
-          (click)="addToCart(product)"
-          *ngIf="authService.isAuthorized"
-        >
-          Add to Cart
-        </button>
-        <mat-spinner *ngIf="addedToCard" matSuffix class="ml-2" [diameter]="24"></mat-spinner>
-        <button
-          *ngIf="toSearch"
-          mat-button
-          color="primary"
-          class="ml-3 d-flex align-items-center"
-          (click)="backToSearch()"
-        >
-          back to search
-          <i class="material-icons">
-            keyboard_return
-          </i>
-        </button>
+      <div class="col-12 col-md-8">
+        <div class="product-details__info">
+          <h3 class="product-details__title">{{ product.name }}</h3>
+          <small class="product-details__description">{{ product.firstCategory.name }}</small>
+        </div>
+
+        <div class="product-details__actions">
+          <div *ngIf="product.availableForRent" class="product-details__rent">
+            <span class="product-details__rent-label">Rent from</span>
+
+            <mat-form-field class="product-details__datepicker">
+              <input
+                matInput
+                [min]="dateFromMinDate"
+                [(ngModel)]="dateFrom"
+                [matDatepicker]="matDateFrom"
+                (dateChange)="onDateFromChange()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="matDateFrom"></mat-datepicker-toggle>
+              <mat-datepicker #matDateFrom></mat-datepicker>
+            </mat-form-field>
+
+            <span>by</span>
+
+            <mat-form-field class="product-details__datepicker">
+              <input matInput [min]="dateToMinDate" [(ngModel)]="dateTo" [matDatepicker]="matDateTo" />
+              <mat-datepicker-toggle matSuffix [for]="matDateTo"></mat-datepicker-toggle>
+              <mat-datepicker #matDateTo></mat-datepicker>
+            </mat-form-field>
+
+            <span class="product-details__amount-days">
+              for {{ daysAmount }} {{ daysAmount | i18nPlural: daysMapping }}
+            </span>
+          </div>
+
+          <div class="product-details__actions">
+            <button *ngIf="product.availableForRent" (click)="rent()" color="primary" mat-raised-button>
+              Rent for {{ rentPrice | currency }}
+            </button>
+            <button (click)="buy()" mat-raised-button>Buy for {{ product.price | currency }}</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-12 my-3">
+
+    <div class="product-details__text row mb-4">
       <div [innerHTML]="product.description"></div>
     </div>
-    <div class="col-12">
+
+    <div class="row">
       <h2 class="content-title mb-2">Related Products</h2>
-      <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="!relatedIsLoaded">
-        <div class="spinner-grow text-primary" role="status"></div>
-      </div>
-      <div class="related-carousel owl-carousel owl-theme" *ngIf="relatedIsLoaded">
+      <div class="related-carousel owl-carousel owl-theme">
         <div class="item" *ngFor="let item of relatedProducts">
           <a class="text-decoration-none carousel-item" [routerLink]="'/product/' + item.slug">
             <div class="img-wrap">
               <img
+                #productImage
                 [src]="
                   item.firstImage
                     ? item.firstImage
                     : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'
                 "
+                (error)="productImage.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + item.name"
                 alt="product"
               />
             </div>
