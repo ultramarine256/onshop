@@ -1,5 +1,34 @@
-.product-image {
-  background-color: #eee;
-  height: 300px;
-  display: flex;
+.product-details {
+  padding-bottom: 20px;
+
+  .product-details__title {
+    margin-bottom: 0;
+  }
+
+  .product-details__info {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+  }
+
+  .product-details__datepicker {
+    width: 100px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+  .product-details__total-price {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .product-details__actions {
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  .product-details__text {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+  }
 }

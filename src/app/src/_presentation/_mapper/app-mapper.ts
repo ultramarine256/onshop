@@ -1,9 +1,13 @@
-import { CartItemEntity, Product } from '../../_domain';
+import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity, Product } from '../../_domain';
 import { ProductModel } from '../../_data';
 
 export class AppMapper {
-  public static toCartItem(entity: ProductModel): CartItemEntity {
-    return new CartItemEntity(entity);
+  public static toCartForRentItem(entity: ProductModel, duration?: number): CartItemEntity {
+    return new CartItemForRentEntity(entity, duration);
+  }
+
+  public static toCartForSaleItem(entity: ProductModel, count?: number): CartItemEntity {
+    return new CartItemForSaleEntity(entity, count);
   }
 
   public static ToProducts(entities: Array<ProductModel>): Array<Product> {

@@ -51,4 +51,8 @@
   .account-page__form-group {
     margin-bottom: 25px;
   }
+
+  input:read-only {
+    cursor: default;
+  }
 }

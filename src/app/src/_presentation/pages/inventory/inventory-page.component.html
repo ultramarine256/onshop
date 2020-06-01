@@ -55,13 +55,7 @@
                       }
               "
             >
-              <app-product-item
-                [item]="item"
-                [baseUrl]="'/product'"
-                [allowPurchase]="authService.isAuthorized"
-                (addedToCart)="onAddedToCart($event)"
-              >
-              </app-product-item>
+              <app-product-item [product]="item" [baseUrl]="'/product'"> </app-product-item>
             </div>
           </div>
 

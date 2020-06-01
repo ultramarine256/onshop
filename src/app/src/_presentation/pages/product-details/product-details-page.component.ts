@@ -1,156 +1,119 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
-import {finalize, map, tap} from 'rxjs/operators';
-import {ProductFilter, ProductRepository, ProductModel} from '../../../_data';
-import {AppMapper} from '../../_mapper';
-import {AuthService, CartService, OWL_CAROUSEL} from '../../../_domain';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
+import * as moment from 'moment';
+
+import { AppMapper } from '../../_mapper';
+import { CartItemEntity, CartService, OWL_CAROUSEL } from '../../../_domain';
+import { ProductFilter, ProductRepository, ProductModel } from '../../../_data';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { ProductService } from '@domain/services/product/product.service';
 
 @Component({
   selector: 'app-product-details-page',
   styleUrls: ['./product-details-page.component.scss'],
   templateUrl: './product-details-page.component.html',
 })
-export class ProductDetailsPageComponent implements OnInit {
-  /// fields
-  public product: ProductModel;
+export class ProductDetailsPageComponent extends UnsubscribeMixin() implements OnInit {
+  public product = new ProductModel();
   public relatedProducts: Array<ProductModel> = [];
-  public rentalOptions: RentalOptions[] = [];
-  /// predicates
-  public isLoaded = false;
-  public relatedIsLoaded = false;
-  public mainSliderLoaded = false;
-  public rentalDuration = 1;
-  public checkPrice = true;
-  public addedToCard = false;
-  public toSearch = false;
-  public finalePrice: number;
+  public productCount = 1;
 
-  /// lifecycle
+  public dateFrom: Date;
+  public dateTo: Date;
+  public dateFromMinDate: Date;
+  public dateToMinDate: Date;
+
+  public isLoading: boolean;
+  public addingProductInProgress: boolean;
+
+  public readonly daysMapping: { [k: string]: string } = {
+    '=0': 'days.',
+    '=1': 'day',
+    other: `days`,
+  };
+
   constructor(
-    private productRepository: ProductRepository,
     private route: ActivatedRoute,
+    private router: Router,
+    private productRepository: ProductRepository,
     private cartService: CartService,
-    public authService: AuthService,
-    private location: Location
+    private productService: ProductService
   ) {
-    this.product = new ProductModel();
+    super();
   }
 
   ngOnInit() {
-    this.mainSliderLoaded = false;
-    this.route.params.subscribe((params) =>
-      this.productRepository
-        .getProducts(new ProductFilter({slug: params.slug}))
-        .pipe(finalize(() => (this.isLoaded = true)))
-        .pipe(
-          tap(() =>
-            setTimeout(() => {
-              (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES);
-              this.mainSliderLoaded = true;
-            }, 300)
+    this.route.params
+      .pipe(
+        tap(() => {
+          this.isLoading = true;
+        }),
+        switchMap((params) =>
+          this.productRepository.getProducts(new ProductFilter({ slug: params.slug })).pipe(
+            tap((productSearchResult) => {
+              this.product = productSearchResult.items[0];
+              this.dateFrom = moment().add(1, 'days').toDate();
+              this.dateTo = moment()
+                .add(this.product.availableDaysForRentAmount + 1, 'days')
+                .toDate();
+              this.dateFromMinDate = moment().add(1, 'days').toDate();
+              this.dateToMinDate = moment()
+                .add(this.product.availableDaysForRentAmount + 1, 'days')
+                .toDate();
+            }),
+            switchMap(() => {
+              return this.productRepository
+                .getProducts(new ProductFilter({ include: this.product.relatedIds.join(',') }))
+                .pipe(
+                  tap((relatedProducts) => {
+                    this.relatedProducts = relatedProducts.items;
+                  }),
+                  finalize(() => {
+                    // by the end remove loader and init owl carousel
+                    this.isLoading = false;
+                    setTimeout(() => {
+                      (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES);
+                      (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS);
+                    });
+                  })
+                );
+            })
           )
-        )
-        .pipe(map((x) => x.items[0]))
-        .subscribe((item) => {
-          this.product = item;
-          const productProperties = Object.keys(this.product);
-          for (const element of productProperties) {
-            let rentItem: RentalOptions;
-            switch (element) {
-              case 'rentPerDayPrice':
-                rentItem = new RentalOptions(element, item.rentPerDayPrice, false, 1, 'day');
-                this.rentalOptions.push(rentItem);
-                break;
-              case 'rentPerWeekPrice':
-                rentItem = new RentalOptions(element, item.rentPerWeekPrice, false, 7, 'week');
-                this.rentalOptions.push(rentItem);
-                break;
-              case 'rentPerMonthPrice':
-                rentItem = new RentalOptions(element, item.rentPerMonthPrice, false, 30, 'month');
-                this.rentalOptions.push(rentItem);
-                break;
-              default:
-                break;
-            }
-          }
-          this.productRepository
-            .getProducts(new ProductFilter({include: this.product.relatedIds.join(',')}))
-            .pipe(finalize(() => (this.relatedIsLoaded = true)))
-            .pipe(
-              finalize(() =>
-                setTimeout(() => (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS), 200)
-              )
-            )
-            .subscribe((result) => (this.relatedProducts = result.items));
-        })
-    );
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
-  /// methods
-
-  public addToCart(item: ProductModel, rentDuration: number = 0) {
-    this.addedToCard = true;
-    const mapedItem = AppMapper.toCartItem(item);
-    if (!this.checkPrice) {
-      this.rentalOptions.map((x) => {
-        if (x.checked) {
-          if (this.rentalDuration < 1) {
-            this.rentalDuration = 1;
-          }
-          rentDuration = x.index * this.rentalDuration;
-          mapedItem.price = this.product.rentPerDayPrice * rentDuration;
-          this.finalePrice = mapedItem.price;
-        }
-      });
-      mapedItem.duration = rentDuration;
-    } else {
-      mapedItem.price = Number(this.product.price);
-      this.finalePrice = mapedItem.price;
-    }
-    mapedItem.count = 1;
-    this.cartService.addItem(mapedItem);
-    setTimeout(() => {
-      (window as any).toastr.options.positionClass = 'toast-bottom-center';
-      (window as any).toastr.success('Added! $' + this.finalePrice);
-      this.addedToCard = false;
-      this.toSearch = true;
-    }, 3000);
+  public rent() {
+    const cartItem = AppMapper.toCartForRentItem(this.product, this.daysAmount);
+    this.addToCart(cartItem);
   }
 
-  public choseRent(rent) {
-    if (rent === 'price') {
-      this.checkPrice = !this.checkPrice;
-    }
-    this.rentalOptions.map((x) => {
-      if (x.name === rent) {
-        x.checked = !x.checked;
-        if (this.checkPrice) {
-          this.checkPrice = !this.checkPrice;
-        }
-      } else {
-        x.checked = false;
-      }
-    });
+  public buy() {
+    const cartItem = AppMapper.toCartForSaleItem(this.product, this.productCount);
+    this.addToCart(cartItem);
   }
 
-  public backToSearch() {
-    this.location.back();
+  private addToCart(cartItem: CartItemEntity) {
+    this.addingProductInProgress = true;
+    this.cartService.addItem(cartItem);
+    this.router.navigate(['/cart']);
   }
-}
 
-class RentalOptions {
-  name: string;
-  price: number;
-  checked: boolean;
-  index: number;
-  shortDesc: string;
+  public get daysAmount(): number {
+    const dateFrom = moment(this.dateFrom);
+    const dateTo = moment(this.dateTo);
+    return dateTo.diff(dateFrom, 'days');
+  }
 
-  constructor(name: string, price: number, checked: boolean, index: number, shortDesc: string) {
-    this.name = name;
-    this.price = price;
-    this.checked = checked;
-    this.index = index;
-    this.shortDesc = shortDesc;
+  public get rentPrice(): number {
+    return this.productService.getPriceForRent(this.product.rentRates, this.daysAmount);
+  }
+
+  public onDateFromChange() {
+    this.dateTo = moment(this.dateFrom).add(this.product.availableDaysForRentAmount, 'days').toDate();
+    this.dateToMinDate = moment(this.dateFrom).add(this.product.availableDaysForRentAmount, 'days').toDate();
   }
 }

@@ -101,7 +101,7 @@
                     shopping_cart
                   </mat-icon>
                   <span class="font-weight-500 ml-3">{{
-                    (!cartService.totalPrice ? '0.00' : cartService.totalPrice) | currency
+                    (!cartService.totalPrice ? 0 : cartService.totalPrice) | currency
                   }}</span>
                 </a>
               </div>

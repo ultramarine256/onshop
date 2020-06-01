@@ -20,10 +20,8 @@
               fxFlex.md="50"
               fxFlex.sm="50"
               fxFlex.xs="100"
-              [item]="item"
+              [product]="item"
               [baseUrl]="'/product'"
-              [allowPurchase]="authService.isAuthorized"
-              (addedToCart)="onAddedToCart($event)"
             >
             </app-product-item>
           </div>
