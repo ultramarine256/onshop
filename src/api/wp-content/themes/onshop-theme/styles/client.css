@@ -131,3 +131,11 @@ li:nth-last-child(-n+2) {
 #woocommerce-order-actions {
     display: none!important;
 }
+
+#adminmenu #toplevel_page_wc-admin-path--analytics-revenue {
+    display: none!important;
+}
+
+#adminmenu #toplevel_page_wc-admin-path--marketing {
+    display: none!important;
+}
