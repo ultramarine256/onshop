@@ -56,9 +56,9 @@ Redux::setSection( $opt_name, array(
         ),
         array(
             'id'       => 'email-manager',
-            'type'     => 'text',
-            'title'    => __( 'Email manager', 'redux-framework-demo' ),
-            'subtitle' => __( '', 'redux-framework-demo' )
+            'type' => 'multi_text',
+            'title' => __('Email manager', 'redux-framework-demo'),
+            'subtitle' => __( '', 'redux-framework-demo' ),
         ),
 	)
 ));
