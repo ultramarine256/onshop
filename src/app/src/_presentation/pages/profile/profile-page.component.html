@@ -1,12 +1,7 @@
 <div class="profile-page">
   <div class="container">
     <div class="row">
-      <mat-toolbar class="profile-page__menu" fxLayoutAlign="space-between center">
-        <div>
-          <a routerLinkActive="active" [routerLink]="'/profile'" mat-button>Account</a>
-          <a routerLinkActive="active" [routerLink]="'/profile/orders'" mat-button>Orders</a>
-          <a routerLinkActive="active" [routerLink]="'/profile/projects'" mat-button>Projects</a>
-        </div>
+      <mat-toolbar class="profile-page__menu" fxLayoutAlign="flex-end center">
         <a mat-button (click)="logout()">
           Logout
         </a>

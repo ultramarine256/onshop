@@ -23,7 +23,7 @@
         <!-- Project Info -->
         <mat-step [stepControl]="checkoutForm">
           <form [formGroup]="checkoutForm" class="checkout-page__form">
-            <ng-template matStepLabel>Project</ng-template>
+            <ng-template matStepLabel>Contacts info</ng-template>
             <div class="col-12 col-md-6">
               <h5 class="mb-3 text-center">Requested By</h5>
               <div class="form-group">
@@ -117,7 +117,7 @@
 
         <!-- Calendar -->
         <mat-step [stepControl]="deliveryDate" class="p-0">
-          <ng-template matStepLabel>Delivery</ng-template>
+          <ng-template matStepLabel>Schedule delivery</ng-template>
           <dx-scheduler
             class="checkout-page__scheduler"
             [editing]="false"
@@ -181,7 +181,7 @@
 
         <!-- Review -->
         <mat-step editable="false">
-          <ng-template matStepLabel>Review</ng-template>
+          <ng-template matStepLabel>Order Review</ng-template>
           <div class="checkout-page__review-form d-flex flex-column">
             <div class="container">
               <div class="row flex-column justify-content-center align-items-center">

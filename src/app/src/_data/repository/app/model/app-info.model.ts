@@ -5,6 +5,8 @@ export class AppInfoModel {
   email: string;
   address: string;
   phone: string;
+  promo1: string;
+  promo2: string;
 
   /// constructor
   constructor(init?: Partial<AppInfoModel>) {
@@ -16,5 +18,7 @@ export class AppInfoModel {
     this.email = dto['opt-email'];
     this.address = dto['opt-address'];
     this.phone = dto['opt-phone-1'];
+    this.promo1 = dto['opt-promo1'];
+    this.promo2 = dto['opt-promo2'];
   }
 }
