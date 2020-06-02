@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +31,8 @@ export class AppInfo {
   email: string;
   phone: string;
   address: string;
+  promo1: string;
+  promo2: string;
 
   /// constructor
   constructor(init?: Partial<AppInfo>) {
@@ -41,5 +43,3 @@ export class AppInfo {
 const Constants = {
   APP_INFO_KEY: 'onshop-app-info',
 };
-
-

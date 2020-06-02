@@ -67,7 +67,13 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
       )
       .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
         this.infoService.setAppInfo(
-          new AppInfo({ address: appInfoModel.address, email: appInfoModel.email, phone: appInfoModel.phone })
+          new AppInfo({
+            address: appInfoModel.address,
+            email: appInfoModel.email,
+            phone: appInfoModel.phone,
+            promo1: appInfoModel.promo1,
+            promo2: appInfoModel.promo2,
+          })
         );
         this.navigationMenu = categories;
       });

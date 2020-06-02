@@ -86,15 +86,15 @@ export const routes: Routes = [
             path: '',
             component: AccountPageComponent,
           },
-          {
-            path: 'orders',
-            component: OrdersPageComponent,
-          },
-          {
-            path: 'projects',
-            component: ProjectsPageComponent,
-          },
         ],
+      },
+      {
+        path: 'orders',
+        component: OrdersPageComponent,
+      },
+      {
+        path: 'projects',
+        component: ProjectsPageComponent,
       },
       {
         path: 'track-order',
