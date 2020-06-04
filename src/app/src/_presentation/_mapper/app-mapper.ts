@@ -2,8 +2,13 @@ import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity, Product }
 import { ProductModel } from '../../_data';
 
 export class AppMapper {
-  public static toCartForRentItem(entity: ProductModel, duration?: number): CartItemEntity {
-    return new CartItemForRentEntity(entity, duration);
+  public static toCartForRentItem(
+    entity: ProductModel,
+    duration: number,
+    dateFrom: Date,
+    dateTo: Date
+  ): CartItemEntity {
+    return new CartItemForRentEntity(entity, duration, dateFrom, dateTo);
   }
 
   public static toCartForSaleItem(entity: ProductModel, count?: number): CartItemEntity {

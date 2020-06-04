@@ -86,7 +86,7 @@
           <div class="col-md-9">
             <div class="searchbar__inner">
               <app-products-search class="w-100"></app-products-search>
-              <div fxHide.lt-sm class="searchbar__icons pl-4">
+              <div fxHide.lt-sm class="searchbar__icons pl-4" *ngIf="showCart">
                 <a
                   class="icon-item text-decoration-none text-light font-weight-bold position-relative"
                   routerLink="/cart"

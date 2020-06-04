@@ -1,8 +1,9 @@
 .orders {
   padding: 20px 10px;
 
-  .orders__status {
-    padding: 0 10px;
+  .orders__accordion {
+    display: block;
+    margin-bottom: 20px;
   }
 
   .orders__info {
@@ -14,12 +15,6 @@
     margin-right: 10px;
   }
 
-  .orders__item-preview {
-    align-items: center;
-    display: flex;
-    cursor: pointer;
-  }
-
   .orders__data {
     padding: 20px;
   }
@@ -28,8 +23,17 @@
     width: 100%;
     margin-bottom: 20px;
 
+    th {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
     tr {
       border-bottom: 1px solid #eee;
+
+      &:first-child {
+        border-bottom: 0;
+      }
 
       &:last-child {
         border-bottom: 0;
@@ -46,6 +50,29 @@
 
       &:nth-child(2) {
         text-align: right;
+      }
+    }
+  }
+
+  .orders__panel-title {
+    width: 25%;
+  }
+
+  .orders__panel-description {
+    width: 75%;
+
+    .orders__status {
+      padding: 0 10px;
+      width: 15%;
+      text-align: center;
+    }
+
+    .orders__duration-message {
+      width: 20%;
+      min-width: 135px;
+
+      a {
+        width: 100%;
       }
     }
   }

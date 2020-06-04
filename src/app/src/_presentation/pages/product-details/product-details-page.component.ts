@@ -87,7 +87,7 @@ export class ProductDetailsPageComponent extends UnsubscribeMixin() implements O
   }
 
   public rent() {
-    const cartItem = AppMapper.toCartForRentItem(this.product, this.daysAmount);
+    const cartItem = AppMapper.toCartForRentItem(this.product, this.daysAmount, this.dateFrom, this.dateTo);
     this.addToCart(cartItem);
   }
 

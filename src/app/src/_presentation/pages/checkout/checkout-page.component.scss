@@ -1,9 +1,18 @@
-.checkout-page {
-  .checkout-page__title {
-    margin: 20px;
+.checkout {
+  .checkout__title {
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
   }
 
-  .checkout-page__action {
+  .checkout__sub-title {
+    font-weight: normal;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .checkout__action {
     padding: 10px 0;
     text-align: right;
     width: 100%;
@@ -13,7 +22,7 @@
     }
   }
 
-  .checkout-page__confirm-action {
+  .checkout__confirm-action {
     padding: 10px 0;
 
     button {
@@ -22,28 +31,32 @@
     }
   }
 
-  .checkout-page__confirm-spinner {
+  .checkout__confirm-spinner {
     display: inline-block;
   }
 
-  .checkout-page__form {
+  .checkout__form {
     display: flex;
     flex-wrap: wrap;
   }
 
-  .checkout-page__form-field {
+  .checkout__form-field {
     width: 100%;
+
+    textarea {
+      height: auto !important;
+    }
   }
 
-  .checkout-page__scheduler {
+  .checkout__scheduler {
     cursor: pointer;
     margin-bottom: 10px;
   }
 
-  .checkout-page__scheduler-template {
+  .checkout__scheduler-template {
     height: 100%;
 
-    &.checkout-page__scheduler-template--past-day {
+    &.checkout__scheduler-template--past-day {
       background-color: #f6f6f6;
       opacity: 0.5;
       &:hover {
@@ -52,12 +65,12 @@
       }
     }
 
-    &.checkout-page__scheduler-template--day-off {
+    &.checkout__scheduler-template--day-off {
       background: rgba(177, 250, 255, 0.36);
     }
   }
 
-  .checkout-page__scheduler-template-content {
+  .checkout__scheduler-template-content {
     height: 100%;
     position: relative;
     padding-top: 25px;
@@ -66,7 +79,7 @@
     flex-direction: column;
     justify-content: space-around;
 
-    .checkout-page__scheduler-template-text {
+    .checkout__scheduler-template-text {
       text-align: right;
       position: absolute;
       padding-top: 0;
@@ -75,77 +88,116 @@
       margin-bottom: 5px;
     }
 
-    .checkout-page__scheduler-template-price {
+    .checkout__scheduler-template-delivery-day {
+      font-weight: bold;
+      text-align: center;
+
+      &.checkout__scheduler-template-delivery-day--rent {
+        color: #03a9f4;
+      }
+
+      &.checkout__scheduler-template-delivery-day--purchase {
+        color: #ff4081;
+      }
+    }
+
+    .checkout__scheduler-template-price {
       text-align: center;
     }
 
-    .checkout-page__scheduler-template-price-label {
+    .checkout__scheduler-template-price-label {
       font-size: 10px;
       margin-bottom: 5px;
     }
 
-    .checkout-page__scheduler-template-amount {
+    .checkout__scheduler-template-amount {
       font-size: 12px;
       font-weight: bold;
     }
   }
 
-  .checkout-page__selected-date {
+  .checkout__selected-date {
     margin-bottom: 20px;
 
-    .checkout-page__selected-date-value {
+    .checkout__selected-date-value {
       font-size: 20px;
       color: #983720;
     }
   }
 
-  .checkout-page__delivery-time {
-    mat-radio-button {
-      margin-right: 20px;
-    }
-  }
+  .checkout__review-table {
+    width: 100%;
 
-  .checkout-page__review-table {
-    .checkout-page__review-table-label {
-      font-weight: bold;
+    tr {
+      border-bottom: 1px solid #eee;
+      &:last-child {
+        border-bottom: 0;
+      }
     }
 
-    .checkout-page__review-table-value {
+    td {
+      padding: 5px 10px;
+    }
+
+    .checkout__review-table-value {
       text-align: right;
     }
   }
 
-  .checkout-page__review-form {
+  .checkout__review-form {
     max-width: 600px;
     margin: auto;
     margin-bottom: 20px;
   }
 
-  .checkout-page__continue-shopping {
+  .checkout__continue-shopping {
     text-align: center;
     margin-bottom: 10px;
   }
 
-  .checkout-page__product-image {
+  .checkout__product-image {
     height: 50px;
     width: 50px;
   }
 
-  .checkout-page__receipt {
+  .checkout__receipt {
     text-align: center;
 
-    .checkout-page__receipt-content {
+    .checkout__receipt-content {
       height: 300px;
       padding-top: 20px;
     }
   }
 
-  .checkout-page__loader {
+  .checkout__loader {
     height: 300px;
   }
 
+  .checkout__schedule-info {
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .checkout__schedule-info-title {
+      font-weight: 500;
+      font-size: 20px;
+    }
+
+    .checkout__schedule-info-item {
+      margin-bottom: 5px;
+    }
+
+    .checkout__schedule-info-time {
+      mat-radio-button {
+        margin-right: 20px;
+      }
+    }
+  }
+
   ::ng-deep .dx-scheduler-date-table-current-date {
-    .checkout-page__scheduler-template.checkout-page__scheduler-template--past-day {
+    .checkout__scheduler-template.checkout__scheduler-template--past-day {
       opacity: 1;
     }
   }
@@ -169,6 +221,10 @@
 
   ::ng-deep .dx-scheduler-work-space.dx-scheduler-work-space-month .dx-scheduler-date-table-cell > div {
     padding: 4px;
+  }
+
+  ::ng-deep .dx-scheduler-work-space.dx-scheduler-work-space-month .dx-scheduler-date-table-cell {
+    height: 100px !important;
   }
 
   ::ng-deep .dx-scheduler-work-space {

@@ -4,6 +4,11 @@
   </div>
 </ng-template>
 
-<ng-container *ngIf="orders$ | async as orders; else loader">
-  <app-orders-component [orders]="orders"></app-orders-component>
+<ng-container *ngIf="!isLoading; else loader">
+  <div class="container">
+    <app-orders-component
+      [orderSearchResult]="orderSearchResult"
+      (paramsChanged)="onParamsChange($event)"
+    ></app-orders-component>
+  </div>
 </ng-container>

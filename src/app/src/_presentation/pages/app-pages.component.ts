@@ -51,9 +51,6 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   }
 
   ngOnInit() {
-    // if (!this.authService.isAuthorized) {
-    //   return;
-    // }
     this.isLoading = true;
     forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
       .pipe(
@@ -87,5 +84,10 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   public onMenuOpened() {
     this.showCategories = false;
     this.showSidenav = true;
+  }
+
+  // Show cart icon if we not on cart page
+  public get showCart(): boolean {
+    return !(this.router.url.indexOf('/cart') > -1);
   }
 }

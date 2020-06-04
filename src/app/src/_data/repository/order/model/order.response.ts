@@ -113,4 +113,14 @@ export class ProductItem {
   public get maxRentalDuration(): number {
     return Math.max(this.metaData.filter((item) => item.key === 'rental-duration').map((item) => +item.value));
   }
+
+  public getPrice(): number {
+    const rentMetaData = this.metaData.find((data) => data.key === 'rent-price');
+    return rentMetaData ? +rentMetaData.value : +this.total;
+  }
+
+  public get daysForRent(): number {
+    const rentMetaData = this.metaData.find((data) => data.key === 'rental-duration');
+    return rentMetaData.value;
+  }
 }
