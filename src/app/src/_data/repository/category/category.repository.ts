@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable, ReplaySubject} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
 
-import { CategoryModel } from './model';
-import { BaseRepository } from '../base.repository';
+import {CategoryModel} from './model';
+import {BaseRepository} from '../base.repository';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,9 @@ export class CategoryRepository extends BaseRepository {
             if (!acc[dto.parent]) {
               acc[dto.parent] = [];
             }
-            acc[dto.parent] = acc[dto.parent].concat(dto);
+            const categoryModel = new CategoryModel();
+            categoryModel.mapFromDto(dto);
+            acc[dto.parent] = acc[dto.parent].concat(categoryModel);
             return acc;
           }, {});
         const nestedCategoriesIds = Object.keys(nestedCategories).map((key) => +key);
@@ -45,7 +47,6 @@ export class CategoryRepository extends BaseRepository {
               if (nestedCategoriesIds.includes(dto.id)) {
                 categoryModel.subCategories = nestedCategories[dto.id];
               }
-
               return categoryModel;
             })
         );
