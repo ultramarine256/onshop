@@ -26,7 +26,6 @@ export class OrderRepository extends BaseRepository {
   }
 
   public getOrders(page: number = 1, status = ''): Observable<OrderSearchResult> {
-    console.log(page, status);
     const params: { page: string; status?: string } = {
       page: page.toString(),
     };
