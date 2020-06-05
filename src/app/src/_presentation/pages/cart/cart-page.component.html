@@ -30,7 +30,7 @@
               >close</i
             >
           </div>
-          <div class="d-flex align-items-center pr-4">
+          <div class="cart__image">
             <img
               #img
               [src]="product.imageUrl"
@@ -40,8 +40,8 @@
           </div>
 
           <div class="d-flex align-items-center flex-grow-1">
-            <a [routerLink]="'/product/' + product.value.slug" class="text-decoration-none"
-              >{{ product.value.title }}
+            <a [routerLink]="'/product/' + product.value.slug" class="order__product-link"
+              >{{ product.value.title }} 123
             </a>
           </div>
 
@@ -50,31 +50,33 @@
               <div class="cart-page__info-price">
                 {{ getPriceForSale(product.value.price, product.value.count) | currency }}
               </div>
-              x
-              <mat-form-field *ngIf="!product.value.duration" class="cart-page__info-input">
+              &nbsp;x&nbsp;
+              <mat-icon (click)="decreaseCounter(product.controls.count)">remove_circle</mat-icon>
+              <mat-form-field *ngIf="!product.value.duration" class="cart-page__form-field">
                 <input matInput type="number" [formControl]="product.controls.count" [min]="1" />
               </mat-form-field>
+              <mat-icon (click)="increaseCounter(product.controls.count)">add_circle</mat-icon>
             </ng-container>
 
             <ng-container *ngIf="product.value.duration">
               <div class="cart-page__info-price">
                 {{ getPriceForRent(product.value.rentRates, product.value.duration) | currency }}
               </div>
-              for
-              <mat-form-field class="cart-page__info-input">
+              &nbsp;for&nbsp;
+              <mat-icon (click)="decreaseCounter(product.controls.duration)">remove_circle</mat-icon>
+              <mat-form-field class="cart-page__form-field">
                 <input matInput type="number" [formControl]="product.controls.duration" [min]="1" />
               </mat-form-field>
+              <mat-icon (click)="increaseCounter(product.controls.duration)">add_circle</mat-icon>
               <div class="cart-page__info-duration-placeholder">days</div>
             </ng-container>
           </div>
         </div>
 
-        <div class="d-flex">
-          <div class="p-3 w-100 text-right font-weight-500">Total: {{ totalPrice | currency }}</div>
-        </div>
+        <div class="cart__total">Total: {{ totalPrice | currency }}</div>
 
         <div class="cart-page__action">
-          <a mat-raised-button color="primary" (click)="proceedToCheckout()">Proceed to checkout</a>
+          <button mat-raised-button color="primary" (click)="proceedToCheckout()">Proceed to checkout</button>
         </div>
       </div>
     </form>

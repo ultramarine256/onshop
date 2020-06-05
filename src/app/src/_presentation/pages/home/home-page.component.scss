@@ -10,6 +10,7 @@
 
   .home__items {
     .home__items-item {
+      display: block;
       border: 1px solid #2c98f0;
       border-radius: 5px;
       margin-bottom: 20px;
@@ -35,8 +36,9 @@
         color: #fff;
       }
       .home__items-item-image {
-        width: 70%;
+        width: 40%;
         margin: auto;
+        padding: 15px;
 
         img {
           width: 100%;

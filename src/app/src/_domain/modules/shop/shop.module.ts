@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { DxNumberBoxModule, DxRangeSliderModule, DxSliderModule } from 'devextreme-angular';
 
 import { ThirdPartyModule } from '@domain/modules/_theme/_third-party';
 import { CategoryItemComponent } from './category-item';
@@ -24,10 +23,6 @@ import { SortingBarComponent } from './sorting-bar';
     FormsModule,
     RouterModule,
 
-    /// dev-extreme
-    DxRangeSliderModule,
-    DxSliderModule,
-    DxNumberBoxModule,
     ThirdPartyModule,
   ],
   exports: [

@@ -35,7 +35,7 @@
         </div>
 
         <div class="toolbar__icons text-primary">
-          <a routerLink="/checkout">
+          <a routerLink="/cart" *ngIf="showCart">
             <mat-icon
               matBadge="{{ cartService.itemsCount }}"
               class="toolbar__icons-item material-icons-outlined mr-2"
