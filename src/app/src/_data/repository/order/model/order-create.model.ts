@@ -174,7 +174,8 @@ export class LineItemModel {
   /// fields
   productId: number;
   quantity: number;
-  total: number;
+  rentPrice: number;
+  purchasePrice: number;
   rentalDuration: number;
 
   /// constructor
@@ -188,14 +189,18 @@ export class LineItemModel {
       product_id: this.productId,
       quantity: this.quantity,
     };
-    if (this.rentalDuration > 0) {
+    if (this.rentalDuration) {
       (result as any).meta_data = [
         {
           key: 'rental-duration',
           value: this.rentalDuration,
         },
+        {
+          key: 'rent-price',
+          value: this.rentPrice,
+        },
       ];
-      (result as any).total = this.total * this.quantity;
+      (result as any).total = this.purchasePrice;
     }
     return result;
   }

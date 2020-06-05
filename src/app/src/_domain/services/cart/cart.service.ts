@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CartItemEntity, CartItemForRentEntity } from './entities';
+import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity } from './entities';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +23,14 @@ export class CartService {
 
   get items(): Array<CartItemEntity> {
     return this._items;
+  }
+
+  get itemsForSale(): Array<CartItemForSaleEntity> {
+    return this._items.filter((item) => !(item as CartItemForRentEntity).duration) as CartItemForSaleEntity[];
+  }
+
+  get itemsForRent(): Array<CartItemForRentEntity> {
+    return this._items.filter((item) => (item as CartItemForRentEntity).duration) as CartItemForRentEntity[];
   }
 
   /// constructor

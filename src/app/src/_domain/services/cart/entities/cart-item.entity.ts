@@ -1,7 +1,6 @@
 import { v1 as uuidv1 } from 'uuid';
 
 import { ProductModel } from '@data/repository';
-import { ProductService } from '@domain/services/product/product.service';
 
 export abstract class CartItemEntity {
   public uid: string;
@@ -26,11 +25,15 @@ export abstract class CartItemEntity {
 export class CartItemForRentEntity extends CartItemEntity {
   public duration: number;
   public rentRates: RentRates;
+  public dateFrom: Date;
+  public dateTo: Date;
 
-  constructor(entity: ProductModel, duration: number) {
+  constructor(entity: ProductModel, duration: number, dateFrom: Date, dateTo: Date) {
     super(entity);
 
     this.duration = duration;
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
     this.rentRates = entity.rentRates;
   }
 }
@@ -42,10 +45,6 @@ export class CartItemForSaleEntity extends CartItemEntity {
     super(entity);
 
     this.count = count;
-  }
-
-  public getPrice() {
-    return Math.round(this.count * this.price);
   }
 }
 
