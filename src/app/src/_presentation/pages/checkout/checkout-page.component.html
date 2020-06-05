@@ -19,7 +19,7 @@
     </ng-template>
 
     <div class="container mb-3" *ngIf="!isLoading; else loader">
-      <mat-horizontal-stepper [linear]="false" labelPosition="bottom" #stepper>
+      <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
         <!-- Project Info -->
         <mat-step [stepControl]="checkoutForm">
           <form [formGroup]="checkoutForm" class="checkout__form">

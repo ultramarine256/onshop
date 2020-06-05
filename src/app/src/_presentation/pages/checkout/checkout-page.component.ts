@@ -125,11 +125,16 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
         new LineItemModel({
           productId: cartItem.id,
           quantity: cartItem.count,
-          rentalDuration: (cartItem as CartItemForRentEntity).duration,
-          rentPrice: this.productService.getPriceForRent(
-            (cartItem as CartItemForRentEntity).rentRates,
-            (cartItem as CartItemForRentEntity).duration
-          ),
+          rentalDuration: (cartItem as CartItemForRentEntity).duration
+            ? (cartItem as CartItemForRentEntity).duration
+            : null,
+          rentPrice:
+            (cartItem as CartItemForRentEntity).duration && (cartItem as CartItemForRentEntity).rentRates
+              ? this.productService.getPriceForRent(
+                  (cartItem as CartItemForRentEntity).rentRates,
+                  (cartItem as CartItemForRentEntity).duration
+                )
+              : null,
           purchasePrice: this.productService.getPriceForSale(cartItem.price, cartItem.count),
         })
     );

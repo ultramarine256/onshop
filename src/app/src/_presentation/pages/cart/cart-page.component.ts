@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { CartItemForRentEntity, CartService } from '../../../_domain';
+import { CartItemForRentEntity, CartItemForSaleEntity, CartService } from '../../../_domain';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { ProductService } from '@domain/services/product/product.service';
 
@@ -13,7 +14,12 @@ import { ProductService } from '@domain/services/product/product.service';
 export class CartPageComponent extends UnsubscribeMixin() implements OnInit {
   public cartForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private cartService: CartService, private productService: ProductService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private cartService: CartService,
+    private productService: ProductService
+  ) {
     super();
   }
 
@@ -56,5 +62,19 @@ export class CartPageComponent extends UnsubscribeMixin() implements OnInit {
 
   public getPriceForSale(price: number, count: number) {
     return this.productService.getPriceForSale(price, count);
+  }
+
+  public proceedToCheckout() {
+    const values = this.cartForm.value;
+    values.products.forEach((value) => {
+      const cartItem = this.cartService.getItem(value.uid);
+      if (value.duration && value.rentRates) {
+        (cartItem as CartItemForRentEntity).duration = value.duration;
+      } else {
+        (cartItem as CartItemForSaleEntity).count = value.count;
+      }
+      this.cartService.updateItem(cartItem);
+    });
+    this.router.navigate(['/checkout']);
   }
 }

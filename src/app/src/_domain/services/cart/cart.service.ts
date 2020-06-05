@@ -1,44 +1,48 @@
 import { Injectable } from '@angular/core';
 
 import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity } from './entities';
+import { ProductService } from '@domain/services/product/product.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  /// fields
-  private _itemsPrice = 0;
   private _items: CartItemEntity[];
 
-  /// properties
-  get totalPrice(): number {
-    return this._itemsPrice;
-  }
-
-  get itemsCount(): number {
+  public get itemsCount(): number {
     return this._items.reduce((acc, cartItem) => {
       return (acc += cartItem.count);
     }, 0);
   }
 
-  get items(): Array<CartItemEntity> {
+  public get totalPrice(): number {
+    return this._items.length
+      ? this._items.reduce((acc, item) => {
+          return (acc += (item as CartItemForRentEntity).duration
+            ? this.productService.getPriceForRent(
+                (item as CartItemForRentEntity).rentRates,
+                (item as CartItemForRentEntity).duration
+              )
+            : this.productService.getPriceForSale(item.price, item.count));
+        }, 0)
+      : 0;
+  }
+
+  constructor(private productService: ProductService) {
+    const items = JSON.parse(localStorage.getItem(CONSTANTS.CART_KEY));
+    this._items = items ? items : [];
+  }
+
+  public get items(): Array<CartItemEntity> {
     return this._items;
   }
 
-  get itemsForSale(): Array<CartItemForSaleEntity> {
+  public get itemsForSale(): Array<CartItemForSaleEntity> {
     return this._items.filter((item) => !(item as CartItemForRentEntity).duration) as CartItemForSaleEntity[];
   }
 
-  get itemsForRent(): Array<CartItemForRentEntity> {
+  public get itemsForRent(): Array<CartItemForRentEntity> {
     return this._items.filter((item) => (item as CartItemForRentEntity).duration) as CartItemForRentEntity[];
-  }
-
-  /// constructor
-  constructor() {
-    const items = JSON.parse(localStorage.getItem(Constants.CART_KEY));
-    this._items = items ? items : [];
-
-    this.calculatePrice(this._items);
   }
 
   /// methods
@@ -77,11 +81,8 @@ export class CartService {
     this.updateItems(items as CartItemEntity[]);
   }
 
-  public updateItem(cartItem: CartItemEntity) {
-    const items = this.items.map((item) => {
-      return item.uid === cartItem.uid ? cartItem : item;
-    });
-    this.updateItems(items);
+  public getItem(uid: string): CartItemEntity {
+    return this._items.find((item) => item.uid === uid);
   }
 
   public removeItem(uid: string) {
@@ -94,21 +95,17 @@ export class CartService {
 
   public updateItems(items: CartItemEntity[]) {
     this._items = items;
-    this.calculatePrice(this._items);
-
-    localStorage.setItem(Constants.CART_KEY, JSON.stringify(this._items));
+    localStorage.setItem(CONSTANTS.CART_KEY, JSON.stringify(this._items));
   }
 
-  /// helpers
-  private calculatePrice(items: CartItemEntity[] = []) {
-    this._itemsPrice = items.length
-      ? items.reduce((acc, item) => {
-          return (acc += +item.price.toFixed(2));
-        }, 0)
-      : 0;
+  public updateItem(cartItem: CartItemEntity) {
+    const items = this._items.map((item) => {
+      return item.uid === cartItem.uid ? cartItem : item;
+    });
+    this.updateItems(items);
   }
 }
 
-const Constants = {
+const CONSTANTS = {
   CART_KEY: 'onshop-cart-key',
 };
