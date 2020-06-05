@@ -84,6 +84,7 @@ class Shipping {
   public address: string;
   public city: string;
   public postcode: string;
+  public state: string;
 
   constructor(props?: any) {
     if (props) {
@@ -92,6 +93,7 @@ class Shipping {
       this.address = props.address_1;
       this.city = props.city;
       this.postcode = props.postcode;
+      this.state = props.state;
     }
   }
 
@@ -102,6 +104,7 @@ class Shipping {
       address_1: this.address,
       city: this.city,
       postcode: this.postcode,
+      state: this.state,
     };
   }
 }

@@ -28,11 +28,11 @@
                 }
         "
       >
-        <mat-expansion-panel-header expandedHeight="80px" collapsedHeight="80px">
+        <mat-expansion-panel-header class="orders__panel-header" expandedHeight="80px" collapsedHeight="80px">
           <mat-panel-title class="orders__panel-title" fxLayoutAlign="flex-start center">
             <div>
               <span>{{ order.projectNumber }} (Order #{{ order.id }})</span>
-              <div>
+              <div class="orders__date-created">
                 <small> {{ order.dateCreated | date }}</small>
               </div>
             </div>
@@ -148,7 +148,7 @@
       </mat-expansion-panel>
     </mat-accordion>
 
-    <div fxLayoutAlign="center center" class="orders__pagination" *ngIf="orderSearchResult.totalPages">
+    <div fxLayoutAlign="center center" class="orders__pagination" *ngIf="orderSearchResult.totalPages > 1">
       <pagination-controls
         (pageChange)="onPageChanged($event)"
         (pageBoundsCorrection)="onPageChanged($event)"

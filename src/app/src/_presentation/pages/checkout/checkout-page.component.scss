@@ -20,6 +20,13 @@
     button {
       min-width: 100px;
     }
+
+    @media only screen and (max-width: 600px) {
+      button {
+        display: block;
+        width: 100%;
+      }
+    }
   }
 
   .checkout__confirm-action {
@@ -28,6 +35,13 @@
     button {
       min-width: 150px;
       min-height: 40px;
+    }
+
+    @media only screen and (max-width: 600px) {
+      button {
+        display: block;
+        width: 100%;
+      }
     }
   }
 
@@ -92,6 +106,10 @@
     .checkout__scheduler-template-delivery-day {
       font-weight: bold;
       text-align: center;
+
+      @media only screen and (max-width: 600px) {
+        font-size: 10px;
+      }
 
       &.checkout__scheduler-template-delivery-day--rent {
         color: #03a9f4;

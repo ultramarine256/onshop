@@ -77,4 +77,15 @@ export class CartPageComponent extends UnsubscribeMixin() implements OnInit {
     });
     this.router.navigate(['/checkout']);
   }
+
+  public decreaseCounter(control: any) {
+    if (control.value <= 1) {
+      return;
+    }
+    control.setValue(control.value - 1);
+  }
+
+  public increaseCounter(control: any) {
+    control.setValue(control.value + 1);
+  }
 }

@@ -27,14 +27,12 @@ export class OrdersComponent extends UnsubscribeMixin() implements OnInit {
 
   public getDaysLeft(order: OrderResponse): number {
     const deliveryEndDate = moment(order.deliveryDate).add(order.rentalDuration, 'days');
-    // const now = moment(new Date());
-    const now = moment(new Date()).add(3, 'days');
+    const now = moment(new Date());
     return deliveryEndDate.diff(now, 'days');
   }
 
   public showDurationMessage(order: OrderResponse): boolean {
-    // return order.rentalDuration && order.deliveryDate.getTime() <= new Date().getTime();
-    return order.rentalDuration && order.deliveryDate.getTime() <= moment(new Date()).add(3, 'days').toDate().getTime();
+    return order.rentalDuration && order.deliveryDate.getTime() <= new Date().getTime();
   }
 
   public onPageChanged(page: number) {

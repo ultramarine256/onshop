@@ -7,61 +7,53 @@
 
   <div class="row home__items">
     <div class="col-12 col-md-6">
-      <div class="home__items-item">
+      <a [routerLink]="['/orders']" [queryParams]="{ status: 'pending' }" class="home__items-item">
         <div class="home__items-item-title">
           Orders Arriving
         </div>
         <div class="home__items-item-image">
-          <img [src]="'/assets/img/home/order.svg'" />
+          <img [src]="'/assets/img/home/delivery.svg'" />
         </div>
-        <div class="home__items-item-description">Simple description about this block</div>
-      </div>
+      </a>
     </div>
     <div class="col-12 col-md-6">
-      <div class="home__items-item">
+      <a class="home__items-item" routerLink="/inventory/all">
         <div class="home__items-item-title">
           Items
         </div>
         <div class="home__items-item-image">
-          <img [src]="'/assets/img/home/order.svg'" />
+          <img [src]="'/assets/img/home/trolley.svg'" />
         </div>
-        <div class="home__items-item-description">Simple description about this block</div>
-      </div>
+      </a>
     </div>
   </div>
 
   <div class="row home__items">
     <div class="col-12 col-md-6">
-      <div class="home__items-item">
+      <a [routerLink]="['/orders']" [queryParams]="{ status: 'return' }" class="home__items-item">
         <div class="home__items-item-title">
           Return these items
         </div>
         <div class="home__items-item-image">
           <img [src]="'/assets/img/home/order.svg'" />
         </div>
-        <div class="home__items-item-description">Simple description about this block</div>
-      </div>
+      </a>
     </div>
     <div class="col-12 col-md-6">
-      <div class="home__items-item">
+      <a class="home__items-item" routerLink="/inventory/317">
         <div class="home__items-item-title">
           Heavy equipment
         </div>
         <div class="home__items-item-image">
-          <img [src]="'/assets/img/home/order.svg'" />
+          <img [src]="'/assets/img/home/crane.svg'" />
         </div>
-        <div class="home__items-item-description">Simple description about this block</div>
-      </div>
+      </a>
     </div>
   </div>
 
-  <div class="row home__items">
-    <div class="col-12">
-      <div class="home__items-item">
-        <div class="home__items-item-title">
-          {{ infoService.appInfo.promo2 }}
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-12 home__title">
+      <h2>{{ infoService.appInfo.promo2 }}</h2>
     </div>
   </div>
 </div>

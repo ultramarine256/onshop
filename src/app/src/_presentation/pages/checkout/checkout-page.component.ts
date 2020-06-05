@@ -97,7 +97,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       phone: [user.billing.phone, Validators.required],
       address: [user.shipping.address, Validators.required],
       city: [user.shipping.city, Validators.required],
-      state: ['', Validators.required],
+      state: [user.shipping.state, Validators.required],
       zip: [user.shipping.postcode, Validators.required],
       projectNumber: ['', Validators.required],
     });

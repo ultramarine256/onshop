@@ -1,6 +1,11 @@
 .orders {
   padding: 20px 10px;
 
+  .orders__filter {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
   .orders__accordion {
     display: block;
     margin-bottom: 20px;
@@ -58,12 +63,22 @@
     width: 25%;
   }
 
+  .orders__panel-header {
+    font-size: 12px;
+  }
+
+  .orders__date-created {
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
   .orders__panel-description {
     width: 75%;
 
     .orders__status {
       padding: 0 10px;
-      width: 15%;
+      width: 25%;
       text-align: center;
     }
 

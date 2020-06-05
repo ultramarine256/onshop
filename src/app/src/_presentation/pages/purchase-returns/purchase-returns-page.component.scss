@@ -44,6 +44,10 @@
       height: 35px;
       justify-content: center;
       display: flex;
+      @media only screen and (max-width: 600px) {
+        display: block;
+        width: 100%;
+      }
     }
   }
 
