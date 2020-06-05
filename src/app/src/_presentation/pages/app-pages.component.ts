@@ -88,6 +88,6 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
 
   // Show cart icon if we not on cart page
   public get showCart(): boolean {
-    return !(this.router.url.indexOf('/cart') > -1);
+    return !(this.router.url.indexOf('/cart') > -1 || this.router.url.indexOf('/checkout') > -1);
   }
 }

@@ -258,15 +258,22 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
     {
         $orderData = wc_get_order($orderId)->get_data();
         // we do not have separate field for total items and total fee, so we need to calculate it manually
-        $itemsTotal = number_format(array_reduce($orderData['line_items'], function($acc, $item) {
-            return $acc += $item->get_data()['total'];
+        $itemsTotal = number_format(array_reduce($orderData['line_items'], function ($acc, $item) {
+            return $acc += $this->getPriceForProductItem($item);
         }, 0), 2);
-        $feeTotal = number_format(array_reduce($orderData['fee_lines'], function($acc, $item) {
+
+        $feeTotal = number_format(array_reduce($orderData['fee_lines'], function ($acc, $item) {
             return $acc += $item->get_data()['total'];
         }, 0), 2);
 
         $shippingTotal = number_format($orderData['shipping_total'], 2);
-        $total = number_format($orderData['total'], 2);
+
+        $total = number_format($itemsTotal + $feeTotal + $shippingTotal, 2);
+
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $orderData['meta_data']);
+        $metaFormattedData = $this->getMetaData($metaData);
 
         return [
             'orderId' => $orderId,
@@ -282,17 +289,64 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             "state" => $orderData['shipping']['state'],
             "zip" => $orderData['shipping']['postcode'],
             "phone" => $orderData['billing']['phone'],
-            "date" => $orderData['meta_data'][0]->get_data()['value'],
-            'project' => $orderData['meta_data'][1]->get_data()['value'],
-            'items' => array_map(function($orderItem) {
-                $orderItemData = $orderItem->get_data();
+            'project' => $metaFormattedData['project-number'],
+            'deliveryDate' => $metaFormattedData['delivery-date'],
+            'deliveryInstructions' => $metaFormattedData['delivery-instructions'],
+            'items' => array_map(function ($item) {
                 return (object)[
-                    'text' => $orderItemData['name'],
-                    'count' => $orderItemData['quantity'],
-                    'price' => number_format($orderItemData['total'], 2),
+                    'isRent' => $this->isProductForRent($item),
+                    'text' => $item->get_data()['name'],
+                    'count' => $item->get_data()['quantity'],
+                    'duration' => $this->isProductForRent($item) ? $this->getProductMetaData($item)['rental-duration'] : null,
+                    'price' => $this->getPriceForProductItem($item),
                 ];
             }, $orderData['line_items'])
         ];
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    function getMetaData($data)
+    {
+        $metaInfo = [];
+        foreach ($data as $item) {
+            $metaInfo[$item['key']] = $item['value'];
+        }
+        return $metaInfo;
+    }
+
+    /**
+     * @param $item
+     * @return string
+     */
+    function getPriceForProductItem($item)
+    {
+        $orderItemData = $item->get_data();
+        $metaFormattedData = $this->getProductMetaData($item);
+        return number_format($this->isProductForRent($item) ? $metaFormattedData['rent-price'] : $orderItemData['total'], 2);
+    }
+
+    function getProductMetaData($item)
+    {
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $item->get_meta_data());
+        return $this->getMetaData($metaData);
+    }
+
+    /**
+     * @param $item
+     * @return bool
+     */
+    function isProductForRent($item)
+    {
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $item->get_meta_data());
+        $metaFormattedData = $this->getMetaData($metaData);
+        return array_key_exists('rental-duration', $metaFormattedData);
     }
 
 	/**

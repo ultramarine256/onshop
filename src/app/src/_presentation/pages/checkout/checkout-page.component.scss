@@ -76,6 +76,7 @@
     padding-top: 25px;
     padding-bottom: 5px;
     display: flex;
+    font-size: 12px;
     flex-direction: column;
     justify-content: space-around;
 
@@ -233,5 +234,9 @@
 
   ::ng-deep .mat-horizontal-stepper-content {
     padding: 0 10px;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    margin-bottom: 20px;
   }
 }
