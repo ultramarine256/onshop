@@ -35,18 +35,18 @@
     <div>
       <mat-checkbox formControlName="forRent">For rent</mat-checkbox>
     </div>
-    <mat-checkbox formControlName="forSale">For sale</mat-checkbox>
   </div>
 
   <div class="inventory-filters__item">
     <h6 class="inventory-filters__title">Tags</h6>
     <mat-chip-list aria-label="Tags">
       <mat-chip
+        class="inventory-filters__chip"
         [selected]="selectedTag && selectedTag.id === tag.id"
         (click)="selectTag(tag)"
         *ngFor="let tag of tags"
-        >{{ tag.name }}</mat-chip
-      >
+        >{{ tag.name }}
+      </mat-chip>
     </mat-chip-list>
   </div>
 </form>

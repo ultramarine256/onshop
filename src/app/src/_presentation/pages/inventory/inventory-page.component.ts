@@ -17,6 +17,7 @@ import {
 import { CartService, FilterFormData, SortingOption } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { FilterDialogComponent } from '@presentation/pages/inventory/filter-dialog/filter-dialog.component';
+import { FormControl } from '@angular/forms';
 
 interface FilterState {
   productFilter: ProductFilter;
@@ -33,11 +34,10 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
   public searchResult = new ProductSearchResult();
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
+  public itemsPerPage = new FormControl(12);
   public filters: { minPrice: number; maxPrice: number };
   public tags: TagModel[];
   public isInProgress: boolean;
-
-  public readonly paginationConfig = { itemsPerPage: 12 };
 
   public isFirstLoading = true;
 
@@ -63,7 +63,7 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
         productFilter: new ProductFilter({
           page: this.activatedRoute.snapshot.queryParams?.page || 1,
           category: !params.categoryId ? '' : params.categoryId,
-          per_page: this.paginationConfig.itemsPerPage,
+          per_page: this.itemsPerPage.value,
         }),
       };
       this.filterUpdated$.next(this.filterState);
@@ -109,6 +109,12 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     this.filterUpdated$.next(filterState);
   }
 
+  public onItemsPerPageChanged(number: number) {
+    const filterState = { ...this.filterState };
+    filterState.productFilter.per_page = number;
+    this.filterUpdated$.next(filterState);
+  }
+
   public onSortTypeChanged($event: SortingOption) {
     const filterState = { ...this.filterState };
     filterState.productFilter.order = $event.property;
@@ -124,7 +130,7 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
     filterState.productFilter.on_sale = $event.forSale;
 
     if ($event.forRent) {
-      filterState.productFilter.attribute = 'rent__is-rentable';
+      filterState.productFilter.attribute = 'pa_rent__is-rentable';
       filterState.productFilter.attribute_term = 'true';
     }
 

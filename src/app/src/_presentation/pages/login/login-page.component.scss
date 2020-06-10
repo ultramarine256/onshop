@@ -35,9 +35,6 @@
       text-align: right;
 
       button {
-        min-height: 40px;
-        min-width: 100px;
-
         @media only screen and (max-width: 600px) {
           width: 100%;
         }

@@ -225,7 +225,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 	}
 
     function sendMail($orderId) {
-        $TEMPLATE_ID = 'd-bd53b0a6026549b6a12e16ecd491f5cf';
+        $TEMPLATE_ID = $_ENV['SEND_GRID_TEMPLATE_ID'];
 
         $orderData = $this->getOrderDataById($orderId);
 

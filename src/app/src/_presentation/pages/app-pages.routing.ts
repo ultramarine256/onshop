@@ -53,6 +53,11 @@ export const routes: Routes = [
         component: SubCategoriesComponent,
       },
       {
+        path: 'inventory',
+        canActivate: [AuthGuard],
+        component: InventoryPageComponent,
+      },
+      {
         path: 'inventory/:categoryId',
         canActivate: [AuthGuard],
         component: InventoryPageComponent,

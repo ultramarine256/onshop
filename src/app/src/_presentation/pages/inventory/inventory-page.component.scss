@@ -55,12 +55,6 @@
     padding-top: 30px;
   }
 
-  .inventory-page__actions {
-    .inventory-page__sorting-bar {
-      display: inline-block;
-    }
-  }
-
   .inventory-page__pagination {
     &.inventory-page__pagination--loading {
       opacity: 0.5;
@@ -72,6 +66,22 @@
         left: 0;
         right: 0;
         bottom: 0;
+      }
+    }
+  }
+
+  .inventory-page__actions {
+    display: flex;
+
+    .inventory-page__actions-item {
+      margin-right: 10px;
+      width: 70px;
+    }
+
+    .inventory-page__actions {
+      .inventory-page__sorting-bar {
+        width: 100px;
+        display: inline-block;
       }
     }
   }

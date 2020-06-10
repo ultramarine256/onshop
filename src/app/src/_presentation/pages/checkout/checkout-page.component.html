@@ -364,14 +364,14 @@
           </div>
 
           <div class="checkout__confirm-action d-flex w-100 justify-content-center">
-            <button mat-raised-button color="primary" (click)="!isSubmitInProgress && submit()">
-              <mat-spinner
-                class="checkout__confirm-spinner"
-                color="accent"
-                [diameter]="20"
-                [hidden]="!isSubmitInProgress"
-              ></mat-spinner>
-              <span [hidden]="isSubmitInProgress">Place order</span>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="submit()"
+              [disabled]="isSubmitInProgress"
+              [class.spinner]="isSubmitInProgress"
+            >
+              Place order
             </button>
           </div>
         </mat-step>

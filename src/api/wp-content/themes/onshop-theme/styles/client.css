@@ -128,12 +128,36 @@ li:nth-last-child(-n+2) {
 /**
  * Hide order actions
  */
-#woocommerce-order-actions {
+/*#woocommerce-order-actions #actions {*/
+/*    display: none!important;*/
+/*}*/
+
+#list-table {
     display: none!important;
 }
 
 #adminmenu #toplevel_page_wc-admin-path--analytics-revenue {
     display: none!important;
+}
+
+#woocommerce-order-actions.hide-if-js {
+    display: block!important;
+}
+
+#woocommerce-order-actions #actions {
+    display: none!important;
+}
+
+#delete-action {
+    display: none!important;
+}
+
+#order_actions {
+    display: none!important;
+}
+
+#save-order {
+    width: 100%!important;
 }
 
 #adminmenu #toplevel_page_wc-admin-path--marketing {

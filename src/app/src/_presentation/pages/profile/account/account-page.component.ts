@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserModel, UserRepository } from '@data/repository';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil, tap } from 'rxjs/operators';
 
-import { FormsService } from '@shared/services/forms.service';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
 @Component({
@@ -13,21 +11,14 @@ import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
   styleUrls: ['./account-page.component.scss'],
 })
 export class AccountPageComponent extends UnsubscribeMixin() implements OnInit {
-  public edit: boolean;
+  public showInfo: boolean;
 
   public isLoading: boolean;
-  public isInProgress: boolean;
   public settingsForm: FormGroup;
-  public password: string;
 
   public user: UserModel;
 
-  constructor(
-    private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    public userRepository: UserRepository,
-    private formService: FormsService
-  ) {
+  constructor(private fb: FormBuilder, public userRepository: UserRepository) {
     super();
   }
 
@@ -66,54 +57,5 @@ export class AccountPageComponent extends UnsubscribeMixin() implements OnInit {
         postcode: [user.shipping.postcode],
       }),
     });
-  }
-
-  public submit() {
-    if (!this.formService.validate(this.settingsForm)) {
-      return false;
-    }
-
-    this.isInProgress = true;
-    const settingsFormData = { ...this.settingsForm.value };
-    // Change camelCase to underscore
-    const updatedUserData = {
-      ...settingsFormData,
-      ...{
-        first_name: settingsFormData.firstName,
-        last_name: settingsFormData.lastName,
-        date_created: this.user.dateCreated,
-        billing: {
-          ...settingsFormData.billing,
-          ...{ first_name: settingsFormData.billing.firstName, last_name: settingsFormData.billing.lastName },
-        },
-        shipping: {
-          ...settingsFormData.shipping,
-          ...{ first_name: settingsFormData.shipping.firstName, last_name: settingsFormData.shipping.lastName },
-        },
-      },
-    };
-
-    this.userRepository
-      .editUser(updatedUserData)
-      .pipe(
-        tap(() => {
-          this.isInProgress = false;
-          this.edit = false;
-          this.snackBar.open('Settings updated', null, {
-            duration: 2000,
-          });
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((response) => {
-        // after success update user model
-        this.user.firstName = updatedUserData.first_name;
-        this.user.lastName = updatedUserData.last_name;
-        this.user.email = updatedUserData.billing.email;
-      });
-  }
-
-  public cancel() {
-    this.edit = false;
   }
 }
