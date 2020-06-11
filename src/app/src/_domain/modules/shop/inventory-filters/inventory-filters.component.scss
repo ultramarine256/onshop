@@ -25,4 +25,9 @@
   .inventory-filters__stock-status-field {
     width: 100%;
   }
+
+  .inventory-filters__chip {
+    height: auto;
+    word-break: break-word;
+  }
 }

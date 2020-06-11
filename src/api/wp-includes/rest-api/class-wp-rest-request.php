@@ -801,7 +801,8 @@ class WP_REST_Request implements ArrayAccess {
 					continue;
 				}
 
-				$sanitized_value = call_user_func( $param_args['sanitize_callback'], $value, $this, $key );
+				// if value is boolean ignore sanitaze
+                $sanitized_value = $value == 'true' || $value == 'false' ? $value : call_user_func( $param_args['sanitize_callback'], $value, $this, $key );
 
 				if ( is_wp_error( $sanitized_value ) ) {
 					$invalid_params[ $key ] = $sanitized_value->get_error_message();

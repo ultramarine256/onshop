@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { zip } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
   BillingModel,
@@ -19,8 +20,9 @@ import {
   UserModel,
   UserRepository,
 } from '@data/repository';
-import { AuthService, CartService } from '@domain/index';
+import { AuthService, CartItemForRentEntity, CartService } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { ProductService } from '@domain/services/product/product.service';
 
 @Component({
   selector: 'app-checkout-page',
@@ -38,6 +40,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
   public deliveryTime: FormControl;
   public deliveryTimeOptions = DeliveryTime;
   public products = this.cartService.items;
+  public order: OrderCreateModel;
 
   /// predicates
   public orderCompleted = false;
@@ -50,12 +53,14 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
   /// constructor
   constructor(
     private fb: FormBuilder,
+    private snackBar: MatSnackBar,
     private router: Router,
-    private cartService: CartService,
     private authService: AuthService,
     private orderRepository: OrderRepository,
     private userRepository: UserRepository,
-    private projectRepository: ProjectRepository
+    private projectRepository: ProjectRepository,
+    public cartService: CartService,
+    public productService: ProductService
   ) {
     super();
   }
@@ -92,13 +97,21 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       phone: [user.billing.phone, Validators.required],
       address: [user.shipping.address, Validators.required],
       city: [user.shipping.city, Validators.required],
-      state: ['', Validators.required],
+      state: [user.shipping.state, Validators.required],
       zip: [user.shipping.postcode, Validators.required],
       projectNumber: ['', Validators.required],
     });
   }
 
   public selectDeliveryDate($event) {
+    // if order do not have any product for sale show message to user, than explain this behavior
+    if (!this.cartService.itemsForSale.length) {
+      this.snackBar.open(`You can't change delivery date for rent product`, null, {
+        duration: 2000,
+      });
+      return false;
+    }
+
     if ($event.cellData.startDate <= this.currentDate) {
       return;
     }
@@ -111,12 +124,26 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       (cartItem) =>
         new LineItemModel({
           productId: cartItem.id,
+          title: cartItem.title,
           quantity: cartItem.count,
-          rentalDuration: cartItem.duration,
-          total: cartItem.price,
+          rentalInfo: (cartItem as CartItemForRentEntity).duration
+            ? {
+                duration: (cartItem as CartItemForRentEntity).duration,
+                dateFrom: (cartItem as CartItemForRentEntity).dateFrom,
+                dateTo: (cartItem as CartItemForRentEntity).dateTo,
+              }
+            : null,
+          rentPrice:
+            (cartItem as CartItemForRentEntity).duration && (cartItem as CartItemForRentEntity).rentRates
+              ? this.productService.getPriceForRent(
+                  (cartItem as CartItemForRentEntity).rentRates,
+                  (cartItem as CartItemForRentEntity).duration
+                )
+              : null,
+          purchasePrice: this.productService.getPriceForSale(cartItem.price, cartItem.count),
         })
     );
-    const order = new OrderCreateModel({
+    this.order = new OrderCreateModel({
       customerId: this.authService.identity.id,
       paymentMethod: Payment.Bacs,
       paymentMethodTitle: Payment.Direct,
@@ -137,17 +164,20 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       }),
       projectName: form.value.projectName,
       projectNumber: form.value.projectNumber,
-      deliveryDate: this.deliveryDate.value,
+      // delivery date can be date for purchase product if it is exist, all take earliest date from rent products
+      deliveryDate:
+        this.deliveryDate.value ||
+        new Date(Math.min(...this.cartService.itemsForRent.map((item) => new Date(item.dateFrom).getTime()))),
       deliveryInstructions: this.deliveryInstructions.value,
       deliveryTime: this.deliveryTime.value,
-      status: products.some((product) => product.rentalDuration) ? OrderStatus.InRent : OrderStatus.Pending,
+      status: OrderStatus.Waiting,
     });
 
-    order.products = products;
+    this.order.products = products;
 
     this.isSubmitInProgress = true;
     this.orderRepository
-      .placeOrder(order.mapToWooCommerceOrder())
+      .placeOrder(this.order.mapToWooCommerceOrder())
       .pipe(
         finalize(() => {
           this.isSubmitInProgress = false;
@@ -159,5 +189,17 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
         this.orderNumber = item.orderKey;
         this.cartService.clearCart();
       });
+  }
+
+  public isDeliveryDate(date: any): boolean {
+    return !!this.cartService.itemsForRent.find(
+      (item) =>
+        (item as CartItemForRentEntity).dateFrom &&
+        new Date((item as CartItemForRentEntity).dateFrom).toLocaleDateString() === date.toLocaleDateString()
+    );
+  }
+
+  public isPurchaseDate(date: any): boolean {
+    return this.deliveryDate.value && this.deliveryDate.value.toLocaleDateString() === date.toLocaleDateString();
   }
 }

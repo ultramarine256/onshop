@@ -35,7 +35,7 @@
         </div>
 
         <div class="toolbar__icons text-primary">
-          <a routerLink="/checkout">
+          <a routerLink="/cart" *ngIf="showCart">
             <mat-icon
               matBadge="{{ cartService.itemsCount }}"
               class="toolbar__icons-item material-icons-outlined mr-2"
@@ -45,15 +45,11 @@
               shopping_cart
             </mat-icon>
           </a>
-          <mat-icon class="toolbar__icons-item" [matMenuTriggerFor]="menu">
-            <i class="material-icons-outlined">account_circle</i>
-          </mat-icon>
-
-          <mat-menu class="toolbar__icons-item" #menu="matMenu">
-            <a routerLink="/profile" mat-menu-item>Account</a>
-            <a routerLink="/profile/orders" mat-menu-item>Orders</a>
-            <a routerLink="/profile/projects" mat-menu-item>Projects</a>
-          </mat-menu>
+          <a routerLink="/profile">
+            <mat-icon class="toolbar__icons-item">
+              <i class="material-icons-outlined">account_circle</i>
+            </mat-icon>
+          </a>
         </div>
       </div>
 
@@ -63,18 +59,14 @@
           <a routerLink="/" class="toolbar__logo">
             <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
           </a>
-          <div class="categories">
-            <a class="link" mat-button routerLink="/">Home</a>
+          <div>
             <a class="link" mat-button routerLink="/categories">Categories</a>
           </div>
-        </div>
-        <div fxLayout="row" class="support">
-          <img class="support__image" [src]="'/assets/img/header/support.svg'" />
-          <div class="support__text">
-            <div><b>Support</b> 000-000-000</div>
-            <div>
-              Email: email@mail.com
-            </div>
+          <div>
+            <a class="link" mat-button routerLink="/orders">Orders</a>
+          </div>
+          <div>
+            <a class="link" mat-button routerLink="/projects">Projects</a>
           </div>
         </div>
       </div>
@@ -87,7 +79,7 @@
           <div class="col-md-9">
             <div class="searchbar__inner">
               <app-products-search class="w-100"></app-products-search>
-              <div class="d-none d-md-block searchbar__icons pl-4">
+              <div fxHide.lt-sm class="searchbar__icons pl-4" *ngIf="showCart">
                 <a
                   class="icon-item text-decoration-none text-light font-weight-bold position-relative"
                   routerLink="/cart"
@@ -101,7 +93,7 @@
                     shopping_cart
                   </mat-icon>
                   <span class="font-weight-500 ml-3">{{
-                    (!cartService.totalPrice ? '0.00' : cartService.totalPrice) | currency
+                    (!cartService.totalPrice ? 0 : cartService.totalPrice) | currency
                   }}</span>
                 </a>
               </div>
@@ -124,8 +116,10 @@
     >
       <mat-nav-list class="sidenav__content">
         <ng-container *ngIf="!showCategories">
-          <a mat-list-item routerLink="/">Home</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/">Home</a>
           <a mat-list-item (click)="showCategories = true">Categories</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/orders">Orders</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/projects">Projects</a>
         </ng-container>
 
         <ng-container *ngIf="showCategories">

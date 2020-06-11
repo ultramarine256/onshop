@@ -1,11 +1,12 @@
-import {AfterContentInit, Component} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {GOOGLE_MAP_CONSTANTS, InfoService} from '../../../_domain';
+import { AfterContentInit, Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { GOOGLE_MAP_CONSTANTS, InfoService } from '../../../_domain';
 
 @Component({
   selector: 'app-contact-us',
   styleUrls: ['./contact-us-page.component.scss'],
-  templateUrl: './contact-us-page.component.html'
+  templateUrl: './contact-us-page.component.html',
 })
 export class ContactUsPageComponent implements AfterContentInit {
   /// fields
@@ -15,8 +16,7 @@ export class ContactUsPageComponent implements AfterContentInit {
   public googleMapDidLoaded = false;
 
   /// constructor
-  constructor(public infoService: InfoService) {
-  }
+  constructor(public infoService: InfoService) {}
 
   ngAfterContentInit(): void {
     this.appendGoogleMapsScriptToHeader(() => {
@@ -30,7 +30,7 @@ export class ContactUsPageComponent implements AfterContentInit {
         fullscreenControl: false,
         mapTypeControl: false,
         clickableIcons: true,
-        streetViewControl: false
+        streetViewControl: false,
       };
       this._googleMap = new (window as any).google.maps.Map(window.document.getElementById('map'), mapOptions);
 
@@ -39,7 +39,7 @@ export class ContactUsPageComponent implements AfterContentInit {
         const coordinates = new (window as any).google.maps.LatLng(lat, lng);
         const dealerLocationMarker = new (window as any).google.maps.Marker({
           map: this._googleMap,
-          anchorPoint: new (window as any).google.maps.Point(0, -29)
+          anchorPoint: new (window as any).google.maps.Point(0, -29),
         });
         dealerLocationMarker.setPosition(coordinates);
         dealerLocationMarker.setVisible(true);
@@ -54,7 +54,10 @@ export class ContactUsPageComponent implements AfterContentInit {
     if (!window.document.querySelector(`.${GOOGLE_MAP_CONSTANTS.SCRIPT_CLASS}`)) {
       const script = window.document.createElement('script');
       script.classList.add(GOOGLE_MAP_CONSTANTS.SCRIPT_CLASS);
-      script.setAttribute('src', `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_CONSTANTS.API_KEY}&libraries=places,geometry&callback=initialize`);
+      script.setAttribute(
+        'src',
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_CONSTANTS.API_KEY}&libraries=places,geometry&callback=initialize`
+      );
       window.document.head.appendChild(script);
       (window as any).initialize = () => {
         callback();
@@ -66,7 +69,7 @@ export class ContactUsPageComponent implements AfterContentInit {
 
   private getLocation(address: string, callback: (lat: any, lng: any) => void) {
     const geocoder = new (window as any).google.maps.Geocoder();
-    geocoder.geocode({address}, (results, status) => {
+    geocoder.geocode({ address }, (results, status) => {
       if (status === (window as any).google.maps.GeocoderStatus.OK) {
         const lat = results[0].geometry.location.lat();
         const lng = results[0].geometry.location.lng();
@@ -75,7 +78,5 @@ export class ContactUsPageComponent implements AfterContentInit {
     });
   }
 
-  public getFormProperties(formValue: FormGroup) {
-    console.log(formValue);
-  }
+  public getFormProperties(formValue: FormGroup) {}
 }

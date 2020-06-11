@@ -79,6 +79,14 @@ class ONSHOP_REST_Users_Controller extends WC_REST_Customers_Controller {
 						);
 					}
 
+					if (!$result->caps['customer']) {
+                        return new WP_Error(
+                            'access_denied',
+                            __( 'Access denied.' ),
+                            [ 'status' => 405 ]
+                        );
+                    }
+
 					return [
 						"jwt" => ONSHOP_AUTH::generate_token( [
 							"user_id" => $result->ID,

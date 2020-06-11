@@ -40,6 +40,7 @@
 
   .toolbar__icons {
     line-height: 0;
+    padding-right: 10px;
 
     .toolbar__icons-item {
       cursor: pointer;
@@ -137,6 +138,7 @@
 
 .searchbar {
   background-color: #2c98f0;
+  padding: 5px 0;
 
   .searchbar__inner {
     display: flex;

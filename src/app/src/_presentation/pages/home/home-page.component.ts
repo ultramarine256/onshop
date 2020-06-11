@@ -4,6 +4,7 @@ import { takeUntil, tap } from 'rxjs/operators';
 import { OWL_CAROUSEL } from '@domain/modules';
 import { CategoryModel, CategoryRepository, ProductModel, ProductRepository } from '../../../_data';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { InfoService } from '@domain/services';
 
 @Component({
   selector: 'app-home-page',
@@ -19,7 +20,11 @@ export class HomePageComponent extends UnsubscribeMixin() implements AfterConten
   public productsInLoading: boolean;
 
   /// constructor
-  constructor(private productRepository: ProductRepository, private categoryRepository: CategoryRepository) {
+  constructor(
+    private productRepository: ProductRepository,
+    private categoryRepository: CategoryRepository,
+    public infoService: InfoService
+  ) {
     super();
   }
 

@@ -1,8 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DxSchedulerModule, DxTemplateModule } from 'devextreme-angular';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
 import { HomePageComponent } from './home';
@@ -23,6 +21,7 @@ import { RepositoryModule } from '../../_data';
 import { AuthModule, CartModule, InfoModule, ProfileModule, ShopModule, ThemeModule } from '../../_domain';
 import { PurchaseReturnsPageComponent } from './purchase-returns';
 import { FilterDialogComponent } from './inventory/filter-dialog/filter-dialog.component';
+import { ThirdPartyModule } from '@domain/modules/_theme/_third-party';
 
 @NgModule({
   declarations: [
@@ -52,11 +51,9 @@ import { FilterDialogComponent } from './inventory/filter-dialog/filter-dialog.c
     FormsModule,
     ReactiveFormsModule,
     MatNativeDateModule,
-    MatDatepickerModule,
+    ThirdPartyModule,
     /// data
     RepositoryModule,
-    DxSchedulerModule,
-    DxTemplateModule,
     /// domain
     ShopModule,
     ProfileModule,

@@ -56,11 +56,32 @@ Redux::setSection( $opt_name, array(
         ),
         array(
             'id'       => 'email-manager',
-            'type'     => 'text',
-            'title'    => __( 'Email manager', 'redux-framework-demo' ),
-            'subtitle' => __( '', 'redux-framework-demo' )
+            'type' => 'multi_text',
+            'title' => __('Email manager', 'redux-framework-demo'),
+            'subtitle' => __( '', 'redux-framework-demo' ),
         ),
 	)
+));
+
+Redux::setSection( $opt_name, array(
+    'title'  => __( 'Promo', 'redux-framework-demo' ),
+    'id'     => 'promo',
+    'desc'   => __( 'Promo messages.', 'redux-framework-demo' ),
+    'icon'   => 'el el-home',
+    'fields' => array(
+        array(
+            'id'       => 'opt-promo1',
+            'type'     => 'text',
+            'title'    => __( 'Promo 1', 'redux-framework-demo' ),
+            'subtitle' => __( '', 'redux-framework-demo' )
+        ),
+        array(
+            'id'       => 'opt-promo2',
+            'type'     => 'text',
+            'title'    => __( 'Promo 2', 'redux-framework-demo' ),
+            'subtitle' => __( '', 'redux-framework-demo' )
+        ),
+    )
 ));
 
 Redux::setSection( $opt_name, array(

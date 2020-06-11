@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ProductModel } from '../../../../_data';
+import { Component, Input } from '@angular/core';
+
+import { ProductModel } from '@data/repository';
 
 @Component({
   selector: 'app-product-item',
@@ -7,31 +8,8 @@ import { ProductModel } from '../../../../_data';
   templateUrl: './product-item.component.html',
 })
 export class ProductItemComponent {
-  /// binding
-  @Input() allowPurchase: boolean;
-  @Input() item: ProductModel;
+  @Input() product: ProductModel;
   @Input() baseUrl: string;
 
-  @Output() addedToCart = new EventEmitter<ProductModel>();
-
-  public showPopUp = false;
-
-  /// constructor
   constructor() {}
-
-  public popUpFunction(event) {
-    this.showPopUp = true;
-    setTimeout(() => {
-      this.showPopUp = false;
-    }, 3000);
-  }
-
-  public addCart(item, event) {
-    if (!this.allowPurchase) {
-      this.addedToCart.emit(null);
-    } else {
-      this.addedToCart.emit(item);
-      this.popUpFunction(event);
-    }
-  }
 }

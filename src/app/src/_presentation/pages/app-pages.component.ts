@@ -51,9 +51,6 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   }
 
   ngOnInit() {
-    // if (!this.authService.isAuthorized) {
-    //   return;
-    // }
     this.isLoading = true;
     forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
       .pipe(
@@ -67,7 +64,13 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
       )
       .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
         this.infoService.setAppInfo(
-          new AppInfo({ address: appInfoModel.address, email: appInfoModel.email, phone: appInfoModel.phone })
+          new AppInfo({
+            address: appInfoModel.address,
+            email: appInfoModel.email,
+            phone: appInfoModel.phone,
+            promo1: appInfoModel.promo1,
+            promo2: appInfoModel.promo2,
+          })
         );
         this.navigationMenu = categories;
       });
@@ -81,5 +84,10 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   public onMenuOpened() {
     this.showCategories = false;
     this.showSidenav = true;
+  }
+
+  // Show cart icon if we not on cart page
+  public get showCart(): boolean {
+    return !(this.router.url.indexOf('/cart') > -1 || this.router.url.indexOf('/checkout') > -1);
   }
 }

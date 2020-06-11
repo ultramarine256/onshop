@@ -21,7 +21,6 @@ export class SearchResultPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private productRepository: ProductRepository,
-    private cartService: CartService,
     public authService: AuthService
   ) {}
 
@@ -33,12 +32,5 @@ export class SearchResultPageComponent implements OnInit {
       }),
       map((productSearchResult) => productSearchResult.items)
     );
-  }
-
-  public onAddedToCart(product: ProductModel) {
-    if (!product) {
-      this.router.navigate(['/login']);
-    }
-    this.cartService.addItem(AppMapper.toCartItem(product));
   }
 }

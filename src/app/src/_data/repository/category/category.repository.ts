@@ -28,24 +28,28 @@ export class CategoryRepository extends BaseRepository {
             if (!acc[dto.parent]) {
               acc[dto.parent] = [];
             }
-            acc[dto.parent] = acc[dto.parent].concat(dto);
+            const categoryModel = new CategoryModel();
+            categoryModel.mapFromDto(dto);
+            acc[dto.parent] = acc[dto.parent].concat(categoryModel);
             return acc;
           }, {});
         const nestedCategoriesIds = Object.keys(nestedCategories).map((key) => +key);
 
-        return response
-          .filter((dto) => !nestedCategoriesIds.includes(dto.parent)) // if category contains a parentId, then filter it
-          .map((dto) => {
-            const categoryModel = new CategoryModel();
-            categoryModel.mapFromDto(dto);
+        return (
+          response
+            // if category contains a parentId, then filter it, and category has some products
+            .filter((dto) => !nestedCategoriesIds.includes(dto.parent) && dto.count && dto.slug !== 'uncategorized')
+            .map((dto) => {
+              const categoryModel = new CategoryModel();
+              categoryModel.mapFromDto(dto);
 
-            // if nestedCategoriesIds contains categoryId then we need to set subCategories for this category
-            if (nestedCategoriesIds.includes(dto.id)) {
-              categoryModel.subCategories = nestedCategories[dto.id];
-            }
-
-            return categoryModel;
-          });
+              // if nestedCategoriesIds contains categoryId then we need to set subCategories for this category
+              if (nestedCategoriesIds.includes(dto.id)) {
+                categoryModel.subCategories = nestedCategories[dto.id];
+              }
+              return categoryModel;
+            })
+        );
       }),
       tap((categories) => {
         const categoryAll = new CategoryModel();

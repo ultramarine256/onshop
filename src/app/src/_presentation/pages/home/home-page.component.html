@@ -1,96 +1,59 @@
-<div class="hero d-flex bg-light">
-  <h2 class="hero__title">Welcome to <span class="text-primary">OnShop</span></h2>
-  <p>
-    100+ product items, in in 4+ categories. Discover and schedule delivery today.
-  </p>
-</div>
-
-<div class="container features__content">
-  <div class="row py-5">
-    <div class="col-md-4 mb-4">
-      <div class="text-center px-lg-3">
-        <span class="icon icon-primary icon-lg mb-3">
-          <i class="icon-inner fas fa-warehouse" aria-hidden="true"></i>
-        </span>
-        <h2 class="h4">Save Space</h2>
-        <p class="mb-md-0">
-          Avoid cluttering up your garage, attic, and storage space.
-        </p>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="text-center px-lg-3">
-        <span class="icon icon-primary icon-lg mb-3">
-          <i class="icon-inner fas fa-money-check-alt" aria-hidden="true"></i>
-        </span>
-        <h2 class="h4">More Affordable</h2>
-        <p class="mb-md-0">
-          Pay less than you would at big box retailers & corporations
-        </p>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="text-center px-lg-3">
-        <span class="icon icon-primary icon-lg mb-3">
-          <i class="icon-inner fas fa-truck-loading" aria-hidden="true"></i>
-        </span>
-        <h2 class="h4">Delivery</h2>
-        <p class="mb-md-0">
-          Avoid the hassle of driving to the store & waiting in long lines
-        </p>
-      </div>
+<div class="container home">
+  <div class="row">
+    <div class="col-12 home__title">
+      <h2>{{ infoService.appInfo.promo1 }}</h2>
     </div>
   </div>
-</div>
 
-<div class="container">
-  <div
-    class="d-flex flex-column text-center bg-light p-3 justify-content-center align-items-center"
-    style="height: 300px;"
-  >
-    <h3>Company Info</h3>
-    <p style="max-width: 600px;">
-      In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form
-      of a document or a typeface without relying on meaningful content
-    </p>
-  </div>
-</div>
-
-<div class="container mt-5">
-  <h2 class="content-title mb-2">New Arrivals</h2>
-  <div class="d-flex justify-content-center align-items-center" style="height: 100px;" *ngIf="productsInLoading">
-    <mat-spinner></mat-spinner>
-  </div>
-  <div class="products-carousel owl-carousel owl-theme" *ngIf="!productsInLoading">
-    <div class="item" *ngFor="let item of products">
-      <a class="text-decoration-none carousel-item" [routerLink]="'/product/' + item.slug">
-        <div class="img-wrap">
-          <img
-            [src]="
-              item.firstImage ? item.firstImage : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'
-            "
-          />
+  <div class="row home__items">
+    <div class="col-12 col-md-6">
+      <a [routerLink]="['/orders']" [queryParams]="{ status: 'pending' }" class="home__items-item">
+        <div class="home__items-item-title">
+          Orders Arriving
         </div>
-        <h6 class="mt-1">{{ item.name }}</h6>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/delivery.svg'" />
+        </div>
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a class="home__items-item" [routerLink]="['/inventory/', '']">
+        <div class="home__items-item-title">
+          Items
+        </div>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/trolley.svg'" />
+        </div>
       </a>
     </div>
   </div>
-</div>
 
-<div class="container mb-5 mt-5">
-  <h2 class="content-title mb-2">Categories</h2>
-  <div class="categories-carousel owl-carousel owl-theme">
-    <div class="item" *ngFor="let item of categories">
-      <a class="text-decoration-none carousel-item" [routerLink]="'/inventory/' + item.slug">
-        <div class="img-wrap">
-          <img
-            [src]="
-              item.image.src ? item.image.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'
-            "
-          />
+  <div class="row home__items">
+    <div class="col-12 col-md-6">
+      <a [routerLink]="['/orders']" [queryParams]="{ status: 'waiting' }" class="home__items-item">
+        <div class="home__items-item-title">
+          Return these items
         </div>
-        <h6 class="mt-1">{{ item.name }}</h6>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/order.svg'" />
+        </div>
       </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a class="home__items-item" routerLink="/inventory/317">
+        <div class="home__items-item-title">
+          Heavy equipment
+        </div>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/crane.svg'" />
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 home__title">
+      <h2>{{ infoService.appInfo.promo2 }}</h2>
     </div>
   </div>
 </div>

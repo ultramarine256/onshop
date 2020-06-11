@@ -12,11 +12,6 @@
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
 
-    button {
-      min-width: 100px;
-      height: 40px;
-    }
-
     &:last-child {
       border-bottom: none;
       padding-bottom: 10px;
@@ -50,5 +45,9 @@
 
   .account-page__form-group {
     margin-bottom: 25px;
+  }
+
+  input:read-only {
+    cursor: default;
   }
 }

@@ -205,6 +205,8 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 			 * @param boolean         $creating  True when creating object, false when updating.
 			 */
 			do_action( "woocommerce_rest_insert_{$this->post_type}_object", $object, $request, true );
+            // after saving, we must notify user and manager
+            $this->sendMail($object->get_id());
 		} catch ( WC_Data_Exception $e ) {
 			$object->delete();
 			return new WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getErrorData() );
@@ -221,6 +223,131 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 
 		return $response;
 	}
+
+    function sendMail($orderId) {
+        $TEMPLATE_ID = $_ENV['SEND_GRID_TEMPLATE_ID'];
+
+        $orderData = $this->getOrderDataById($orderId);
+
+        $clientEmail = $orderData['email'];
+        $managerEmails = app_info()['email-manager'];
+        $senderEmail = app_info()['email-sender'];
+
+        try {
+            $email = new SendGrid\Mail\Mail();
+            $email->setSubject('Order receipt #' . $orderId);
+            $email->setFrom($senderEmail);
+            $email->addTo($clientEmail);
+            foreach ($managerEmails as $managerEmail) {
+                $email->addTo($managerEmail);
+            }
+            $email->setTemplateId($TEMPLATE_ID);
+            $email->addDynamicTemplateDatas($orderData);
+
+            $sendGrid = new SendGrid($_ENV['SEND_GRID_API_KEY']);
+            $sendGrid->send($email);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "";
+        }
+    }
+    /**
+     * @param $orderId int
+     * @return array
+     */
+    function getOrderDataById($orderId)
+    {
+        $orderData = wc_get_order($orderId)->get_data();
+        // we do not have separate field for total items and total fee, so we need to calculate it manually
+        $itemsTotal = number_format(array_reduce($orderData['line_items'], function ($acc, $item) {
+            return $acc += $this->getPriceForProductItem($item);
+        }, 0), 2);
+
+        $feeTotal = number_format(array_reduce($orderData['fee_lines'], function ($acc, $item) {
+            return $acc += $item->get_data()['total'];
+        }, 0), 2);
+
+        $shippingTotal = number_format($orderData['shipping_total'], 2);
+
+        $total = number_format($itemsTotal + $feeTotal + $shippingTotal, 2);
+
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $orderData['meta_data']);
+        $metaFormattedData = $this->getMetaData($metaData);
+
+        return [
+            'orderId' => $orderId,
+            'itemsTotal' => $itemsTotal,
+            'feeTotal' => $feeTotal,
+            'shippingTotal' => $shippingTotal,
+            'total' => $total,
+            'email' => $orderData['billing']['email'],
+            "name" => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
+            "address01" => $orderData['shipping']['address_1'],
+            "address02" => $orderData['shipping']['address_2'],
+            "city" => $orderData['shipping']['city'],
+            "state" => $orderData['shipping']['state'],
+            "zip" => $orderData['shipping']['postcode'],
+            "phone" => $orderData['billing']['phone'],
+            'project' => $metaFormattedData['project-number'],
+            'deliveryDate' => $metaFormattedData['delivery-date'],
+            'deliveryInstructions' => $metaFormattedData['delivery-instructions'],
+            'items' => array_map(function ($item) {
+                return (object)[
+                    'isRent' => $this->isProductForRent($item),
+                    'text' => $item->get_data()['name'],
+                    'count' => $item->get_data()['quantity'],
+                    'duration' => $this->isProductForRent($item) ? $this->getProductMetaData($item)['rental-duration'] : null,
+                    'price' => $this->getPriceForProductItem($item),
+                ];
+            }, $orderData['line_items'])
+        ];
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    function getMetaData($data)
+    {
+        $metaInfo = [];
+        foreach ($data as $item) {
+            $metaInfo[$item['key']] = $item['value'];
+        }
+        return $metaInfo;
+    }
+
+    /**
+     * @param $item
+     * @return string
+     */
+    function getPriceForProductItem($item)
+    {
+        $orderItemData = $item->get_data();
+        $metaFormattedData = $this->getProductMetaData($item);
+        return number_format($this->isProductForRent($item) ? $metaFormattedData['rent-price'] : $orderItemData['total'], 2);
+    }
+
+    function getProductMetaData($item)
+    {
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $item->get_meta_data());
+        return $this->getMetaData($metaData);
+    }
+
+    /**
+     * @param $item
+     * @return bool
+     */
+    function isProductForRent($item)
+    {
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $item->get_meta_data());
+        $metaFormattedData = $this->getMetaData($metaData);
+        return array_key_exists('rental-duration', $metaFormattedData);
+    }
 
 	/**
 	 * Update a single post.

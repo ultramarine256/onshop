@@ -1,38 +1,37 @@
 <div class="product-item p-3">
-  <div class="category">{{ item.firstCategory.name }}</div>
-  <a class="title text-decoration-none" [routerLink]="baseUrl + '/' + item.slug">
-    {{ item.name }}
+  <div class="category">{{ product.firstCategory.name }}</div>
+  <a class="title text-decoration-none" [routerLink]="baseUrl + '/' + product.slug">
+    {{ product.name }}
   </a>
-  <a class="image" [routerLink]="baseUrl + '/' + item.slug">
-    <img class="image__src" [src]="item.firstImage" />
-    <div *ngIf="showPopUp" class="pop-up-window">
-      Added
-      <span class="material-icons">
-        check_circle_outline
-      </span>
-    </div>
+  <a class="image" [routerLink]="baseUrl + '/' + product.slug">
+    <img
+      #img
+      class="image__src"
+      [src]="product.firstImage"
+      (error)="img.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + product.name"
+    />
   </a>
   <div class="price-options bg-light text-secondary w-100 mt-2">
     <div class="price-item d-flex justify-content-center">
       <span class="price-title font-weight-500 text-center">Buy</span>
       <span class="price-details text-center">
-        {{ item.price | currency }}
+        {{ product.price | currency }}
       </span>
     </div>
-    <div class="price-item d-flex border-left justify-content-center" *ngIf="item.availableForRent">
+    <div class="price-item d-flex border-left justify-content-center" *ngIf="product.availableForRent">
       <span class="price-title font-weight-500 text-center">Rent</span>
       <span class="price-details pl-2">
-        {{ item.rentPerDayPrice ? '$' + item.rentPerDayPrice + '/day' : '' }}
+        {{ product.rentRates.pricePerDay ? '$' + product.rentRates.pricePerDay + '/day' : '' }}
       </span>
       <span class="price-details pl-2">
-        {{ item.rentPerWeekPrice ? '$' + item.rentPerWeekPrice + '/wk' : '' }}
+        {{ product.rentRates.pricePerWeek ? '$' + product.rentRates.pricePerWeek + '/wk' : '' }}
       </span>
       <span class="price-details pl-2">
-        {{ item.rentPerMonthPrice ? '$' + item.rentPerMonthPrice + '/mo' : '' }}
+        {{ product.rentRates.pricePerMonth ? '$' + product.rentRates.pricePerMonth + '/mo' : '' }}
       </span>
     </div>
   </div>
-  <button mat-raised-button color="primary" [routerLink]="baseUrl + '/' + item.slug">
+  <button mat-raised-button color="primary" [routerLink]="baseUrl + '/' + product.slug">
     <span>View More</span>
   </button>
 </div>

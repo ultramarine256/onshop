@@ -107,7 +107,7 @@ class WC_Order_Item_Product extends WC_Order_Item {
 	 * @param string $value Total.
 	 */
 	public function set_total( $value ) {
-		$value = wc_format_decimal( $value );
+		$value = wc_format_decimal( $this->is_rentable() ? $this->get_rentable_price() : $value );
 
 		if ( ! is_numeric( $value ) ) {
 			$value = 0;
@@ -275,7 +275,7 @@ class WC_Order_Item_Product extends WC_Order_Item {
 	 * @return string
 	 */
 	public function get_subtotal( $context = 'view' ) {
-		return $this->get_prop( 'subtotal', $context );
+		return $this->is_rentable() ? $this->get_rentable_price() : $this->get_prop( 'subtotal', $context );
 	}
 
 	/**
@@ -295,8 +295,33 @@ class WC_Order_Item_Product extends WC_Order_Item {
 	 * @return string
 	 */
 	public function get_total( $context = 'view' ) {
-		return $this->get_prop( 'total', $context );
+		return $this->is_rentable() ? $this->get_rentable_price() : $this->get_prop( 'total', $context );
 	}
+
+	public function is_rentable() {
+	    return (bool)$this->get_rentable_price();
+    }
+
+	public function get_rentable_price($context = 'view') {
+        $metaData = array_map(function ($meta) {
+            return $meta->get_data();
+        }, $this->get_data()['meta_data']);
+        $metaFormattedData = $this->getMetaData($metaData);
+        return array_key_exists('rent-price', $metaFormattedData) ? $metaFormattedData['rent-price'] : null;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    function getMetaData($data)
+    {
+        $metaInfo = [];
+        foreach ($data as $item) {
+            $metaInfo[$item['key']] = $item['value'];
+        }
+        return $metaInfo;
+    }
 
 	/**
 	 * Get total tax.

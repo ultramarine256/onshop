@@ -1,35 +1,48 @@
 import { Injectable } from '@angular/core';
 
-import { CartItemEntity } from './entities';
+import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity } from './entities';
+import { ProductService } from '@domain/services/product/product.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  /// fields
-  private _itemsPrice = 0;
   private _items: CartItemEntity[];
 
-  /// properties
-  get totalPrice(): number {
-    return this._itemsPrice;
-  }
-
-  get itemsCount(): number {
-    return this._items.reduce((acc, item) => {
-      return (acc += item.count);
+  public get itemsCount(): number {
+    return this._items.reduce((acc, cartItem) => {
+      return (acc += cartItem.count);
     }, 0);
   }
 
-  get items(): Array<CartItemEntity> {
+  public get totalPrice(): number {
+    return this._items.length
+      ? this._items.reduce((acc, item) => {
+          return (acc += (item as CartItemForRentEntity).duration
+            ? this.productService.getPriceForRent(
+                (item as CartItemForRentEntity).rentRates,
+                (item as CartItemForRentEntity).duration
+              )
+            : this.productService.getPriceForSale(item.price, item.count));
+        }, 0)
+      : 0;
+  }
+
+  constructor(private productService: ProductService) {
+    const items = JSON.parse(localStorage.getItem(CONSTANTS.CART_KEY));
+    this._items = items ? items : [];
+  }
+
+  public get items(): Array<CartItemEntity> {
     return this._items;
   }
 
-  /// constructor
-  constructor() {
-    const items = JSON.parse(localStorage.getItem(Constants.CART_KEY));
-    this._items = items ? items : [];
-    this.calculatePrice(this._items);
+  public get itemsForSale(): Array<CartItemForSaleEntity> {
+    return this._items.filter((item) => !(item as CartItemForRentEntity).duration) as CartItemForSaleEntity[];
+  }
+
+  public get itemsForRent(): Array<CartItemForRentEntity> {
+    return this._items.filter((item) => (item as CartItemForRentEntity).duration) as CartItemForRentEntity[];
   }
 
   /// methods
@@ -38,7 +51,9 @@ export class CartService {
     // or by identifier and number of rental days
 
     const product = this._items.find((item) =>
-      cartItem.duration ? item.id === cartItem.id && item.duration : item.id === cartItem.id && !item.duration
+      (cartItem as CartItemForRentEntity).duration
+        ? item.id === cartItem.id && (item as CartItemForRentEntity).duration
+        : item.id === cartItem.id && !(item as CartItemForRentEntity).duration
     );
 
     // if the product is not found, then add it to the array with the products, or modify the one that you found
@@ -47,44 +62,50 @@ export class CartService {
       : this._items.map((item) => {
           // depending on the purchase or lease, you need to summarize the appropriate fields
           // add up the prices and duration for rent, or the amount for sale
-          const updatedProduct = cartItem.duration
-            ? { ...product, price: product.price + cartItem.price, duration: product.duration + cartItem.duration }
+          const updatedProduct = (cartItem as CartItemForRentEntity).duration
+            ? {
+                ...product,
+                price: product.price + cartItem.price,
+                duration: (product as CartItemForRentEntity).duration + (cartItem as CartItemForRentEntity).duration,
+              }
             : { ...product, price: product.price + cartItem.price, count: product.count + 1 };
           return (
-            cartItem.duration ? item.id === cartItem.id && item.duration : item.id === cartItem.id && !item.duration
+            (cartItem as CartItemForRentEntity).duration
+              ? item.id === cartItem.id && (item as CartItemForRentEntity).duration
+              : item.id === cartItem.id && !(item as CartItemForRentEntity).duration
           )
             ? updatedProduct
             : item;
         });
 
-    this.updateItems(items);
+    this.updateItems(items as CartItemEntity[]);
   }
 
-  public removeItem(cartItem: CartItemEntity) {
-    this.updateItems(this._items.filter((item) => item.uid !== cartItem.uid));
+  public getItem(uid: string): CartItemEntity {
+    return this._items.find((item) => item.uid === uid);
+  }
+
+  public removeItem(uid: string) {
+    this.updateItems(this._items.filter((item) => item.uid !== uid));
   }
 
   public clearCart() {
     this.updateItems([]);
   }
 
-  /// helpers
-  private updateItems(items: CartItemEntity[]) {
+  public updateItems(items: CartItemEntity[]) {
     this._items = items;
-    this.calculatePrice(this._items);
-
-    localStorage.setItem(Constants.CART_KEY, JSON.stringify(this._items));
+    localStorage.setItem(CONSTANTS.CART_KEY, JSON.stringify(this._items));
   }
 
-  private calculatePrice(items: CartItemEntity[] = []) {
-    this._itemsPrice = items.length
-      ? items.reduce((acc, item) => {
-          return (acc += Math.round(item.price));
-        }, 0)
-      : 0;
+  public updateItem(cartItem: CartItemEntity) {
+    const items = this._items.map((item) => {
+      return item.uid === cartItem.uid ? cartItem : item;
+    });
+    this.updateItems(items);
   }
 }
 
-const Constants = {
+const CONSTANTS = {
   CART_KEY: 'onshop-cart-key',
 };
