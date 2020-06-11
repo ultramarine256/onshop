@@ -16,6 +16,12 @@
 
   .inventory-filters__item {
     margin-bottom: 20px;
+
+    &.inventory-filters__item--tags {
+      @media only screen and (max-width: 600px) {
+        display: none;
+      }
+    }
   }
 
   .inventory-filters__form-field {

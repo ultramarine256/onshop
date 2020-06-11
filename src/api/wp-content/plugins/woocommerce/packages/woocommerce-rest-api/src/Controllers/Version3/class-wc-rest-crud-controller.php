@@ -208,6 +208,10 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             // after saving, we must notify user and manager
             $this->sendMail($object->get_id());
 		} catch ( WC_Data_Exception $e ) {
+            $object->delete();
+            return new WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getErrorData() );
+        }
+		catch ( WC_Data_Exception $e ) {
 			$object->delete();
 			return new WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getErrorData() );
 		} catch ( WC_REST_Exception $e ) {
@@ -245,9 +249,12 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             $email->addDynamicTemplateDatas($orderData);
 
             $sendGrid = new SendGrid($_ENV['SEND_GRID_API_KEY']);
-            $sendGrid->send($email);
+            $sent = $sendGrid->send($email);
+            if ($sent->statusCode() !== 200) {
+                throw new Exception(json_decode($sent->body())->errors[0]->message);
+            }
         } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "";
+            echo $e->getMessage();
         }
     }
     /**

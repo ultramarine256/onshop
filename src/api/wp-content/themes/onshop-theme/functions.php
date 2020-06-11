@@ -224,3 +224,19 @@ function removeRefundedStatus( $statuses ){
     return $statuses;
 }
 add_filter( 'wc_order_statuses', 'removeRefundedStatus' );
+
+add_action( 'admin_menu', function() {
+    add_menu_page(
+        'My custom menu Settings',
+        'Shop',
+        'manage_options',
+        'test',
+        function () {
+            header('Location: http://blue-shop.xolutionz.com/');
+        },
+        'dashicons-cart',
+        25
+    );
+});
+
+
