@@ -163,3 +163,7 @@ li:nth-last-child(-n+2) {
 #adminmenu #toplevel_page_wc-admin-path--marketing {
     display: none!important;
 }
+
+.woocommerce-order-data__meta.order_number {
+    display: none!important;
+}
