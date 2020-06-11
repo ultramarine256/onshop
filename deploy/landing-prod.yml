@@ -1,8 +1,3 @@
-# Node.js with Angular
-# Build a Node.js project that uses Angular.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
  branches:
    include:
@@ -34,6 +29,13 @@ steps:
    (Get-Content $indexHtml).replace("-build.counter-", $buildId) | Set-Content $indexHtml
   workingDirectory: 'src/landing/dist/onshop-landing'
   displayName: 'PowerShell Script'
+
+- task: CopyFiles@2
+  displayName: 'Copy web-config'
+  inputs:
+    SourceFolder: src/landing/web.config
+    TargetFolder: src/landing/dist/onshop-landing/web.config
+    OverWrite: true
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'

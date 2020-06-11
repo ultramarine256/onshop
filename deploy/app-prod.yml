@@ -35,6 +35,13 @@ steps:
   workingDirectory: 'src/app/dist/onshop-app'
   displayName: 'PowerShell Script'
 
+- task: CopyFiles@2
+  displayName: 'Copy web-config'
+  inputs:
+    SourceFolder: src/app/web.config
+    TargetFolder: src/app/dist/onshop-app/web.config
+    OverWrite: true
+
 - task: ArchiveFiles@2
   displayName: 'Archive files'
   inputs:
