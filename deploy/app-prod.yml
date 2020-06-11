@@ -12,6 +12,8 @@ trigger:
    include: 
     - src/app/*
 
+pr: none
+
 pool:
   vmImage: 'ubuntu-latest'
 
