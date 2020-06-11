@@ -38,9 +38,10 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy web-config'
   inputs:
-    SourceFolder: src/app/web.config
-    TargetFolder: src/app/dist/onshop-app/web.config
-    OverWrite: true
+    sourceFolder: src/app
+    contents: |
+      web.config
+    targetFolder: src/app/dist/onshop-app
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'

@@ -34,13 +34,14 @@ steps:
    (Get-Content $indexHtml).replace("-build.counter-", $buildId) | Set-Content $indexHtml
   workingDirectory: 'src/admin/dist/onshop-admin'
   displayName: 'PowerShell Script'
-  
+
 - task: CopyFiles@2
   displayName: 'Copy web-config'
   inputs:
-    SourceFolder: src/admin/web.config
-    TargetFolder: src/admin/dist/onshop-admin/web.config
-    OverWrite: true
+    sourceFolder: src/admin
+    contents: |
+      web.config
+    targetFolder: src/admin/dist/onshop-admin
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'
