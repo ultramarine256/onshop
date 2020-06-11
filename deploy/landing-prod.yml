@@ -33,9 +33,9 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy web-config'
   inputs:
-    SourceFolder: src/landing/web.config
-    TargetFolder: src/landing/dist/onshop-landing/web.config
-    OverWrite: true
+    contents: 'src/landing/web.config'
+    targetFolder: src/landing/dist/onshop-landing
+    overWrite: true
 
 - task: ArchiveFiles@2
   displayName: 'Archive files'
