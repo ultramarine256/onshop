@@ -167,3 +167,15 @@ li:nth-last-child(-n+2) {
 .woocommerce-order-data__meta.order_number {
     display: none!important;
 }
+
+#wp-admin-bar-site-name {
+    display: none!important;
+}
+
+#menu-media {
+    display: none!important;
+}
+
+#redux_dashboard_widget {
+    display: none;
+}

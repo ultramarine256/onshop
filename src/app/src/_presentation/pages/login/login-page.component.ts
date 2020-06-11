@@ -57,7 +57,7 @@ export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
             .subscribe((response: IdentityResponse) => {
               this.authService.setIdentity(response);
               this.loginProcessing = false;
-              this.router.navigate(['/profile']);
+              this.router.navigate(['/']);
             });
         },
         (e) => {
