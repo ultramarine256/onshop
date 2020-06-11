@@ -32,11 +32,6 @@
   .checkout__confirm-action {
     padding: 10px 0;
 
-    button {
-      min-width: 150px;
-      min-height: 40px;
-    }
-
     @media only screen and (max-width: 600px) {
       button {
         display: block;

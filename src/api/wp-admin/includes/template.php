@@ -593,6 +593,16 @@ function list_meta( $meta ) {
 	?>
 	</tbody>
 </table>
+
+<table id="list-table-data">
+    <tbody id='the-list' data-wp-lists='list:meta'>
+    <?php
+    foreach ( $meta as $entry ) {
+        echo _list_table( $entry, $count );
+    }
+    ?>
+    </tbody>
+</table>
 	<?php
 }
 
@@ -651,6 +661,42 @@ function _list_meta_row( $entry, &$count ) {
 
 	$r .= "\n\t\t<td><label class='screen-reader-text' for='meta-{$entry['meta_id']}-value'>" . __( 'Value' ) . "</label><textarea name='meta[{$entry['meta_id']}][value]' id='meta-{$entry['meta_id']}-value' rows='2' cols='30'>{$entry['meta_value']}</textarea></td>\n\t</tr>";
 	return $r;
+}
+
+function _list_table($entry, &$count) {
+    static $update_nonce = '';
+
+    if ( is_protected_meta( $entry['meta_key'], 'post' ) ) {
+        return '';
+    }
+
+    if ( ! $update_nonce ) {
+        $update_nonce = wp_create_nonce( 'add-meta' );
+    }
+
+    $r = '';
+    ++ $count;
+
+    if ( is_serialized( $entry['meta_value'] ) ) {
+        if ( is_serialized_string( $entry['meta_value'] ) ) {
+            // This is a serialized string, so we should display it.
+            $entry['meta_value'] = maybe_unserialize( $entry['meta_value'] );
+        } else {
+            // This is a serialized array/object so we should NOT display it.
+            --$count;
+            return '';
+        }
+    }
+
+    $entry['meta_key']   = esc_attr( $entry['meta_key'] );
+    $entry['meta_value'] = esc_textarea( $entry['meta_value'] ); // Using a <textarea />.
+    $entry['meta_id']    = (int) $entry['meta_id'];
+
+    $r .= "\n\t<tr id='meta-{$entry['meta_id']}'>";
+    $r .= "\n\t\t<td style='padding: 5px 10px; font-weight: bold'>{$entry['meta_key']}</td>";
+    $r .= "\n\t\t<td style='padding: 5px 10px;'>{$entry['meta_value']}</td>";
+    $r .= "</tr>";
+    return $r;
 }
 
 /**

@@ -9,7 +9,7 @@
     <div class="purchase-returns-page__success-message">
       <h4>Thanks!</h4>
       <div>
-        Your refund is made
+        Return item confirmation screen should say your return request has been received.
       </div>
       <div>
         Our specialists will process your order soon
@@ -97,11 +97,11 @@
         <button
           mat-raised-button
           color="primary"
-          [disabled]="isFormIsValid()"
-          (click)="!isSubmitInProgress && submit()"
+          [disabled]="isSubmitInProgress"
+          (click)="submit()"
+          [class.spinner]="isSubmitInProgress"
         >
-          <mat-spinner color="accent" [diameter]="20" [hidden]="!isSubmitInProgress"></mat-spinner>
-          <span [hidden]="isSubmitInProgress">Return</span>
+          Return
         </button>
       </div>
     </div>

@@ -188,8 +188,8 @@ add_action( 'rest_api_init', function () {
 } );
 
 function customerWoocommerceStatuses() {
-    register_post_status('wc-waiting', array(
-        'label'                     => _x( 'Waiting for return', 'Order status', 'woocommerce' ),
+    register_post_status('wc-in-rent', array(
+        'label'                     => _x( 'In rent', 'Order status', 'woocommerce' ),
         'public'                    => true,
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
@@ -198,8 +198,8 @@ function customerWoocommerceStatuses() {
         'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'woocommerce' ),
     ));
 
-    register_post_status('wc-in-rent', array(
-        'label'                     => _x( 'In rent', 'Order status', 'woocommerce' ),
+    register_post_status('wc-waiting', array(
+        'label'                     => _x( 'Waiting', 'Order status', 'woocommerce' ),
         'public'                    => true,
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
@@ -211,9 +211,16 @@ function customerWoocommerceStatuses() {
 add_filter( 'init', 'customerWoocommerceStatuses' );
 
 function addOrderStatuses( $order_statuses ) {
-    $order_statuses['wc-waiting'] = _x( 'Product is waiting for return', 'WooCommerce Order status', 'text_domain' );
     $order_statuses['wc-in-rent'] = _x( 'Product in rent', 'WooCommerce Order status', 'text_domain' );
+    $order_statuses['wc-waiting'] = _x( 'Waiting', 'WooCommerce Order status', 'text_domain' );
     return $order_statuses;
 }
 add_filter( 'wc_order_statuses', 'addOrderStatuses' );
 
+function removeRefundedStatus( $statuses ){
+    if( isset( $statuses['wc-refunded'] ) ){
+        unset( $statuses['wc-refunded'] );
+    }
+    return $statuses;
+}
+add_filter( 'wc_order_statuses', 'removeRefundedStatus' );
