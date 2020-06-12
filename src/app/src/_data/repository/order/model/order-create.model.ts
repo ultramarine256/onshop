@@ -229,6 +229,8 @@ export class LineItemModel {
           value: new Date(this.rentalInfo.dateTo).toLocaleDateString(),
         },
       ];
+      (result as any).total = this.rentPrice;
+    } else {
       (result as any).total = this.purchasePrice;
     }
     return result;

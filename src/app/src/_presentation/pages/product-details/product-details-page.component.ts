@@ -105,7 +105,7 @@ export class ProductDetailsPageComponent extends UnsubscribeMixin() implements O
   public get daysAmount(): number {
     const dateFrom = moment(this.dateFrom);
     const dateTo = moment(this.dateTo);
-    return dateTo.diff(dateFrom, 'days');
+    return Math.ceil(dateTo.diff(dateFrom, 'h') / 24);
   }
 
   public get rentPrice(): number {
