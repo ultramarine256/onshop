@@ -72,7 +72,9 @@
               <button *ngIf="product.availableForRent" (click)="rent()" color="primary" mat-raised-button>
                 Rent for {{ rentPrice | currency }}
               </button>
-              <button (click)="buy()" mat-raised-button>Buy for {{ product.price | currency }}</button>
+              <button *ngIf="product.price" (click)="buy()" mat-raised-button>
+                Buy for {{ product.price | currency }}
+              </button>
             </div>
           </div>
         </div>
