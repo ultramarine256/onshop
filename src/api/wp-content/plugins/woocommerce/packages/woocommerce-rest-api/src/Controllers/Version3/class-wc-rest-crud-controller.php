@@ -285,9 +285,9 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
         return [
             'orderId' => $orderId,
             'itemsTotal' => number_format($itemsTotal, 2),
-            'feeTotal' => number_format($feeTotal, 2),
-            'shippingTotal' => number_format($shippingTotal, 2),
             'total' => number_format($total, 2),
+            'feeTotal' => $feeTotal ? number_format($feeTotal, 2) : 0,
+            'shippingTotal' => $shippingTotal ? number_format($shippingTotal, 2) : 0,
             'email' => $orderData['billing']['email'],
             "name" => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
             "address01" => $orderData['shipping']['address_1'],
