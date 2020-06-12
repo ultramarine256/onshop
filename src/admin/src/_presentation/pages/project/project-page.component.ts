@@ -10,7 +10,7 @@ import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
-  styleUrls: ['./project-page.component.scss'],
+  styleUrls: ['./project-page.component.scss']
 })
 export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   isLoading: boolean;
@@ -34,7 +34,7 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
 
   openProjectCreatePopup() {
     const dialogRef = this.dialog.open(ProjectCreatePopupComponent, {
-      width: '500px',
+      width: '500px'
     });
 
     dialogRef

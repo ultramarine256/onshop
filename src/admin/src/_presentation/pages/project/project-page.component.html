@@ -13,32 +13,55 @@
     </nav>
   </div>
   <div class="container" *ngIf="!isLoading; else loader">
-    <ng-container *ngFor="let project of projects">
-      <a [routerLink]="['project', project.id]" class="project-page__project-item media text-muted pt-3" style="cursor: pointer;">
-        <svg
-          class="bd-placeholder-img mr-2 rounded"
-          width="32"
-          height="32"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-          focusable="false"
-          role="img"
-          aria-label="Placeholder: 32x32"
-        >
-          <title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#007bff" />
-          <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
-        <div class="media-body d-flex justify-content-between pb-3 mb-0 small lh-125 border-gray">
-          <div class="d-flex flex-column justify-content-between">
-            <div>
-              <strong class="d-block project-name text-gray-dark">{{ project.name }}</strong>
-            </div>
-            {{ project.description }}
-          </div>
-        </div>
-      </a>
-    </ng-container>
+    <table mat-table *ngIf="projects.length" [dataSource]="projects" class="projects-table border rounded">
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="photo" class="pr-0">
+        <th mat-header-cell class="d-none" *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="table-img-width text-center p-2" [routerLink]="['project', element.id]">
+          <svg
+            class="bd-placeholder-img rounded"
+            width="35"
+            height="35"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid slice"
+            focusable="false"
+            role="img"
+            aria-label="Placeholder: 32x32"
+          >
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff" />
+            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th class="d-none" mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="pl-3 text-muted">
+          <b>{{ element.name }}</b>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th class="d-none" mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="text-muted">{{ element.description }}</td>
+      </ng-container>
+      <ng-container matColumnDef="edit" >
+        <th class="d-none" mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell  *matCellDef="let element" class="text-center table-img-width">
+          <button  mat-icon-button color="primary" [routerLink]="['project', element.id]">
+            <mat-icon>
+              edit
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <!-- Name Column -->
+
+      <tr mat-header-row *matHeaderRowDef="['photo', 'name', 'description', 'edit']" class="d-none"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['photo', 'name', 'description', 'edit']"></tr>
+    </table>
   </div>
 
   <div class="project-page__create-button">

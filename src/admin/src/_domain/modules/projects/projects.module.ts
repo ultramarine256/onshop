@@ -12,6 +12,8 @@ import { SharedModule } from '@shared/shared.module';
 
 import { ProjectsUsersComponent } from './movable-user-list';
 import { ProjectCreatePopupComponent } from './project-create-popup/project-create-popup.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [ProjectCreatePopupComponent, ProjectsUsersComponent],
@@ -25,6 +27,8 @@ import { ProjectCreatePopupComponent } from './project-create-popup/project-crea
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
+    MatIconModule
   ],
   exports: [ProjectCreatePopupComponent, ProjectsUsersComponent],
   providers: [],

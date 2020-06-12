@@ -12,8 +12,9 @@
     />
   </a>
   <div class="price-options bg-light text-secondary w-100 mt-2">
-    <div class="price-item d-flex justify-content-center">
-      <span class="price-title font-weight-500 text-center">Buy</span>
+    <div  class="price-item d-flex justify-content-center">
+      <span *ngIf="product.price" class="price-title font-weight-500 text-center">Buy</span>
+      <span [class.d-none]="product.price" class="price-title font-weight-500 text-center">Only rent</span>
       <span class="price-details text-center">
         {{ product.price | currency }}
       </span>

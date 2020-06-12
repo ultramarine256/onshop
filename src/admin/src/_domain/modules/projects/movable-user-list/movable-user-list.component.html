@@ -1,93 +1,92 @@
 <div class="container">
-  <div class="row  d-flex align-items-center border-bottom">
-    <div class="col-1 tabel-element">
-      #
-    </div>
-    <div class="col-3 tabel-element ">
-      Name
-    </div>
-    <div class="col-3 tabel-element">
-      Last Name
-    </div>
-    <div class="col-4 tabel-element">
-      Email
-    </div>
-    <div class="col-1 tabel-element">
-      <i class="material-icons">
-        edit
-      </i>
-    </div>
-  </div>
-  <div>
-    <div *ngFor="let user of existingItems;let i=index " class="row small">
-      <div class="col-1 tabel-element">
-        {{user.id}}
-      </div>
-      <div class="col-3 tabel-element">
-        {{user.first_name}}
-      </div>
-      <div class="col-3 tabel-element">
-        {{user.last_name}}
-      </div>
-      <div class="col-4 tabel-element">
-        {{user.email}}
-      </div>
-      <div class="col-1 tabel-element btn text-danger">
-        <button [disabled]="isProcessing" class="btn btn-lg p-0 material-icons text-danger"
-                (click)="delete(user,existingItems);add(user,allItems);deleted.emit(user)">
-          clear
-        </button>
-      </div>
+  <div class="row d-flex align-items-center justify-content-center" style="overflow-x: auto;">
+    <table mat-table *ngIf="existingItems.length" [dataSource]="existingItems" class="users-table border rounded">
+      <ng-container matColumnDef="Id" class="d-none d-md-block">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.first_name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Last Name">
+        <th mat-header-cell *matHeaderCellDef>Last Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.last_name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Button">
+        <th mat-header-cell *matHeaderCellDef>
+          <i class="material-icons">
+            edit
+          </i>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [disabled]="isProcessing" color="warn" (click)="deleted.emit(element)">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
+    </table>
+    <div *ngIf="!existingItems.length">
+      <h3>0 Users exists</h3>
     </div>
   </div>
-  <div class="row mt-3 justify-content-end m-2">
-    <button class="btn btn-sm btn-primary" (click)="addList.isVisible =! addList.isVisible">
-      Add new user
+  <div class="row my-1 justify-content-end">
+    <button mat-button color="primary" (click)="addList.isVisible = !addList.isVisible">
+      New user
+      <mat-icon class="material-icons ml-2">
+        add_circle
+      </mat-icon>
     </button>
   </div>
 </div>
 
-<!-- addable list -->
 <div #addList class="container mt-3 mb-3">
-  <div *ngIf="addList.isVisible">
-    <div class="row d-flex align-items-center border-bottom">
-      <div class="col-1 tabel-element">
-        #
-      </div>
-      <div class="col-3 tabel-element ">
-        Name
-      </div>
-      <div class="col-3 tabel-element">
-        Last Name
-      </div>
-      <div class="col-4 tabel-element">
-        Email
-      </div>
-      <div class="col-1 tabel-element">
-        <i class="material-icons">
-          edit
-        </i>
+  <ng-container *ngIf="addList.isVisible">
+    <div class="row d-flex align-items-center justify-content-center" style="overflow-x: auto;">
+      <table *ngIf="allItems.length" mat-table [dataSource]="allItems" class="users-table border rounded">
+        <ng-container matColumnDef="Id">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.first_name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Last Name">
+          <th mat-header-cell *matHeaderCellDef>Last Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.last_name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+        <ng-container matColumnDef="Button">
+          <th mat-header-cell *matHeaderCellDef>
+            <i class="material-icons">
+              edit
+            </i>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" [disabled]="isProcessing" (click)="added.emit(element)">
+              <mat-icon>add_box</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+
+        <tr mat-header-row *matHeaderRowDef="['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
+      </table>
+      <div *ngIf="!allItems.length">
+        <h3 class="text-center">0 Users exists</h3>
       </div>
     </div>
-    <div *ngFor="let user of allItems" class="row small">
-      <div class="col-1 tabel-element">
-        {{user.id}}
-      </div>
-      <div class="col-3 tabel-element">
-        {{user.first_name}}
-      </div>
-      <div class="col-3 tabel-element">
-        {{user.last_name}}
-      </div>
-      <div class="col-4 tabel-element">
-        {{user.email}}
-      </div>
-      <div class="col-1 tabel-element btn text-success"
-           (click)="add(user,existingItems);delete(user,allItems);added.emit(user);">
-        <button [disabled]="isProcessing" class="btn btn-lg p-0 text-success material-icons">
-          add_box
-        </button>
-      </div>
-    </div>
-  </div>
+  </ng-container>
 </div>
