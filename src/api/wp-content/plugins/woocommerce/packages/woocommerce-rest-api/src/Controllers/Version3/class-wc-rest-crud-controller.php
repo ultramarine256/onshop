@@ -275,7 +275,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 
         $shippingTotal = $orderData['shipping_total'];
 
-        $total = number_format($itemsTotal + $feeTotal + $shippingTotal, 2);
+        $total = $itemsTotal + $feeTotal + $shippingTotal;
 
         $metaData = array_map(function ($meta) {
             return $meta->get_data();
@@ -284,10 +284,10 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 
         return [
             'orderId' => $orderId,
-            'itemsTotal' => $itemsTotal,
-            'feeTotal' => $feeTotal,
-            'shippingTotal' => $shippingTotal,
-            'total' => $total,
+            'itemsTotal' => number_format($itemsTotal, 2),
+            'feeTotal' => number_format($feeTotal, 2),
+            'shippingTotal' => number_format($shippingTotal, 2),
+            'total' => number_format($total, 2),
             'email' => $orderData['billing']['email'],
             "name" => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
             "address01" => $orderData['shipping']['address_1'],
@@ -305,7 +305,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
                     'text' => $item->get_data()['name'],
                     'count' => $item->get_data()['quantity'],
                     'duration' => $this->isProductForRent($item) ? $this->getProductMetaData($item)['rental-duration'] : null,
-                    'price' => $this->getPriceForProductItem($item),
+                    'price' => number_format($this->getPriceForProductItem($item), 2),
                 ];
             }, $orderData['line_items'])
         ];
