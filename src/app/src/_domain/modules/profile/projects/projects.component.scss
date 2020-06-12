@@ -1,12 +1,12 @@
 .projects {
-  padding: 20px 10px;
-
   .projects__content {
     padding-bottom: 20px;
+    overflow: scroll;
   }
 
   .projects__order {
     display: flex;
+    min-width: 500px;
     padding: 10px 10px;
     justify-content: space-between;
     margin-bottom: 20px;
