@@ -4,7 +4,6 @@
       <div class="spinner-grow text-primary" role="status"></div>
     </div>
   </ng-template>
-
   <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb my-2 px-3 bg-light">
@@ -14,10 +13,6 @@
   </div>
   <div class="container" *ngIf="!isLoading; else loader">
     <table mat-table *ngIf="projects.length" [dataSource]="projects" class="projects-table border rounded">
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-
-      <!-- Position Column -->
       <ng-container matColumnDef="photo" class="pr-0">
         <th mat-header-cell class="d-none" *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element" class="table-img-width text-center p-2" [routerLink]="['project', element.id]">
@@ -47,23 +42,20 @@
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element" class="text-muted">{{ element.description }}</td>
       </ng-container>
-      <ng-container matColumnDef="edit" >
+      <ng-container matColumnDef="edit">
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell  *matCellDef="let element" class="text-center table-img-width">
-          <button  mat-icon-button color="primary" [routerLink]="['project', element.id]">
+        <td mat-cell *matCellDef="let element" class="text-center table-img-width">
+          <button mat-icon-button color="primary" [routerLink]="['project', element.id]">
             <mat-icon>
               edit
             </mat-icon>
           </button>
         </td>
       </ng-container>
-      <!-- Name Column -->
-
       <tr mat-header-row *matHeaderRowDef="['photo', 'name', 'description', 'edit']" class="d-none"></tr>
       <tr mat-row *matRowDef="let row; columns: ['photo', 'name', 'description', 'edit']"></tr>
     </table>
   </div>
-
   <div class="project-page__create-button">
     <button (click)="openProjectCreatePopup()" mat-fab color="primary" aria-label="Example icon button with a delete icon">
       <mat-icon>add</mat-icon>
