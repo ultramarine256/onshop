@@ -124,9 +124,14 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
       (cartItem) =>
         new LineItemModel({
           productId: cartItem.id,
+          title: cartItem.title,
           quantity: cartItem.count,
-          rentalDuration: (cartItem as CartItemForRentEntity).duration
-            ? (cartItem as CartItemForRentEntity).duration
+          rentalInfo: (cartItem as CartItemForRentEntity).duration
+            ? {
+                duration: (cartItem as CartItemForRentEntity).duration,
+                dateFrom: (cartItem as CartItemForRentEntity).dateFrom,
+                dateTo: (cartItem as CartItemForRentEntity).dateTo,
+              }
             : null,
           rentPrice:
             (cartItem as CartItemForRentEntity).duration && (cartItem as CartItemForRentEntity).rentRates
@@ -165,7 +170,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
         new Date(Math.min(...this.cartService.itemsForRent.map((item) => new Date(item.dateFrom).getTime()))),
       deliveryInstructions: this.deliveryInstructions.value,
       deliveryTime: this.deliveryTime.value,
-      status: products.some((product) => product.rentalDuration) ? OrderStatus.InRent : OrderStatus.Pending,
+      status: OrderStatus.Waiting,
     });
 
     this.order.products = products;

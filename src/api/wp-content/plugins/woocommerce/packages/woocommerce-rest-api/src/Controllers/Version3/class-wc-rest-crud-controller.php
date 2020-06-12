@@ -208,6 +208,10 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             // after saving, we must notify user and manager
             $this->sendMail($object->get_id());
 		} catch ( WC_Data_Exception $e ) {
+            $object->delete();
+            return new WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getErrorData() );
+        }
+		catch ( WC_Data_Exception $e ) {
 			$object->delete();
 			return new WP_Error( $e->getErrorCode(), $e->getMessage(), $e->getErrorData() );
 		} catch ( WC_REST_Exception $e ) {
@@ -225,7 +229,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 	}
 
     function sendMail($orderId) {
-        $TEMPLATE_ID = 'd-bd53b0a6026549b6a12e16ecd491f5cf';
+        $TEMPLATE_ID = $_ENV['SEND_GRID_TEMPLATE_ID'];
 
         $orderData = $this->getOrderDataById($orderId);
 
@@ -245,9 +249,12 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
             $email->addDynamicTemplateDatas($orderData);
 
             $sendGrid = new SendGrid($_ENV['SEND_GRID_API_KEY']);
-            $sendGrid->send($email);
+            $sent = $sendGrid->send($email);
+            if ($sent->statusCode() !== 200) {
+                throw new Exception(json_decode($sent->body())->errors[0]->message);
+            }
         } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "";
+            echo $e->getMessage();
         }
     }
     /**
@@ -258,17 +265,17 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
     {
         $orderData = wc_get_order($orderId)->get_data();
         // we do not have separate field for total items and total fee, so we need to calculate it manually
-        $itemsTotal = number_format(array_reduce($orderData['line_items'], function ($acc, $item) {
+        $itemsTotal = array_reduce($orderData['line_items'], function ($acc, $item) {
             return $acc += $this->getPriceForProductItem($item);
-        }, 0), 2);
+        }, 0);
 
-        $feeTotal = number_format(array_reduce($orderData['fee_lines'], function ($acc, $item) {
+        $feeTotal = array_reduce($orderData['fee_lines'], function ($acc, $item) {
             return $acc += $item->get_data()['total'];
-        }, 0), 2);
+        }, 0);
 
-        $shippingTotal = number_format($orderData['shipping_total'], 2);
+        $shippingTotal = $orderData['shipping_total'];
 
-        $total = number_format($itemsTotal + $feeTotal + $shippingTotal, 2);
+        $total = $itemsTotal + $feeTotal + $shippingTotal;
 
         $metaData = array_map(function ($meta) {
             return $meta->get_data();
@@ -277,10 +284,10 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
 
         return [
             'orderId' => $orderId,
-            'itemsTotal' => $itemsTotal,
-            'feeTotal' => $feeTotal,
-            'shippingTotal' => $shippingTotal,
-            'total' => $total,
+            'itemsTotal' => number_format($itemsTotal, 2),
+            'total' => number_format($total, 2),
+            'feeTotal' => $feeTotal ? number_format($feeTotal, 2) : 0,
+            'shippingTotal' => $shippingTotal ? number_format($shippingTotal, 2) : 0,
             'email' => $orderData['billing']['email'],
             "name" => $orderData['billing']['first_name'] . ' ' . $orderData['billing']['last_name'],
             "address01" => $orderData['shipping']['address_1'],
@@ -298,7 +305,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
                     'text' => $item->get_data()['name'],
                     'count' => $item->get_data()['quantity'],
                     'duration' => $this->isProductForRent($item) ? $this->getProductMetaData($item)['rental-duration'] : null,
-                    'price' => $this->getPriceForProductItem($item),
+                    'price' => number_format($this->getPriceForProductItem($item), 2),
                 ];
             }, $orderData['line_items'])
         ];
@@ -325,7 +332,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
     {
         $orderItemData = $item->get_data();
         $metaFormattedData = $this->getProductMetaData($item);
-        return number_format($this->isProductForRent($item) ? $metaFormattedData['rent-price'] : $orderItemData['total'], 2);
+        return $this->isProductForRent($item) ? $metaFormattedData['rent-price'] : $orderItemData['total'];
     }
 
     function getProductMetaData($item)

@@ -57,12 +57,12 @@ export class LoginPageComponent extends UnsubscribeMixin() implements OnInit {
             .subscribe((response: IdentityResponse) => {
               this.authService.setIdentity(response);
               this.loginProcessing = false;
-              this.router.navigate(['/profile']);
+              this.router.navigate(['/']);
             });
         },
-        () => {
+        (e) => {
           this.loginProcessing = false;
-          this.snackBar.open('Login or password was incorrect.', null, {
+          this.snackBar.open(e.error.message, null, {
             duration: 2000,
           });
         }

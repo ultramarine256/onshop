@@ -69,13 +69,6 @@
             <a class="link" mat-button routerLink="/projects">Projects</a>
           </div>
         </div>
-        <div fxLayout="row" class="support">
-          <img fxHide.lt-md class="support__image" [src]="'/assets/img/header/support.svg'" />
-          <div class="support__text">
-            <div><b>Support</b> {{ infoService.appInfo.phone }}</div>
-            <div>Email: {{ infoService.appInfo.email }}</div>
-          </div>
-        </div>
       </div>
     </mat-toolbar>
 
@@ -83,7 +76,7 @@
     <div class="d-md-flex searchbar">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-9">
+          <div class="col-md-12">
             <div class="searchbar__inner">
               <app-products-search class="w-100"></app-products-search>
               <div fxHide.lt-sm class="searchbar__icons pl-4" *ngIf="showCart">

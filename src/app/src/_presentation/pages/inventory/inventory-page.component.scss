@@ -1,5 +1,4 @@
 .inventory-page {
-  padding-top: 20px;
   position: relative;
 
   .inventory-page__progress-bar {
@@ -26,10 +25,12 @@
   }
 
   .inventory-page__empty-products {
-    margin-top: 10px;
+    display: block;
+    margin-top: 20px;
   }
 
   .inventory-page__products {
+    margin-top: 20px;
     margin-bottom: 20px;
     position: relative;
 
@@ -51,16 +52,6 @@
     height: 300px;
   }
 
-  .inventory-page__content {
-    padding-top: 30px;
-  }
-
-  .inventory-page__actions {
-    .inventory-page__sorting-bar {
-      display: inline-block;
-    }
-  }
-
   .inventory-page__pagination {
     &.inventory-page__pagination--loading {
       opacity: 0.5;
@@ -73,6 +64,29 @@
         right: 0;
         bottom: 0;
       }
+    }
+  }
+
+  .inventory-page__actions {
+    display: flex;
+
+    .inventory-page__actions-item {
+      margin-right: 10px;
+      width: 70px;
+    }
+
+    .inventory-page__sorting-bar {
+      width: 115px;
+      display: inline-block;
+    }
+  }
+
+  .inventory-page__product-item {
+    display: block;
+    padding: 5px;
+
+    @media only screen and (max-width: 600px) {
+      padding: 0;
     }
   }
 }

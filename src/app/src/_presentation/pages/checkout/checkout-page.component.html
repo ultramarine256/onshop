@@ -340,14 +340,14 @@
                   <h5 class="checkout__title">Products for purchase</h5>
                   <table class="checkout__review-table">
                     <tr *ngFor="let item of cartService.itemsForSale">
-                      <td class="checkout__review-table-label">
+                      <td>
                         <img
                           *ngIf="item.imageUrl"
                           class="checkout__product-image img border rounded m-1 mr-0"
                           src="{{ item.imageUrl }}"
                         />
-                        {{ item.title }} x {{ item.count }}
                       </td>
+                      <td class="checkout__review-table-label">{{ item.title }} x {{ item.count }}</td>
                       <td class="checkout__review-table-value">
                         {{ productService.getPriceForSale(item.price, item.count) | currency }}
                       </td>
@@ -364,14 +364,14 @@
           </div>
 
           <div class="checkout__confirm-action d-flex w-100 justify-content-center">
-            <button mat-raised-button color="primary" (click)="!isSubmitInProgress && submit()">
-              <mat-spinner
-                class="checkout__confirm-spinner"
-                color="accent"
-                [diameter]="20"
-                [hidden]="!isSubmitInProgress"
-              ></mat-spinner>
-              <span [hidden]="isSubmitInProgress">Place order</span>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="submit()"
+              [disabled]="isSubmitInProgress"
+              [class.spinner]="isSubmitInProgress"
+            >
+              Place order
             </button>
           </div>
         </mat-step>

@@ -1,6 +1,4 @@
 .orders {
-  padding: 20px 10px;
-
   .orders__filter {
     display: flex;
     flex-direction: row-reverse;
@@ -13,6 +11,10 @@
 
   .orders__info {
     padding: 0 10px;
+
+    @media screen and (max-width: 600px) {
+      display: none !important;
+    }
   }
 
   .orders__total {
@@ -61,6 +63,10 @@
 
   .orders__panel-title {
     width: 25%;
+
+    @media screen and (max-width: 600px) {
+      width: 50%;
+    }
   }
 
   .orders__panel-header {
@@ -75,6 +81,11 @@
 
   .orders__panel-description {
     width: 75%;
+
+    @media screen and (max-width: 600px) {
+      width: 50%;
+      text-align: center;
+    }
 
     .orders__status {
       padding: 0 10px;

@@ -90,6 +90,21 @@ export class OrderCreateModel {
       });
     }
 
+    if (this.products.some((product) => product.rentalInfo)) {
+      json.meta_data.push({
+        key: CustomOrderFields.RentalInfo,
+        value: this.products
+          .filter((product) => product.rentalInfo)
+          .map(
+            (product) =>
+              `${product.title} for ${product.rentalInfo.duration} from ${new Date(
+                product.rentalInfo.dateFrom
+              ).toLocaleDateString()} to ${new Date(product.rentalInfo.dateTo).toLocaleDateString()}`
+          )
+          .join('; '),
+      });
+    }
+
     ObjectExtensions.clean(json);
 
     return json;
@@ -173,10 +188,15 @@ export class ShippingModel {
 export class LineItemModel {
   /// fields
   productId: number;
+  title: string;
   quantity: number;
   rentPrice: number;
   purchasePrice: number;
-  rentalDuration: number;
+  rentalInfo: {
+    duration: number;
+    dateFrom: Date;
+    dateTo: Date;
+  };
 
   /// constructor
   constructor(init?: Partial<LineItemModel>) {
@@ -187,17 +207,26 @@ export class LineItemModel {
   public asWooObject(): {} {
     const result = {
       product_id: this.productId,
+      title: this.title,
       quantity: this.quantity,
     };
-    if (this.rentalDuration) {
+    if (this.rentalInfo) {
       (result as any).meta_data = [
         {
           key: 'rental-duration',
-          value: this.rentalDuration,
+          value: this.rentalInfo.duration,
         },
         {
           key: 'rent-price',
           value: this.rentPrice,
+        },
+        {
+          key: 'rent-date-from',
+          value: new Date(this.rentalInfo.dateFrom).toLocaleDateString(),
+        },
+        {
+          key: 'rent-date-to',
+          value: new Date(this.rentalInfo.dateTo).toLocaleDateString(),
         },
       ];
       (result as any).total = this.purchasePrice;
@@ -209,7 +238,7 @@ export class LineItemModel {
 export enum OrderStatus {
   Pending = 'pending',
   Processing = 'processing',
-  WaitingForReturn = 'waiting-for-return',
+  Waiting = 'waiting',
   InRent = 'in-rent',
   Completed = 'completed',
   Cancelled = 'cancelled',

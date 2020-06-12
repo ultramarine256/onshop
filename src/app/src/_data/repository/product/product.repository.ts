@@ -15,14 +15,14 @@ export class ProductRepository extends BaseRepository {
   }
 
   /// methods
-  public getProducts(wpFilter: ProductFilter = new ProductFilter()): Observable<ProductSearchResult> {
+  public getProducts(wpFilter: ProductFilter = new ProductFilter()): Observable<any> {
     return this.httpClient
       .get<ProductSearchResult>(`${this.apiBaseUrl}/wp-json/onshop/v3/product?${wpFilter.asQueryString()}`, {
         observe: 'response',
       })
       .pipe(
-        map((response) => {
-          const products = response.body.items.map((item) => {
+        map((response: any) => {
+          const products = response.body.map((item) => {
             const product = new ProductModel();
             product.mapFromDto(item);
             return product;
@@ -40,7 +40,7 @@ export class ProductRepository extends BaseRepository {
   public getTags(): Observable<TagModel[]> {
     return this.httpClient
       .get(`${this.apiBaseUrl}/wp-json/onshop/v3/products/tags`)
-      .pipe(map((res: any) => res.map((dto) => new TagModel(dto))));
+      .pipe(map((res: any) => res.filter((dto) => dto.count).map((dto) => new TagModel(dto))));
   }
 
   public newArrivals(): Observable<Array<ProductModel>> {

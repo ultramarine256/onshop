@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ProductItem, UserRepository } from '@data/repository';
 import { OrderRepository, OrderResponse } from '../../../_data/repository/order';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { FormsService } from '@shared/services/forms.service';
 
 @Component({
   selector: 'app-purchase-returns-page',
@@ -31,7 +32,8 @@ export class PurchaseReturnsPageComponent extends UnsubscribeMixin() implements 
     private fb: FormBuilder,
     private userRepository: UserRepository,
     private orderRepository: OrderRepository,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private formsService: FormsService
   ) {
     super();
   }
@@ -52,7 +54,7 @@ export class PurchaseReturnsPageComponent extends UnsubscribeMixin() implements 
 
         this.deliveryInfo = this.fb.group({
           address: [order.shipping.address1, Validators.required],
-          deliveryDate: [order.deliveryDate, Validators.required],
+          deliveryDate: [null, Validators.required],
         });
         this.minDate = moment().add(3, 'days').toDate();
 
@@ -74,11 +76,11 @@ export class PurchaseReturnsPageComponent extends UnsubscribeMixin() implements 
     return numSelected === numRows;
   }
 
-  public isFormIsValid(): boolean {
-    return this.deliveryInfo.invalid || !this.selection.selected.length;
-  }
-
   public submit() {
+    if (!this.formsService.validate(this.deliveryInfo)) {
+      return;
+    }
+
     this.isSubmitInProgress = true;
     this.orderRepository
       .saveNote(this.getFormattedNote(), this.orderId)

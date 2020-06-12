@@ -16,6 +16,12 @@
 
   .inventory-filters__item {
     margin-bottom: 20px;
+
+    &.inventory-filters__item--tags {
+      @media only screen and (max-width: 600px) {
+        display: none;
+      }
+    }
   }
 
   .inventory-filters__form-field {
@@ -24,5 +30,10 @@
 
   .inventory-filters__stock-status-field {
     width: 100%;
+  }
+
+  .inventory-filters__chip {
+    height: auto;
+    word-break: break-word;
   }
 }

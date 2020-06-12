@@ -20,11 +20,15 @@
       </mat-form-field>
 
       <div class="login-page__form-action">
-        <button mat-raised-button color="primary" type="submit" (click)="!loginProcessing && login()">
-          <mat-icon [hidden]="!loginProcessing">
-            <mat-spinner color="accent" [diameter]="20"></mat-spinner>
-          </mat-icon>
-          <span [hidden]="loginProcessing">Submit</span>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="login()"
+          [class.spinner]="loginProcessing"
+          [disabled]="loginProcessing"
+        >
+          Submit
         </button>
       </div>
     </form>

@@ -173,9 +173,10 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
                             : ONSHOP_MODEL_Projects::getByUserId($user->ID);
 
                         // get all orders by user email
-                        $query = new WC_Order_Query();
-                        $query->set('customer', $user->data->user_email);
-                        $orders = $query->get_orders();
+                        $args = array(
+                            'customer_id' => $user->ID
+                        );
+                        $orders = wc_get_orders($args);
 
                         // modify each project by adding orders
 						foreach ($projects as $project) {
@@ -188,7 +189,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
                                     }
                                 }
                                 return $contain;
-                            });
+                             });
 
 						     $ordersData = array_map(function($order) {
 						         $orderData = $order->get_data();

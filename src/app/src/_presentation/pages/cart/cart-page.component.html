@@ -33,7 +33,7 @@
           <div class="cart__image">
             <img
               #img
-              [src]="product.imageUrl"
+              [src]="product.value.imageUrl"
               style="height: 60px;"
               (error)="img.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + product.value.title"
             />

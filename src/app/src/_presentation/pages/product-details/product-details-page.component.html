@@ -22,7 +22,7 @@
           <div class="product-images owl-carousel owl-theme">
             <div class="item" *ngFor="let item of product.images; let last = last">
               <a class="text-decoration-none carousel-item-product" [routerLink]="'/product/' + product.slug">
-                <div class="img-wrap">
+                <div class="product-details__img-wrap img-wrap">
                   <img
                     #img
                     [src]="item.src ? item.src : 'https://placeholder.pics/svg/200/f8f9fa/000000-f8f9fa/placeholder'"

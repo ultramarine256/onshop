@@ -38,7 +38,7 @@ export class CategoryRepository extends BaseRepository {
         return (
           response
             // if category contains a parentId, then filter it, and category has some products
-            .filter((dto) => !nestedCategoriesIds.includes(dto.parent) && dto.count)
+            .filter((dto) => !nestedCategoriesIds.includes(dto.parent) && dto.count && dto.slug !== 'uncategorized')
             .map((dto) => {
               const categoryModel = new CategoryModel();
               categoryModel.mapFromDto(dto);

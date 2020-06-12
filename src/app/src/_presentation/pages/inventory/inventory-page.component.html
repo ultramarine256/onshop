@@ -23,11 +23,21 @@
         <div fxFlex.lt-sm="100" fxFlex.lt-md="70" fxFlex="80">
           <div fxLayoutAlign.gt-xs="end" fxLayoutAlign.xs="space-between" class="inventory-page__actions">
             <button fxHide.gt-xs color="primary" mat-raised-button (click)="openFilters()">Filters</button>
-            <app-sorting-bar
-              *ngIf="searchResult.items.length"
-              class="inventory-page__sorting-bar"
-              (sortTypeChanged)="onSortTypeChanged($event)"
-            ></app-sorting-bar>
+            <div class="inventory-page__actions">
+              <select
+                class="inventory-page__actions-item form-control"
+                [formControl]="itemsPerPage"
+                (ngModelChange)="onItemsPerPageChanged($event)"
+              >
+                <option *ngFor="let item of [4, 8, 12]" [selected]="item === itemsPerPage.value">{{ item }}</option>
+              </select>
+
+              <app-sorting-bar
+                *ngIf="searchResult.items.length"
+                class="inventory-page__sorting-bar"
+                (sortTypeChanged)="onSortTypeChanged($event)"
+              ></app-sorting-bar>
+            </div>
           </div>
 
           <div class="inventory-page__empty-products" *ngIf="!searchResult.items.length">
@@ -49,13 +59,14 @@
                 let item of searchResult.items
                   | paginate
                     : {
-                        itemsPerPage: paginationConfig.itemsPerPage,
+                        itemsPerPage: itemsPerPage.value,
                         currentPage: currentPage,
                         totalItems: totalResults
                       }
               "
             >
-              <app-product-item [product]="item" [baseUrl]="'/product'"> </app-product-item>
+              <app-product-item class="inventory-page__product-item" [product]="item" [baseUrl]="'/product'">
+              </app-product-item>
             </div>
           </div>
 
@@ -63,12 +74,12 @@
             fxLayoutAlign="center center"
             class="inventory-page__pagination"
             [ngClass]="{ 'inventory-page__pagination--loading': isInProgress }"
-            *ngIf="totalResults > paginationConfig.itemsPerPage"
+            *ngIf="totalResults > itemsPerPage.value"
           >
             <pagination-controls
               (pageChange)="onPageChanged($event)"
               (pageBoundsCorrection)="onPageChanged($event)"
-              maxSize="9"
+              maxSize="5"
               directionLinks="true"
               responsive="true"
               previousLabel="Previous"

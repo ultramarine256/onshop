@@ -35,4 +35,11 @@
   .product-details__rent {
     margin-bottom: 20px;
   }
+
+  .product-details__img-wrap {
+    img {
+      width: auto;
+      height: 100%;
+    }
+  }
 }
