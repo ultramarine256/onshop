@@ -265,15 +265,15 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
     {
         $orderData = wc_get_order($orderId)->get_data();
         // we do not have separate field for total items and total fee, so we need to calculate it manually
-        $itemsTotal = number_format(array_reduce($orderData['line_items'], function ($acc, $item) {
+        $itemsTotal = array_reduce($orderData['line_items'], function ($acc, $item) {
             return $acc += $this->getPriceForProductItem($item);
-        }, 0), 2);
+        }, 0);
 
-        $feeTotal = number_format(array_reduce($orderData['fee_lines'], function ($acc, $item) {
+        $feeTotal = array_reduce($orderData['fee_lines'], function ($acc, $item) {
             return $acc += $item->get_data()['total'];
-        }, 0), 2);
+        }, 0);
 
-        $shippingTotal = number_format($orderData['shipping_total'], 2);
+        $shippingTotal = $orderData['shipping_total'];
 
         $total = number_format($itemsTotal + $feeTotal + $shippingTotal, 2);
 
@@ -332,7 +332,7 @@ abstract class WC_REST_CRUD_Controller extends WC_REST_Posts_Controller {
     {
         $orderItemData = $item->get_data();
         $metaFormattedData = $this->getProductMetaData($item);
-        return number_format($this->isProductForRent($item) ? $metaFormattedData['rent-price'] : $orderItemData['total'], 2);
+        return $this->isProductForRent($item) ? $metaFormattedData['rent-price'] : $orderItemData['total'];
     }
 
     function getProductMetaData($item)
