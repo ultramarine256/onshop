@@ -106,9 +106,9 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
                     'estimated_start_date' => [
 						'required'          => false,
 						'description'       => __( 'Project\'s estimated start date' ),
-						'type'              => 'integer',
+						'type'              => 'number',
                         'validate_callback' => function ( $value ) {
-                            return is_integer( $value );
+                            return is_numeric( $value );
                         }
                     ],
 
