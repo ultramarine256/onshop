@@ -34,11 +34,12 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
       code: [''],
       address: [''],
       pricingMargin: [''],
-      estimatedStartDate: [''], // TODO: Date validator
+      estimatedStartDate: ['', [Validators.required]],
     });
   }
 
   onSubmit() {
+    console.log(this.profileForm.value);
     if (this.profileForm.invalid) {
       this.snackBar.open('Form is invalid', null, {
         duration: 2000,
