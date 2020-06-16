@@ -7,16 +7,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
-import { SharedModule } from '@shared/shared.module';
-
-import { ProjectsUsersComponent } from './movable-user-list';
-import { ProjectCreatePopupComponent } from './project-create-popup/project-create-popup.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '@shared/shared.module';
+
+import { ProjectsUsersComponent } from '../../modules/projects/movable-user-list/movable-user-list.component';
+import { ProjectCreatePopupComponent } from './project-create-popup/project-create-popup.component';
+import { ProjectEditPopupComponent } from './project-edit-popup/project-edit-popup.component';
 
 @NgModule({
-  declarations: [ProjectCreatePopupComponent, ProjectsUsersComponent],
+  declarations: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -28,9 +29,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule,
   ],
-  exports: [ProjectCreatePopupComponent, ProjectsUsersComponent],
+  exports: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
   providers: [],
 })
 export class ProjectsModule {}

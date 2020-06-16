@@ -1,0 +1,68 @@
+<div class="project-create-popup">
+  <div mat-dialog-title>Edit project</div>
+  <div mat-dialog-content>
+    <form [formGroup]="profileForm">
+      <label class="w-100">
+        Name:
+        <input class="form-control" type="text" formControlName="name" placeholder="Name" />
+      </label>
+      <label class="w-100">
+        Market Segment
+        <select formControlName="marketSegment" class="browser-default custom-select">
+          <option>{{ data.project.marketSegment }}</option>
+          <option value="1" [selected]="data.project.marketSegment == '1'">Segment One</option>
+          <option value="2" [selected]="data.project.marketSegment == '2'">Segment Two</option>
+          <option value="3" [selected]="data.project.marketSegment == '3'">Segment Three</option>
+        </select>
+      </label>
+      <label class="d-flex flex-column flex-md-row w-100">
+        <label class="w-100">
+          Project code
+          <input formControlName="code" class="form-control" type="text" placeholder="Number" />
+        </label>
+        <label class="w-100">
+          Address:
+          <input formControlName="address" class="form-control" type="text" placeholder="Address" />
+        </label>
+      </label>
+      <label class="d-flex flex-column flex-md-row w-100">
+        <label class="w-100">
+          Pricing margin
+          <input formControlName="pricingMargin" class="form-control" type="text" placeholder="Pricing margin" />
+        </label>
+        <label class="w-100">
+          Estimated start date:
+          <div class="project-create-popup__datepicker">
+            <input class="form-control" matInput formControlName="estimatedStartDate" [matDatepicker]="picker" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+        </label>
+      </label>
+      <label class="w-100">
+        Description:
+        <textarea formControlName="description" class="form-control" type="text"></textarea>
+      </label>
+      <label class="w-100">
+        <b>Project users:</b>
+        <div *ngIf="!usersDidLoaded" class="w-100 d-flex justify-content-center my-2">
+          <mat-spinner></mat-spinner>
+        </div>
+        <app-project-users
+          *ngIf="usersDidLoaded"
+          [existingItems]="existingUsers"
+          [allItems]="allUsers"
+          [isProcessing]="isProcessing"
+          (added)="addUser($event)"
+          (deleted)="deleteUser($event)"
+        ></app-project-users>
+      </label>
+      <div class="project-create-popup__action">
+        <button (click)="!isLoading && onSubmit()" mat-raised-button color="primary">
+          <ng-template #loader><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> </ng-template>
+          <span *ngIf="!isLoading; else loader">Submit</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

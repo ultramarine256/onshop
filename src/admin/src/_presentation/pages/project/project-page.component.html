@@ -15,7 +15,7 @@
     <table mat-table *ngIf="projects.length" [dataSource]="projects" class="projects-table border rounded">
       <ng-container matColumnDef="photo" class="pr-0">
         <th mat-header-cell class="d-none" *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="table-img-width text-center p-2" [routerLink]="['project', element.id]">
+        <td mat-cell *matCellDef="let element" class="table-img-width text-center p-2" (click)="openProjectCreatePopup()">
           <svg
             class="bd-placeholder-img rounded"
             width="35"
@@ -34,21 +34,24 @@
       </ng-container>
       <ng-container matColumnDef="name">
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="pl-3 text-muted">
+        <td mat-cell *matCellDef="let element" class="pl-3 text-muted" (click)="openProjectCreatePopup()">
           <b>{{ element.name }}</b>
         </td>
       </ng-container>
       <ng-container matColumnDef="description">
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="text-muted">{{ element.description }}</td>
+        <td mat-cell *matCellDef="let element" class="text-muted" (click)="openProjectCreatePopup()">{{ element.description }}</td>
       </ng-container>
       <ng-container matColumnDef="edit">
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element" class="text-center table-img-width">
-          <button mat-icon-button color="primary" [routerLink]="['project', element.id]">
-            <mat-icon>
-              edit
-            </mat-icon>
+          <mat-menu #appMenu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="openProjectEditPopup(element)">Edit</button>
+            <button mat-menu-item (click)="onProjectDelete(element.id)">Delete</button>
+          </mat-menu>
+
+          <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
+            <mat-icon>more_vert</mat-icon>
           </button>
         </td>
       </ng-container>

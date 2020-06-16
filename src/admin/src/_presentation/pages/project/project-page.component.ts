@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { filter, finalize, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProjectRepository, ProjectEntity } from '@data/index';
 import { ProjectCreatePopupComponent } from '@domain/modules/projects/project-create-popup/project-create-popup.component';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProjectEditPopupComponent } from '@domain/modules/projects/project-edit-popup/project-edit-popup.component';
 
 @Component({
   selector: 'app-project-page',
@@ -17,7 +19,12 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
 
   projects: ProjectEntity[];
 
-  constructor(private dialog: MatDialog, private router: Router, private projectRepository: ProjectRepository) {
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    private projectRepository: ProjectRepository,
+    private infoMessage: MatSnackBar
+  ) {
     super();
   }
 
@@ -30,6 +37,28 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((items) => (this.projects = items));
+  }
+
+  public onProjectDelete(id: number) {
+    this.projectRepository
+      .deleteProject(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => {},
+        (error) => {
+          if (error.status === 200) {
+            this.infoMessage.open('there are still some users in the project', null, {
+              duration: 2000,
+            });
+          }
+        },
+        () => {
+          this.projects = this.projects.filter((project) => project.id !== id);
+          this.infoMessage.open('Project deleted!', null, {
+            duration: 2000,
+          });
+        }
+      );
   }
 
   openProjectCreatePopup() {
@@ -45,6 +74,23 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
       )
       .subscribe((project: ProjectEntity) => {
         this.projects = this.projects.concat(project);
+      });
+  }
+
+  openProjectEditPopup(project: ProjectEntity) {
+    const dialogRef = this.dialog.open(ProjectEditPopupComponent, {
+      width: '500px',
+      data: { project },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((data) => data),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((newProject) => {
+        this.projects = this.projects.map((projectItem) => (projectItem.id === project.id ? newProject : projectItem));
       });
   }
 }

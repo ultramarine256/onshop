@@ -88,7 +88,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						}
 					],
                     'market_segment' => [
-						'required'          => false,
+						'required'          => true,
 						'description'       => __( 'Project\'s market segment' ),
 						'type'              => 'string',
 						'validate_callback' => function ( $value ) {
@@ -104,7 +104,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						}
 					],
                     'estimated_start_date' => [
-						'required'          => false,
+						'required'          => true,
 						'description'       => __( 'Project\'s estimated start date' ),
 						'type'              => 'number',
                         'validate_callback' => function ( $value ) {
@@ -223,8 +223,14 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					$project_id = ONSHOP_MODEL_Projects::update(
 						$params['id'],
 						[
-							'name'        => $params['name'],
-							'description' => $params['description']
+							'name'                 => $params['name'],
+							'description'          => $params['description'],
+                            'address'              => $params['address'],
+                            'code'                 => $params['code'],
+                            'market_segment'       => $params['market_segment'],
+                            'pricing_margin'       => $params['pricing_margin'],
+                            'estimated_start_date' => $params['estimated_start_date']
+
 						]
 					);
 
