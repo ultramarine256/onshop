@@ -7,15 +7,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '@shared/shared.module';
 
 import { ProjectsUsersComponent } from '../../modules/projects/movable-user-list/movable-user-list.component';
 import { ProjectCreatePopupComponent } from './project-create-popup/project-create-popup.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
 import { ProjectEditPopupComponent } from './project-edit-popup/project-edit-popup.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
@@ -31,7 +30,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatInputModule,
     MatTableModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   exports: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
   providers: [],

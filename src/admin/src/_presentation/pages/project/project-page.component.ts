@@ -47,14 +47,14 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
         () => {},
         (error) => {
           if (error.status === 200) {
-            this.infoMessage.open('there are still some users in the project!!', 'Error!', {
+            this.infoMessage.open('there are still some users in the project', null, {
               duration: 2000,
             });
           }
         },
         () => {
           this.projects = this.projects.filter((project) => project.id !== id);
-          this.infoMessage.open('Project deleted!', 'ok!', {
+          this.infoMessage.open('Project deleted!', null, {
             duration: 2000,
           });
         }
@@ -91,8 +91,6 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
       )
       .subscribe((newProject) => {
         this.projects = this.projects.map((projectItem) => (projectItem.id === project.id ? newProject : projectItem));
-        // this.projects = this.projects.filter(x => x.id !== item.id);
-        // this.projects = this.projects.concat(project);
       });
   }
 }

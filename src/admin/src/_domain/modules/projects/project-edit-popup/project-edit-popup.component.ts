@@ -67,7 +67,7 @@ export class ProjectEditPopupComponent extends UnsubscribeMixin() implements OnI
       .subscribe(() => {
         this.allUsers = this.allUsers.filter((x) => x.id !== event.id);
         this.existingUsers = this.existingUsers.concat(event);
-        this.snackBar.open('User added!', 'ok!', {
+        this.snackBar.open('User added!', null, {
           duration: 2000,
         });
       });
@@ -81,7 +81,7 @@ export class ProjectEditPopupComponent extends UnsubscribeMixin() implements OnI
         takeUntil(this.destroy$),
         tap(() => {
           this.isProcessing = false;
-          this.snackBar.open('User deleted!', 'ok!', {
+          this.snackBar.open('User deleted!', null, {
             duration: 2000,
           });
         })
