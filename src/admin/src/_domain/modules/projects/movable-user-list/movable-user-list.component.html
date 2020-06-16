@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row d-flex align-items-center justify-content-center" style="overflow-x: auto;">
     <table mat-table *ngIf="existingItems.length" [dataSource]="existingItems" class="users-table border rounded">
-      <ng-container matColumnDef="Id" class="d-none d-md-block">
-        <th mat-header-cell *matHeaderCellDef>#</th>
-        <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-      </ng-container>
+<!--      <ng-container matColumnDef="Id" class="d-none d-md-block">-->
+<!--        <th mat-header-cell *matHeaderCellDef>#</th>-->
+<!--        <td mat-cell *matCellDef="let element">{{ element.id }}</td>-->
+<!--      </ng-container>-->
       <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.first_name }}</td>
@@ -29,8 +29,8 @@
           </button>
         </td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
+      <tr mat-header-row *matHeaderRowDef="['Name', 'Last Name', 'Email', 'Button']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['Name', 'Last Name', 'Email', 'Button']"></tr>
     </table>
     <div *ngIf="!existingItems.length">
       <h3>0 Users exists</h3>
@@ -50,10 +50,10 @@
   <ng-container *ngIf="addList.isVisible">
     <div class="row d-flex align-items-center justify-content-center" style="overflow-x: auto;">
       <table *ngIf="allItems.length" mat-table [dataSource]="allItems" class="users-table border rounded">
-        <ng-container matColumnDef="Id">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
+<!--        <ng-container matColumnDef="Id">-->
+<!--          <th mat-header-cell *matHeaderCellDef>#</th>-->
+<!--          <td mat-cell *matCellDef="let element">{{ element.id }}</td>-->
+<!--        </ng-container>-->
         <ng-container matColumnDef="Name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
           <td mat-cell *matCellDef="let element">{{ element.first_name }}</td>
@@ -81,8 +81,8 @@
 
         <!-- Name Column -->
 
-        <tr mat-header-row *matHeaderRowDef="['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['Id', 'Name', 'Last Name', 'Email', 'Button']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['Name', 'Last Name', 'Email', 'Button']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['Name', 'Last Name', 'Email', 'Button']"></tr>
       </table>
       <div *ngIf="!allItems.length">
         <h3 class="text-center">0 Users exists</h3>
@@ -90,3 +90,6 @@
     </div>
   </ng-container>
 </div>
+<!--<h1 class="text-dark">-->
+<!--  asdasdasdasd-->
+<!--</h1>-->
