@@ -34,7 +34,7 @@ export class InventoryPageComponent extends UnsubscribeMixin() implements OnInit
   public searchResult = new ProductSearchResult();
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
-  public itemsPerPage = new FormControl(12);
+  public itemsPerPage = new FormControl(25);
   public filters: { minPrice: number; maxPrice: number };
   public tags: TagModel[];
   public isInProgress: boolean;

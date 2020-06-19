@@ -1,9 +1,6 @@
 .project-create-popup {
   .mat-dialog-content {
     max-height: 85vh;
-    .project-row{
-      line-height: 2;
-    }
   }
 
   .project-create-popup__action {
@@ -22,10 +19,11 @@
       top: 0;
     }
   }
-  .min-width-users-tab{
+  .min-width-users-tab {
     min-height: 60vh;
   }
-  button.mat-menu-item,button.mat-icon-button {
+  button.mat-menu-item,
+  button.mat-icon-button {
     outline: none;
   }
 }

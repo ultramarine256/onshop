@@ -7,6 +7,7 @@ import { ProjectRepository, ProjectEntity } from '@data/index';
 import { ProjectCreatePopupComponent } from '@domain/modules/projects/project-create-popup/project-create-popup.component';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { ProjectEditPopupComponent } from '@domain/modules/projects/project-edit-popup/project-edit-popup.component';
+import { ProjectShowPopupComponent } from '@domain/modules/projects/project-show-popup/project-show-popup.component';
 
 @Component({
   selector: 'app-project-page',
@@ -53,7 +54,7 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
         },
         () => {
           this.projects = this.projects.filter((project) => project.id !== id);
-          this.infoMessage.open('Project deleted!', null, {
+          this.infoMessage.open('Project deleted', null, {
             duration: 2000,
           });
         }
@@ -76,10 +77,10 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
       });
   }
 
-  openProjectEditPopup(project: ProjectEntity, action: string) {
+  openProjectEditPopup(project: ProjectEntity) {
     const dialogRef = this.dialog.open(ProjectEditPopupComponent, {
       width: '500px',
-      data: { project, action },
+      data: { project },
     });
     dialogRef
       .afterClosed()
@@ -90,5 +91,12 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
       .subscribe((newProject) => {
         this.projects = this.projects.map((projectItem) => (projectItem.id === project.id ? newProject : projectItem));
       });
+  }
+
+  openProjectPopup(project: ProjectEntity) {
+    this.dialog.open(ProjectShowPopupComponent, {
+      width: '500px',
+      data: { project },
+    });
   }
 }

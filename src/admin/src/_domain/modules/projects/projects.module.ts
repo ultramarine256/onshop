@@ -17,9 +17,10 @@ import { ProjectCreatePopupComponent } from './project-create-popup/project-crea
 import { ProjectEditPopupComponent } from './project-edit-popup/project-edit-popup.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
+import { ProjectShowPopupComponent } from '@domain/modules/projects/project-show-popup/project-show-popup.component';
 
 @NgModule({
-  declarations: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
+  declarations: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectShowPopupComponent, ProjectsUsersComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -35,10 +36,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
   ],
-  exports: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
-  providers: []
+  exports: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectShowPopupComponent, ProjectsUsersComponent],
+  providers: [],
 })
-export class ProjectsModule {
-}
+export class ProjectsModule {}

@@ -2,8 +2,10 @@
   <mat-accordion>
     <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          <b>{{ project.name }}</b>
+        <mat-panel-title class="d-flex align-items-center">
+          <span class="d-flex flex-column"
+            ><b>{{ project.name }}</b> <small>code:{{ project.code }}</small></span
+          >
         </mat-panel-title>
       </mat-expansion-panel-header>
 
