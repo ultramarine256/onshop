@@ -7,6 +7,8 @@ export class AppInfoModel {
   phone: string;
   promo1: string;
   promo2: string;
+  deliveryFee: number;
+  deliveryDuration: number;
 
   /// constructor
   constructor(init?: Partial<AppInfoModel>) {
@@ -20,5 +22,7 @@ export class AppInfoModel {
     this.phone = dto['opt-phone-1'];
     this.promo1 = dto['opt-promo1'];
     this.promo2 = dto['opt-promo2'];
+    this.deliveryFee = +dto['opt-delivery-fee'];
+    this.deliveryDuration = +dto['opt-delivery-duration'];
   }
 }

@@ -33,6 +33,8 @@ export class AppInfo {
   address: string;
   promo1: string;
   promo2: string;
+  deliveryFee: number;
+  deliveryDuration: number;
 
   /// constructor
   constructor(init?: Partial<AppInfo>) {
