@@ -1,10 +1,11 @@
-import { AfterContentInit, Component } from '@angular/core';
+import { AfterContentInit, Component, HostBinding } from '@angular/core';
 import { takeUntil, tap } from 'rxjs/operators';
 
 import { OWL_CAROUSEL } from '@domain/modules';
 import { CategoryModel, CategoryRepository, ProductModel, ProductRepository } from '../../../_data';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { InfoService } from '@domain/services';
+import { animate, group, query, stagger, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-home-page',
@@ -12,6 +13,8 @@ import { InfoService } from '@domain/services';
   templateUrl: './home-page.component.html',
 })
 export class HomePageComponent extends UnsubscribeMixin() implements AfterContentInit {
+  @HostBinding('@pageAnimations')
+
   /// fields
   public products: Array<ProductModel> = [];
   public categories: Array<CategoryModel> = [];

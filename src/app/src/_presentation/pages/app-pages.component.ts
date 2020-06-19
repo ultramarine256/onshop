@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
+import { forkJoin, throwError } from 'rxjs';
 
-import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository } from '@data/repository';
+import { AppInfoModel, AppRepository, CategoryRepository, ProductRepository, UserRepository } from '@data/repository';
 import { AppInfo, AuthService, CartService, InfoService } from '@domain/services';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 
@@ -36,7 +36,7 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
   public panelOpenState: boolean;
   public showCategories: boolean;
   public showSidenav: boolean;
-  public isLoading: boolean;
+  public isLoading = true;
 
   constructor(
     private router: Router,
@@ -45,19 +45,23 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
     public authService: AuthService,
     private productRepository: ProductRepository,
     private appRepository: AppRepository,
-    private categoryRepository: CategoryRepository
+    private categoryRepository: CategoryRepository,
+    private userRepository: UserRepository
   ) {
     super();
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
+    forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories(), this.userRepository.getUser()])
       .pipe(
-        map(([appInfoModel, categories]) => {
+        map(([appInfoModel, categories, userModel]) => {
           return [appInfoModel, categories.map((category) => new CategoryMenuModel(category))];
         }),
-        tap(() => {
+        catchError((e) => {
+          this.isLoading = false;
+          return throwError(e);
+        }),
+        finalize(() => {
           this.isLoading = false;
         }),
         takeUntil(this.destroy$)

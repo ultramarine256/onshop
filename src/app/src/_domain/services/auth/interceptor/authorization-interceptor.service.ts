@@ -8,7 +8,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthConstants, AuthService } from '../auth.service';
@@ -25,7 +25,7 @@ export class AuthorizationInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req.clone();
 
-    if (req.url.includes('user/login') || req.url.includes('user/register') || req.headers.has('Authorization')) {
+    if (req.url.includes('login') || req.url.includes('register') || req.headers.has('Authorization')) {
       return next.handle(authReq);
     }
 
@@ -47,7 +47,7 @@ export class AuthorizationInterceptorService implements HttpInterceptor {
           this.authService.logout();
           this.router.navigate(['/login']);
         }
-        return new Observable<HttpEvent<any>>();
+        return throwError(err);
       })
     );
   }

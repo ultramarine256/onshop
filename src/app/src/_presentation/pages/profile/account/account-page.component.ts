@@ -23,17 +23,10 @@ export class AccountPageComponent extends UnsubscribeMixin() implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.userRepository
-      .getUser()
-      .pipe(
-        tap(() => (this.isLoading = false)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((user) => {
-        this.user = user;
-        this.settingsForm = this.getProfileForm(this.user);
-      });
+    this.userRepository.user$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
+      this.user = user;
+      this.settingsForm = this.getProfileForm(this.user);
+    });
   }
 
   private getProfileForm(user: UserModel): FormGroup {
