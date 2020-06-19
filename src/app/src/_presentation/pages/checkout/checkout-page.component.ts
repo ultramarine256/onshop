@@ -20,7 +20,7 @@ import {
   UserModel,
   UserRepository,
 } from '@data/repository';
-import { AuthService, CartItemForRentEntity, CartService } from '@domain/index';
+import { AuthService, CartItemForRentEntity, CartService, InfoService } from '@domain/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { ProductService } from '@domain/services/product/product.service';
 
@@ -41,6 +41,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
   public deliveryTimeOptions = DeliveryTime;
   public products = this.cartService.items;
   public order: OrderCreateModel;
+  public deliveryFee: number;
 
   /// predicates
   public orderCompleted = false;
@@ -60,7 +61,8 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
     private userRepository: UserRepository,
     private projectRepository: ProjectRepository,
     public cartService: CartService,
-    public productService: ProductService
+    public productService: ProductService,
+    public infoService: InfoService
   ) {
     super();
   }
@@ -85,6 +87,7 @@ export class CheckoutPageComponent extends UnsubscribeMixin() implements OnInit 
         this.deliveryDate = new FormControl('', [Validators.required]);
         this.deliveryInstructions = new FormControl('');
         this.deliveryTime = new FormControl(this.deliveryTimeOptions.Am);
+        this.deliveryFee = this.infoService.appInfo.deliveryFee;
         this.projects = projectItems;
       });
   }

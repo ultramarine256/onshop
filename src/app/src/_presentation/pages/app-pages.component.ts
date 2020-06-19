@@ -70,6 +70,8 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit, OnD
             phone: appInfoModel.phone,
             promo1: appInfoModel.promo1,
             promo2: appInfoModel.promo2,
+            deliveryFee: appInfoModel.deliveryFee,
+            deliveryDuration: appInfoModel.deliveryDuration,
           })
         );
         this.navigationMenu = categories;

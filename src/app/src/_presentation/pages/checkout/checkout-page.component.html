@@ -144,7 +144,7 @@
                   <ng-template #defaultView>
                     <div class="checkout__scheduler-template-price">
                       <div class="checkout__scheduler-template-price-label">Delivery fee</div>
-                      <div class="checkout__scheduler-template-amount">$40</div>
+                      <div class="checkout__scheduler-template-amount">{{ deliveryFee | currency }}</div>
                     </div>
                   </ng-template>
                   <ng-container
