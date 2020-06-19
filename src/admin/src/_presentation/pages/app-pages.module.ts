@@ -8,12 +8,12 @@ import { ProjectsModule } from '@domain/index';
 import { HomePageComponent } from './home';
 import { AppPagesComponent } from './app-pages.component';
 import { AppPagesRouting } from './app-pages.routing';
-import { ProjectDetailPageComponent, ProjectPageComponent } from './project';
+import {ProjectPageComponent } from './project';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
-  declarations: [AppPagesComponent, HomePageComponent, ProjectPageComponent, ProjectDetailPageComponent],
+  declarations: [AppPagesComponent, HomePageComponent, ProjectPageComponent],
   imports: [CommonModule, ProjectsModule, MatDialogModule, MatIconModule, MatButtonModule, AppPagesRouting, MatTableModule, MatMenuModule],
   exports: [HomePageComponent, AppPagesComponent],
   providers: [],

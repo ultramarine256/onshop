@@ -79,7 +79,7 @@ class ONSHOP_REST_Users_Controller extends WC_REST_Customers_Controller {
 						);
 					}
 
-					if (!$result->caps['customer']) {
+					if (!$result->caps['customer'] && !$result->caps['shop_manager']) {
                         return new WP_Error(
                             'access_denied',
                             __( 'Access denied.' ),

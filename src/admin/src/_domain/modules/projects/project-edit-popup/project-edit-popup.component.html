@@ -1,68 +1,99 @@
 <div class="project-create-popup">
-  <div mat-dialog-title>Edit project</div>
   <div mat-dialog-content>
-    <form [formGroup]="profileForm">
-      <label class="w-100">
-        Name:
-        <input class="form-control" type="text" formControlName="name" placeholder="Name" />
-      </label>
-      <label class="w-100">
-        Market Segment
-        <select formControlName="marketSegment" class="browser-default custom-select">
-          <option>{{ data.project.marketSegment }}</option>
-          <option value="1" [selected]="data.project.marketSegment == '1'">Segment One</option>
-          <option value="2" [selected]="data.project.marketSegment == '2'">Segment Two</option>
-          <option value="3" [selected]="data.project.marketSegment == '3'">Segment Three</option>
-        </select>
-      </label>
-      <label class="d-flex flex-column flex-md-row w-100">
-        <label class="w-100">
-          Project code
-          <input formControlName="code" class="form-control" type="text" placeholder="Number" />
-        </label>
-        <label class="w-100">
-          Address:
-          <input formControlName="address" class="form-control" type="text" placeholder="Address" />
-        </label>
-      </label>
-      <label class="d-flex flex-column flex-md-row w-100">
-        <label class="w-100">
-          Pricing margin
-          <input formControlName="pricingMargin" class="form-control" type="text" placeholder="Pricing margin" />
-        </label>
-        <label class="w-100">
-          Estimated start date:
-          <div class="project-create-popup__datepicker">
-            <input class="form-control" matInput formControlName="estimatedStartDate" [matDatepicker]="picker" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+    <mat-tab-group [hidden]="data.action === 'show'" mat-align-tabs="left">
+      <mat-tab label="Project" class="mt-2">
+        <form [formGroup]="profileForm" class="min-width-users-tab">
+          <mat-form-field appearance="standard" class="w-100 mt-3">
+            <mat-label>Name:</mat-label>
+            <input matInput formControlName="name"/>
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="w-100">
+            <mat-label >Market Segment</mat-label>
+            <mat-select formControlName="marketSegment">
+              <mat-option value="1">Segment One</mat-option>
+              <mat-option value="2">Segment Two</mat-option>
+              <mat-option value="3">Segment Three</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+          <label class="d-flex flex-column flex-md-row w-100">
+            <mat-form-field appearance="standard" class="w-100 pr-1">
+              <mat-label> Project code</mat-label>
+              <input matInput formControlName="code"/>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="w-100 pl-1">
+              <mat-label> Address:</mat-label>
+              <input matInput formControlName="address"/>
+            </mat-form-field>
+          </label>
+          <div class="d-flex align-items-center flex-column flex-md-row w-100">
+            <mat-form-field appearance="standard" class="w-100 pr-1">
+              <mat-label>Pricing margin:</mat-label>
+              <input matInput formControlName="pricingMargin"/>
+            </mat-form-field>
+            <mat-form-field appearance="standard" class="w-100 pl-1">
+              <input matInput formControlName="estimatedStartDate" [matDatepicker]="picker"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
           </div>
-        </label>
-      </label>
-      <label class="w-100">
-        Description:
-        <textarea formControlName="description" class="form-control" type="text"></textarea>
-      </label>
-      <label class="w-100">
-        <b>Project users:</b>
-        <div *ngIf="!usersDidLoaded" class="w-100 d-flex justify-content-center my-2">
-          <mat-spinner></mat-spinner>
+
+          <mat-form-field appearance="standard" class="w-100 pl-1">
+            <mat-label> Description:</mat-label>
+            <input matInput formControlName="description"/>
+          </mat-form-field>
+          <div class="project-create-popup__action text-right">
+            <button (click)="!isLoading && onSubmit()" mat-raised-button color="primary">
+              <ng-template #loader><span class="spinner-border spinner-border-sm" role="status"
+                                         aria-hidden="true"></span></ng-template>
+              <span *ngIf="!isLoading; else loader">Submit</span>
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+      <mat-tab label="Users">
+        <div class="w-100 min-width-users-tab pt-2">
+          <div *ngIf="!usersDidLoaded" class="w-100 d-flex justify-content-center my-2">
+            <mat-spinner></mat-spinner>
+          </div>
+          <app-project-users
+            *ngIf="usersDidLoaded"
+            [existingItems]="existingUsers"
+            [allItems]="allUsers"
+            [isProcessing]="isProcessing"
+            (added)="addUser($event)"
+            (deleted)="deleteUser($event)"
+          ></app-project-users>
         </div>
-        <app-project-users
-          *ngIf="usersDidLoaded"
-          [existingItems]="existingUsers"
-          [allItems]="allUsers"
-          [isProcessing]="isProcessing"
-          (added)="addUser($event)"
-          (deleted)="deleteUser($event)"
-        ></app-project-users>
-      </label>
-      <div class="project-create-popup__action">
-        <button (click)="!isLoading && onSubmit()" mat-raised-button color="primary">
-          <ng-template #loader><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> </ng-template>
-          <span *ngIf="!isLoading; else loader">Submit</span>
-        </button>
+      </mat-tab>
+    </mat-tab-group>
+    <mat-form-field *ngIf="data.action === 'show'" class="w-100 d-flex flex-column pb-3">
+      <h3 class="text-center mb-2">Project information</h3>
+      <div class="d-flex justify-content-between align-items-center project-row">
+        <span>Name:</span>
+        <span>{{ data.project.name }}</span>
       </div>
-    </form>
+      <div class="d-flex justify-content-between align-items-center project-row">
+        <span>Description:</span>
+        <span>{{ data.project.description }}</span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center project-row">
+        <span>Code:</span>
+        <span>{{ data.project.code }}</span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center project-row">
+        <span>Market Segment:</span>
+        <span>{{ data.project.marketSegment }}</span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center project-row">
+        <span>Address:</span>
+        <span>{{ data.project.address }}</span>
+      </div>
+      <div class="d-flex justify-content-between align-items-center project-row">
+        <span>Start date:</span>
+        <span>{{ data.project.estimatedStartDate | date: 'shortDate' }}</span>
+      </div>
+    </mat-form-field>
   </div>
 </div>

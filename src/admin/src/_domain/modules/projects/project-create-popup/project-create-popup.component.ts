@@ -29,9 +29,9 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
   ngOnInit() {
     this.profileForm = this.fb.group({
       name: ['', [Validators.required]],
-      description: [''],
-      marketSegment: [''],
-      code: [''],
+      description: ['', [Validators.required]],
+      marketSegment: ['', [Validators.required]],
+      code: ['', [Validators.required]],
       address: [''],
       pricingMargin: [''],
       estimatedStartDate: ['', [Validators.required]],
@@ -39,7 +39,6 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
   }
 
   onSubmit() {
-    console.log(this.profileForm.value);
     if (this.profileForm.invalid) {
       this.snackBar.open('Form is invalid', null, {
         duration: 2000,
@@ -53,8 +52,17 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
         finalize(() => (this.isLoading = false)),
         takeUntil(this.destroy$)
       )
-      .subscribe((response) => {
-        this.matDialogRef.close({ ...this.profileForm.value, id: response.id });
-      });
+      .subscribe(
+        (response) => {
+          this.matDialogRef.close({ ...this.profileForm.value, id: response.id });
+        },
+        (error) => {
+          if (error.status === 400) {
+            this.snackBar.open('Project already exist!', null, {
+              duration: 2000,
+            });
+          }
+        }
+      );
   }
 }

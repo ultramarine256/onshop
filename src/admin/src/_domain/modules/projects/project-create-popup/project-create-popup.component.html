@@ -1,53 +1,49 @@
 <div class="project-create-popup">
   <div mat-dialog-title>New project</div>
-
   <div mat-dialog-content>
     <form [formGroup]="profileForm">
-      <label class="w-100">
-        Name:
-        <input class="form-control" type="text" formControlName="name" placeholder="Name" />
-      </label>
-      <label class="w-100">
-        Market Segment
-        <select formControlName="marketSegment" class="browser-default custom-select">
-          <option selected>Market Segment</option>
-          <option value="1">Segment One</option>
-          <option value="2">Segment Two</option>
-          <option value="3">Segment Three</option>
-        </select>
-      </label>
-
+      <mat-form-field appearance="standard" class="w-100 pr-1">
+        <mat-label>Name:</mat-label>
+        <input matInput formControlName="name"/>
+      </mat-form-field>
+      <mat-form-field appearance="standard" class="w-100">
+        <mat-label>Market Segment</mat-label>
+        <mat-select formControlName="marketSegment">
+          <mat-option value="1">Segment One</mat-option>
+          <mat-option value="2">Segment Two</mat-option>
+          <mat-option value="3">Segment Three</mat-option>
+        </mat-select>
+        <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+      </mat-form-field>
+      <div class="d-flex flex-column flex-md-row w-100">
+        <mat-form-field appearance="standard" class="w-100 pr-1">
+          <mat-label> Project code:</mat-label>
+          <input matInput formControlName="code"/>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-100 pl-1">
+          <mat-label>Address:</mat-label>
+          <input matInput formControlName="address"/>
+        </mat-form-field>
+      </div>
       <label class="d-flex flex-column flex-md-row w-100">
-        <label class="w-100">
-          Project code
-          <input formControlName="code" class="form-control" type="text" placeholder="Number" />
-        </label>
-        <label class="w-100">
-          Address:
-          <input formControlName="address" class="form-control" type="text" placeholder="Address" />
-        </label>
+        <mat-form-field appearance="standard" class="w-100 pl-1">
+          <mat-label>Pricing margin:</mat-label>
+          <input matInput formControlName="pricingMargin"/>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="w-100 pl-1">
+          <input matInput formControlName="estimatedStartDate" [matDatepicker]="picker"/>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
       </label>
-      <label class="d-flex flex-column flex-md-row w-100">
-        <label class="w-100">
-          Pricing margin
-          <input formControlName="pricingMargin" class="form-control" type="text" placeholder="Pricing margin" />
-        </label>
-        <label class="w-100">
-          Estimated start date:
-          <div class="project-create-popup__datepicker">
-            <input class="form-control" matInput formControlName="estimatedStartDate" [matDatepicker]="picker" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </div>
-        </label>
-      </label>
-      <label class="w-100">
-        Description:
-        <textarea formControlName="description" class="form-control" type="text"></textarea>
-      </label>
+      <mat-form-field appearance="standard" class="w-100 pl-1">
+        <mat-label>Description:</mat-label>
+        <input matInput formControlName="description"/>
+      </mat-form-field>
       <div class="project-create-popup__action">
         <button (click)="!isLoading && onSubmit()" mat-raised-button color="primary">
-          <ng-template #loader><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></ng-template>
+          <ng-template #loader><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          </ng-template>
           <span *ngIf="!isLoading; else loader">Submit</span>
         </button>
       </div>

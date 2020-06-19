@@ -1,13 +1,18 @@
 .project-create-popup {
   .mat-dialog-content {
     max-height: 85vh;
+    .project-row{
+      line-height: 2;
+    }
   }
 
   .project-create-popup__action {
     margin-top: 5px;
     padding: 5px 0;
   }
-
+  .input-full-width {
+    width: 100%;
+  }
   .project-create-popup__datepicker {
     position: relative;
 
@@ -16,5 +21,11 @@
       right: 0;
       top: 0;
     }
+  }
+  .min-width-users-tab{
+    min-height: 60vh;
+  }
+  button.mat-menu-item,button.mat-icon-button {
+    outline: none;
   }
 }

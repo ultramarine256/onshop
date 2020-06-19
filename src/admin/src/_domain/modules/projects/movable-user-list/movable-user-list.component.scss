@@ -6,6 +6,7 @@
 .font-small {
   font-size: 0.9em;
 }
+
 .users-table {
   width: 100%;
   margin: auto auto 20px;
@@ -19,4 +20,9 @@
   .purchase-returns-page__rental-cell {
     width: 60px;
   }
+}
+
+button.mat-raised-button,
+button.mat-icon-button {
+  outline: none;
 }

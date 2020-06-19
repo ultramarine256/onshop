@@ -2,11 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { filter, finalize, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectRepository, ProjectEntity } from '@data/index';
 import { ProjectCreatePopupComponent } from '@domain/modules/projects/project-create-popup/project-create-popup.component';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectEditPopupComponent } from '@domain/modules/projects/project-edit-popup/project-edit-popup.component';
 
 @Component({
@@ -77,12 +76,11 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
       });
   }
 
-  openProjectEditPopup(project: ProjectEntity) {
+  openProjectEditPopup(project: ProjectEntity, action: string) {
     const dialogRef = this.dialog.open(ProjectEditPopupComponent, {
       width: '500px',
-      data: { project },
+      data: { project, action },
     });
-
     dialogRef
       .afterClosed()
       .pipe(
