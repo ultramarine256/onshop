@@ -64,7 +64,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						}
 					],
 					'description' => [
-						'required'          => false,
+						'required'          => true,
 						'description'       => __( 'Project\'s description' ),
 						'type'              => 'string',
 						'validate_callback' => function ( $value ) {
@@ -80,7 +80,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						}
 					],
                     'code' => [
-						'required'          => false,
+						'required'          => true,
 						'description'       => __( 'Project\'s code' ),
 						'type'              => 'string',
 						'validate_callback' => function ( $value ) {

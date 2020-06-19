@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddUser, ProjectRepository, UserEntity, UserRepository } from '@data/repository';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { ProjectRepository, UserEntity, UserRepository } from '@data/repository';
 import { finalize, takeUntil, tap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
 
@@ -67,7 +67,7 @@ export class ProjectEditPopupComponent extends UnsubscribeMixin() implements OnI
       .subscribe(() => {
         this.allUsers = this.allUsers.filter((x) => x.id !== event.id);
         this.existingUsers = this.existingUsers.concat(event);
-        this.snackBar.open('User added!', null, {
+        this.snackBar.open('User added', null, {
           duration: 2000,
         });
       });
@@ -78,13 +78,12 @@ export class ProjectEditPopupComponent extends UnsubscribeMixin() implements OnI
     this.userRepository
       .deleteProjectUsers(event.id, this.data.project.id)
       .pipe(
-        takeUntil(this.destroy$),
         tap(() => {
           this.isProcessing = false;
-          this.snackBar.open('User deleted!', null, {
+          this.snackBar.open('User deleted', null, {
             duration: 2000,
           });
-        })
+        }, takeUntil(this.destroy$))
       )
       .subscribe(() => {
         this.existingUsers.concat(event);

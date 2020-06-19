@@ -38,7 +38,9 @@
             <h3 class="product-details__title">{{ product.name }}</h3>
             <small class="product-details__description">{{ product.firstCategory.name }}</small>
           </div>
-
+          <span class="pb-2"
+          >Availability: <b>{{ product.stockQuantity }}</b> in stock</span
+          >
           <div class="product-details__actions">
             <div *ngIf="product.availableForRent" class="product-details__rent">
               <span class="product-details__rent-label">Rent from</span>
@@ -58,7 +60,7 @@
               <span>by</span>
 
               <mat-form-field class="product-details__datepicker">
-                <input matInput [min]="dateToMinDate" [(ngModel)]="dateTo" [matDatepicker]="matDateTo" />
+                <input matInput [min]="dateToMinDate" [(ngModel)]="dateTo" [matDatepicker]="matDateTo"/>
                 <mat-datepicker-toggle matSuffix [for]="matDateTo"></mat-datepicker-toggle>
                 <mat-datepicker #matDateTo></mat-datepicker>
               </mat-form-field>

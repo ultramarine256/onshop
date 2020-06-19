@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,9 +15,12 @@ import { SharedModule } from '@shared/shared.module';
 import { ProjectsUsersComponent } from '../../modules/projects/movable-user-list/movable-user-list.component';
 import { ProjectCreatePopupComponent } from './project-create-popup/project-create-popup.component';
 import { ProjectEditPopupComponent } from './project-edit-popup/project-edit-popup.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSelectModule } from '@angular/material/select';
+import { ProjectShowPopupComponent } from '@domain/modules/projects/project-show-popup/project-show-popup.component';
 
 @NgModule({
-  declarations: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
+  declarations: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectShowPopupComponent, ProjectsUsersComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -31,8 +34,11 @@ import { ProjectEditPopupComponent } from './project-edit-popup/project-edit-pop
     MatTableModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatSelectModule,
+    FormsModule,
   ],
-  exports: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectsUsersComponent],
+  exports: [ProjectCreatePopupComponent, ProjectEditPopupComponent, ProjectShowPopupComponent, ProjectsUsersComponent],
   providers: [],
 })
 export class ProjectsModule {}
