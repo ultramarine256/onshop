@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
-import { StockStatus, TagModel } from '@data/repository';
+import { TagModel } from '@data/repository';
 
 @Component({
   selector: 'app-inventory-filters',

@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="projects">
+    <ng-template #loader>
+      <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+    <ng-container *ngIf="projects$ | async as projects; else loader">
+      <div class="projects">
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="d-flex align-items-center">
+                <span class="d-flex flex-column"
+                  ><b>{{ project.name }}</b> <small *ngIf="project.code">code:{{ project.code }}</small></span
+                >
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="projects__content" *ngIf="project.orders">
+              <div class="projects__order" *ngFor="let order of project.orders">
+                <div class="projects__order-item">{{ order.projectNumber }} (Order #{{ order.id }})</div>
+                <div class="projects__order-item">
+                  {{ order.dateCreated | date }}
+                </div>
+                <div class="projects__order-item">
+                  {{ order.status }}
+                </div>
+                <div class="projects__order-item">
+                  <small>Delivery: {{ order.deliveryDate | date }}</small>
+                </div>
+                <div class="projects__order-item">
+                  <b>{{ order.total | currency }}</b>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </ng-container>
+  </div>
+</div>

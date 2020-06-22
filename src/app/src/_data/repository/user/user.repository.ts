@@ -7,7 +7,9 @@ import { BaseRepository } from '../base.repository';
 import { UserModel } from './model';
 import { environment } from '../../../environments/environment';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserRepository extends BaseRepository {
   private userSubject$ = new ReplaySubject<UserModel>(1);
   public user$ = this.userSubject$.asObservable();

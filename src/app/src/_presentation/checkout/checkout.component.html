@@ -1,0 +1,381 @@
+<div class="checkout">
+  <ng-template #receipt>
+    <div class="checkout__receipt container">
+      <div class="checkout__receipt-content d-flex justify-content-center align-items-center flex-column">
+        <div class="col col-md-8">
+          <h3>Thank you</h3>
+          <h6 class="font-weight-500">Confirmation Number: {{ orderNumber }}</h6>
+          <span class="text-light text-muted">Our team is working on your order.</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="!orderCompleted; else receipt">
+    <ng-template #loader>
+      <div class="checkout__loader d-flex justify-content-center align-items-center">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+    <div class="container mb-3" *ngIf="!isLoading; else loader">
+      <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
+        <!-- Project info -->
+        <mat-step [stepControl]="checkoutForm">
+          <form [formGroup]="checkoutForm" class="checkout__form">
+            <ng-template matStepLabel>Contacts info</ng-template>
+            <div class="col-12 col-md-6">
+              <h5 class="mb-3 text-center">Requested By</h5>
+              <div class="form-group">
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>First name</mat-label>
+                  <input matInput formControlName="firstName" placeholder="First name" />
+                  <mat-error *ngIf="checkoutForm.get('firstName').hasError('required')">
+                    First name name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>Last name</mat-label>
+                  <input matInput formControlName="lastName" placeholder="Last Name" />
+                  <mat-error *ngIf="checkoutForm.get('lastName').hasError('required')">
+                    Last name is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" placeholder="Email" />
+                  <mat-error *ngIf="checkoutForm.get('email').hasError('required')">
+                    Email is <strong>required</strong>
+                  </mat-error>
+                  <mat-error *ngIf="checkoutForm.get('email').hasError('email')">
+                    Please enter a valid email address
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="phone" placeholder="Phone" />
+                  <mat-error *ngIf="checkoutForm.get('phone').hasError('required')">
+                    Phone is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>Select project</mat-label>
+                  <mat-select formControlName="projectNumber">
+                    <mat-option *ngFor="let project of projects" [value]="project.name">
+                      {{ project.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="checkoutForm.get('projectNumber').hasError('required')">
+                    Project is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <h5 class="mb-3 text-center">Shipping Address</h5>
+              <div class="form-group">
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>Address</mat-label>
+                  <input matInput formControlName="address" placeholder="Address" />
+                  <mat-error *ngIf="checkoutForm.get('address').hasError('required')">
+                    Address is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="city" placeholder="City" />
+                  <mat-error *ngIf="checkoutForm.get('city').hasError('required')">
+                    City is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>State</mat-label>
+                  <input matInput formControlName="state" placeholder="State" />
+                  <mat-error *ngIf="checkoutForm.get('state').hasError('required')">
+                    State is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="checkout__form-field">
+                  <mat-label>Zip code</mat-label>
+                  <input matInput formControlName="zip" placeholder="Zip code" />
+                  <mat-error *ngIf="checkoutForm.get('zip').hasError('required')">
+                    Zip code is <strong>required</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="checkout__action">
+              <button mat-raised-button color="primary" [disabled]="!checkoutForm.valid" matStepperNext>
+                Continue to schedule delivery
+              </button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- Calendar -->
+        <mat-step class="p-0">
+          <ng-template matStepLabel>Schedule delivery</ng-template>
+
+          <div *ngIf="cartService.itemsForSale.length" class="checkout__sub-title">
+            Сhoose a date to receive purchased products
+          </div>
+          <dx-scheduler
+            class="checkout__scheduler"
+            [editing]="false"
+            [currentView]="'month'"
+            [firstDayOfWeek]="1"
+            (onCellClick)="selectDeliveryDate($event)"
+            dataCellTemplate="dataCellTemplate"
+          >
+            <div
+              *dxTemplate="let cellData of 'dataCellTemplate'"
+              class="checkout__scheduler-template"
+              [ngClass]="{
+                'checkout__scheduler-template--past-day': cellData.startDate < currentDate
+              }"
+            >
+              <div class="checkout__scheduler-template-content">
+                <div class="checkout__scheduler-template-text">{{ cellData.text }}</div>
+
+                <ng-container *ngIf="cellData.startDate > currentDate">
+                  <ng-template #defaultView>
+                    <div class="checkout__scheduler-template-price">
+                      <div class="checkout__scheduler-template-price-label">Delivery fee</div>
+                      <div class="checkout__scheduler-template-amount">{{ deliveryFee | currency }}</div>
+                    </div>
+                  </ng-template>
+                  <ng-container
+                    *ngIf="isDeliveryDate(cellData.startDate) || isPurchaseDate(cellData.startDate); else defaultView"
+                  >
+                  </ng-container>
+                  <ng-container *ngIf="isDeliveryDate(cellData.startDate)">
+                    <div
+                      class="checkout__scheduler-template-delivery-day checkout__scheduler-template-delivery-day--rent"
+                    >
+                      Rental product delivery day
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="isPurchaseDate(cellData.startDate)">
+                    <div
+                      class="checkout__scheduler-template-delivery-day checkout__scheduler-template-delivery-day--purchase"
+                    >
+                      Product delivery day for purchase
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </dx-scheduler>
+
+          <div
+            class="checkout__schedule-info"
+            *ngIf="cartService.itemsForRent.length && (!cartService.itemsForSale.length || deliveryDate.value)"
+          >
+            <div class="checkout__schedule-info-title">
+              Rented products
+            </div>
+            <div class="checkout__schedule-info-item" *ngFor="let item of cartService.itemsForRent">
+              {{ item.title }} delivery is scheduled for: {{ item.dateFrom | date }}
+            </div>
+          </div>
+
+          <div class="checkout__schedule-info" *ngIf="deliveryDate.value">
+            <div class="checkout__schedule-info-title">
+              Purchased products
+            </div>
+            <div class="checkout__schedule-info-item">
+              Delivery of purchased products is scheduled for: {{ deliveryDate.value | date }}
+            </div>
+            <div class="checkout__schedule-info-time">
+              <mat-radio-group [formControl]="deliveryTime" aria-label="Select delivery time">
+                <mat-radio-button [value]="deliveryTimeOptions.Am">AM Delivery</mat-radio-button>
+                <mat-radio-button [value]="deliveryTimeOptions.Pm">PM Delivery</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+
+          <div
+            class="checkout__instructions"
+            *ngIf="
+              (deliveryDate.value && cartService.itemsForSale.length && !cartService.itemsForRent.length) ||
+              (!deliveryDate.value && cartService.itemsForRent.length && !cartService.itemsForSale.length) ||
+              (deliveryDate.value && cartService.itemsForSale.length && cartService.itemsForRent.length)
+            "
+          >
+            <mat-form-field class="checkout__form-field">
+              <mat-label>Delivery instructions</mat-label>
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                [formControl]="deliveryInstructions"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+              ></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="checkout__action">
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="
+                !(
+                  (deliveryDate.value && cartService.itemsForSale.length && !cartService.itemsForRent.length) ||
+                  (!deliveryDate.value && cartService.itemsForRent.length && !cartService.itemsForSale.length) ||
+                  (deliveryDate.value && cartService.itemsForSale.length && cartService.itemsForRent.length)
+                )
+              "
+              matStepperNext
+            >
+              Click to continue
+            </button>
+          </div>
+        </mat-step>
+
+        <!-- Review -->
+        <mat-step editable="false">
+          <ng-template matStepLabel>Order Review</ng-template>
+          <div class="checkout__review-form d-flex flex-column">
+            <div class="container">
+              <div class="row flex-column justify-content-center align-items-center">
+                <!-- Billing info -->
+                <div class="col-md-8">
+                  <h5 class="checkout__title">Requested By</h5>
+                  <table class="checkout__review-table">
+                    <tr>
+                      <td class="checkout__review-table-label">Name</td>
+                      <td class="checkout__review-table-value">
+                        {{ checkoutForm.get('firstName').value }} {{ checkoutForm.get('lastName').value }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="checkout__review-table-label">Email</td>
+                      <td class="checkout__review-table-value">{{ checkoutForm.get('email').value }}</td>
+                    </tr>
+                    <tr>
+                      <td class="checkout__review-table-label">Phone</td>
+                      <td class="checkout__review-table-value">{{ checkoutForm.get('phone').value }}</td>
+                    </tr>
+                    <tr>
+                      <td class="checkout__review-table-label">Project</td>
+                      <td class="checkout__review-table-value">{{ checkoutForm.get('projectNumber').value }}</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- Shipping info -->
+                <div class="col-md-8">
+                  <h5 class="checkout__title">Shipping</h5>
+                  <table class="checkout__review-table">
+                    <ng-container>
+                      <tr *ngIf="checkoutForm.get('address').value">
+                        <td class="checkout__review-table-label">Address</td>
+                        <td class="checkout__review-table-value">{{ checkoutForm.get('address').value }}</td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="checkoutForm.get('state').value">
+                      <tr>
+                        <td class="checkout__review-table-label">City</td>
+                        <td class="checkout__review-table-value">
+                          {{ checkoutForm.get('city').value }}
+                          <ng-container *ngIf="checkoutForm.get('state').value"
+                            >({{ checkoutForm.get('state').value }})</ng-container
+                          >
+                        </td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="deliveryDate.value">
+                      <tr>
+                        <td class="checkout__review-table-label">Delivery date for products purchase</td>
+                        <td class="checkout__review-table-value">{{ deliveryDate.value | date }}</td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="cartService.itemsForRent.length">
+                      <tr *ngFor="let item of cartService.itemsForRent">
+                        <td class="checkout__review-table-label">Delivery date for rent "{{ item.title }}"</td>
+                        <td class="checkout__review-table-value">{{ item.dateFrom | date }}</td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="deliveryInstructions.value">
+                      <tr>
+                        <td class="checkout__review-table-label">Delivery instructions</td>
+                        <td class="checkout__review-table-value">{{ deliveryInstructions.value }}</td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="checkoutForm.get('zip').value">
+                      <tr>
+                        <td class="checkout__review-table-label">Zip</td>
+                        <td class="checkout__review-table-value">{{ checkoutForm.get('zip').value }}</td>
+                      </tr>
+                    </ng-container>
+                  </table>
+                </div>
+
+                <!-- Products info -->
+                <div class="col-md-8" *ngIf="cartService.itemsForRent.length">
+                  <h5 class="checkout__title">Products for rent</h5>
+                  <table class="checkout__review-table">
+                    <tr *ngFor="let item of cartService.itemsForRent">
+                      <td>
+                        <img
+                          *ngIf="item.imageUrl"
+                          class="checkout__product-image img border rounded m-1 mr-0"
+                          src="{{ item.imageUrl }}"
+                        />
+                      </td>
+                      <td class="checkout__review-table-label">
+                        {{ item.title }} for {{ item.duration }} {{ item.duration === 1 ? 'day' : 'days' }}
+                      </td>
+                      <td class="checkout__review-table-value">
+                        {{ productService.getPriceForRent(item.rentRates, item.duration) | currency }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div class="col-md-8" *ngIf="cartService.itemsForSale.length">
+                  <h5 class="checkout__title">Products for purchase</h5>
+                  <table class="checkout__review-table">
+                    <tr *ngFor="let item of cartService.itemsForSale">
+                      <td>
+                        <img
+                          *ngIf="item.imageUrl"
+                          class="checkout__product-image img border rounded m-1 mr-0"
+                          src="{{ item.imageUrl }}"
+                        />
+                      </td>
+                      <td class="checkout__review-table-label">{{ item.title }} x {{ item.count }}</td>
+                      <td class="checkout__review-table-value">
+                        {{ productService.getPriceForSale(item.price, item.count) | currency }}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout__continue-shopping" ng-preserve-whitespaces>
+            Forgot something?
+            <a routerLink="/categories">Click here to Continue Shopping</a>
+          </div>
+
+          <div class="checkout__confirm-action d-flex w-100 justify-content-center">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="submit()"
+              [disabled]="isSubmitInProgress"
+              [class.spinner]="isSubmitInProgress"
+            >
+              Place order
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </ng-container>
+</div>

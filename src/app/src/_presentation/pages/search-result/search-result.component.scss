@@ -1,0 +1,27 @@
+.search-result {
+  position: relative;
+
+  .search-result__content {
+    width: 100%;
+
+    .search-result__content-title {
+      padding: 0 5px;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  }
+
+  .search-result__products {
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .search-result__spinner {
+    height: 300px;
+  }
+
+  .search-result__content {
+    padding-top: 30px;
+  }
+}

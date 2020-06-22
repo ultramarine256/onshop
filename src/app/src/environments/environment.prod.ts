@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
-  apiBaseUrl: 'http://admin.blue-shop.xolutionz.com',
-  gtagId: null
+  production: false,
+  apiBaseUrl: 'http://localhost:8202',
+  gtagId: null,
 };

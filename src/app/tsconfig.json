@@ -22,8 +22,8 @@
       "@data/*": ["src/_data/*"],
       "@domain/*": ["src/_domain/*"],
       "@presentation/*": ["src/_presentation/*"],
-      "@shared/*": ["src/shared/*"]
-    },
+      "@shared/*": ["src/_shared/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

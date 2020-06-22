@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-form',
   styleUrls: ['./contact-form.component.scss'],
-  templateUrl: './contact-form.component.html'
+  templateUrl: './contact-form.component.html',
 })
 export class ContactFormComponent {
   @Output() formChanged = new EventEmitter<FormGroup>();
