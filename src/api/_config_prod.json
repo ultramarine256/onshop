@@ -4,8 +4,8 @@
   "dbusername": "mysql_root@onshop-prod",
   "dbpassword": "Qwert12345",
   "use-debug": false,
-  "admin-url": "http://admin.xolutionz.com",
-  
+  "admin-url": "https://admin.xolutionz.com",
+
   "auth": {
     "secret-sign-key": "YOUR_SECRET_SIGN_KEY",
     "secret-enc-key": "YOUR_SECRET_ENC_KEY",
