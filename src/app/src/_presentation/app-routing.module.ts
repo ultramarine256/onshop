@@ -13,6 +13,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { TrackOrderComponent } from './pages/track-order/track-order.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
+import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component';
 
 const routes: Routes = [
   // lazy modules
@@ -87,6 +88,10 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
+  },
+  {
+    path: 'how-it-works',
+    component: HowItWorksComponent,
   },
 ];
 
