@@ -15,23 +15,23 @@ function app_info() {
 
 /// login styles
 function the_dramatist_custom_login_css() {
-	echo '<style type="text/css"> 
+	echo '<style type="text/css">
                 .login h1 a {
                     background-image: url(/wp-content/themes/onshop-theme/styles/onshop-logo.svg);
                     background-size: 100% 100%;
                     width: auto !important;
                     height: 50px;
-                    margin: 0 auto 10px;                
-                } 
-                
+                    margin: 0 auto 10px;
+                }
+
                 #login #backtoblog {
                     display: none;
                 }
-                
+
                 #login #nav {
-                    display: none;                
+                    display: none;
                 }
-                
+
                 #loginform {
                     padding: 24px;
                 }
@@ -232,7 +232,7 @@ add_action( 'admin_menu', function() {
         'manage_options',
         'test',
         function () {
-            header('Location: http://blue-shop.xolutionz.com/');
+            header('Location: https://blue-shop.xolutionz.com');
         },
         'dashicons-cart',
         25
