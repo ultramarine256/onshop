@@ -16,8 +16,8 @@ export class ProjectEditPopupComponent extends UnsubscribeMixin() implements OnI
   public allUsers: UserEntity[];
   public existingUsers: UserEntity[];
   public usersDidLoaded = false;
-  isLoading: boolean;
-  isProcessing: boolean;
+  public isLoading: boolean;
+  public isProcessing: boolean;
 
   profileForm: FormGroup;
 

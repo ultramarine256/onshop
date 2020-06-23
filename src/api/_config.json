@@ -4,7 +4,7 @@
   "dbusername": "root",
   "dbpassword": "Qwert12345",
   "use-debug": true,
-  "admin-url": "http://admin.xolutionz.com",
+  "admin-url": "https://admin.xolutionz.com",
 
   "auth": {
     "secret-sign-key": "YOUR_SECRET_SIGN_KEY",
