@@ -2,8 +2,8 @@
   "name": "onshop-app",
   "short_name": "onshop-app",
   "theme_color": "#1976d2",
-  "background_color": "#fafafa",
-  "display": "standalone",
+  "background_color": "#2c98f0",
+  "display": "fullscreen",
   "scope": "./",
   "start_url": "./",
   "icons": [
