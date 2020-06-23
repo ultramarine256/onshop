@@ -1,5 +1,6 @@
-import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity, Product } from '../../_domain';
-import { ProductModel } from '../../_data';
+import { ProductModel } from '@data/repository';
+import { CartItemEntity, CartItemForRentEntity, CartItemForSaleEntity } from '@domain/cart/cart-item.entity';
+import { Product } from '@domain/models/product.model';
 
 export class AppMapper {
   public static toCartForRentItem(

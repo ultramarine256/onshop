@@ -1,10 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {CarouselItemModel} from './model';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { CarouselItemModel } from '@domain/modules/_theme/items-carousel/models/carousel-item.model';
 
 @Component({
   selector: 'app-items-carousel',
   styleUrls: ['./items-carousel.component.scss'],
-  templateUrl: './items-carousel.component.html'
+  templateUrl: './items-carousel.component.html',
 })
 export class ItemsCarouselComponent implements OnInit {
   /// binding
@@ -12,11 +13,9 @@ export class ItemsCarouselComponent implements OnInit {
   @Input() items: Array<CarouselItemModel> = [];
 
   /// constructor
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
-
     setTimeout(() => {
       (window as any).$(`.${this.cssClass}`).owlCarousel({
         loop: true,
@@ -29,15 +28,15 @@ export class ItemsCarouselComponent implements OnInit {
 
         responsive: {
           0: {
-            items: 2
+            items: 2,
           },
           600: {
-            items: 3
+            items: 3,
           },
           1000: {
-            items: 5
-          }
-        }
+            items: 5,
+          },
+        },
       });
     }, 200);
   }

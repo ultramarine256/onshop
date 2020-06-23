@@ -6,7 +6,9 @@ import { map } from 'rxjs/operators';
 import { ProjectResponse } from './model';
 import { BaseRepository } from '../base.repository';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProjectRepository extends BaseRepository {
   constructor(private httpClient: HttpClient) {
     super();

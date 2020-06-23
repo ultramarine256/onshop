@@ -1,0 +1,57 @@
+.account-page {
+  padding: 0 10px;
+  margin-bottom: 20px;
+
+  .account-page__menu {
+    margin-bottom: 20px;
+  }
+
+  .account-page__card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .account-page__card-row {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 10px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    @media screen and (max-width: 599px) {
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .account-page__logo {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 75px;
+    height: 75px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .account-page__form-group-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .account-page__form-group {
+    margin-bottom: 25px;
+  }
+
+  input:read-only {
+    cursor: default;
+  }
+}

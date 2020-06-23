@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
-import {BreadcrumbsService, INavigationItem} from './breadcrumbs.service';
-import {StringExtensions} from '../../../extensions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { BreadcrumbsService, INavigationItem } from './breadcrumbs.service';
+import { StringExtensions } from '@domain/extensions/string.extensions';
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
-  styleUrls: ['./breadcrumbs.component.scss']
+  styleUrls: ['./breadcrumbs.component.scss'],
 })
 export class BreadcrumbsComponent implements OnInit, OnDestroy {
   /// fields
@@ -16,13 +16,12 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   subscription: any;
 
   /// constructor
-  constructor(private router: Router, private breadcrumbsService: BreadcrumbsService) {
-  }
+  constructor(private router: Router, private breadcrumbsService: BreadcrumbsService) {}
 
   ngOnInit(): void {
     this.breadcrumbArray = this.getBreadCrumbs(this.router.url);
 
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.breadcrumbArray = this.getBreadCrumbs(this.router.url);
       this.breadcrumbArray = this.applyNamedBreadCrumbs(this.namedBreadcrumbs, this.breadcrumbArray);
     });
@@ -66,7 +65,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   getBreadCrumbs(url: string): Array<BreadcrumbItem> {
     const result = [];
-    const chunks = url.split('/').filter(r => r.length > 0);
+    const chunks = url.split('/').filter((r) => r.length > 0);
 
     for (let i = 0; i < chunks.length; i++) {
       const item = new BreadcrumbItem();

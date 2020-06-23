@@ -4,11 +4,27 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { ProductSearchComponent } from './products-search.component';
-import { ThirdPartyModule } from '@domain/modules/_theme/_third-party';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [ProductSearchComponent],
-  imports: [ThirdPartyModule, FormsModule, ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
   exports: [ProductSearchComponent],
 })
 export class ProductSearchModule {}

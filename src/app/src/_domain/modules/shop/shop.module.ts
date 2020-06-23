@@ -3,11 +3,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ThirdPartyModule } from '@domain/modules/_theme/_third-party';
-import { CategoryItemComponent } from './category-item';
-import { ProductItemComponent } from './product-item';
-import { InventoryFiltersComponent } from './inventory-filters';
-import { SortingBarComponent } from './sorting-bar';
+import { CategoryItemComponent } from './category-item/category-item.component';
+import { InventoryFiltersComponent } from './inventory-filters/inventory-filters.component';
+import { ProductItemComponent } from './product-item/product-item.component';
+import { SortingBarComponent } from './sorting-bar/sorting-bar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FlexModule } from '@angular/flex-layout';
+import { DxRangeSliderModule } from 'devextreme-angular';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -22,8 +28,13 @@ import { SortingBarComponent } from './sorting-bar';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-
-    ThirdPartyModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FlexModule,
+    DxRangeSliderModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatButtonModule,
   ],
   exports: [
     CategoryItemComponent, //

@@ -25,7 +25,8 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "./node_modules/devextreme/dist/css/dx.common.css",
@@ -43,7 +44,9 @@
               "./node_modules/bootstrap/dist/js/bootstrap.min.js",
               "./node_modules/owl.carousel/dist/owl.carousel.min.js",
               "./node_modules/toastr/build/toastr.min.js"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "build-prod": {
@@ -137,7 +140,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

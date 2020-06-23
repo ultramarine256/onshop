@@ -1,6 +1,6 @@
-import { DateExtensions, ObjectExtensions } from '@domain/extensions';
-
 import { CustomOrderFields } from '../enum/custom-order-fields.enum';
+import { ObjectExtensions } from '@domain/extensions/object.extensions';
+import { DateExtensions } from '@domain/extensions/date.extensions';
 
 export class OrderCreateModel {
   /// fields
