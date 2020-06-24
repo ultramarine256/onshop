@@ -15,6 +15,9 @@ export class PwaService {
   constructor(private bottomSheet: MatBottomSheet, private platform: Platform) {}
 
   initPwaPrompt() {
+    if (localStorage.getItem('prompt')) {
+      return;
+    }
     if (this.platform.ANDROID) {
       window.addEventListener('beforeinstallprompt', (event: any) => {
         event.preventDefault();
@@ -28,6 +31,7 @@ export class PwaService {
         this.openPromptComponent('ios');
       }
     }
+    localStorage.setItem('prompt', 'true');
   }
 
   openPromptComponent(mobileType: 'ios' | 'android') {
