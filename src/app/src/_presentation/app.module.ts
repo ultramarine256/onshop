@@ -1,14 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
-import { PagesModule } from '@presentation/pages/pages.module';
 import { ThemeModule } from '@domain/modules/_theme/theme.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ExtendedModule, FlexModule } from '@angular/flex-layout';
@@ -19,8 +14,17 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthInterceptor } from '@domain/auth/interceptor/auth-interceptor.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { AppComponent } from './app.component';
+import { PagesModule } from '@presentation/pages/pages.module';
+import { AppRoutingModule } from './app-routing.module';
+import { PwaService } from '@domain/services/pwa.service';
+import { AuthInterceptor } from '@domain/auth/interceptor/auth-interceptor.service';
+import { environment } from '../environments/environment';
+import { SharedModule } from '@shared/shared.module';
+
+const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +34,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    PagesModule,
     ThemeModule,
     MatProgressSpinnerModule,
     ExtendedModule,
@@ -46,8 +49,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
+    PagesModule,
+    SharedModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: APP_INITIALIZER, useFactory: initializer, deps: [PwaService], multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
