@@ -15,11 +15,14 @@ export class PwaService {
   constructor(private bottomSheet: MatBottomSheet, private platform: Platform) {}
 
   initPwaPrompt() {
+    console.log(localStorage.getItem('prompt'));
+
     if (localStorage.getItem('prompt')) {
       return;
     }
     if (this.platform.ANDROID) {
       window.addEventListener('beforeinstallprompt', (event: any) => {
+        console.log(localStorage.getItem('prompt'));
         event.preventDefault();
         this.promptEvent = event;
         this.openPromptComponent('android');
