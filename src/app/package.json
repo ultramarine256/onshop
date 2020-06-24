@@ -1,6 +1,6 @@
 {
   "name": "onshop-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start:local": "ng serve -c=serve-local --port 4502",
@@ -65,4 +65,3 @@
     "typescript": "~3.8.3"
   }
 }
- 
