@@ -14,8 +14,8 @@
             <mat-select (selectionChange)="onOrderFilterChange($event)">
               <mat-option value="">Default</mat-option>
               <mat-option value="pending">Pending</mat-option>
-              <mat-option value="waiting">Waiting for return</mat-option>
-              <mat-option value="refunded">Refunded</mat-option>
+              <mat-option value="waiting-return">Waiting for return</mat-option>
+              <mat-option value="returned">Returned</mat-option>
               <mat-option value="completed">Completed</mat-option>
             </mat-select>
           </mat-form-field>
@@ -40,8 +40,8 @@
               <mat-panel-title class="orders__panel-title" fxLayoutAlign="flex-start center">
                 <div>
                   <span>{{ order.projectNumber }} (Order #{{ order.id }})</span>
-                  <div class="orders__date-created">
-                    <small> {{ order.dateCreated | date }}</small>
+                  <div>
+                    <small>Delivery date: {{ order.deliveryDate | date }}</small>
                   </div>
                 </div>
               </mat-panel-title>
@@ -63,8 +63,8 @@
 
                 <div class="orders__info" fxLayout.lt-sm="row" fxLayoutAlign.lt-sm="center center">
                   <b class="orders__total">{{ getOrderTotal(order) | currency }}</b>
-                  <div>
-                    <small>Delivery: {{ order.deliveryDate | date }}</small>
+                  <div *ngIf="order.rentalDuration">
+                    <small>Last day of rent: {{ getLastDayOfRentDate(order) | date }}</small>
                   </div>
                 </div>
 
@@ -84,69 +84,52 @@
             <div class="orders__data">
               <table class="orders__table">
                 <tr>
-                  <th colspan="2">Product</th>
+                  <th>Products</th>
                 </tr>
                 <tr *ngFor="let product of order.productItems">
-                  <td>{{ product.name }} {{ product.hasRent ? ' for ' + product.daysForRent + ' days' : '' }}</td>
-                  <td>{{ product.getPrice() | currency }}</td>
+                  <td>
+                    <b>{{ product.name }} {{ product.hasRent ? ' for ' + product.daysForRent + ' days' : '' }}</b
+                    >:
+                    {{ product.getPrice() | currency }}
+                  </td>
                 </tr>
               </table>
 
               <table class="orders__table">
                 <tr>
-                  <th colspan="2">Billing</th>
+                  <th>Billing</th>
                 </tr>
                 <tr>
-                  <td>
-                    Name
-                  </td>
-                  <td>{{ order.billing.fistName }} {{ order.billing.lastName }}</td>
+                  <td><b>Name</b>: {{ order.billing.fistName }} {{ order.billing.lastName }}</td>
                 </tr>
                 <tr>
-                  <td>
-                    Email
-                  </td>
-                  <td>{{ order.billing.email }}</td>
+                  <td><b>Email</b>: {{ order.billing.email }}</td>
+                  <td></td>
                 </tr>
                 <tr>
-                  <td>
-                    Phone
-                  </td>
-                  <td>{{ order.billing.phone }}</td>
+                  <td><b>Phone</b>: {{ order.billing.phone }}</td>
                 </tr>
               </table>
 
               <table class="orders__table">
                 <tr>
-                  <th colspan="2">Shipping</th>
+                  <th>Shipping</th>
                 </tr>
                 <tr>
-                  <td>
-                    Name:
-                  </td>
-                  <td>{{ order.shipping.fistName }} {{ order.shipping.lastName }}</td>
+                  <td><b>Name</b>: {{ order.shipping.fistName }} {{ order.shipping.lastName }}</td>
                 </tr>
                 <tr>
-                  <td>
-                    City:
-                  </td>
-                  <td>{{ order.shipping.city }} ({{ order.shipping.state }})</td>
+                  <td><b>City</b>: {{ order.shipping.city }} ({{ order.shipping.state }})</td>
                 </tr>
                 <tr>
-                  <td>
-                    Address:
-                  </td>
-                  <td>{{ order.shipping.address1 }}</td>
+                  <td><b>Address</b>: {{ order.shipping.address1 }}</td>
                 </tr>
                 <tr>
-                  <td>
-                    Zip:
-                  </td>
-                  <td>{{ order.shipping.postcode }}</td>
+                  <td><b>Zip</b>: {{ order.shipping.postcode }}</td>
                 </tr>
               </table>
 
-              <div class="orders__action" fxLayoutAlign="center center" *ngIf="showDurationMessage(order)">
+              <div class="orders__action" *ngIf="showDurationMessage(order)">
                 <div>
                   <a
                     [routerLink]="['/return-product', order.id]"

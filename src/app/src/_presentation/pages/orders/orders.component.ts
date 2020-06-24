@@ -50,7 +50,7 @@ export class OrdersComponent extends UnsubscribeMixin() implements OnInit {
   }
 
   public getDaysLeft(order: OrderResponse): number {
-    const deliveryEndDate = moment(order.deliveryDate).add(order.rentalDuration, 'days');
+    const deliveryEndDate = this.getDeliveryEndMomentDate(order);
     const now = moment(new Date());
     return deliveryEndDate.diff(now, 'days');
   }
@@ -81,5 +81,13 @@ export class OrdersComponent extends UnsubscribeMixin() implements OnInit {
       return '1 day left';
     }
     return `${daysLeft} days left`;
+  }
+
+  public getLastDayOfRentDate(order: OrderResponse): Date {
+    return this.getDeliveryEndMomentDate(order).toDate();
+  }
+
+  private getDeliveryEndMomentDate(order: OrderResponse) {
+    return moment(order.deliveryDate).add(order.rentalDuration, 'days');
   }
 }

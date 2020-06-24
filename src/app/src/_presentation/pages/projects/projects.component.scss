@@ -1,7 +1,16 @@
 .projects {
   .projects__content {
     padding-bottom: 20px;
-    overflow-y: scroll;
+    overflow-x: auto;
+  }
+
+  .projects__item-title {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-right: 5px;
+    }
   }
 
   .projects__order {
@@ -19,7 +28,12 @@
     }
 
     .projects__order-item {
+      display: flex;
+      width: 25%;
       padding: 0 10px;
+      span {
+        margin-right: 5px;
+      }
     }
   }
 }

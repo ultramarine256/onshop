@@ -1,6 +1,6 @@
 import { AfterContentInit, Component } from '@angular/core';
 import { takeUntil, tap } from 'rxjs/operators';
-import { CategoryModel, CategoryRepository, ProductModel, ProductRepository } from '@data/repository';
+import { CategoryModel, CategoryRepository, OrderStatus, ProductModel, ProductRepository } from '@data/repository';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { OWL_CAROUSEL } from '@domain/modules/_theme/items-carousel/constants';
 import { InfoService } from '@domain/services/info.service';
@@ -13,6 +13,7 @@ import { InfoService } from '@domain/services/info.service';
 export class HomeComponent extends UnsubscribeMixin() implements AfterContentInit {
   public products: Array<ProductModel> = [];
   public categories: Array<CategoryModel> = [];
+  public orderStatus = OrderStatus;
 
   public productsInLoading: boolean;
 

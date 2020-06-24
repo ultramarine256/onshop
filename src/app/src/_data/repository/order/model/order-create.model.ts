@@ -240,7 +240,7 @@ export class LineItemModel {
 export enum OrderStatus {
   Pending = 'pending',
   Processing = 'processing',
-  Waiting = 'waiting',
+  Waiting = 'waiting-return',
   InRent = 'in-rent',
   Completed = 'completed',
   Cancelled = 'cancelled',

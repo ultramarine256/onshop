@@ -32,9 +32,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     HttpClientModule,
     PagesModule,
     ThemeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-    }),
     MatProgressSpinnerModule,
     ExtendedModule,
     MatIconModule,
@@ -46,6 +43,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FlexModule,
     MatButtonModule,
     MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
