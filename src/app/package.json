@@ -7,6 +7,7 @@
     "start:prod": "ng serve -c=serve-prod --port 4502",
     "build:prod": "ng build -c=build-prod",
     "build:pwa": "ng build -c=build-prod; cd dist/onshop-app; angular-http-server",
+    "bundle:analyze": "ng build --stats-json; webpack-bundle-analyzer dist/onshop-app/stats-es2015.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

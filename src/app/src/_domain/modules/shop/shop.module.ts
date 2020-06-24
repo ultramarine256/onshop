@@ -10,7 +10,7 @@ import { SortingBarComponent } from './sorting-bar/sorting-bar.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FlexModule } from '@angular/flex-layout';
-import { DxRangeSliderModule } from 'devextreme-angular';
+import { DxRangeSliderModule } from 'devextreme-angular/ui/range-slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
