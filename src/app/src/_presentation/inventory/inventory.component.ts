@@ -40,6 +40,7 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
   public filters: { minPrice: number; maxPrice: number };
   public tags: TagModel[];
   public isInProgress: boolean;
+  public showTags: boolean;
 
   public isFirstLoading = true;
 
@@ -60,6 +61,9 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      if (!params.categoryId) {
+        this.showTags = true;
+      }
       // Initiate state for filters
       this.filterState = {
         productFilter: new ProductFilter({

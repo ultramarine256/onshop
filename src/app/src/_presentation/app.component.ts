@@ -39,7 +39,8 @@ export class AppComponent extends UnsubscribeMixin() implements OnInit {
   public panelOpenState: boolean;
   public showCategories: boolean;
   public showSidenav: boolean;
-  public isLoading = true;
+  public infoIsLoading = true;
+  public userIsLoading = true;
 
   constructor(
     private router: Router,
@@ -64,7 +65,7 @@ export class AppComponent extends UnsubscribeMixin() implements OnInit {
       .getUser()
       .pipe(
         catchError((e) => {
-          this.isLoading = false;
+          this.userIsLoading = false;
           return EMPTY;
         }),
         takeUntil(this.destroy$)
@@ -77,7 +78,7 @@ export class AppComponent extends UnsubscribeMixin() implements OnInit {
           return [appInfoModel, categories.map((category) => new CategoryMenuModel(category))];
         }),
         finalize(() => {
-          this.isLoading = false;
+          this.infoIsLoading = false;
         }),
         takeUntil(this.destroy$)
       )
@@ -110,5 +111,9 @@ export class AppComponent extends UnsubscribeMixin() implements OnInit {
   // Show cart icon if we not on cart page
   public get showCart(): boolean {
     return !(this.router.url.indexOf('/cart') > -1 || this.router.url.indexOf('/checkout') > -1);
+  }
+
+  public get isLoading(): boolean {
+    return this.infoIsLoading && this.userIsLoading;
   }
 }

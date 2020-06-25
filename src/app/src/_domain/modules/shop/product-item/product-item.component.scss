@@ -69,10 +69,15 @@
       display: flex;
       flex-direction: column;
       width: 50%;
+      text-align: center;
 
       .price-details {
         font-size: 90%;
       }
+    }
+
+    .price-title {
+      margin-bottom: 5px;
     }
   }
 }

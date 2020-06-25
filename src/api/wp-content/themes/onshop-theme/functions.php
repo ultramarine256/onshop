@@ -243,7 +243,7 @@ add_action( 'admin_menu', function() {
         'manage_options',
         'test',
         function () {
-            header('Location: https://blue-shop.xolutionz.com');
+             echo "<script>window.open('https://blue-shop.xolutionz.com', '_blank')</script>";
         },
         'dashicons-cart',
         25
