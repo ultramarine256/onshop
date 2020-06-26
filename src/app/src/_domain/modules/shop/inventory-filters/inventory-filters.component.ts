@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
-import { StockStatus, TagModel } from '@data/repository';
+import { TagModel } from '@data/repository';
 
 @Component({
   selector: 'app-inventory-filters',
@@ -15,6 +15,7 @@ import { StockStatus, TagModel } from '@data/repository';
 export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnInit, AfterViewInit {
   @Input() filters: { minPrice: number; maxPrice: number };
   @Input() tags: TagModel[];
+  @Input() showTags: boolean;
 
   @Output() filterChanged = new EventEmitter();
 

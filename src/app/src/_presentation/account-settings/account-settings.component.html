@@ -1,0 +1,142 @@
+<div class="account-page">
+  <div class="container">
+    <mat-toolbar class="account-page__menu" fxLayoutAlign="flex-end center">
+      <a mat-button (click)="logout()">
+        Logout
+      </a>
+    </mat-toolbar>
+    <ng-template #loader>
+      <div class="d-flex w-100 justify-content-center align-items-center" style="height: 300px;">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+    <ng-container *ngIf="!isLoading; else loader">
+      <mat-card *ngIf="!showInfo" class="account-page__card">
+        <div class="account-page__card-row" fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            Photo
+          </div>
+          <div class="account-page__logo">
+            <img [src]="user.avatar" />
+          </div>
+        </div>
+        <div class="account-page__card-row" fxLayout="row" fxLayoutAlign="space-between center">
+          <span>
+            Name
+          </span>
+          <span>{{ user.firstName + ' ' + user.lastName }}</span>
+        </div>
+        <div class="account-page__card-row" fxLayout="row" fxLayoutAlign="space-between center">
+          <span>
+            Email
+          </span>
+          <span>{{ user.email }}</span>
+        </div>
+        <div class="account-page__card-row" fxLayout="row" fxLayoutAlign="space-between center">
+          <span>
+            Role
+          </span>
+          <span>{{ user.role }}</span>
+        </div>
+        <div class="account-page__card-row" fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            Username
+          </div>
+          <span>{{ user.username }}</span>
+        </div>
+        <div class="account-page__card-row" fxLayout="row" fxLayoutAlign="space-between center">
+          <div>
+            Date created
+          </div>
+          <span>{{ user.dateCreated | date }}</span>
+        </div>
+
+        <!--        <mat-card-actions class="account-page__card-row" fxLayoutAlign="end center">-->
+        <!--          <button (click)="showInfo = true" mat-raised-button color="primary">Show full info</button>-->
+        <!--        </mat-card-actions>-->
+      </mat-card>
+
+      <mat-card *ngIf="showInfo">
+        <form [formGroup]="settingsForm" class="account-edit-form">
+          <div class="account-page__form-group" fxLayout="column">
+            <div class="account-page__form-group-title">User Info</div>
+            <mat-form-field>
+              <mat-label>First name</mat-label>
+              <input matInput readonly formControlName="firstName" />
+              <mat-error *ngIf="settingsForm.get('firstName').hasError('required')">
+                First name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last name</mat-label>
+              <input matInput readonly formControlName="lastName" />
+              <mat-error *ngIf="settingsForm.get('lastName').hasError('required')">
+                Last name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="account-page__form-group" fxLayout="column" formGroupName="billing">
+            <div class="account-page__form-group-title">Billing</div>
+            <mat-form-field>
+              <mat-label>First name</mat-label>
+              <input matInput readonly formControlName="firstName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last name</mat-label>
+              <input matInput readonly formControlName="lastName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>City</mat-label>
+              <input matInput readonly formControlName="city" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>State</mat-label>
+              <input matInput readonly formControlName="state" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Post Code</mat-label>
+              <input matInput readonly formControlName="postcode" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput readonly formControlName="email" />
+              <mat-error *ngIf="settingsForm.controls.billing.get('email').hasError('required')">
+                Email is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Phone</mat-label>
+              <input matInput readonly formControlName="phone" />
+            </mat-form-field>
+          </div>
+          <div class="account-page__form-group" fxLayout="column" formGroupName="shipping">
+            <div class="account-page__form-group-title">Shipping</div>
+            <mat-form-field>
+              <mat-label>First name</mat-label>
+              <input matInput readonly formControlName="firstName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Last name</mat-label>
+              <input matInput readonly formControlName="lastName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>City</mat-label>
+              <input matInput readonly formControlName="city" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Postcode</mat-label>
+              <input matInput readonly formControlName="postcode" />
+            </mat-form-field>
+          </div>
+        </form>
+
+        <mat-card-actions class="account-page__card-row" fxLayoutAlign="space-between">
+          <button mat-raised-button color="primary" (click)="showInfo = false">
+            Back
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+<ng-template #loader>
+  <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else loader">
+  <div class="container">
+    <div class="orders">
+      <ng-container>
+        <div class="orders__filter">
+          <mat-form-field>
+            <mat-label>Filter by status</mat-label>
+            <mat-select (selectionChange)="onOrderFilterChange($event)">
+              <mat-option value="">Default</mat-option>
+              <mat-option value="pending">Pending</mat-option>
+              <mat-option value="waiting-return">Waiting for return</mat-option>
+              <mat-option value="returned">Returned</mat-option>
+              <mat-option value="completed">Completed</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <ng-template #emptyOrders>
+          <div class="orders__empty-orders">Nothing found</div>
+        </ng-template>
+        <mat-accordion class="orders__accordion" *ngIf="orderSearchResult.orders.length; else emptyOrders">
+          <mat-expansion-panel
+            class="orders__panel"
+            *ngFor="
+              let order of orderSearchResult.orders
+                | paginate
+                  : {
+                      itemsPerPage: 10,
+                      currentPage: orderSearchResult.currentPage,
+                      totalItems: orderSearchResult.totalCount
+                    }
+            "
+          >
+            <mat-expansion-panel-header class="orders__panel-header" expandedHeight="80px" collapsedHeight="80px">
+              <mat-panel-title class="orders__panel-title" fxLayoutAlign="flex-start center">
+                <div>
+                  <span>{{ order.projectNumber }} (Order #{{ order.id }})</span>
+                  <div>
+                    <small>Delivery date: {{ order.deliveryDate | date }}</small>
+                  </div>
+                </div>
+              </mat-panel-title>
+              <mat-panel-description
+                class="orders__panel-description"
+                fxLayout="row"
+                fxLayoutAlign="space-around center"
+              >
+                <div
+                  class="orders__status"
+                  [ngClass]="{
+                    'text-warning': order.status === 'processing',
+                    'text-secondary': order.status === 'pending',
+                    'text-success': order.status === 'completed'
+                  }"
+                >
+                  {{ order.status }}
+                </div>
+
+                <div class="orders__info" fxLayout.lt-sm="row" fxLayoutAlign.lt-sm="center center">
+                  <b class="orders__total">{{ getOrderTotal(order) | currency }}</b>
+                  <div *ngIf="order.rentalDuration">
+                    <small>Last day of rent: {{ getLastDayOfRentDate(order) | date }}</small>
+                  </div>
+                </div>
+
+                <div fxHide.lt-md class="orders__duration-message">
+                  <ng-container *ngIf="showDurationMessage(order)">
+                    <a
+                      [routerLink]="['/return-product', order.id]"
+                      [color]="getDaysLeft(order) > 0 ? 'primary' : 'warn'"
+                      mat-raised-button
+                      >{{ getDaysLeftMessage(order) }}</a
+                    ></ng-container
+                  >
+                </div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="orders__data">
+              <table class="orders__table">
+                <tr>
+                  <th>Products</th>
+                </tr>
+                <tr *ngFor="let product of order.productItems">
+                  <td>
+                    <b>{{ product.name }} {{ product.hasRent ? ' for ' + product.daysForRent + ' days' : '' }}</b
+                    >:
+                    {{ product.getPrice() | currency }}
+                  </td>
+                </tr>
+              </table>
+
+              <table class="orders__table">
+                <tr>
+                  <th>Billing</th>
+                </tr>
+                <tr>
+                  <td><b>Name</b>: {{ order.billing.fistName }} {{ order.billing.lastName }}</td>
+                </tr>
+                <tr>
+                  <td><b>Email</b>: {{ order.billing.email }}</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td><b>Phone</b>: {{ order.billing.phone }}</td>
+                </tr>
+              </table>
+
+              <table class="orders__table">
+                <tr>
+                  <th>Shipping</th>
+                </tr>
+                <tr>
+                  <td><b>Name</b>: {{ order.shipping.fistName }} {{ order.shipping.lastName }}</td>
+                </tr>
+                <tr>
+                  <td><b>City</b>: {{ order.shipping.city }} ({{ order.shipping.state }})</td>
+                </tr>
+                <tr>
+                  <td><b>Address</b>: {{ order.shipping.address1 }}</td>
+                </tr>
+                <tr>
+                  <td><b>Zip</b>: {{ order.shipping.postcode }}</td>
+                </tr>
+              </table>
+
+              <div class="orders__action" *ngIf="showDurationMessage(order)">
+                <div>
+                  <a
+                    [routerLink]="['/return-product', order.id]"
+                    [color]="getDaysLeft(order) > 1 ? 'primary' : 'warn'"
+                    mat-raised-button
+                    >{{ getDaysLeftMessage(order) }}</a
+                  >
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <div fxLayoutAlign="center center" class="orders__pagination" *ngIf="orderSearchResult.totalPages > 1">
+          <pagination-controls
+            (pageChange)="onPageChanged($event)"
+            (pageBoundsCorrection)="onPageChanged($event)"
+            maxSize="10"
+            directionLinks="true"
+            responsive="true"
+            previousLabel="Previous"
+            nextLabel="Next"
+          ></pagination-controls>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

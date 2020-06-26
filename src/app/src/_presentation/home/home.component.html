@@ -1,0 +1,59 @@
+<div class="container home">
+  <div class="row">
+    <div class="col-12 home__title">
+      <h2>{{ infoService.appInfo.promo1 }}</h2>
+    </div>
+  </div>
+
+  <div class="row home__items">
+    <div class="col-12 col-md-6">
+      <a [routerLink]="['/orders']" [queryParams]="{ status: 'pending' }" class="home__items-item">
+        <div class="home__items-item-title">
+          Orders Arriving
+        </div>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/delivery.svg'" />
+        </div>
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a class="home__items-item" [routerLink]="['/inventory/', '']">
+        <div class="home__items-item-title">
+          Items
+        </div>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/trolley.svg'" />
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row home__items">
+    <div class="col-12 col-md-6">
+      <a [routerLink]="['/orders']" [queryParams]="{ status: orderStatus.Waiting }" class="home__items-item">
+        <div class="home__items-item-title">
+          Return these items
+        </div>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/order.svg'" />
+        </div>
+      </a>
+    </div>
+    <div class="col-12 col-md-6">
+      <a class="home__items-item" routerLink="/inventory/317">
+        <div class="home__items-item-title">
+          Heavy equipment
+        </div>
+        <div class="home__items-item-image">
+          <img [src]="'/assets/img/home/crane.svg'" />
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 home__title">
+      <h2>{{ infoService.appInfo.promo2 }}</h2>
+    </div>
+  </div>
+</div>

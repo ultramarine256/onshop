@@ -7,7 +7,9 @@ import { BaseRepository } from '../base.repository';
 import { OrderCreateModel, OrderResponse } from './model/index';
 import { OrderSearchResult } from '@data/repository/order/model/order-search-result';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrderRepository extends BaseRepository {
   /// constructor
   constructor(private httpClient: HttpClient) {

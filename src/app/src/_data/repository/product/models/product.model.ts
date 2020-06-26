@@ -1,5 +1,5 @@
 import { environment } from '../../../../environments/environment';
-import { RentRates } from '@domain/services';
+import { RentRates } from '@domain/cart/cart-item.entity';
 
 export class ProductModel {
   /// fields

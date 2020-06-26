@@ -1,11 +1,13 @@
 {
   "name": "onshop-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start:local": "ng serve -c=serve-local --port 4502",
     "start:prod": "ng serve -c=serve-prod --port 4502",
     "build:prod": "ng build -c=build-prod",
+    "build:pwa": "ng build -c=build-prod; cd dist/onshop-app; angular-http-server",
+    "bundle:analyze": "ng build --stats-json; webpack-bundle-analyzer dist/onshop-app/stats-es2015.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -23,6 +25,7 @@
     "@angular/platform-browser": "~9.1.7",
     "@angular/platform-browser-dynamic": "~9.1.7",
     "@angular/router": "~9.1.7",
+    "@angular/service-worker": "~9.1.7",
     "@fortawesome/fontawesome-free": "^5.12.0",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.3.1",

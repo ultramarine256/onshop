@@ -1,6 +1,6 @@
-import { DateExtensions, ObjectExtensions } from '@domain/extensions';
-
 import { CustomOrderFields } from '../enum/custom-order-fields.enum';
+import { ObjectExtensions } from '@domain/extensions/object.extensions';
+import { DateExtensions } from '@domain/extensions/date.extensions';
 
 export class OrderCreateModel {
   /// fields
@@ -229,6 +229,8 @@ export class LineItemModel {
           value: new Date(this.rentalInfo.dateTo).toLocaleDateString(),
         },
       ];
+      (result as any).total = this.rentPrice;
+    } else {
       (result as any).total = this.purchasePrice;
     }
     return result;
@@ -238,7 +240,7 @@ export class LineItemModel {
 export enum OrderStatus {
   Pending = 'pending',
   Processing = 'processing',
-  Waiting = 'waiting',
+  Waiting = 'waiting-return',
   InRent = 'in-rent',
   Completed = 'completed',
   Cancelled = 'cancelled',

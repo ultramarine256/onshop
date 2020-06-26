@@ -1,5 +1,192 @@
-<router-outlet></router-outlet>
-<!--<div class="d-flex align-items-center justify-content-center" style="height: 100vh">-->
-  <!--<div class="spinner-grow text-primary" role="status" style="height: 3rem; width: 3rem;">-->
-  <!--</div>-->
-<!--</div>-->
+<ng-template #mainLoader>
+  <div class="main-loader">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-container *ngIf="!isLoading; else mainLoader">
+  <ng-container *ngIf="authService.isAuthorized">
+    <!-- Top menu only for desktop -->
+    <div fxHide.lt-sm>
+      <div class="top-menu">
+        <div class="container">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <div>It is fast and easy.</div>
+            <div>
+              <a class="link" [routerLink]="'/profile'">
+                {{ this.authService.identity.firstName + ' ' + this.authService.identity.lastName }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <mat-toolbar class="toolbar">
+      <!-- Mobile navigation -->
+      <div class="toolbar__content" fxHide.gt-xs fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <button mat-icon-button (click)="mobileMenu.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <a routerLink="/" class="toolbar__logo">
+            <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
+          </a>
+        </div>
+
+        <div class="toolbar__icons text-primary">
+          <a routerLink="/cart" *ngIf="showCart">
+            <mat-icon
+              matBadge="{{ cartService.itemsCount }}"
+              [matBadgeHidden]="!cartService.itemsCount"
+              class="toolbar__icons-item material-icons-outlined mr-2"
+              matBadgeSize="small"
+              matBadgeColor="warn"
+            >
+              shopping_cart
+            </mat-icon>
+          </a>
+          <a routerLink="/profile">
+            <mat-icon class="toolbar__icons-item">
+              <i class="material-icons-outlined">account_circle</i>
+            </mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Desktop navigation -->
+      <div fxHide.lt-sm fxLayoutAlign="space-between" class="container">
+        <div fxLayout="row">
+          <a routerLink="/" class="toolbar__logo">
+            <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
+          </a>
+          <div>
+            <a class="link" mat-button routerLink="/categories">Categories</a>
+          </div>
+          <div>
+            <a class="link" mat-button routerLink="/orders">Orders</a>
+          </div>
+          <div>
+            <a class="link" mat-button routerLink="/projects">Projects</a>
+          </div>
+          <div>
+            <a class="link" mat-button routerLink="/how-it-works">How it works</a>
+          </div>
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <!-- Search bar -->
+    <div class="d-md-flex searchbar">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="searchbar__inner">
+              <app-products-search class="w-100"></app-products-search>
+              <div fxHide.lt-sm class="searchbar__icons pl-4" *ngIf="showCart">
+                <a
+                  class="icon-item text-decoration-none text-light font-weight-bold position-relative"
+                  routerLink="/cart"
+                >
+                  <mat-icon
+                    matBadge="{{ cartService.itemsCount }}"
+                    [matBadgeHidden]="!cartService.itemsCount"
+                    class="material-icons-outlined"
+                    matBadgeSize="small"
+                    matBadgeColor="warn"
+                  >
+                    shopping_cart
+                  </mat-icon>
+                  <span class="font-weight-500 ml-3" *ngIf="cartService.totalPrice">{{
+                    (!cartService.totalPrice ? 0 : cartService.totalPrice) | currency
+                  }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <mat-sidenav-container class="sidenav-container" [ngClass]="{ 'sidenav-container--is-open': showSidenav }">
+    <!-- Mobile menu -->
+    <mat-sidenav
+      (closed)="onMenuClose()"
+      (opened)="onMenuOpened()"
+      class="sidenav"
+      #mobileMenu
+      [mode]="'over'"
+      fixedTopGap="56"
+    >
+      <mat-nav-list class="sidenav__content">
+        <ng-container *ngIf="!showCategories">
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/">Home</a>
+          <a mat-list-item (click)="showCategories = true">Categories</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/orders">Orders</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/projects">Projects</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/how-it-works">How it works</a>
+        </ng-container>
+
+        <ng-container *ngIf="showCategories">
+          <div class="sidenav__move-back">
+            <button (click)="showCategories = false" mat-icon-button>
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+          </div>
+          <mat-accordion>
+            <mat-expansion-panel
+              class="sidenav__panel"
+              *ngFor="let category of navigationMenu"
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false"
+              [hideToggle]="!category.subCategories.length"
+            >
+              <mat-expansion-panel-header collapsedHeight="40px" expandedHeight="40px" class="sidenav__panel-header">
+                <a
+                  *ngIf="!category.subCategories.length"
+                  class="sidenav__panel-link"
+                  [routerLink]="['/inventory/', category.id ? category.id : '']"
+                  (click)="mobileMenu.toggle(false)"
+                >
+                  <mat-panel-title [innerHTML]="category.title"></mat-panel-title>
+                </a>
+
+                <a *ngIf="category.subCategories.length" class="sidenav__panel-link">
+                  <mat-panel-title [innerHTML]="category.title"></mat-panel-title>
+                </a>
+              </mat-expansion-panel-header>
+
+              <div *ngIf="category.subCategories.length" class="sidenav__products">
+                <a
+                  class="sidenav__products-item"
+                  *ngFor="let category of category.subCategories"
+                  [routerLink]="'/inventory/' + category.id"
+                  (click)="showCategories = false; mobileMenu.close()"
+                  (click)="mobileMenu.toggle(false)"
+                  >{{ category.title }}</a
+                >
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </ng-container>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="sidenav-content">
+      <div class="app-container">
+        <div class="app-content">
+          <router-outlet></router-outlet>
+        </div>
+
+        <app-footer-component
+          class="footer"
+          [ngClass]="{ 'footer-is-guest': !authService.isAuthorized }"
+          [isAuthorized]="authService.isAuthorized"
+          [phone]="infoService.appInfo.phone"
+        >
+        </app-footer-component>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>

@@ -1,0 +1,32 @@
+<div class="search-result">
+  <div class="container">
+    <ng-template #loader>
+      <div fxFlex="row" fxLayoutAlign="center center" class="search-result__spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+    <ng-container *ngIf="products$ | async as products; else loader">
+      <div class="search-result__content">
+        <div *ngIf="!products.length">Nothing found</div>
+        <div class="search-result__content-title" *ngIf="term && products.length">Search results for «{{ term }}»</div>
+        <div>
+          <div class="search-result__products" fxLayout="row wrap" fxLayoutGap="10px grid">
+            <app-product-item
+              *ngFor="let item of products"
+              fxLayout="row wrap"
+              fxFlex.xl="25"
+              fxFlex.lg="33"
+              fxFlex.md="50"
+              fxFlex.sm="50"
+              fxFlex.xs="100"
+              [product]="item"
+              [baseUrl]="'/product'"
+            >
+            </app-product-item>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

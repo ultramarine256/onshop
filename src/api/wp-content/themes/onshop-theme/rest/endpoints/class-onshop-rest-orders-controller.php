@@ -49,7 +49,7 @@ class ONSHOP_REST_Orders_Controller extends WC_REST_Orders_Controller {
                 'callback' => function ( WP_REST_Request $request ) {
                     $order = wc_get_order($request->get_param('id'));
                     $order->add_order_note($request->get_param('note'), true);
-                    $order->set_status('waiting');
+                    $order->set_status('waiting-return');
                     $order->save();
                     return $order->get_data();
                 },

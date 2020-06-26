@@ -15,23 +15,23 @@ function app_info() {
 
 /// login styles
 function the_dramatist_custom_login_css() {
-	echo '<style type="text/css"> 
+	echo '<style type="text/css">
                 .login h1 a {
                     background-image: url(/wp-content/themes/onshop-theme/styles/onshop-logo.svg);
                     background-size: 100% 100%;
                     width: auto !important;
                     height: 50px;
-                    margin: 0 auto 10px;                
-                } 
-                
+                    margin: 0 auto 10px;
+                }
+
                 #login #backtoblog {
                     display: none;
                 }
-                
+
                 #login #nav {
-                    display: none;                
+                    display: none;
                 }
-                
+
                 #loginform {
                     padding: 24px;
                 }
@@ -189,30 +189,41 @@ add_action( 'rest_api_init', function () {
 
 function customerWoocommerceStatuses() {
     register_post_status('wc-in-rent', array(
-        'label'                     => _x( 'In rent', 'Order status', 'woocommerce' ),
+        'label'                     => _x( 'in-rent', 'Order status', 'woocommerce' ),
         'public'                    => true,
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
         'show_in_admin_status_list' => true,
         /* translators: %s: number of orders */
-        'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'woocommerce' ),
+        'label_count'               => _n_noop( 'In rent', 'In rent', 'woocommerce' ),
     ));
 
-    register_post_status('wc-waiting', array(
-        'label'                     => _x( 'Waiting', 'Order status', 'woocommerce' ),
+    register_post_status('wc-waiting-return', array(
+        'label'                     => _x( 'waiting', 'Order status', 'woocommerce' ),
         'public'                    => true,
         'exclude_from_search'       => false,
         'show_in_admin_all_list'    => true,
         'show_in_admin_status_list' => true,
         /* translators: %s: number of orders */
-        'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'woocommerce' ),
+        'label_count'               => _n_noop( 'Waiting for return', 'Waiting for return', 'woocommerce' ),
+    ));
+
+    register_post_status('wc-returned', array(
+        'label'                     => _x( 'returned', 'Order status', 'woocommerce' ),
+        'public'                    => true,
+        'exclude_from_search'       => false,
+        'show_in_admin_all_list'    => true,
+        'show_in_admin_status_list' => true,
+        /* translators: %s: number of orders */
+        'label_count'               => _n_noop( 'Returned', 'Returned', 'woocommerce' ),
     ));
 }
 add_filter( 'init', 'customerWoocommerceStatuses' );
 
 function addOrderStatuses( $order_statuses ) {
     $order_statuses['wc-in-rent'] = _x( 'Product in rent', 'WooCommerce Order status', 'text_domain' );
-    $order_statuses['wc-waiting'] = _x( 'Waiting', 'WooCommerce Order status', 'text_domain' );
+    $order_statuses['wc-waiting-return'] = _x( 'Waiting to return', 'WooCommerce Order status', 'text_domain' );
+    $order_statuses['wc-returned'] = _x( 'Returned', 'WooCommerce Order status', 'text_domain' );
     return $order_statuses;
 }
 add_filter( 'wc_order_statuses', 'addOrderStatuses' );
@@ -224,3 +235,19 @@ function removeRefundedStatus( $statuses ){
     return $statuses;
 }
 add_filter( 'wc_order_statuses', 'removeRefundedStatus' );
+
+add_action( 'admin_menu', function() {
+    add_menu_page(
+        'My custom menu Settings',
+        'Shop',
+        'manage_options',
+        'test',
+        function () {
+             echo "<script>window.open('https://blue-shop.xolutionz.com', '_blank')</script>";
+        },
+        'dashicons-cart',
+        25
+    );
+});
+
+

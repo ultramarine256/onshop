@@ -21,7 +21,7 @@ export class ProjectEntity {
     this.code = dto.code;
     this.address = dto.address;
     this.pricingMargin = dto.pricing_margin;
-    this.estimatedStartDate = new Date(dto.estimated_start_date);
+    this.estimatedStartDate = dto.estimated_start_date ? new Date(+dto.estimated_start_date) : null;
   }
 
   public toJson() {
@@ -33,7 +33,7 @@ export class ProjectEntity {
       code: this.code,
       address: this.address,
       pricing_margin: this.pricingMargin,
-      estimated_start_date: this.estimatedStartDate.getTime(),
+      estimated_start_date: this.estimatedStartDate.getTime()
     };
   }
 }

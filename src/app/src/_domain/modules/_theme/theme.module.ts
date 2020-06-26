@@ -1,29 +1,14 @@
 import { NgModule } from '@angular/core';
 
-import { FooterModule } from './footer';
-import { BreadcrumbsModule } from './breadcrumbs';
-import { ThirdPartyModule } from './_third-party';
-import { ContactFormModule } from './contact-form';
-import { ItemsCarouselModule } from './items-carousel';
 import { ProductSearchModule } from './products-search/products-search.module';
+import { BreadcrumbsModule } from '@domain/modules/_theme/breadcrumbs/breadcrumbs.module';
+import { ItemsCarouselModule } from '@domain/modules/_theme/items-carousel/items-carousel.module';
+import { ContactFormModule } from '@domain/modules/_theme/contact-form/contact-form.module';
+import { FooterModule } from '@domain/modules/_theme/footer/footer.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    ThirdPartyModule,
-    BreadcrumbsModule,
-    ContactFormModule,
-    FooterModule,
-    ProductSearchModule,
-    ItemsCarouselModule,
-  ],
-  exports: [
-    ThirdPartyModule,
-    BreadcrumbsModule,
-    ContactFormModule,
-    FooterModule,
-    ProductSearchModule,
-    ItemsCarouselModule,
-  ],
+  imports: [BreadcrumbsModule, ContactFormModule, FooterModule, ProductSearchModule, ItemsCarouselModule],
+  exports: [BreadcrumbsModule, ContactFormModule, FooterModule, ProductSearchModule, ItemsCarouselModule],
 })
 export class ThemeModule {}

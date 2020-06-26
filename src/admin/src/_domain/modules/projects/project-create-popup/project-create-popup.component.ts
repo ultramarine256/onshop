@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { finalize, takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 
+import { catchError, finalize, takeUntil } from 'rxjs/operators';
 import { ProjectRepository } from '@data/repository/project';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-project-add',
@@ -29,12 +30,12 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
   ngOnInit() {
     this.profileForm = this.fb.group({
       name: ['', [Validators.required]],
-      description: [''],
-      marketSegment: [''],
-      code: [''],
+      description: ['', [Validators.required]],
+      marketSegment: ['', [Validators.required]],
+      code: ['', [Validators.required]],
       address: [''],
       pricingMargin: [''],
-      estimatedStartDate: [''], // TODO: Date validator
+      estimatedStartDate: ['', [Validators.required]],
     });
   }
 
@@ -49,6 +50,12 @@ export class ProjectCreatePopupComponent extends UnsubscribeMixin() implements O
     this.projectRepository
       .addProject(this.profileForm.value)
       .pipe(
+        catchError((error) => {
+          this.snackBar.open('Project already exist', null, {
+            duration: 2000,
+          });
+          return throwError(error);
+        }),
         finalize(() => (this.isLoading = false)),
         takeUntil(this.destroy$)
       )

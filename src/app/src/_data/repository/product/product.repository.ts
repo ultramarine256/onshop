@@ -7,7 +7,9 @@ import { BaseRepository } from '../base.repository';
 import { ProductFilter, ProductSearchResult } from './filter';
 import { ProductModel, TagModel } from './models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductRepository extends BaseRepository {
   /// constructor
   constructor(private httpClient: HttpClient) {

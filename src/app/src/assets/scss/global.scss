@@ -182,3 +182,21 @@ a {
   border-top-color: #2c98f0;
   animation: spinner 0.8s linear infinite;
 }
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 776px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}

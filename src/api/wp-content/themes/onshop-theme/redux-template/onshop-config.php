@@ -81,6 +81,18 @@ Redux::setSection( $opt_name, array(
             'title'    => __( 'Promo 2', 'redux-framework-demo' ),
             'subtitle' => __( '', 'redux-framework-demo' )
         ),
+        array(
+            'id'       => 'opt-delivery-fee',
+            'type'     => 'text',
+            'title'    => __( 'Delivery fee', 'redux-framework-demo' ),
+            'subtitle' => __( '', 'redux-framework-demo' )
+        ),
+        array(
+            'id'       => 'opt-delivery-duration',
+            'type'     => 'text',
+            'title'    => __( 'Delivery duration', 'redux-framework-demo' ),
+            'subtitle' => __( '', 'redux-framework-demo' )
+        ),
     )
 ));
 

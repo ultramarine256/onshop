@@ -1,0 +1,109 @@
+<div class="purchase-returns-page">
+  <ng-template #loader>
+    <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+      <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+  </ng-template>
+
+  <ng-template #successMessage>
+    <div class="purchase-returns-page__success-message">
+      <h4>Thanks!</h4>
+      <div>
+        Thank you! Your return request has been received.
+      </div>
+      <div>
+        Our specialist will process your order soon.
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-container *ngIf="!sent; else successMessage">
+    <div class="purchase-returns-page__content container" *ngIf="!isLoading; else loader">
+      <h5 class="purchase-returns-page__title">Delivery info</h5>
+      <form [formGroup]="deliveryInfo" class="purchase-returns-page__form">
+        <mat-form-field class="purchase-returns-page__form-item">
+          <input formControlName="address" matInput placeholder="Order address" />
+          <mat-error *ngIf="deliveryInfo.get('address').hasError('required')">
+            Address is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="purchase-returns-page__form-item">
+          <input
+            matInput
+            [min]="minDate"
+            [matDatepicker]="picker"
+            formControlName="deliveryDate"
+            placeholder="Schedule return"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="deliveryInfo.get('deliveryDate').hasError('required')">
+            Delivery date is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+
+      <h5 class="purchase-returns-page__products-title">Products</h5>
+      <ng-template #emptyProducts>
+        <div class="purchase-returns-page__empty-products">No available products to return</div>
+      </ng-template>
+      <table
+        *ngIf="filteredProducts.length; else emptyProducts"
+        mat-table
+        [dataSource]="filteredProducts"
+        class="purchase-returns-page__products"
+      >
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let product">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? toggle(product) : null"
+              [checked]="selection.isSelected(product)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Title</th>
+          <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let product">{{ product.quantity }}</td>
+        </ng-container>
+        <ng-container matColumnDef="rent">
+          <th class="purchase-returns-page__rental-cell" mat-header-cell *matHeaderCellDef>Rent</th>
+          <td mat-cell *matCellDef="let product">{{ product.maxRentalDuration }} d</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let product">{{ product.price | currency }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['select', 'name', 'quantity', 'price', 'rent']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['select', 'name', 'quantity', 'price', 'rent']"></tr>
+      </table>
+
+      <div *ngIf="filteredProducts.length" class="purchase-returns-page__action">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="isSubmitInProgress"
+          (click)="submit()"
+          [class.spinner]="isSubmitInProgress"
+        >
+          Return
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</div>

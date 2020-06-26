@@ -8,7 +8,7 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    padding: 20px 0 20px;
+    padding: 20px;
 
     @media only screen and (max-width: 600px) {
       justify-content: center;
@@ -33,6 +33,7 @@
 }
 
 .footer-newsletter {
+  height: 50px;
   background-color: #2c98f0;
 }
 

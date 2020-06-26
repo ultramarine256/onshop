@@ -1,0 +1,110 @@
+.orders {
+  .orders__filter {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .orders__accordion {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .orders__info {
+    min-width: 150px;
+    padding: 0 10px;
+
+    @media screen and (max-width: 600px) {
+      display: none !important;
+    }
+  }
+
+  .orders__total {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .orders__data {
+    padding: 20px;
+  }
+
+  .orders__table {
+    width: 100%;
+    margin-bottom: 20px;
+
+    th {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    tr {
+      border-bottom: 1px solid #eee;
+
+      &:first-child {
+        border-bottom: 0;
+      }
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    th {
+      padding: 10px 20px;
+    }
+
+    td {
+      padding: 10px 20px;
+
+      &:nth-child(2) {
+        text-align: right;
+      }
+    }
+  }
+
+  .orders__panel-title {
+    width: 25%;
+
+    @media screen and (max-width: 600px) {
+      width: 50%;
+    }
+  }
+
+  .orders__panel-header {
+    font-size: 12px;
+  }
+
+  .orders__date-created {
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  .orders__panel-description {
+    width: 75%;
+
+    @media screen and (max-width: 600px) {
+      width: 50%;
+      text-align: center;
+    }
+
+    .orders__status {
+      padding: 0 10px;
+      width: 25%;
+      text-align: center;
+    }
+
+    .orders__duration-message {
+      width: 20%;
+      min-width: 135px;
+
+      a {
+        width: 100%;
+      }
+    }
+  }
+
+  .orders__action {
+    display: flex;
+    justify-content: center;
+  }
+}
