@@ -11,7 +11,6 @@ import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
   styleUrls: ['./project-show-popup.component.scss'],
 })
 export class ProjectShowPopupComponent extends UnsubscribeMixin() implements OnInit {
-  public allUsers: UserEntity[];
   public existingUsers: UserEntity[];
   public usersDidLoaded = false;
 

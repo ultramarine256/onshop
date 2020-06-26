@@ -1,4 +1,6 @@
 .inventory-filters {
+  background-color: #eeeeee;
+  min-height: 300px;
   .inventory-filters__title {
     font-size: 18px;
     margin-bottom: 15px;
@@ -34,7 +36,7 @@
 
   .inventory-filters__chip {
     height: auto;
-    cursor:pointer;
+    cursor: pointer;
     word-break: break-word;
   }
 }

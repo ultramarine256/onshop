@@ -59,16 +59,12 @@
             </ng-container>
 
             <ng-container *ngIf="product.value.duration">
-              <div class="cart-page__info-price">
+              <div>
                 {{ getPriceForRent(product.value.rentRates, product.value.duration) | currency }}
               </div>
               &nbsp;for&nbsp;
-              <mat-icon (click)="decreaseCounter(product.controls.duration)">remove_circle</mat-icon>
-              <mat-form-field class="cart-page__form-field">
-                <input matInput type="number" [formControl]="product.controls.duration" [min]="1" />
-              </mat-form-field>
-              <mat-icon (click)="increaseCounter(product.controls.duration)">add_circle</mat-icon>
-              <div class="cart-page__info-duration-placeholder">days</div>
+              <span class="mx-1" [innerHTML]="product.value.duration"></span>
+              <div>days</div>
             </ng-container>
           </div>
         </div>
