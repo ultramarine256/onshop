@@ -3,11 +3,57 @@
 * Hero
 * ------------------------------------------------------------------------
 */
+.first-section {
+  position: relative;
+  //clip-path: polygon(0 0, 15% 0, 25% 10%, 75% 10%, 85% 0, 100% 0, 100% 90%, 85% 90%, 75% 100%, 25% 100%, 15% 90%, 0 90%);
+  min-height: calc(100vh - 65px);
+  background-color: rgba(0, 105, 254, 0.7);
+  clip-path: polygon(
+      0 0,
+      15% 0,
+      25% 5%,
+      75% 5%,
+      85% 0,
+      100% 0,
+      100% 95%,
+      85% 95%,
+      75% 100%,
+      25% 100%,
+      15% 95%,
+      0 95%
+  );
+  border-bottom: 1px solid silver;
 
+  .icon-show-more {
+    position: absolute;
+    bottom: 35px;
+    left: 0;
+    right: 0;
+
+    * {
+      cursor: pointer;
+    }
+
+    .icon-show-more-size {
+      font-size: 3em;
+    }
+
+    &:hover {
+      .icon-show-more-size {
+        font-size: 3.5em;
+      }
+    }
+  }
+}
+.team-section{
+  clip-path: polygon(0 5%, 15% 5%, 25% 0, 75% 0, 85% 5%, 100% 5%, 100% 95%, 85% 95%, 75% 100%, 25% 100%, 15% 95%, 0 95%);
+  background-color: rgba(0, 105, 254, 0.7);
+}
 .iphone-x {
   background-color: #f8f9fa;
   border-radius: 36px;
-  box-shadow: inset 0 0 15px rgba(0,0,0,.15), 0 20px 36px rgba(0,0,0,.15);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.15),
+  0 20px 36px rgba(0, 0, 0, 0.15);
   width: 280px;
   height: 540px;
   position: relative;
@@ -16,7 +62,7 @@
     background: #212529;
     background-size: cover;
     border-radius: 25px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,.15);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
     width: calc(100% - 30px);
     height: calc(100% - 30px);
     position: absolute;
@@ -44,7 +90,6 @@
 * ------------------------------------------------------------------------
 */
 
-
 .sep {
   border-top-width: 2px;
   width: 3rem;
@@ -52,8 +97,8 @@
 
 .card {
   border: 0;
-  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075);
-  transition: all .2s ease-in-out;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: all 0.2s ease-in-out;
 }
 
 /**
@@ -63,16 +108,16 @@
 */
 
 .img-thumbnail {
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: #f8f9fa;
   border: 0 solid #dee2e6;
-  border-radius: .375rem;
-  box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15);
-  transition: all .2s ease-in-out;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
   }
 }
 
@@ -84,14 +129,12 @@
 
 .card {
   border: 0;
-  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075);
-  transition: all .2s ease-in-out;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: all 0.2s ease-in-out;
 
   .card-body {
     flex: 1 1 auto;
     padding: 1.25rem;
-
-
   }
 }
 
@@ -104,4 +147,3 @@
     object-fit: fill;
   }
 }
-

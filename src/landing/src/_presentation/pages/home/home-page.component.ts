@@ -6,4 +6,7 @@ import {Component} from '@angular/core';
   templateUrl: './home-page.component.html'
 })
 export class HomePageComponent {
+  public scrollTrigger() {
+    window.scrollTo({left: 0, top: 800, behavior: 'smooth'});
+  }
 }
