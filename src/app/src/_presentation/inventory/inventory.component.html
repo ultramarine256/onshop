@@ -16,7 +16,12 @@
     <ng-container *ngIf="!isFirstLoading">
       <div class="inventory-page__content" fxLayout="row" fxLayoutGap="20px">
         <div fxHide.lt-sm fxFlex.lt-md="30" fxFlex="20">
-          <app-inventory-filters [tags]="tags" [filters]="filters" (filterChanged)="onFilterChanged($event)">
+          <app-inventory-filters
+            [tags]="tags"
+            [showTags]="showTags"
+            [filters]="filters"
+            (filterChanged)="onFilterChanged($event)"
+          >
           </app-inventory-filters>
         </div>
 

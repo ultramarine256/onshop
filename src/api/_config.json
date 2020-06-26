@@ -1,9 +1,9 @@
 {
-  "dbhost": "localhost",
+  "dbhost": "onshop-prod.mysql.database.azure.com",
   "dbname": "prod_blue-shop",
-  "dbusername": "root",
+  "dbusername": "mysql_root@onshop-prod",
   "dbpassword": "Qwert12345",
-  "use-debug": true,
+  "use-debug": false,
   "admin-url": "https://admin.xolutionz.com",
 
   "auth": {

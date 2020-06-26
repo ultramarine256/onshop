@@ -38,6 +38,7 @@
           <a routerLink="/cart" *ngIf="showCart">
             <mat-icon
               matBadge="{{ cartService.itemsCount }}"
+              [matBadgeHidden]="!cartService.itemsCount"
               class="toolbar__icons-item material-icons-outlined mr-2"
               matBadgeSize="small"
               matBadgeColor="warn"
@@ -89,13 +90,14 @@
                 >
                   <mat-icon
                     matBadge="{{ cartService.itemsCount }}"
+                    [matBadgeHidden]="!cartService.itemsCount"
                     class="material-icons-outlined"
                     matBadgeSize="small"
                     matBadgeColor="warn"
                   >
                     shopping_cart
                   </mat-icon>
-                  <span class="font-weight-500 ml-3">{{
+                  <span class="font-weight-500 ml-3" *ngIf="cartService.totalPrice">{{
                     (!cartService.totalPrice ? 0 : cartService.totalPrice) | currency
                   }}</span>
                 </a>
@@ -123,6 +125,7 @@
           <a mat-list-item (click)="showCategories = true">Categories</a>
           <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/orders">Orders</a>
           <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/projects">Projects</a>
+          <a mat-list-item (click)="mobileMenu.toggle(false)" routerLink="/how-it-works">How it works</a>
         </ng-container>
 
         <ng-container *ngIf="showCategories">

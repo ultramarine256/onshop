@@ -15,6 +15,7 @@ import { TagModel } from '@data/repository';
 export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnInit, AfterViewInit {
   @Input() filters: { minPrice: number; maxPrice: number };
   @Input() tags: TagModel[];
+  @Input() showTags: boolean;
 
   @Output() filterChanged = new EventEmitter();
 

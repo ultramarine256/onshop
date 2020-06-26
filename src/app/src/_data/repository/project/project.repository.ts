@@ -25,4 +25,14 @@ export class ProjectRepository extends BaseRepository {
       })
     );
   }
+
+  public getProject(id: number): Observable<ProjectResponse> {
+    return this.httpClient.get<any[]>(`${this.apiBaseUrl}/wp-json/onshop/v3/project/${id}`).pipe(
+      map((dto) => {
+        const entity = new ProjectResponse();
+        entity.mapFromDto(dto);
+        return entity;
+      })
+    );
+  }
 }
