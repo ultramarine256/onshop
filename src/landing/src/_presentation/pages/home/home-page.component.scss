@@ -7,7 +7,7 @@
   position: relative;
   //clip-path: polygon(0 0, 15% 0, 25% 10%, 75% 10%, 85% 0, 100% 0, 100% 90%, 85% 90%, 75% 100%, 25% 100%, 15% 90%, 0 90%);
   min-height: calc(100vh - 65px);
-  background-color: rgba(0, 105, 254, 0.7);
+  background-color: #eee;
   clip-path: polygon(
     0 0,
     15% 0,
@@ -22,7 +22,6 @@
     15% 95%,
     0 95%
   );
-  border-bottom: 1px solid silver;
 
   .icon-show-more {
     position: absolute;
@@ -60,7 +59,7 @@
     15% 95%,
     0 95%
   );
-  background-color: rgba(0, 105, 254, 0.7);
+  background-color: #eee;
 }
 .iphone-x {
   background-color: #f8f9fa;
