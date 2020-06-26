@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -10,7 +11,6 @@ import { OWL_CAROUSEL } from '@domain/modules/_theme/items-carousel/constants';
 import { CartItemEntity } from '@domain/cart/cart-item.entity';
 import { CartService } from '@domain/cart/cart.service';
 import { AppMapper } from '@presentation/_mapper/app-mapper';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-details',
@@ -42,7 +42,7 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
     private productRepository: ProductRepository,
     private cartService: CartService,
     private productService: ProductService,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {
     super();
   }
@@ -106,7 +106,6 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
     this.snackBar.open('Item added to cart', null, {
       duration: 2000,
     });
-    // this.router.navigate(['/cart']);
   }
 
   public get daysAmount(): number {
