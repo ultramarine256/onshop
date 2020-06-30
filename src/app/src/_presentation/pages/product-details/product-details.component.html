@@ -35,7 +35,7 @@
         </div>
         <div class="col-12 col-md-8">
           <div class="product-details__info">
-            <h3 class="product-details__title">{{ product.name }}</h3>
+            <h3 class="product-details__title">{{ product.name | titlecase}}</h3>
             <small class="product-details__description">{{ product.firstCategory.name }}</small>
           </div>
           <div class="pb-2">
@@ -60,7 +60,7 @@
               <span>by</span>
 
               <mat-form-field class="product-details__datepicker">
-                <input matInput [min]="dateToMinDate" [(ngModel)]="dateTo" [matDatepicker]="matDateTo" />
+                <input matInput [min]="dateToMinDate" [(ngModel)]="dateTo" [matDatepicker]="matDateTo"/>
                 <mat-datepicker-toggle matSuffix [for]="matDateTo"></mat-datepicker-toggle>
                 <mat-datepicker #matDateTo></mat-datepicker>
               </mat-form-field>
@@ -70,13 +70,14 @@
               </span>
             </div>
 
-            <div class="product-details__actions">
-              <button *ngIf="product.availableForRent" (click)="rent()" color="primary" mat-raised-button>
+            <div class="product-details__actions d-flex">
+              <button *ngIf="product.availableForRent" [disabled]="!addingTheProduct" (click)="rent()" color="primary" mat-raised-button>
                 Rent for {{ rentPrice | currency }}
               </button>
-              <button *ngIf="product.price" (click)="buy()" mat-raised-button>
+              <button *ngIf="product.price" [disabled]="!addingTheProduct" (click)="buy()" mat-raised-button>
                 Buy for {{ product.price | currency }}
               </button>
+              <mat-spinner *ngIf="!addingTheProduct" [diameter]="30"></mat-spinner>
             </div>
           </div>
         </div>

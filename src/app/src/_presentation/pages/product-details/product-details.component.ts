@@ -15,7 +15,7 @@ import { AppMapper } from '@presentation/_mapper/app-mapper';
 @Component({
   selector: 'app-product-details',
   styleUrls: ['./product-details.component.scss'],
-  templateUrl: './product-details.component.html',
+  templateUrl: './product-details.component.html'
 })
 export class ProductDetailsComponent extends UnsubscribeMixin() implements OnInit {
   public product = new ProductModel();
@@ -28,12 +28,13 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
   public dateToMinDate: Date;
 
   public isLoading: boolean;
+  public addingTheProduct = true;
   public addingProductInProgress: boolean;
 
   public readonly daysMapping: { [k: string]: string } = {
     '=0': 'days.',
     '=1': 'day',
-    other: `days`,
+    other: `days`
   };
 
   constructor(
@@ -91,20 +92,24 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
   }
 
   public rent() {
+    this.addingTheProduct = false;
     const cartItem = AppMapper.toCartForRentItem(this.product, this.daysAmount, this.dateFrom, this.dateTo);
     this.addToCart(cartItem);
+    setTimeout(() => (this.addingTheProduct = true), 2000);
   }
 
   public buy() {
+    this.addingTheProduct = false;
     const cartItem = AppMapper.toCartForSaleItem(this.product, this.productCount);
     this.addToCart(cartItem);
+    setTimeout(() => (this.addingTheProduct = true), 2000);
   }
 
   private addToCart(cartItem: CartItemEntity) {
     this.addingProductInProgress = true;
     this.cartService.addItem(cartItem);
     this.snackBar.open('Item added to cart', null, {
-      duration: 2000,
+      duration: 2000
     });
   }
 
