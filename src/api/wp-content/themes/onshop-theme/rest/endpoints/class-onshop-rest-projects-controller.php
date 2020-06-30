@@ -216,7 +216,7 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 			$this->namespace,
 			'project/(?P<id>\d+)',
 			[
-				'methods'             => WP_REST_Server::EDITABLE,
+				'methods'             => WP_REST_Server::CREATABLE,
 				'callback'            => function ( WP_REST_Request $request ) {
 					$params = $request->get_params();
 
@@ -323,7 +323,6 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 			)
 		);
 
-		// project/:id/users
 		register_rest_route(
 			$this->namespace,
 			'project/(?P<id>\d+)/users',
