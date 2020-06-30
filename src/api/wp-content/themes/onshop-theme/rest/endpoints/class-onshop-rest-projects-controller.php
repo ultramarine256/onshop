@@ -323,7 +323,6 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 			)
 		);
 
-		// project/:id/users
 		register_rest_route(
 			$this->namespace,
 			'project/(?P<id>\d+)/users',

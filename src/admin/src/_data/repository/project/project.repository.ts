@@ -7,7 +7,7 @@ import { ProjectEntity } from './entity';
 import { BaseRepository } from '../base.repository';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectRepository extends BaseRepository {
   constructor(private httpClient: HttpClient) {
@@ -18,8 +18,8 @@ export class ProjectRepository extends BaseRepository {
     return this.httpClient
       .get<Array<any>>(`${this.apiBaseUrl}/wp-json/onshop/v3/project`, {
         headers: {
-          Authorization: 'Bearer ' + this.token
-        }
+          Authorization: 'Bearer ' + this.token,
+        },
       })
       .pipe(
         map((dtos) => {
@@ -37,8 +37,8 @@ export class ProjectRepository extends BaseRepository {
   public getProjectById(id: number) {
     return this.httpClient.get<any>(`${this.apiBaseUrl}/wp-json/onshop/v3/project/` + id, {
       headers: {
-        Authorization: 'Bearer ' + this.token
-      }
+        Authorization: 'Bearer ' + this.token,
+      },
     });
   }
 
@@ -48,8 +48,8 @@ export class ProjectRepository extends BaseRepository {
     return this.httpClient
       .post(`${this.apiBaseUrl}/wp-json/onshop/v3/project`, entity.toJson(), {
         headers: {
-          Authorization: 'Bearer ' + this.token
-        }
+          Authorization: 'Bearer ' + this.token,
+        },
       })
       .pipe(map((res: any) => ({ id: res.id })));
   }
@@ -58,16 +58,16 @@ export class ProjectRepository extends BaseRepository {
     const entity = new ProjectEntity(project);
     return this.httpClient.patch(`${this.apiBaseUrl}/wp-json/onshop/v3/project/` + project.id, entity.toJson(), {
       headers: {
-        Authorization: 'Bearer ' + this.token
-      }
+        Authorization: 'Bearer ' + this.token,
+      },
     });
   }
 
   public deleteProject(id: number) {
     return this.httpClient.delete(`${this.apiBaseUrl}/wp-json/onshop/v3/project/` + id, {
       headers: {
-        Authorization: 'Bearer ' + this.token
-      }
+        Authorization: 'Bearer ' + this.token,
+      },
     });
   }
 }
