@@ -179,3 +179,19 @@ li:nth-last-child(-n+2) {
 #redux_dashboard_widget {
     display: none;
 }
+
+#toplevel_page_woocommerce ul li:nth-child(2) {
+    display: none!important;
+}
+
+#toplevel_page_woocommerce ul li:last-child {
+    display: none!important;
+}
+
+#activity-panel-tab-inbox, #activity-panel-tab-orders {
+    display: none!important;
+}
+
+.wc-order-data-row-toggle button {
+    display: none!important;
+}

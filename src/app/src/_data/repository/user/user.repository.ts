@@ -24,4 +24,8 @@ export class UserRepository extends BaseRepository {
       tap((user) => this.userSubject$.next(user))
     );
   }
+
+  public getUsers(): Observable<any> {
+    return this.httpClient.get<UserModel>(`${environment.apiBaseUrl}/wp-json/onshop/v3/users`);
+  }
 }

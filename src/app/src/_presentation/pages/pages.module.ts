@@ -31,6 +31,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { SubCategoriesComponent } from './sub-categories/sub-categories.component';
 import { TrackOrderComponent } from './track-order/track-order.component';
 import { HowItWorksComponent } from './how-it-works/how-it-works.component';
+import { ProjectComponent } from './project/project.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { HowItWorksComponent } from './how-it-works/how-it-works.component';
     TrackOrderComponent,
     ProjectsComponent,
     HowItWorksComponent,
+    ProjectComponent,
   ],
   exports: [
     CartComponent,

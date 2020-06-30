@@ -14,6 +14,7 @@ import { TrackOrderComponent } from './pages/track-order/track-order.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { HowItWorksComponent } from './pages/how-it-works/how-it-works.component';
+import { ProjectComponent } from '@presentation/pages/project/project.component';
 
 const routes: Routes = [
   // lazy modules
@@ -80,6 +81,10 @@ const routes: Routes = [
   {
     path: 'projects',
     component: ProjectsComponent,
+  },
+  {
+    path: 'projects/:id',
+    component: ProjectComponent,
   },
   {
     path: 'track-order',
