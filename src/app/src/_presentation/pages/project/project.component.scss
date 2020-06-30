@@ -1,24 +1,16 @@
-.projects {
-  .projects__item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+.project {
+  .project__content {
+    padding-bottom: 20px;
     margin-bottom: 20px;
-    color: black;
-
-    &:hover {
-      cursor: pointer;
-      color: #03a9f4;
-    }
-
-    .projects__item-info {
-      display: flex;
-      flex-direction: column;
-    }
+    overflow-x: auto;
   }
 
-  .projects__order {
+  .project__title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .project__order {
     display: flex;
     min-width: 500px;
     padding: 10px 10px;
@@ -32,9 +24,8 @@
       margin-bottom: 0;
     }
 
-    .projects__order-item {
+    .project__order-item {
       display: flex;
-      width: 25%;
       padding: 0 10px;
       span {
         margin-right: 5px;

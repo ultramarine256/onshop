@@ -136,12 +136,18 @@ function add_projects_menu_item() {
 			?>
             <style>
                 .admin-iframe {
-                    width: 98.5%;
-                    height: 85vh;
-                    margin-top: 20px;
+                    width: 100%;
                 }
-            </style>
-            <iframe class="admin-iframe" src="<?php echo ADMIN_URL ?>?token=<?php echo $jwt ?>"></iframe>
+                .admin-container {
+                    position: relative;
+                    display: flex;
+                    left: -20px;
+                    right: 0;
+                    min-height: 93vh;
+                }
+
+</style>
+            <div class="admin-container"><iframe class="admin-iframe" src="<?php echo ADMIN_URL ?>?token=<?php echo $jwt ?>"></iframe></div>
 			<?php
 		},
 		'dashicons-schedule',

@@ -8,44 +8,21 @@
 
     <ng-container *ngIf="projects$ | async as projects; else loader">
       <div class="projects">
-        <mat-accordion>
-          <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="projects__item-title">
-                <span
-                  ><b>{{ project.name }}</b>
-                </span>
-                <small *ngIf="project.description">{{ project.description }}</small>
-                <small *ngIf="project.code">code:{{ project.code }}</small>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div class="projects__content" *ngIf="project.orders">
-              <div class="projects__order">
-                <div class="projects__order-item"><b>Number</b></div>
-                <div class="projects__order-item"><b>User</b></div>
-                <div class="projects__order-item"><b>Status</b></div>
-                <div class="projects__order-item"><b>Total</b></div>
+        <ng-container *ngFor="let project of projects; let i = index">
+          <a [routerLink]="['/projects', project.id]" class="projects__item">
+            <div class="projects__item-info">
+              <div>
+                <b>{{ project.name }}</b>
               </div>
-              <div class="projects__order" *ngFor="let order of project.orders">
-                <div class="projects__order-item">Order #{{ order.id }}</div>
-                <div class="projects__order-item">
-                  <span *ngIf="order.billing.fistName"
-                    >{{ order.billing.fistName }} {{ order.billing.lastName }},
-                  </span>
-                  <span *ngIf="order.billing.phone">phone: {{ order.billing.phone }}, </span>
-                  {{ order.billing.email }}
-                </div>
-                <div class="projects__order-item">
-                  {{ order.status }}
-                </div>
-                <div class="projects__order-item">
-                  <b>{{ order.total | currency }}</b>
-                </div>
+              <div>
+                <small *ngIf="project.estimatedStartDate">Start date: {{ project.estimatedStartDate | date }}</small>
+              </div>
+              <div>
+                <small *ngIf="project.marketSegment">Market segment: {{ project.marketSegment }}</small>
               </div>
             </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+          </a>
+        </ng-container>
       </div>
     </ng-container>
   </div>

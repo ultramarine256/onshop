@@ -35,4 +35,12 @@ export class ProjectRepository extends BaseRepository {
       })
     );
   }
+
+  public getProjectUsersIds(id: number): Observable<number[]> {
+    return this.httpClient.get<any[]>(`${this.apiBaseUrl}/wp-json/onshop/v3/project/${id}/users`).pipe(
+      map((dto: any) => {
+        return dto.user_ids;
+      })
+    );
+  }
 }

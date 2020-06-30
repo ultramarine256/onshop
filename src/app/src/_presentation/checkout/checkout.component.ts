@@ -176,7 +176,7 @@ export class CheckoutComponent extends UnsubscribeMixin() implements OnInit {
         new Date(Math.min(...this.cartService.itemsForRent.map((item) => new Date(item.dateFrom).getTime()))),
       deliveryInstructions: this.deliveryInstructions.value,
       deliveryTime: this.deliveryTime.value,
-      status: OrderStatus.Waiting,
+      status: OrderStatus.Processing,
     });
 
     this.order.products = products;

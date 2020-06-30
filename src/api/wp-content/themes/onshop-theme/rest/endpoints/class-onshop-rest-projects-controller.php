@@ -405,13 +405,6 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						return false;
 					}
 
-					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator','shop_manager'];
-
-					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
-						return false;
-					}
-
 					return true;
 				},
 				'args'                => [
