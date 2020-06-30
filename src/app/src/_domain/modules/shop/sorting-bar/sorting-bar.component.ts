@@ -58,15 +58,15 @@ export class SortingBarComponent extends UnsubscribeMixin() implements OnInit {
         visible: true,
       },
       {
-        name: 'date',
+        name: 'arrived',
         property: 'desc',
-        title: 'Arrived  desc',
+        title: 'Arrived desc',
         visible: true,
       },
       {
-        name: 'date',
+        name: 'arrived',
         property: 'asc',
-        title: 'Arrived  asc',
+        title: 'Arrived asc',
         visible: true,
       },
     ];
