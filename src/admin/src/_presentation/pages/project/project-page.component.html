@@ -12,10 +12,11 @@
     </nav>
   </div>
   <div class="container" *ngIf="!isLoading; else loader">
-    <table mat-table *ngIf="projects.length" [dataSource]="projects" class="projects-table border rounded">
+    <table mat-table *ngIf="projects && projects.length" [dataSource]="projects" class="projects-table border rounded">
       <ng-container matColumnDef="photo" class="pr-0">
         <th mat-header-cell class="d-none" *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="table-img-width text-center p-2" (click)="openProjectPopup(element)">
+        <td mat-cell *matCellDef="let element" class="table-img-width text-center p-2"
+            (click)="openProjectPopup(element)">
           <svg
             class="bd-placeholder-img rounded"
             width="35"
@@ -27,7 +28,7 @@
             aria-label="Placeholder: 32x32"
           >
             <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff" />
+            <rect width="100%" height="100%" fill="#007bff"/>
             <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
           </svg>
         </td>
@@ -40,7 +41,8 @@
       </ng-container>
       <ng-container matColumnDef="description">
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element" class="text-muted" (click)="openProjectPopup(element)">{{ element.description }}</td>
+        <td mat-cell *matCellDef="let element" class="text-muted"
+            (click)="openProjectPopup(element)">{{ element.description }}</td>
       </ng-container>
       <ng-container matColumnDef="edit">
         <th class="d-none" mat-header-cell *matHeaderCellDef></th>
@@ -49,7 +51,7 @@
             <button mat-menu-item (click)="openProjectEditPopup(element)">Edit</button>
             <button mat-menu-item (click)="onProjectDelete(element.id)">Delete</button>
           </mat-menu>
-          <button mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
+          <button [disabled]="deleteOperation" mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
             <mat-icon>more_vert</mat-icon>
           </button>
         </td>
@@ -59,7 +61,8 @@
     </table>
   </div>
   <div class="project-page__create-button">
-    <button (click)="openProjectCreatePopup()" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+    <button (click)="openProjectCreatePopup()" mat-fab color="primary"
+            aria-label="Example icon button with a delete icon">
       <mat-icon>add</mat-icon>
     </button>
   </div>

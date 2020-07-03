@@ -11,10 +11,11 @@ import { AppPagesRouting } from './app-pages.routing';
 import {ProjectPageComponent } from './project';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppPagesComponent, HomePageComponent, ProjectPageComponent],
-  imports: [CommonModule, ProjectsModule, MatDialogModule, MatIconModule, MatButtonModule, AppPagesRouting, MatTableModule, MatMenuModule],
+  imports: [CommonModule, ProjectsModule, MatDialogModule, MatIconModule, MatButtonModule, AppPagesRouting, MatTableModule, MatMenuModule, MatProgressSpinnerModule],
   exports: [HomePageComponent, AppPagesComponent],
   providers: [],
 })

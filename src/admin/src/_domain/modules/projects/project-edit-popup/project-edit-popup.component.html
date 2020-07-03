@@ -6,6 +6,9 @@
           <mat-form-field appearance="standard" class="w-100 mt-3">
             <mat-label>Name:</mat-label>
             <input matInput formControlName="name" />
+            <mat-error *ngIf="profileForm.get('name').hasError('required')">
+              First name is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
           <mat-form-field appearance="standard" class="w-100">
             <mat-label>Market Segment</mat-label>
@@ -14,12 +17,18 @@
               <mat-option value="2">Segment Two</mat-option>
               <mat-option value="3">Segment Three</mat-option>
             </mat-select>
+            <mat-error *ngIf="profileForm.get('marketSegment').hasError('required')">
+              market segment is <strong>required</strong>
+            </mat-error>
             <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
           </mat-form-field>
           <label class="d-flex flex-column flex-md-row w-100">
             <mat-form-field appearance="standard" class="w-100 pr-1">
               <mat-label> Project code</mat-label>
               <input matInput formControlName="code" />
+              <mat-error *ngIf="profileForm.get('code').hasError('required')">
+                Project code is <strong>required</strong>
+              </mat-error>
             </mat-form-field>
             <mat-form-field appearance="standard" class="w-100 pl-1">
               <mat-label> Address:</mat-label>
@@ -35,12 +44,18 @@
               <input matInput formControlName="estimatedStartDate" [matDatepicker]="picker" />
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="profileForm.get('estimatedStartDate').hasError('required')">
+                Estimated start date is <strong>required</strong>
+              </mat-error>
             </mat-form-field>
           </div>
 
           <mat-form-field appearance="standard" class="w-100 pl-1">
             <mat-label> Description:</mat-label>
             <input matInput formControlName="description" />
+            <mat-error *ngIf="profileForm.get('description').hasError('required')">
+              Description is <strong>required</strong>
+            </mat-error>
           </mat-form-field>
           <div class="project-create-popup__action text-right">
             <button (click)="!isLoading && onSubmit()" mat-raised-button color="primary">

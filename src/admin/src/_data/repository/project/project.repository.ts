@@ -56,7 +56,7 @@ export class ProjectRepository extends BaseRepository {
 
   public editProject(project: ProjectEntity) {
     const entity = new ProjectEntity(project);
-    return this.httpClient.patch(`${this.apiBaseUrl}/wp-json/onshop/v3/project/` + project.id, entity.toJson(), {
+    return this.httpClient.post(`${this.apiBaseUrl}/wp-json/onshop/v3/project/` + project.id, entity.toJson(), {
       headers: {
         Authorization: 'Bearer ' + this.token,
       },

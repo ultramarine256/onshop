@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { filter, finalize, takeUntil } from 'rxjs/operators';
+import { filter, finalize, takeUntil, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +16,7 @@ import { ProjectShowPopupComponent } from '@domain/modules/projects/project-show
 })
 export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   isLoading: boolean;
-
+  deleteOperation = false;
   projects: ProjectEntity[];
 
   constructor(
@@ -40,9 +40,13 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   }
 
   public onProjectDelete(id: number) {
+    this.deleteOperation = true;
     this.projectRepository
       .deleteProject(id)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        tap(() => (this.deleteOperation = false)),
+        takeUntil(this.destroy$)
+      )
       .subscribe(
         () => {},
         (error) => {

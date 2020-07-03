@@ -49,7 +49,7 @@ export class ProjectEditPopupComponent extends UnsubscribeMixin() implements OnI
       name: [this.data.project.name, [Validators.required]],
       description: [this.data.project.description, [Validators.required]],
       marketSegment: [this.data.project.marketSegment, [Validators.required]],
-      code: [this.data.project.code],
+      code: [this.data.project.code, [Validators.required]],
       address: [this.data.project.address],
       pricingMargin: [this.data.project.pricingMargin],
       estimatedStartDate: [this.data.project.estimatedStartDate, [Validators.required]],
