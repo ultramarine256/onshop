@@ -8,8 +8,8 @@
 
     <ng-container *ngIf="projects$ | async as projects; else loader">
       <div class="projects">
-        <div *ngIf="projects.length==0">
-hello
+        <div *ngIf="projects.length == 0">
+          User is included in 0 projects
         </div>
         <mat-accordion>
           <mat-expansion-panel class="my-1" *ngFor="let project of projects" [hideToggle]="!project.orders.length">
@@ -21,7 +21,7 @@ hello
                 </div>
                 <div class="w-50 d-none d-md-block">
                   <small *ngIf="project.description" style="line-height: 1;"
-                  >{{ project.description | slice: 0:100 }} {{(project.description.length > 100) ? '...' : ''}}</small
+                    >{{ project.description | slice: 0:100 }} {{ project.description.length > 100 ? '...' : '' }}</small
                   >
                 </div>
                 <div class="d-flex flex-column text-right w-25">
@@ -42,7 +42,7 @@ hello
                 <div class="projects__order-item">Order #{{ order.id }}</div>
                 <div class="projects__order-item">
                   <span *ngIf="order.billing.fistName"
-                  >{{ order.billing.fistName }} {{ order.billing.lastName }},
+                    >{{ order.billing.fistName }} {{ order.billing.lastName }},
                   </span>
                   <span *ngIf="order.billing.phone">phone: {{ order.billing.phone }}, </span>
                   {{ order.billing.email }}
