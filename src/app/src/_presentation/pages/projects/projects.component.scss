@@ -6,7 +6,10 @@
 
   .projects__item-title {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    height: auto;
+
+    //align-items: center;
 
     span {
       margin-right: 5px;

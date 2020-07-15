@@ -5,7 +5,17 @@
     *ngIf="isInProgress && !isFirstLoading"
     mode="query"
   ></mat-progress-bar>
-
+  <div class="container mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb my-2 bg-white">
+        <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/categories" class="text-decoration-none">Categories</a></li>
+        <li *ngIf="bredCrumbCategory" class="breadcrumb-item active" aria-current="page">
+          {{ categoryId ? bredCrumbCategory : 'All' }}
+        </li>
+      </ol>
+    </nav>
+  </div>
   <div class="container">
     <ng-container *ngIf="isFirstLoading">
       <div fxFlex="row" fxLayoutAlign="center center" class="inventory-page__spinner">

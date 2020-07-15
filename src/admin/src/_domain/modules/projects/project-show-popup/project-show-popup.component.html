@@ -13,11 +13,13 @@
       <dt class="col-sm-4 text-truncate">Segment:</dt>
       <dd class="col-sm-8">{{ data.project.marketSegment }}</dd>
       <dt class="col-sm-4 text-truncate">Address:</dt>
-      <dd class="col-sm-8">{{ data.project.address }}</dd>
+      <dd class="col-sm-8">{{ data.project.address ? data.project.address : '-' }}</dd>
       <dt class="col-sm-4 text-truncate">Start date:</dt>
       <dd class="col-sm-8">{{ data.project.estimatedStartDate | date: 'shortDate' }}</dd>
     </dl>
-    <div mat-dialog-title class="d-flex align-items-center">Existing users <mat-spinner class="ml-3" [diameter]="23" *ngIf="!usersDidLoaded"></mat-spinner></div>
+    <div mat-dialog-title class="d-flex align-items-center">
+      Existing users <mat-spinner class="ml-3" [diameter]="23" *ngIf="!usersDidLoaded"></mat-spinner>
+    </div>
     <table mat-table *ngIf="usersDidLoaded && existingUsers.length > 0" [dataSource]="existingUsers" class="users-table border rounded">
       <ng-container matColumnDef="Name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -37,6 +39,5 @@
     <div *ngIf="usersDidLoaded && existingUsers.length === 0">
       0 Users exists
     </div>
-
   </div>
 </div>

@@ -8,15 +8,26 @@
 
     <ng-container *ngIf="projects$ | async as projects; else loader">
       <div class="projects">
+        <div *ngIf="projects.length==0">
+hello
+        </div>
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let project of projects" [hideToggle]="!project.orders.length">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="projects__item-title">
-                <span
-                  ><b>{{ project.name }}</b>
-                </span>
-                <small *ngIf="project.description">{{ project.description }}</small>
-                <small *ngIf="project.code">code:{{ project.code }}</small>
+          <mat-expansion-panel class="my-1" *ngFor="let project of projects" [hideToggle]="!project.orders.length">
+            <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
+              <mat-panel-title class="projects__item-title py-3">
+                <div class="d-flex flex-column w-25">
+                  <b>{{ project.name }}</b>
+                  <small *ngIf="project.code">code:{{ project.code }}</small>
+                </div>
+                <div class="w-50 d-none d-md-block">
+                  <small *ngIf="project.description" style="line-height: 1;"
+                  >{{ project.description | slice: 0:100 }} {{(project.description.length > 100) ? '...' : ''}}</small
+                  >
+                </div>
+                <div class="d-flex flex-column text-right w-25">
+                  <small *ngIf="project.estimatedStartDate">{{ project.estimatedStartDate | date }}</small>
+                  <small *ngIf="project.estimatedStartDate">{{ project.address }}</small>
+                </div>
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -31,7 +42,7 @@
                 <div class="projects__order-item">Order #{{ order.id }}</div>
                 <div class="projects__order-item">
                   <span *ngIf="order.billing.fistName"
-                    >{{ order.billing.fistName }} {{ order.billing.lastName }},
+                  >{{ order.billing.fistName }} {{ order.billing.lastName }},
                   </span>
                   <span *ngIf="order.billing.phone">phone: {{ order.billing.phone }}, </span>
                   {{ order.billing.email }}

@@ -12,7 +12,7 @@ import {
   ProductSearchResult,
   CategoryRepository,
   SearchResultFilters,
-  TagModel,
+  TagModel
 } from '@data/index';
 import { UnsubscribeMixin } from '@shared/utils/unsubscribe-mixin';
 import { FilterDialogComponent } from '@presentation/inventory/filter-dialog/filter-dialog.component';
@@ -28,7 +28,7 @@ interface FilterState {
 @Component({
   selector: 'app-inventory-page',
   styleUrls: ['./inventory.component.scss'],
-  templateUrl: './inventory.component.html',
+  templateUrl: './inventory.component.html'
 })
 export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
   public filterUpdated$ = new Subject<{ productFilter: ProductFilter }>();
@@ -41,7 +41,8 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
   public tags: TagModel[];
   public isInProgress: boolean;
   public showTags: boolean;
-
+  public bredCrumbCategory: string;
+  public categoryId: number;
   public isFirstLoading = true;
 
   private element: HTMLElement;
@@ -64,14 +65,16 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
       if (!params.categoryId) {
         this.showTags = true;
       }
+      this.categoryId = params.categoryId;
       // Initiate state for filters
       this.filterState = {
         productFilter: new ProductFilter({
           page: this.activatedRoute.snapshot.queryParams?.page || 1,
           category: !params.categoryId ? '' : params.categoryId,
-          per_page: this.itemsPerPage.value,
-        }),
+          per_page: this.itemsPerPage.value
+        })
       };
+
       this.filterUpdated$.next(this.filterState);
     });
 
@@ -106,6 +109,8 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
         const maxPrice = 5000;
         this.filters = { minPrice, maxPrice };
         this.searchResult = data;
+        this.bredCrumbCategory = this.searchResult.items[0].categories[0].name;
+        //
       });
   }
 
@@ -145,7 +150,7 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
 
   private updateUrl(productFilter: FilterState) {
     this.router.navigate([], {
-      queryParams: { page: productFilter.productFilter.page },
+      queryParams: { page: productFilter.productFilter.page }
     });
   }
 
@@ -167,7 +172,7 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
 
   public openFilters() {
     const dialogRef = this.dialog.open(FilterDialogComponent, {
-      width: '300px',
+      width: '300px'
     });
     dialogRef.componentInstance.filters = this.filters;
     dialogRef.componentInstance.tags = this.tags;

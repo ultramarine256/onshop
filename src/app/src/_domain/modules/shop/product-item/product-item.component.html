@@ -1,6 +1,6 @@
 <div class="product-item p-3">
   <div class="category">{{ product.firstCategory.name }}</div>
-  <a class="title text-decoration-none" [routerLink]="baseUrl + '/' + product.slug">
+  <a class="title text-decoration-none text-center mb-1" [routerLink]="baseUrl + '/' + product.slug">
     {{ getFormattedProductTitle(product.name) }}
   </a>
   <a class="image" [routerLink]="baseUrl + '/' + product.slug">
