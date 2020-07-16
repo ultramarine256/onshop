@@ -51,7 +51,7 @@
             <button mat-menu-item (click)="openProjectEditPopup(element)">Edit</button>
             <button mat-menu-item (click)="onProjectDelete(element.id)">Delete</button>
           </mat-menu>
-          <button [disabled]="deleteOperation" mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
+          <button [disabled]="actionInProcess" mat-icon-button [matMenuTriggerFor]="appMenu" color="primary">
             <mat-icon>more_vert</mat-icon>
           </button>
         </td>

@@ -16,7 +16,7 @@ import { ProjectShowPopupComponent } from '@domain/modules/projects/project-show
 })
 export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   isLoading: boolean;
-  deleteOperation = false;
+  actionInProcess = false;
   projects: ProjectEntity[];
 
   constructor(
@@ -40,11 +40,11 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   }
 
   public onProjectDelete(id: number) {
-    this.deleteOperation = true;
+    this.actionInProcess = true;
     this.projectRepository
       .deleteProject(id)
       .pipe(
-        tap(() => (this.deleteOperation = false)),
+        tap(() => (this.actionInProcess = false)),
         takeUntil(this.destroy$)
       )
       .subscribe(
