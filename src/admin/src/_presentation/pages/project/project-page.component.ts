@@ -12,12 +12,12 @@ import { ProjectShowPopupComponent } from '@domain/modules/projects/project-show
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
-  styleUrls: ['./project-page.component.scss'],
+  styleUrls: ['./project-page.component.scss']
 })
 export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   isLoading: boolean;
   actionInProcess = false;
-  projects: ProjectEntity[];
+  projects: ProjectEntity[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -36,7 +36,11 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
         finalize(() => (this.isLoading = false)),
         takeUntil(this.destroy$)
       )
-      .subscribe((items) => (this.projects = items));
+      .subscribe((items) => {
+        this.projects = items;
+        console.log(items);
+      });
+
   }
 
   public onProjectDelete(id: number) {
@@ -48,18 +52,19 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe(
-        () => {},
+        () => {
+        },
         (error) => {
           if (error.status === 200) {
             this.infoMessage.open('there are still some users in the project', null, {
-              duration: 2000,
+              duration: 2000
             });
           }
         },
         () => {
           this.projects = this.projects.filter((project) => project.id !== id);
           this.infoMessage.open('Project deleted', null, {
-            duration: 2000,
+            duration: 2000
           });
         }
       );
@@ -67,7 +72,7 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
 
   openProjectCreatePopup() {
     const dialogRef = this.dialog.open(ProjectCreatePopupComponent, {
-      width: '500px',
+      width: '500px'
     });
 
     dialogRef
@@ -84,7 +89,7 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   openProjectEditPopup(project: ProjectEntity) {
     const dialogRef = this.dialog.open(ProjectEditPopupComponent, {
       width: '500px',
-      data: { project },
+      data: { project }
     });
     dialogRef
       .afterClosed()
@@ -100,7 +105,7 @@ export class ProjectPageComponent extends UnsubscribeMixin() implements OnInit {
   openProjectPopup(project: ProjectEntity) {
     this.dialog.open(ProjectShowPopupComponent, {
       width: '500px',
-      data: { project },
+      data: { project }
     });
   }
 }
