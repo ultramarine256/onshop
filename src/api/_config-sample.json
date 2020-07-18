@@ -1,0 +1,17 @@
+{
+  "dbhost": "DB_HOST",
+  "dbname": "DB_NAME",
+  "dbusername": "DB_USER",
+  "dbpassword": "DB_PASS",
+  "use-debug": false,
+  "admin-url": "https://admin.xolutionz.com",
+
+  "auth": {
+    "secret-sign-key": "YOUR_SECRET_SIGN_KEY",
+    "secret-enc-key": "YOUR_SECRET_ENC_KEY",
+    "issuer-claim": "YOUR_ISSUER_CLAIM",
+    "audience-claim": "THE_AUDIENCE",
+    "token-validation-delay-sec": 0,
+    "token-expiration-interval-sec": 180000
+  }
+}
