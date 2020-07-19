@@ -1,4 +1,4 @@
-<!-- build-counter: -build.counter- -->
+<!-- build-counter: %build.counter% -->
 <!doctype html>
 <html lang="en">
 <head>

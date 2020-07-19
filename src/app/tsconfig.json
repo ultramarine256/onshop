@@ -19,10 +19,6 @@
       "dom"
     ],
     "paths": {
-      "@data/*": ["src/_data/*"],
-      "@domain/*": ["src/_domain/*"],
-      "@presentation/*": ["src/_presentation/*"],
-      "@shared/*": ["src/_shared/*"]
     }
   },
   "angularCompilerOptions": {
