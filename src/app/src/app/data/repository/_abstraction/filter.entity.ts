@@ -1,5 +1,4 @@
 export abstract class FilterEntity {
-  /// mappers
   public asQueryString(): string {
     const obj = {} as any;
     for (const key of Object.keys(this)) {
@@ -11,7 +10,6 @@ export abstract class FilterEntity {
     return this._buildQueryString(obj);
   }
 
-  /// helpers
   private _buildQueryString(parameters: any): string {
     let qs = '';
     for (const key in parameters) {

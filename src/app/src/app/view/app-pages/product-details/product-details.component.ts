@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { OWL_CAROUSEL, UnsubscribeMixin } from '../../../core';
 import { ProductFilter, ProductModel, ProductRepository } from '../../../data';
 import { CartItemEntity, CartService, ProductService } from '../../../domain';
-import { AppMapper } from '../../_mapper/app-mapper';
+import { AppMapper } from '../../_mapper';
 
 @Component({
   selector: 'app-product-details',

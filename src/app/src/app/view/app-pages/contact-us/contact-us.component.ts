@@ -9,13 +9,10 @@ import { InfoService } from '../../../domain';
   templateUrl: './contact-us.component.html',
 })
 export class ContactUsComponent implements AfterContentInit {
-  /// fields
   private _googleMap: any;
 
-  /// predicates
   public googleMapDidLoaded = false;
 
-  /// constructor
   constructor(public infoService: InfoService) {}
 
   ngAfterContentInit(): void {
@@ -49,7 +46,6 @@ export class ContactUsComponent implements AfterContentInit {
     });
   }
 
-  /// helpers
   private appendGoogleMapsScriptToHeader(callback: () => void) {
     if (!window.document.querySelector(`.${GOOGLE_MAP_CONSTANTS.SCRIPT_CLASS}`)) {
       const script = window.document.createElement('script');
@@ -77,6 +73,4 @@ export class ContactUsComponent implements AfterContentInit {
       }
     });
   }
-
-  public getFormProperties(formValue: FormGroup) {}
 }
