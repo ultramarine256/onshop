@@ -182,12 +182,13 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 						foreach ($projects as $project) {
 						     $filteredOrders = array_filter($orders, function($order) use ($project) {
                                 $contain = false;
-                                foreach ($order->meta_data as $metaData) {
-                                    $data = $metaData->get_data();
-                                    if ($data['key'] === 'project-number' && $data['value'] === $project->name) {
-                                        $contain = true;
-                                    }
-                                }
+                                  // TODO: throws an exception in WC > 3.0
+//                                foreach ($order->meta_data as $metaData) {
+//                                    $data = $metaData->get_data();
+//                                    if ($data['key'] === 'project-number' && $data['value'] === $project->name) {
+//                                        $contain = true;
+//                                    }
+//                                }
                                 return $contain;
                              });
 

@@ -12,7 +12,6 @@ export class ProjectEntity {
     Object.assign(this as any, init);
   }
 
-  // mapper
   public mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;
@@ -33,7 +32,7 @@ export class ProjectEntity {
       code: this.code,
       address: this.address,
       pricing_margin: this.pricingMargin,
-      estimated_start_date: this.estimatedStartDate.getTime()
+      estimated_start_date: this.estimatedStartDate.getTime(),
     };
   }
 }

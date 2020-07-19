@@ -48,7 +48,6 @@ export class CheckoutComponent extends UnsubscribeMixin() implements OnInit {
   public isLoading: boolean;
   public isSubmitInProgress: boolean;
 
-  /// constructor
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
