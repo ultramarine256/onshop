@@ -1,0 +1,80 @@
+<div class="cart-page">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb my-2 bg-white">
+        <li class="breadcrumb-item"><a routerLink="/" class="text-decoration-none">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+      </ol>
+    </nav>
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="container mb-3">
+      <div class="d-flex bg-light justify-content-center align-items-center" style="height: 300px;">
+        <h3>Cart is empty</h3>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="container mb-3" *ngIf="cartForm.controls['products']['controls'].length; else emptyCart">
+    <form [formGroup]="cartForm">
+      <div formArrayName="products">
+        <div
+          class="d-flex flex-row w-100 py-3 border-bottom form-group"
+          *ngFor="let product of cartForm.controls['products']['controls']; let i = index"
+        >
+          <div class="d-flex align-items-center pr-3">
+            <i
+              class="icon material-icons-outlined cursor-pointer text-secondary"
+              (click)="removeProduct(product.value.uid, i)"
+              >close</i
+            >
+          </div>
+          <div class="cart__image">
+            <img
+              #img
+              [src]="product.value.imageUrl"
+              style="height: 60px;"
+              (error)="img.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + product.value.title"
+            />
+          </div>
+
+          <div class="d-flex align-items-center flex-grow-1">
+            <a [routerLink]="'/product/' + product.value.slug" class="order__product-link"
+              >{{ product.value.title }} 123
+            </a>
+          </div>
+
+          <div class="cart-page__info">
+            <ng-container *ngIf="!product.value.duration">
+              <div class="cart-page__info-price">
+                {{ getPriceForSale(product.value.price, product.value.count) | currency }}
+              </div>
+              &nbsp;x&nbsp;
+              <mat-icon (click)="decreaseCounter(product.controls.count)">remove_circle</mat-icon>
+              <mat-form-field *ngIf="!product.value.duration" class="cart-page__form-field">
+                <input matInput type="number" [formControl]="product.controls.count" [min]="1" />
+              </mat-form-field>
+              <mat-icon (click)="increaseCounter(product.controls.count)">add_circle</mat-icon>
+            </ng-container>
+
+            <ng-container *ngIf="product.value.duration">
+              <div>
+                {{ getPriceForRent(product.value.rentRates, product.value.duration) | currency }}
+              </div>
+              &nbsp;for&nbsp;
+              <span class="mx-1" [innerHTML]="product.value.duration"></span>
+              <div>days</div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="cart__total">Total: {{ totalPrice | currency }}</div>
+
+        <div class="cart-page__action">
+          <button mat-raised-button color="primary" (click)="proceedToCheckout()">Proceed to checkout</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

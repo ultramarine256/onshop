@@ -1,0 +1,42 @@
+.inventory-filters {
+  background-color: #eeeeee;
+  min-height: 300px;
+  .inventory-filters__title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dadada;
+  }
+
+  .inventory-filters__filter-title {
+    cursor: pointer;
+    display: flex;
+    padding: 5px;
+    margin-bottom: 5px;
+    justify-content: space-between;
+  }
+
+  .inventory-filters__item {
+    margin-bottom: 20px;
+
+    &.inventory-filters__item--tags {
+      @media only screen and (max-width: 600px) {
+        display: none;
+      }
+    }
+  }
+
+  .inventory-filters__form-field {
+    width: 40%;
+  }
+
+  .inventory-filters__stock-status-field {
+    width: 100%;
+  }
+
+  .inventory-filters__chip {
+    height: auto;
+    cursor: pointer;
+    word-break: break-word;
+  }
+}

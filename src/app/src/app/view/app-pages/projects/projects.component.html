@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="projects">
+    <ng-template #loader>
+      <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+
+    <ng-container *ngIf="projects$ | async as projects; else loader">
+      <div class="projects">
+        <ng-container *ngFor="let project of projects; let i = index">
+          <a [routerLink]="['/projects', project.id]" class="projects__item">
+            <div class="projects__item-info">
+              <div>
+                <b>{{ project.name }}</b>
+              </div>
+              <div>
+                <small *ngIf="project.estimatedStartDate">Start date: {{ project.estimatedStartDate | date }}</small>
+              </div>
+              <div>
+                <small *ngIf="project.marketSegment">Market segment: {{ project.marketSegment }}</small>
+              </div>
+            </div>
+          </a>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>

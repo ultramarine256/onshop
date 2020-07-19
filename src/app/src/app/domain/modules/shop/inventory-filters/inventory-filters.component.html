@@ -1,0 +1,26 @@
+<form [formGroup]="filterForm" class="inventory-filters p-2">
+  <h5>Filters</h5>
+  <div class="inventory-filters__item">
+    <h6 class="inventory-filters__title">Type</h6>
+    <div>
+      <mat-checkbox formControlName="forRent">For rent</mat-checkbox>
+    </div>
+  </div>
+
+  <ng-template #emptyFilterMessage>
+    Product filters
+  </ng-template>
+
+  <div class="inventory-filters__item inventory-filters__item--tags" *ngIf="showTags; else emptyFilterMessage">
+    <h6 class="inventory-filters__title">Tags</h6>
+    <mat-chip-list aria-label="Tags">
+      <mat-chip
+        class="inventory-filters__chip"
+        [selected]="selectedTag && selectedTag.id === tag.id"
+        (click)="selectTag(tag)"
+        *ngFor="let tag of tags"
+        >{{ tag.name }}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+</form>

@@ -1,0 +1,35 @@
+.project {
+  .project__content {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+
+  .project__title {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .project__order {
+    display: flex;
+    min-width: 500px;
+    padding: 10px 10px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .project__order-item {
+      display: flex;
+      padding: 0 10px;
+      span {
+        margin-right: 5px;
+      }
+    }
+  }
+}

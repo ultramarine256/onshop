@@ -323,7 +323,6 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 			)
 		);
 
-		// project/:id/users
 		register_rest_route(
 			$this->namespace,
 			'project/(?P<id>\d+)/users',
@@ -403,13 +402,6 @@ class ONSHOP_REST_Projects_Controller extends WC_REST_CRUD_Controller {
 					$result = ONSHOP_AUTH::verify_auth();
 
 					if ( ! $result ) {
-						return false;
-					}
-
-					$user          = wp_get_current_user();
-					$allowed_roles = [ 'administrator','shop_manager'];
-
-					if ( ! array_intersect( $allowed_roles, $user->roles ) ) {
 						return false;
 					}
 
