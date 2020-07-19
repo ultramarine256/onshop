@@ -6,6 +6,7 @@ export class ProductFilter extends FilterEntity {
   include: string; // array of ints
   category: number;
   page: number;
+  // TODO: rename properties by convention (without '_')
   per_page: number;
   order: string;
   orderby: string;

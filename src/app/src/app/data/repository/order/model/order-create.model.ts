@@ -1,5 +1,4 @@
 import { CustomOrderFields } from '../enum';
-import { DateExtensions, ObjectExtensions } from '../../../../core';
 
 export class OrderCreateModel {
   public customerId: number;
@@ -240,4 +239,23 @@ export enum OrderStatus {
   InRent = 'in-rent',
   Completed = 'completed',
   Cancelled = 'cancelled',
+}
+
+class ObjectExtensions {
+  static clean(obj) {
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] && typeof obj[key] === 'object') {
+        ObjectExtensions.clean(obj[key]);
+      } // recurse
+      else if (obj[key] == null) {
+        delete obj[key];
+      } // delete
+    });
+  }
+}
+
+class DateExtensions {
+  static monthDayYear(date: Date): string {
+    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+  }
 }

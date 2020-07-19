@@ -4,10 +4,8 @@ export class RepositoryConfigurator {
   /// singleton
   private static _instance: RepositoryConfigurator;
 
-  /// fields
   public apiBaseUrl = environment.apiBaseUrl;
 
-  /// constructor
   private constructor() {}
 
   public static get Instance() {

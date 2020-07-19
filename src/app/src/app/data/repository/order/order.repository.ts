@@ -13,7 +13,6 @@ export class OrderRepository extends BaseRepository {
     super();
   }
 
-  /// methods
   public placeOrder(woocommerceOrder: {}): Observable<OrderResponse> {
     return this.httpClient.post<OrderCreateModel>(`${this.apiBaseUrl}/wp-json/onshop/v3/order`, woocommerceOrder).pipe(
       map((dto) => {

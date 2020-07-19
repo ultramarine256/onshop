@@ -1,13 +1,11 @@
 import { ProductModel } from '../models';
 
 export class ProductSearchResult {
-  /// fields
   items: ProductModel[];
   totalCount: number;
   page: number;
   totalPages: number;
 
-  /// constructor
   constructor(init?: Partial<ProductSearchResult>) {
     this.items = [];
     Object.assign(this as any, init);
@@ -15,11 +13,9 @@ export class ProductSearchResult {
 }
 
 export class SearchResultFilters {
-  /// fields
   filterItems: Array<FilterItem>;
   price: PricingFilter;
 
-  /// constructor
   constructor(init?: Partial<SearchResultFilters>) {
     this.filterItems = [];
     this.price = new PricingFilter();

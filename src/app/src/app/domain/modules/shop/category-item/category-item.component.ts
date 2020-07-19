@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CategoryModel } from '../../../../data';
 
 @Component({
@@ -6,10 +6,6 @@ import { CategoryModel } from '../../../../data';
   styleUrls: ['./category-item.component.scss'],
   templateUrl: './category-item.component.html',
 })
-export class CategoryItemComponent implements OnInit {
+export class CategoryItemComponent {
   @Input() category: CategoryModel;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

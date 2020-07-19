@@ -1,4 +1,3 @@
-import { RentRates } from '../../../../domain';
 import { environment } from '../../../../../environments/environment';
 
 export class ProductModel {
@@ -201,3 +200,15 @@ export const PRODUCT_ATTRIBUTE_NAMES = {
   RENT_PRICE_WEEK: 'rent__per-week',
   RENT_PRICE_MONTH: 'rent__per-month',
 };
+
+export class RentRates {
+  public pricePerDay: number;
+  public pricePerWeek: number;
+  public pricePerMonth: number;
+
+  constructor(pricePerDay?: number, pricePerWeek?: number, pricePerMonth?: number) {
+    this.pricePerDay = pricePerDay;
+    this.pricePerWeek = pricePerWeek;
+    this.pricePerMonth = pricePerMonth;
+  }
+}

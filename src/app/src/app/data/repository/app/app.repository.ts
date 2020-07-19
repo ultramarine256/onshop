@@ -10,12 +10,10 @@ import { BaseRepository } from '../base.repository';
   providedIn: 'root',
 })
 export class AppRepository extends BaseRepository {
-  /// constructor
   constructor(private httpClient: HttpClient) {
     super();
   }
 
-  /// methods
   public appInfo(): Observable<AppInfoModel> {
     return this.httpClient.get<AppInfoModel>(`${this.apiBaseUrl}/wp-json/app/info`).pipe(
       map((x) => {

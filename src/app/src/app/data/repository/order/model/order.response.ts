@@ -1,9 +1,8 @@
-import { CustomOrderFields } from '../enum/custom-order-fields.enum';
+import { CustomOrderFields } from '../enum';
 
-import { BillingModel, ShippingModel } from '../model/order-create.model';
+import { BillingModel, ShippingModel } from './order-create.model';
 
 export class OrderResponse {
-  /// fields
   id: number;
   orderKey: string;
   status: string;
@@ -12,6 +11,8 @@ export class OrderResponse {
   total: string;
   billing: BillingModel;
   shipping: ShippingModel;
+
+  // TODO: rename field by convention
   meta_data: any;
   line_items: any;
   deliveryDate: Date;
@@ -20,7 +21,6 @@ export class OrderResponse {
   projectNumber: string;
   productItems: ProductItem[];
 
-  /// constructor
   constructor(init?: Partial<OrderResponse>) {
     this.deliveryDate = new Date();
     this.dateCreated = new Date();
@@ -28,7 +28,6 @@ export class OrderResponse {
     Object.assign(this as any, init);
   }
 
-  /// mapper
   public mapFromDto(dto: any) {
     const shipping = new ShippingModel();
     shipping.mapFromDto(dto.shipping);

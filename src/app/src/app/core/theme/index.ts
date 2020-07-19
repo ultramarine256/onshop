@@ -1,3 +1,4 @@
+export * from './_devextreme';
 export * from './_material';
 export * from './_third-party';
 

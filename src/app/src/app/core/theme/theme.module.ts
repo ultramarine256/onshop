@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DevExtremeThemeModule } from './_devextreme';
 import { MaterialThemeModule } from './_material';
 import { ThirdPartyThemeModule } from './_third-party';
 import { BreadcrumbsModule } from './breadcrumbs';
@@ -11,6 +12,7 @@ import { PromptModule } from './prompt';
 @NgModule({
   declarations: [],
   imports: [
+    DevExtremeThemeModule,
     MaterialThemeModule,
     ThirdPartyThemeModule,
 
@@ -22,6 +24,7 @@ import { PromptModule } from './prompt';
     PromptModule,
   ],
   exports: [
+    DevExtremeThemeModule,
     MaterialThemeModule,
     ThirdPartyThemeModule,
 

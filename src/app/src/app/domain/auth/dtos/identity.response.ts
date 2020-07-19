@@ -6,7 +6,6 @@ export class IdentityResponse {
   public username: string;
   public dateCreated: Date;
 
-  /// constructor
   constructor(init?: Partial<IdentityResponse>) {
     Object.assign(this as any, init);
   }

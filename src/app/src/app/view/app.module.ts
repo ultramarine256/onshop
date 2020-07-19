@@ -4,13 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ExtendedModule, FlexModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRouting } from './app.routing';
 import { AuthInterceptor, PwaService } from '../domain';
 import { ThemeModule } from '../core';
 import { environment } from '../../environments/environment';
-import { PagesModule } from './pages/pages.module';
 
 const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt();
 
@@ -26,11 +24,8 @@ const initializer = (pwaService: PwaService) => () => pwaService.initPwaPrompt()
     /// core
     ThemeModule,
 
-    /// view
-    PagesModule,
-
     /// routing
-    AppRoutingModule,
+    AppRouting,
 
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,

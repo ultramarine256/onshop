@@ -10,8 +10,6 @@ export class ProductItemComponent {
   @Input() product: ProductModel;
   @Input() baseUrl: string;
 
-  constructor() {}
-
   public getFormattedProductTitle(title: string): string {
     return title
       .toLowerCase()

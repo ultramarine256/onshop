@@ -1,5 +1,5 @@
 import { v1 as uuidv1 } from 'uuid';
-import { ProductModel } from '../../../data';
+import { ProductModel, RentRates } from '../../../data';
 
 export abstract class CartItemEntity {
   public uid: string;
@@ -44,17 +44,5 @@ export class CartItemForSaleEntity extends CartItemEntity {
     super(entity);
 
     this.count = count;
-  }
-}
-
-export class RentRates {
-  public pricePerDay: number;
-  public pricePerWeek: number;
-  public pricePerMonth: number;
-
-  constructor(pricePerDay?: number, pricePerWeek?: number, pricePerMonth?: number) {
-    this.pricePerDay = pricePerDay;
-    this.pricePerWeek = pricePerWeek;
-    this.pricePerMonth = pricePerMonth;
   }
 }

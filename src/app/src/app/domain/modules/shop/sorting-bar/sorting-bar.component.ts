@@ -26,10 +26,6 @@ export class SortingBarComponent extends UnsubscribeMixin() implements OnInit {
 
   @Output() sortTypeChanged = new EventEmitter<SortingOption>();
 
-  constructor() {
-    super();
-  }
-
   ngOnInit() {
     this.sortControl = new FormControl('default');
     this.sortControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
