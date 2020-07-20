@@ -5,11 +5,11 @@
 */
 
 #wpfooter {
-    display: none;
+  display: none;
 }
 
 #footer-left {
-    display: none;
+  display: none;
 }
 
 /**
@@ -25,11 +25,11 @@
 #dashboard_activity,
 #dashboard_primary,
 #screen-meta-links {
-    display: none !important;
+  display: none !important;
 }
 
-li:nth-last-child(-n+2) {
-    color: red;
+li:nth-last-child(-n + 2) {
+  color: red;
 }
 
 /**
@@ -39,7 +39,7 @@ li:nth-last-child(-n+2) {
 */
 
 #preview-action {
-    display: none;
+  display: none;
 }
 
 /**
@@ -49,7 +49,7 @@ li:nth-last-child(-n+2) {
 */
 
 #edit-slug-box {
-    display: none;
+  display: none;
 }
 
 /**
@@ -59,7 +59,7 @@ li:nth-last-child(-n+2) {
 */
 
 .row-actions .view {
-    display: none;
+  display: none;
 }
 
 /**
@@ -69,7 +69,7 @@ li:nth-last-child(-n+2) {
 */
 
 #woocommerce-order-downloads {
-    display: none;
+  display: none;
 }
 
 /**
@@ -79,7 +79,7 @@ li:nth-last-child(-n+2) {
 */
 
 #order_data .form-field.form-field-wide.wc-customer-user a:nth-child(2) {
-    display: none;
+  display: none;
 }
 
 /**
@@ -89,7 +89,7 @@ li:nth-last-child(-n+2) {
 */
 
 #adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image::before {
-    content: '\e01d';
+  content: '\e01d';
 }
 
 /**
@@ -99,7 +99,7 @@ li:nth-last-child(-n+2) {
 */
 
 #wp-admin-bar-view-store {
-    display: none;
+  display: none;
 }
 
 /**
@@ -108,7 +108,7 @@ li:nth-last-child(-n+2) {
 * ------------------------------------------------------------------------
 */
 .update-nag {
-    display: none !important;
+  display: none !important;
 }
 
 /**
@@ -117,13 +117,12 @@ li:nth-last-child(-n+2) {
 * ------------------------------------------------------------------------
 */
 .wc-order-item-discount {
-    display: none !important;
+  display: none !important;
 }
 
-.discount{
-    display: none !important;
+.discount {
+  display: none !important;
 }
-
 
 /**
  * Hide order actions
@@ -133,65 +132,74 @@ li:nth-last-child(-n+2) {
 /*}*/
 
 #list-table {
-    display: none!important;
+  display: none !important;
 }
 
 #adminmenu #toplevel_page_wc-admin-path--analytics-revenue {
-    display: none!important;
+  display: none !important;
 }
 
 #woocommerce-order-actions.hide-if-js {
-    display: block!important;
+  display: block !important;
 }
 
 #woocommerce-order-actions #actions {
-    display: none!important;
+  display: none !important;
 }
 
 #delete-action {
-    display: none!important;
+  display: none !important;
 }
 
 #order_actions {
-    display: none!important;
+  display: none !important;
 }
 
 #save-order {
-    width: 100%!important;
+  width: 100% !important;
 }
 
 #adminmenu #toplevel_page_wc-admin-path--marketing {
-    display: none!important;
+  display: none !important;
 }
 
 .woocommerce-order-data__meta.order_number {
-    display: none!important;
+  display: none !important;
 }
 
 #wp-admin-bar-site-name {
-    display: none!important;
+  display: none !important;
 }
 
 #menu-media {
-    display: none!important;
+  display: none !important;
 }
 
 #redux_dashboard_widget {
-    display: none;
+  display: none;
 }
 
 #toplevel_page_woocommerce ul li:nth-child(2) {
-    display: none!important;
+  display: none !important;
 }
 
 #toplevel_page_woocommerce ul li:last-child {
-    display: none!important;
+  display: none !important;
 }
 
-#activity-panel-tab-inbox, #activity-panel-tab-orders {
-    display: none!important;
+#activity-panel-tab-inbox,
+#activity-panel-tab-orders {
+  display: none !important;
 }
 
 .wc-order-data-row-toggle button {
-    display: none!important;
+  display: none !important;
+}
+
+/*
+  Hide customers tab
+  TODO: It is a dirty hack, we need a better approach
+*/
+.wp-submenu.wp-submenu-wrap li:nth-child(4) {
+  display: none !important;
 }
