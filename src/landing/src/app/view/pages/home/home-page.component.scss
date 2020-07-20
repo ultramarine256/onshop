@@ -1,8 +1,43 @@
-/**
-* ------------------------------------------------------------------------
-* Hero
-* ------------------------------------------------------------------------
-*/
+.section {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.section--main {
+    height: calc(100vh - 100px);
+  }
+  &.section--light {
+    background-color: #f8f9fa;
+  }
+
+  .section__title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+
+.shop-example {
+  max-width: 600px;
+  display: flex;
+  margin: auto;
+
+  img {
+    width: 100%;
+  }
+}
+
+.main-image {
+  max-width: 300px;
+}
+
+.technology {
+  h3 {
+    font-weight: 500;
+  }
+}
+
 .first-section {
   position: relative;
   min-height: calc(100vh - 65px);
@@ -72,6 +107,11 @@
   border: 0;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  }
 
   .card-body {
     flex: 1 1 auto;
