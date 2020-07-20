@@ -8,6 +8,7 @@ import { AuthGuard, NoAuthGuard } from '../../domain';
 import { LoginComponent } from './login';
 import { AuthRoutingModule } from './auth-pages.routing';
 import { AuthPagesComponent } from './auth-pages.component';
+import { FooterModule } from '../../core/theme/footer';
 
 @NgModule({
   declarations: [AuthPagesComponent, LoginComponent],
@@ -20,6 +21,7 @@ import { AuthPagesComponent } from './auth-pages.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    FooterModule,
 
     /// routing
     AuthRoutingModule,

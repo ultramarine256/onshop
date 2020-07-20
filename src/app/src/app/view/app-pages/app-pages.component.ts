@@ -2,10 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { catchError, finalize, map, takeUntil } from 'rxjs/operators';
-import { EMPTY, forkJoin } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { UnsubscribeMixin } from '../../core';
 import { CartService, AppInfo, InfoService, AuthService } from '../../domain';
-import { ProductRepository, AppInfoModel, AppRepository, CategoryRepository, UserRepository } from '../../data';
+import { ProductRepository, AppRepository, CategoryRepository, UserRepository } from '../../data';
 
 export class CategoryMenuModel {
   id: string;
@@ -32,7 +32,9 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
   @Output() inputChanged = new EventEmitter<string>();
   @Output() productChosen = new EventEmitter<string>();
 
-  public navigationMenu: CategoryMenuModel[] = [];
+  public navigationMenu$ = this.categoryRepository.categories$.pipe(
+    map((categories) => categories.map((category) => new CategoryMenuModel(category)))
+  );
   public panelOpenState: boolean;
   public showCategories: boolean;
   public showSidenav: boolean;
@@ -69,17 +71,24 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
       )
       .subscribe();
 
-    forkJoin([this.appRepository.appInfo(), this.categoryRepository.getCategories()])
+    this.categoryRepository
+      .getCategories()
       .pipe(
-        map(([appInfoModel, categories]) => {
-          return [appInfoModel, categories.map((category) => new CategoryMenuModel(category))];
-        }),
+        map((categories) => categories.map((category) => new CategoryMenuModel(category))),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+
+    this.appRepository
+      .appInfo()
+      .pipe(
+        map((appInfoModel) => appInfoModel),
         finalize(() => {
           this.infoIsLoading = false;
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe(([appInfoModel, categories]: [AppInfoModel, CategoryMenuModel[]]) => {
+      .subscribe((appInfoModel) => {
         this.infoService.setAppInfo(
           new AppInfo({
             address: appInfoModel.address,
@@ -91,7 +100,6 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
             deliveryDuration: appInfoModel.deliveryDuration,
           })
         );
-        this.navigationMenu = categories;
       });
   }
 
@@ -112,5 +120,10 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
 
   public get isLoading(): boolean {
     return this.infoIsLoading && this.userIsLoading;
+  }
+
+  public logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+
 import { InventoryFiltersComponent } from '../../../../domain';
 import { TagModel } from '../../../../data';
 
@@ -12,7 +13,6 @@ export class FilterDialogComponent {
   @ViewChild(InventoryFiltersComponent, { static: false })
   private inventoryFiltersComponent: InventoryFiltersComponent;
 
-  public filters: { minPrice: number; maxPrice: number };
   public tags: TagModel[];
 
   constructor(private matDialogRef: MatDialogRef<FilterDialogComponent>) {}

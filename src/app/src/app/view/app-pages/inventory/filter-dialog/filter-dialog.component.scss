@@ -1,5 +1,9 @@
 .filter-dialog {
-  background-color: #eeeeee;
+  .filter-dialog__filters {
+    display: block;
+    margin-bottom: 20px;
+  }
+
   .filter-dialog__submit-button {
     width: 100%;
   }
