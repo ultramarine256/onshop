@@ -1,4 +1,4 @@
-<div class="product-item p-3">
+<div class="product-item">
   <div class="category">{{ product.firstCategory.name }}</div>
   <a class="title text-decoration-none" [routerLink]="baseUrl + '/' + product.slug">
     {{ getFormattedProductTitle(product.name) }}
@@ -11,15 +11,14 @@
       (error)="img.src = 'https://placeholder.pics/svg/300/f8f9fa/000000-f8f9fa/' + product.name"
     />
   </a>
-  <div class="price-options bg-light text-secondary w-100 mt-2">
-    <div class="price-item d-flex justify-content-center">
-      <span *ngIf="product.price" class="price-title font-weight-500 text-center">Purchase</span>
-      <span [class.d-none]="product.price" class="price-title font-weight-500 text-center">Only rent</span>
+  <div class="price-options bg-light text-secondary w-100 mt-3">
+    <div class="price-item" *ngIf="product.price">
+      <span class="price-title font-weight-500 text-center">Purchase</span>
       <span class="price-details text-center">
         {{ product.price | currency }}
       </span>
     </div>
-    <div class="price-item d-flex border-left justify-content-center" *ngIf="product.availableForRent">
+    <div class="price-item" *ngIf="product.availableForRent">
       <span class="price-title font-weight-500 text-center">Rent</span>
       <span class="price-details pl-2">
         {{ product.rentRates.pricePerDay ? '$' + product.rentRates.pricePerDay + '/day' : '' }}

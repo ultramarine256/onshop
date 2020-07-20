@@ -35,9 +35,15 @@ export class SortingBarComponent extends UnsubscribeMixin() implements OnInit {
 
     this.sortingOptions = [
       {
-        name: 'default',
-        property: 'default',
-        title: 'Default',
+        name: 'title',
+        property: 'asc',
+        title: 'Title a-z',
+        visible: true,
+      },
+      {
+        name: 'title',
+        property: 'desc',
+        title: 'Title z-a',
         visible: true,
       },
       {
@@ -50,18 +56,6 @@ export class SortingBarComponent extends UnsubscribeMixin() implements OnInit {
         name: 'price',
         property: 'asc',
         title: 'Price asc',
-        visible: true,
-      },
-      {
-        name: 'arrived',
-        property: 'desc',
-        title: 'Arrived desc',
-        visible: true,
-      },
-      {
-        name: 'arrived',
-        property: 'asc',
-        title: 'Arrived asc',
         visible: true,
       },
     ];

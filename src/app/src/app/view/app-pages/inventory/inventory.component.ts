@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, filter, finalize, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { delay, distinctUntilChanged, filter, finalize, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
+
 import { UnsubscribeMixin } from '../../../core';
 import {
   CategoryModel,
@@ -33,11 +34,12 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
   public searchResult = new ProductSearchResult();
   public category: CategoryModel = new CategoryModel();
   public filter: SearchResultFilters;
-  public itemsPerPage = new FormControl(25);
-  public filters: { minPrice: number; maxPrice: number };
+  public itemsPerPage = new FormControl(50);
+  public availableItemsPerPage = [50, 100, 200];
   public tags: TagModel[];
   public isInProgress: boolean;
   public showTags: boolean;
+  public tagsLoaded: boolean;
 
   public isFirstLoading = true;
 
@@ -67,6 +69,8 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
           page: this.activatedRoute.snapshot.queryParams?.page || 1,
           category: !params.categoryId ? '' : params.categoryId,
           per_page: this.itemsPerPage.value,
+          orderby: 'title',
+          order: 'asc',
         }),
       };
       this.filterUpdated$.next(this.filterState);
@@ -74,7 +78,10 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
 
     this.productRepository
       .getTags()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => (this.tagsLoaded = true))
+      )
       .subscribe((tags) => {
         this.tags = tags;
       });
@@ -99,9 +106,6 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
         takeUntil(this.destroy$)
       )
       .subscribe((data) => {
-        const minPrice = 0;
-        const maxPrice = 5000;
-        this.filters = { minPrice, maxPrice };
         this.searchResult = data;
       });
   }
@@ -127,15 +131,7 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
 
   public onFilterChanged($event: FilterFormData) {
     const filterState = { ...this.filterState };
-    filterState.productFilter.min_price = $event.price[0];
-    filterState.productFilter.max_price = $event.price[1];
     filterState.productFilter.tag = $event.tag;
-    filterState.productFilter.on_sale = $event.forSale;
-
-    if ($event.forRent) {
-      filterState.productFilter.attribute = 'pa_rent__is-rentable';
-      filterState.productFilter.attribute_term = 'true';
-    }
 
     this.filterUpdated$.next(filterState);
   }
@@ -166,7 +162,6 @@ export class InventoryComponent extends UnsubscribeMixin() implements OnInit {
     const dialogRef = this.dialog.open(FilterDialogComponent, {
       width: '300px',
     });
-    dialogRef.componentInstance.filters = this.filters;
     dialogRef.componentInstance.tags = this.tags;
 
     dialogRef
