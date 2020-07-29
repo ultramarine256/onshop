@@ -18,12 +18,35 @@
 }
 
 .link {
-  color: rgba(0, 0, 0, 0.87);
-  text-decoration: none;
+  position: relative;
+  color: #666;
+  display: inline-block;
+  text-align: center;
+  padding: 10px 5px;
 
-  &:hover {
-    text-decoration: none;
+  &.is-active {
+    color: #03a9f4 !important;
+    &:after {
+      transform: scaleX(1);
+    }
   }
+
+  &:after,
+  &:before {
+    display: block;
+    content: '';
+    border-bottom: solid 3px #03a9f4;
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+  }
+
+  &:hover:after {
+    transform: scaleX(1);
+  }
+}
+
+.link-animation:hover:after {
+  transition-delay: 150ms;
 }
 
 .toolbar {
@@ -31,16 +54,19 @@
 
   .toolbar__content {
     width: 100%;
+
+    button {
+      margin-right: 10px;
+    }
   }
 
   .toolbar__logo {
     position: relative;
-    padding: 0 10px;
+    margin-right: 10px;
   }
 
   .toolbar__icons {
     line-height: 0;
-    padding-right: 10px;
 
     .toolbar__icons-item {
       cursor: pointer;
@@ -209,6 +235,104 @@
 
 .sidenav-content {
   display: initial;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+
+  .nav__item {
+    font-size: 16px;
+    margin-right: 10px;
+    line-height: 25px;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: #fff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  }
+
+  li {
+    z-index: 999;
+  }
+
+  li {
+    position: relative;
+
+    a {
+      display: block;
+      color: #111;
+      text-decoration: none;
+      padding: 5px 10px;
+      line-height: 30px;
+      position: relative;
+    }
+  }
+
+  > li {
+    float: left;
+  }
+
+  li:hover > a {
+    color: #2c98f0;
+    &:after {
+      transform: scaleX(1);
+    }
+  }
+
+  > li:first-child > a {
+    border-radius: 4px 0 0 0;
+  }
+  > li:last-child {
+    border-radius: 0 0 4px 0;
+    margin-right: 0;
+  }
+  > li:last-child > a {
+    border-radius: 0 4px 0 0;
+  }
+
+  li a:first-child:nth-last-child(2):before {
+    content: '';
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: 50%;
+    right: 5px;
+  }
+
+  /* submenu positioning*/
+  ul {
+    font-size: 14px;
+    font-weight: normal;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+    left: -99999em;
+  }
+  > li:hover > ul {
+    left: auto;
+    padding-top: 5px;
+    min-width: 100%;
+  }
+
+  > li li:hover > ul {
+    left: 100%;
+    top: -1px;
+  }
+
+  /* arrow hover styling */
+  > li:hover > a:first-child:nth-last-child(2):before {
+    margin-top: -5px;
+  }
+  li li > a:first-child:nth-last-child(2):before {
+    margin-top: -5px;
+  }
+  li li:hover > a:first-child:nth-last-child(2):before {
+    right: 10px;
+  }
 }
 
 ::ng-deep .mat-expansion-panel-body {
