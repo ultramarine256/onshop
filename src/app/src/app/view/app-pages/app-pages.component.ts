@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { catchError, finalize, map, takeUntil } from 'rxjs/operators';
 import { EMPTY } from 'rxjs';
+
 import { UnsubscribeMixin } from '../../core';
 import { CartService, AppInfo, InfoService, AuthService } from '../../domain';
 import { ProductRepository, AppRepository, CategoryRepository, UserRepository } from '../../data';
@@ -40,7 +41,6 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
   public showSidenav: boolean;
   public infoIsLoading = true;
   public userIsLoading = true;
-  public showMenu = false;
 
   constructor(
     private router: Router,
@@ -50,14 +50,13 @@ export class AppPagesComponent extends UnsubscribeMixin() implements OnInit {
     private productRepository: ProductRepository,
     private appRepository: AppRepository,
     private categoryRepository: CategoryRepository,
-    private userRepository: UserRepository,
-    private updates: SwUpdate
+    private userRepository: UserRepository
   ) {
     super();
 
-    updates.available.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      updates.activateUpdate().then(() => document.location.reload());
-    });
+    // updates.available.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    //   updates.activateUpdate().then(() => document.location.reload());
+    // });
   }
 
   ngOnInit() {
