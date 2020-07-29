@@ -60,23 +60,40 @@
 
       <!-- Desktop navigation -->
       <div fxHide.lt-sm fxLayoutAlign="space-between" class="container">
-        <div fxLayout="row">
-          <a routerLink="/" class="toolbar__logo">
-            <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
-          </a>
-          <div>
-            <a class="link" mat-button routerLink="/categories">Categories</a>
-          </div>
-          <div>
-            <a class="link" mat-button routerLink="/orders">Orders</a>
-          </div>
-          <div>
-            <a class="link" mat-button routerLink="/projects">Projects</a>
-          </div>
-          <!--          <div>-->
-          <!--            <a class="link" mat-button routerLink="/how-it-works">How it works</a>-->
-          <!--          </div>-->
-        </div>
+        <nav>
+          <ul class="nav" *ngIf="navigationMenu$ | async as navigationMenu">
+            <li class="nav__item">
+              <a routerLink="/">
+                <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
+              </a>
+            </li>
+            <li class="nav__item">
+              <a class="link link-animation" [routerLink]="['/inventory/']" [routerLinkActive]="'is-active'"
+                >Categories</a
+              >
+              <ul>
+                <ng-container *ngFor="let category of navigationMenu">
+                  <li>
+                    <a [routerLink]="['/inventory/', category.id ? category.id : '']">{{ category.title }}</a>
+                    <ng-container *ngIf="category.title !== 'All'">
+                      <ul *ngIf="category.subCategories">
+                        <li><a href="#">Subcategories coming soon...</a></li>
+                        <li><a [routerLink]="['/inventory/', category.id ? category.id : '']">Link</a></li>
+                        <!-- <li *ngFor="let subCategory of category.subCategories"><a href="#"></a></li>-->
+                      </ul>
+                    </ng-container>
+                  </li>
+                </ng-container>
+              </ul>
+            </li>
+            <li class="nav__item">
+              <a class="link link-animation" routerLink="/orders" [routerLinkActive]="'is-active'">Orders</a>
+            </li>
+            <li class="nav__item">
+              <a class="link link-animation" routerLink="/projects" [routerLinkActive]="'is-active'">Projects</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </mat-toolbar>
 
