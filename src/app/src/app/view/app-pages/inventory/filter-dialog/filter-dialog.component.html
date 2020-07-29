@@ -1,5 +1,7 @@
 <div class="filter-dialog">
-  <app-inventory-filters [tags]="tags" [filters]="filters"> </app-inventory-filters>
+  <div class="filter-dialog__filters">
+    <app-inventory-filters [tags]="tags"> </app-inventory-filters>
+  </div>
 
   <button class="filter-dialog__submit-button" mat-raised-button color="primary" (click)="applyFilters()">
     Apply filters

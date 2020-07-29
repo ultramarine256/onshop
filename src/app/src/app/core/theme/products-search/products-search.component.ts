@@ -22,11 +22,11 @@ export class ProductSearchComponent implements OnInit {
     this.products$ = this.searchBar.valueChanges.pipe(
       debounceTime(300),
       tap(() => (this.isLoading = true)),
-      switchMap((search) => {
-        return (search ? this.productRepository.getProducts(new ProductFilter({ search })) : of({ items: [] })).pipe(
+      switchMap((search) =>
+        (search ? this.productRepository.getProducts(new ProductFilter({ search })) : of({ items: [] })).pipe(
           tap(() => (this.isLoading = false))
-        );
-      }),
+        )
+      ),
       map((productSearchResult) => productSearchResult.items)
     );
   }

@@ -5,7 +5,7 @@
     </div>
   </ng-template>
 
-  <ng-container *ngIf="!isLoading; else loader">
+  <ng-container *ngIf="productLoaded; else loader">
     <div class="container">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb my-2 mb-4 bg-white">
@@ -89,7 +89,12 @@
       <div class="row">
         <div class="col-12">
           <h2 class="content-title mb-2">Related Products</h2>
-          <div class="related-carousel owl-carousel owl-theme">
+          <ng-template #relatedProductLoader>
+            <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+              <mat-spinner></mat-spinner>
+            </div>
+          </ng-template>
+          <div class="related-carousel owl-carousel owl-theme" *ngIf="relatedProductsLoaded; else relatedProductLoader">
             <div class="item" *ngFor="let item of relatedProducts">
               <a class="text-decoration-none carousel-item" [routerLink]="'/product/' + item.slug">
                 <div class="img-wrap">

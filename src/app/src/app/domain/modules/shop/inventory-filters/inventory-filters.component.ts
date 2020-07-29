@@ -1,64 +1,27 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
-import { UnsubscribeMixin } from '../../../../core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { TagModel } from '../../../../data';
 
 @Component({
   selector: 'app-inventory-filters',
-  styleUrls: ['./inventory-filters.component.scss'],
   templateUrl: './inventory-filters.component.html',
+  styleUrls: ['./inventory-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnInit, AfterViewInit {
-  @Input() filters: { minPrice: number; maxPrice: number };
+export class InventoryFiltersComponent {
   @Input() tags: TagModel[];
   @Input() showTags: boolean;
 
   @Output() filterChanged = new EventEmitter();
 
-  public filterForm: FormGroup;
-  public minPrice = new FormControl();
-  public maxPrice = new FormControl();
   public selectedTag: TagModel;
 
-  public tagChanged = new Subject();
+  constructor() {}
 
-  constructor(private fb: FormBuilder) {
-    super();
-  }
-
-  ngOnInit() {
-    this.filterForm = this.fb.group({
-      price: [null],
-      forRent: [null],
-      forSale: [null],
-    });
-  }
-
-  ngAfterViewInit() {
-    this.filterForm.valueChanges
-      .pipe(debounceTime(300), takeUntil(this.destroy$))
-      .subscribe(() => this.filterChanged.next(this.getFilterData()));
-
-    this.tagChanged.pipe(takeUntil(this.destroy$)).subscribe(() => this.filterChanged.next(this.getFilterData()));
-  }
-
-  public getFilterData(): FilterFormData {
+  public getFilterData(): { tag: number } {
     return {
-      ...this.filterForm.value,
       tag: this.selectedTag?.id,
     };
-  }
-
-  public onPriceChange([minPrice, maxPrice]: [number, number]) {
-    this.minPrice.setValue(minPrice);
-    this.maxPrice.setValue(maxPrice);
-  }
-
-  public onMinMaxPriceChange(minPrice: number, maxPrice: number) {
-    this.filterForm.get('price').setValue([minPrice, maxPrice]);
   }
 
   public selectTag(tag: TagModel) {
@@ -66,13 +29,10 @@ export class InventoryFiltersComponent extends UnsubscribeMixin() implements OnI
       this.selectedTag = null;
     }
     this.selectedTag = tag;
-    this.tagChanged.next(tag);
+    this.filterChanged.next({ tag: this.selectedTag?.id });
   }
 }
 
 export interface FilterFormData {
-  price: number[];
-  forRent: boolean;
-  forSale: boolean;
   tag: string;
 }

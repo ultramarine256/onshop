@@ -1,10 +1,10 @@
 <div class="account-page">
   <div class="container">
-    <mat-toolbar class="account-page__menu" fxLayoutAlign="flex-end center">
-      <a mat-button (click)="logout()">
-        Logout
-      </a>
-    </mat-toolbar>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb p-3 my-2 bg-white">
+        <li class="breadcrumb-item active"><a class="text-decoration-none">Profile</a></li>
+      </ol>
+    </nav>
     <ng-template #loader>
       <div class="d-flex w-100 justify-content-center align-items-center" style="height: 300px;">
         <mat-spinner></mat-spinner>

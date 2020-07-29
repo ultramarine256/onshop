@@ -242,18 +242,18 @@ function removeRefundedStatus( $statuses ){
 }
 add_filter( 'wc_order_statuses', 'removeRefundedStatus' );
 
-add_action( 'admin_menu', function() {
-    add_menu_page(
-        'My custom menu Settings',
-        'Shop',
-        'manage_options',
-        'test',
-        function () {
-             echo "<script>window.open('https://blue-shop.xolutionz.com', '_blank')</script>";
-        },
-        'dashicons-cart',
-        25
-    );
-});
+// add_action( 'admin_menu', function() {
+//     add_menu_page(
+//         'My custom menu Settings',
+//         'Shop',
+//         'manage_options',
+//         'test',
+//         function () {
+//              echo "<script>window.open('https://blue-shop.xolutionz.com', '_blank')</script>";
+//         },
+//         'dashicons-cart',
+//         25
+//     );
+// });
 
 
