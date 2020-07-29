@@ -29,13 +29,11 @@ export class CategoryModel {
 }
 
 export class CategoryImage {
-  /// fields
   id: number;
   name: string;
   src: string;
   externalPath: boolean;
 
-  /// mappers
   mapFromDto(dto: any) {
     this.id = dto.id;
     this.name = dto.name;

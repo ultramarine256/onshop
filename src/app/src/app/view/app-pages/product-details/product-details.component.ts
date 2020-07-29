@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { OWL_CAROUSEL, UnsubscribeMixin } from '../../../core';
 import { ProductFilter, ProductModel, ProductRepository } from '../../../data';
 import { CartItemEntity, CartService, ProductService } from '../../../domain';
-import { AppMapper } from '../../_mapper/app-mapper';
+import { AppMapper } from '../../_mapper';
 
 @Component({
   selector: 'app-product-details',
@@ -23,8 +23,9 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
   public dateFromMinDate: Date;
   public dateToMinDate: Date;
 
-  public isLoading: boolean;
+  public relatedProductsLoaded: boolean;
   public addingProductInProgress: boolean;
+  public productLoaded: boolean;
 
   public readonly daysMapping: { [k: string]: string } = {
     '=0': 'days.',
@@ -46,9 +47,6 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
   ngOnInit() {
     this.route.params
       .pipe(
-        tap(() => {
-          this.isLoading = true;
-        }),
         switchMap((params) =>
           this.productRepository.getProducts(new ProductFilter({ slug: params.slug })).pipe(
             tap((productSearchResult) => {
@@ -62,6 +60,7 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
                 .add(this.product.availableDaysForRentAmount + 1, 'days')
                 .toDate();
             }),
+            finalize(() => (this.productLoaded = true)),
             switchMap(() => {
               return this.productRepository
                 .getProducts(new ProductFilter({ include: this.product.relatedIds.join(',') }))
@@ -71,7 +70,7 @@ export class ProductDetailsComponent extends UnsubscribeMixin() implements OnIni
                   }),
                   finalize(() => {
                     // by the end remove loader and init owl carousel
-                    this.isLoading = false;
+                    this.relatedProductsLoaded = true;
                     setTimeout(() => {
                       (window as any).$('.product-images').owlCarousel(OWL_CAROUSEL.PRODUCT_IMAGES);
                       (window as any).$('.related-carousel').owlCarousel(OWL_CAROUSEL.DEFAULT_SETTINGS);

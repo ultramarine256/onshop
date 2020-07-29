@@ -4,10 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class InfoService {
-  /// fields
   private _appInfo: AppInfo;
 
-  /// properties
   get appInfo(): AppInfo {
     return this._appInfo;
   }
@@ -19,7 +17,6 @@ export class InfoService {
     }
   }
 
-  /// constructor
   constructor() {
     const x = JSON.parse(localStorage.getItem(Constants.APP_INFO_KEY));
     this._appInfo = x ? x : new AppInfo();
@@ -27,7 +24,6 @@ export class InfoService {
 }
 
 export class AppInfo {
-  /// fields
   email: string;
   phone: string;
   address: string;
@@ -36,7 +32,6 @@ export class AppInfo {
   deliveryFee: number;
   deliveryDuration: number;
 
-  /// constructor
   constructor(init?: Partial<AppInfo>) {
     Object.assign(this as any, init);
   }

@@ -29,8 +29,6 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
-
-      /// categories
       {
         path: 'categories',
         component: CategoriesComponent,
@@ -39,8 +37,6 @@ const routes: Routes = [
         path: 'categories/:categorySlug',
         component: SubCategoriesComponent,
       },
-
-      /// inventory
       {
         path: 'inventory',
         component: InventoryComponent,

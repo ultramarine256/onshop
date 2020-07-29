@@ -15,26 +15,30 @@
 
     <ng-container *ngIf="!isFirstLoading">
       <div class="inventory-page__content" fxLayout="row" fxLayoutGap="20px">
-        <div fxHide.lt-sm fxFlex.lt-md="30" fxFlex="20">
-          <app-inventory-filters
-            [tags]="tags"
-            [showTags]="showTags"
-            [filters]="filters"
-            (filterChanged)="onFilterChanged($event)"
-          >
-          </app-inventory-filters>
+        <div fxHide.lt-md fxFlex="20">
+          <ng-template #tagLoader>
+            <div class="inventory-page__filters-loader">
+              <mat-spinner diameter="50"></mat-spinner>
+            </div>
+          </ng-template>
+          <ng-container *ngIf="tagsLoaded; else tagLoader">
+            <app-inventory-filters [tags]="tags" [showTags]="showTags" (filterChanged)="onFilterChanged($event)">
+            </app-inventory-filters>
+          </ng-container>
         </div>
 
-        <div fxFlex.lt-sm="100" fxFlex.lt-md="70" fxFlex="80">
-          <div fxLayoutAlign.gt-xs="end" fxLayoutAlign.xs="space-between" class="inventory-page__actions">
-            <button fxHide.gt-xs color="primary" mat-raised-button (click)="openFilters()">Filters</button>
+        <div fxFlex.lt-md="100" fxFlex="80">
+          <div fxLayoutAlign.lt-md="space-between" fxLayoutAlign.gt-sm="end" class="inventory-page__actions">
+            <button fxHide.gt-sm color="primary" mat-raised-button (click)="openFilters()">Filters</button>
             <div class="inventory-page__actions">
               <select
                 class="inventory-page__actions-item form-control"
                 [formControl]="itemsPerPage"
                 (ngModelChange)="onItemsPerPageChanged($event)"
               >
-                <option *ngFor="let item of [25, 50, 100]" [selected]="item === itemsPerPage.value">{{ item }}</option>
+                <option *ngFor="let item of availableItemsPerPage" [selected]="item === itemsPerPage.value">{{
+                  item
+                }}</option>
               </select>
 
               <app-sorting-bar
@@ -53,6 +57,7 @@
             class="inventory-page__products"
             [ngClass]="{ 'inventory-page__products--loading': isInProgress }"
             fxLayout="row wrap"
+            fxLayoutGap="10px grid"
           >
             <div
               fxFlex.xl="25"
@@ -70,8 +75,7 @@
                       }
               "
             >
-              <app-product-item class="inventory-page__product-item" [product]="item" [baseUrl]="'/product'">
-              </app-product-item>
+              <app-product-item [product]="item" [baseUrl]="'/product'"></app-product-item>
             </div>
           </div>
 

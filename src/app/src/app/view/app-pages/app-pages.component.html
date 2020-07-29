@@ -10,12 +10,16 @@
     <div fxHide.lt-sm>
       <div class="top-menu">
         <div class="container">
-          <div fxLayout="row" fxLayoutAlign="space-between">
+          <div fxLayout="row" fxLayoutAlign="space-between center">
             <div>It is fast and easy.</div>
             <div>
-              <a class="link" [routerLink]="'/profile'">
+              <button mat-button [matMenuTriggerFor]="menu">
                 {{ this.authService.identity.firstName + ' ' + this.authService.identity.lastName }}
-              </a>
+              </button>
+              <mat-menu #menu="matMenu">
+                <a mat-menu-item routerLink="/profile">Profile</a>
+                <button mat-menu-item (click)="logout()">Logout</button>
+              </mat-menu>
             </div>
           </div>
         </div>
@@ -46,8 +50,8 @@
               shopping_cart
             </mat-icon>
           </a>
-          <a routerLink="/profile">
-            <mat-icon class="toolbar__icons-item">
+          <a>
+            <mat-icon class="toolbar__icons-item" [matMenuTriggerFor]="menu">
               <i class="material-icons-outlined">account_circle</i>
             </mat-icon>
           </a>
@@ -56,23 +60,40 @@
 
       <!-- Desktop navigation -->
       <div fxHide.lt-sm fxLayoutAlign="space-between" class="container">
-        <div fxLayout="row">
-          <a routerLink="/" class="toolbar__logo">
-            <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
-          </a>
-          <div>
-            <a class="link" mat-button routerLink="/categories">Categories</a>
-          </div>
-          <div>
-            <a class="link" mat-button routerLink="/orders">Orders</a>
-          </div>
-          <div>
-            <a class="link" mat-button routerLink="/projects">Projects</a>
-          </div>
-<!--          <div>-->
-<!--            <a class="link" mat-button routerLink="/how-it-works">How it works</a>-->
-<!--          </div>-->
-        </div>
+        <nav>
+          <ul class="nav" *ngIf="navigationMenu$ | async as navigationMenu">
+            <li class="nav__item">
+              <a routerLink="/">
+                <img [src]="'/assets/img/logo/header-logo.svg'" alt="Logo" />
+              </a>
+            </li>
+            <li class="nav__item">
+              <a class="link link-animation" [routerLink]="['/inventory/']" [routerLinkActive]="'is-active'"
+                >Categories</a
+              >
+              <ul>
+                <ng-container *ngFor="let category of navigationMenu">
+                  <li>
+                    <a [routerLink]="['/inventory/', category.id ? category.id : '']">{{ category.title }}</a>
+                    <ng-container *ngIf="category.title !== 'All'">
+                      <ul *ngIf="category.subCategories">
+                        <li><a href="#">Subcategories coming soon...</a></li>
+                        <li><a [routerLink]="['/inventory/', category.id ? category.id : '']">Link</a></li>
+                        <!-- <li *ngFor="let subCategory of category.subCategories"><a href="#"></a></li>-->
+                      </ul>
+                    </ng-container>
+                  </li>
+                </ng-container>
+              </ul>
+            </li>
+            <li class="nav__item">
+              <a class="link link-animation" routerLink="/orders" [routerLinkActive]="'is-active'">Orders</a>
+            </li>
+            <li class="nav__item">
+              <a class="link link-animation" routerLink="/projects" [routerLinkActive]="'is-active'">Projects</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </mat-toolbar>
 
@@ -99,7 +120,7 @@
                   </mat-icon>
                   <span class="font-weight-500 ml-3" *ngIf="cartService.totalPrice">{{
                     (!cartService.totalPrice ? 0 : cartService.totalPrice) | currency
-                    }}</span>
+                  }}</span>
                 </a>
               </div>
             </div>
@@ -134,7 +155,10 @@
               <mat-icon>arrow_back</mat-icon>
             </button>
           </div>
-          <mat-accordion>
+          <ng-template #loader>
+            <mat-spinner></mat-spinner>
+          </ng-template>
+          <mat-accordion *ngIf="navigationMenu$ | async as navigationMenu; else loader">
             <mat-expansion-panel
               class="sidenav__panel"
               *ngFor="let category of navigationMenu"
@@ -164,7 +188,7 @@
                   [routerLink]="'/inventory/' + category.id"
                   (click)="showCategories = false; mobileMenu.close()"
                   (click)="mobileMenu.toggle(false)"
-                >{{ category.title }}</a
+                  >{{ category.title }}</a
                 >
               </div>
             </mat-expansion-panel>
