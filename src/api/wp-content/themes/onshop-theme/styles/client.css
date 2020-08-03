@@ -200,6 +200,6 @@ li:nth-last-child(-n + 2) {
   Hide customers tab
   TODO: It is a dirty hack, we need a better approach
 */
-.wp-submenu.wp-submenu-wrap li:nth-child(4) {
+#toplevel_page_woocommerce .wp-submenu.wp-submenu-wrap li:nth-child(4) {
   display: none !important;
 }
