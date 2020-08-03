@@ -74,12 +74,18 @@
               <ul>
                 <ng-container *ngFor="let category of navigationMenu">
                   <li>
-                    <a [routerLink]="['/inventory/', category.id ? category.id : '']">{{ category.title }}</a>
+                    <a [routerLink]="['/inventory/', category.id ? category.id : '']"
+                      >{{ category.title }}
+                      <span class="icon material-icons" *ngIf="category.subCategories && category.subCategories.length">
+                        chevron_right
+                      </span></a
+                    >
                     <ng-container *ngIf="category.title !== 'All'">
-                      <ul *ngIf="category.subCategories">
-                        <li><a href="#">Subcategories coming soon...</a></li>
-                        <li><a [routerLink]="['/inventory/', category.id ? category.id : '']">Link</a></li>
-                        <!-- <li *ngFor="let subCategory of category.subCategories"><a href="#"></a></li>-->
+                      <ul *ngIf="category.subCategories && category.subCategories.length">
+                        <li><a [routerLink]="['/inventory/', category.id ? category.id : '']">All</a></li>
+                        <li *ngFor="let subCategory of category.subCategories">
+                          <a [routerLink]="['/inventory/', subCategory.id]">{{ subCategory.title }}</a>
+                        </li>
                       </ul>
                     </ng-container>
                   </li>

@@ -247,6 +247,11 @@
     line-height: 25px;
   }
 
+  .icon {
+    position: relative;
+    top: 7px;
+  }
+
   ul {
     margin: 0;
     padding: 0;
@@ -320,7 +325,7 @@
 
   > li li:hover > ul {
     left: 100%;
-    top: -1px;
+    top: 4px;
   }
 
   /* arrow hover styling */
