@@ -5,7 +5,7 @@
         "irc": "https://www.elrondsoft.com"
     },
     "require": {
-        "firebase/php-jwt": "^5.0",
+        "firebase/php-jwt": "^6.0",
         "sendgrid/sendgrid": "^7.5",
         "vlucas/phpdotenv": "^4.1"
     }
