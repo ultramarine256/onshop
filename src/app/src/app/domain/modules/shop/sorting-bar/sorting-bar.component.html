@@ -1,5 +1,0 @@
-<select [formControl]="sortControl" class="form-control">
-  <option *ngFor="let item of sortingOptions" [disabled]="!item.visible" [selected]="item.title === selectedFilter">{{
-    item.title
-  }}</option>
-</select>

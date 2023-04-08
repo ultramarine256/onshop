@@ -1,10 +1,19 @@
-## OnShop
 
-OnShop is an internal shopping tool with real time inventory counts and a tracking system. The user will be able to purchase or rent an item when available.
+# OnShop E-commerce App
 
-v 1.0.2
+Welcome to the OnShop repository! This project is focused on providing a modern, feature-rich e-commerce backend using WordPress and WooCommerce. The goal is to create a solid foundation for building a fast and user-friendly shopping experience for your customers with the frontend technology of your choice.
 
-### Development
+## Features
+
+- WordPress backend for easy content management and product catalog updates
+- WooCommerce integration for powerful e-commerce functionality
+- RESTful API for seamless data exchange with frontend applications
+- Product search, filter, and pagination
+- User authentication and account management
+- Shopping cart and checkout functionality
+- Flexible and extensible for custom features
+
+## Development
 
 #### Development with docker
 
@@ -28,6 +37,7 @@ Install and setup docker desktop. To have project running on local with docker w
 - if docker db setup done you will be able to see wp login page on `http://localhost:8202/wp-admin`
 
 #### Authorization 
+
 To make api authorization work properly you need:
 - install composer
 - install jwt-auth with composer `composer require firebase/php-jwt`
@@ -52,3 +62,26 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 in `.htaccess` config file
 - on every success request token will be re-issued with new expiration time,
 you will get it with `OS_Bearer` response header
+
+## API Endpoints
+
+The WooCommerce REST API provides several endpoints to interact with your store's data. Here are some examples:
+
+- List all products: `https://your-wordpress-url.com/wp-json/wc/v3/products`
+- Retrieve a specific product: `https://your-wordpress-url.com/wp-json/wc/v3/products/{id}`
+- List product categories: `https://your-wordpress-url.com/wp-json/wc/v3/products/categories`
+- Create an order: `https://your-wordpress-url.com/wp-json/wc/v3/orders`
+
+For a comprehensive list of available endpoints and detailed documentation, visit the [WooCommerce REST API documentation](https://woocommerce.github.io/woocommerce-rest-api-docs/).
+
+## Support
+
+If you encounter any issues or have questions, please feel free to open an issue on GitHub or contact the maintainers directly.
+
+## Acknowledgements
+
+- The WordPress team for creating a powerful and versatile CMS
+- The WooCommerce team for providing a comprehensive e-commerce solution
+- All the open-source developers whose packages and libraries are used in this project
+
+
